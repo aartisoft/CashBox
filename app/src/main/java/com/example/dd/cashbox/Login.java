@@ -30,7 +30,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
         m_btnLogin.setEnabled(false);
 
         //hide header and footer
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         m_decorView = getWindow().getDecorView();
         final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
