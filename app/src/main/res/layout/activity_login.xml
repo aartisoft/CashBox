@@ -15,33 +15,21 @@
         android:layout_height="wrap_content"
         android:id="@+id/ivLogo"
         android:src="@drawable/logo"
-        android:layout_below="@+id/tbPassword"
+        android:layout_below="@+id/tbLicenceKey"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"/>
 
     <EditText
-        android:id="@+id/tbUserName"
+        android:id="@+id/tbLicenceKey"
         android:textColor="@color/colorText"
         android:backgroundTint="@color/colorTextBox"
         android:textColorHint="@color/colorHintText"
-        android:hint="Benutzername"
+        android:hint="Lizenzkey"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:imeOptions="actionDone"
         android:inputType="text" />
-
-    <EditText
-        android:id="@+id/tbPassword"
-        android:textColor="@color/colorText"
-        android:backgroundTint="@color/colorTextBox"
-        android:textColorHint="@color/colorHintText"
-        android:hint="Passwort"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -50,5 +38,5 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/src_LogIn" />
+        android:text="@string/src_UseLicenceKey" />
 </LinearLayout>

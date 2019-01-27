@@ -9,18 +9,14 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.text.TextWatcher;
 
 
 public class Login extends AppCompatActivity implements OnClickListener {
 
     private View m_decorView;
-    private EditText m_tbUserName;
-    private EditText m_tbPassword;
+    private EditText m_tbLicenceKey;
     private Button m_btnLogin;
 
     @Override
@@ -29,8 +25,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
         setContentView(R.layout.activity_login);
 
         //init variables
-        m_tbUserName = (EditText) findViewById(R.id.tbUserName);
-        m_tbPassword = (EditText) findViewById(R.id.tbPassword);
+        m_tbLicenceKey = (EditText) findViewById(R.id.tbLicenceKey);
         m_btnLogin = findViewById(R.id.btnLogin);
         m_btnLogin.setEnabled(false);
 
@@ -63,8 +58,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
                     // keyboard is opened
                 }
                 else {
-                    m_tbUserName.setCursorVisible(false);
-                    m_tbPassword.setCursorVisible(false);
+                    m_tbLicenceKey.setCursorVisible(false);
 
                     m_decorView.setSystemUiVisibility(uiOptions);
                 }
@@ -73,7 +67,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
 
         //init events
         m_btnLogin.setOnClickListener(this);
-        m_tbUserName.addTextChangedListener(new TextWatcher() {
+        m_tbLicenceKey.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
             }
@@ -84,26 +78,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                if(!m_tbUserName.getText().equals("") && !m_tbPassword.getText().equals("")){
-                    m_btnLogin.setEnabled(true);
-                }
-                else{
-                    m_btnLogin.setEnabled(false);
-                }
-            }
-        });
-        m_tbPassword.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-                if(!m_tbUserName.getText().equals("") && !m_tbPassword.getText().equals("")){
+                if(!m_tbLicenceKey.getText().equals("")){
                     m_btnLogin.setEnabled(true);
                 }
                 else{
@@ -115,6 +90,6 @@ public class Login extends AppCompatActivity implements OnClickListener {
 
     @Override
     public void onClick(View v){
-        startActivity(new Intent(this,activity_main.class));
+        startActivity(new Intent(this, Main.class));
     }
 }
