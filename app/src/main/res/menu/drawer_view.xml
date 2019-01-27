@@ -4,5 +4,23 @@
         <item
             android:id="@+id/nav_statistik"
             android:title="@string/src_Statistik" />
+        <item
+            android:id="@+id/nav_artikel"
+            android:title="@string/src_ArtikelBearbeiten" />
+        <item
+            android:id="@+id/nav_tische"
+            android:title="@string/src_TischeBearbeiten" />
+        <item
+            android:id="@+id/nav_einstellungen"
+            android:title="@string/src_Einstellungen" />
+        <item
+            android:id="@+id/nav_information"
+            android:title="@string/src_Information" />
+        <item
+            android:id="@+id/nav_hilfe"
+            android:title="@string/src_Hilfe" />
+        <item
+            android:id="@+id/nav_kasseloeschen"
+            android:title="@string/src_KasseLoeschen" />
     </group>
 </menu>

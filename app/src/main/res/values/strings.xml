@@ -2,4 +2,10 @@
     <string name="app_name">CashBox</string>
     <string name="src_UseLicenceKey">Lizenzkey anwenden</string>
     <string name="src_Statistik">Statistik</string>
+    <string name="src_ArtikelBearbeiten">Artikel bearbeiten</string>
+    <string name="src_TischeBearbeiten">Tische bearbeiten</string>
+    <string name="src_Einstellungen">Einstellungen</string>
+    <string name="src_Information">Information</string>
+    <string name="src_Hilfe">Hilfe</string>
+    <string name="src_KasseLoeschen">Kasse löschen</string>
 </resources>
