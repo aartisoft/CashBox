@@ -2,21 +2,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:baselineAligned="false"
+    android:gravity="center"
+    android:background="@color/colorBackground"
     tools:context=".Login">
 
-    <Button
-        android:id="@+id/button_login"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="@string/src_LogIn" />
+        android:id="@+id/ivLogo"
+        android:src="@drawable/logo"
+        android:layout_below="@+id/tbPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"/>
 
     <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
+        android:id="@+id/tbUserName"
+        android:textColor="@color/colorText"
+        android:backgroundTint="@color/colorTextBox"
+        android:textColorHint="@color/colorHintText"
+        android:hint="Benutzername"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/tbPassword"
+        android:textColor="@color/colorText"
+        android:backgroundTint="@color/colorTextBox"
+        android:textColorHint="@color/colorHintText"
+        android:hint="Passwort"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:imeOptions="actionDone"
         android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:textColor="@color/colorText"
+        android:background="@color/colorButton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/src_LogIn" />
 </LinearLayout>
