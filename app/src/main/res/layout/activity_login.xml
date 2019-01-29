@@ -21,7 +21,7 @@
 
     <EditText
         android:id="@+id/tbLicenceKey"
-        android:textColor="@color/colorText"
+        android:textColor="@color/colorButtonText"
         android:backgroundTint="@color/colorTextBox"
         android:textColorHint="@color/colorHintText"
         android:hint="Lizenzkey"
@@ -33,7 +33,7 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:textColor="@color/colorText"
+        android:textColor="@color/colorButtonText"
         android:background="@color/colorButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"

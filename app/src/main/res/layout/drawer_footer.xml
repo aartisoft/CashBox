@@ -10,7 +10,7 @@
 
     <Button
         android:id="@+id/btnCashBoxDelete"
-        android:textColor="@color/colorText"
+        android:textColor="@color/colorWhite"
         android:background="@color/colorRed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
