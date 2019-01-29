@@ -57,8 +57,8 @@ public class Login extends AppCompatActivity implements OnClickListener {
                     // keyboard is opened
                 }
                 else {
+                    //keyboard is closed
                     m_tbLicenceKey.setCursorVisible(false);
-
                     m_decorView.setSystemUiVisibility(uiOptions);
                 }
             }
