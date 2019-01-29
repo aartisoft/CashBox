@@ -8,4 +8,7 @@
     <color name="colorHintText">#817979</color>
     <color name="colorButton">#383838</color>
     <color name="colorTextBox">#5A5858</color>
+    <color name="colorRed">#FA0202</color>
+    <color name="colorBlack">#070707</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>
