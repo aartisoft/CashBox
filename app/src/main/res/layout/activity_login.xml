@@ -7,17 +7,17 @@
     android:orientation="vertical"
     android:baselineAligned="false"
     android:gravity="center"
-    android:background="@color/colorBackground"
+    android:background="@drawable/muster2"
     tools:context=".Login">
 
     <ImageView
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:id="@+id/ivLogo"
-        android:src="@drawable/logo"
+        android:src="@drawable/logoblack"
         android:layout_below="@+id/tbLicenceKey"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginBottom="200dp"/>
 
     <EditText
         android:id="@+id/tbLicenceKey"
