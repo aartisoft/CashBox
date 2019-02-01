@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:baselineAligned="false"
     android:gravity="center"
-    android:background="@drawable/muster2"
+    android:background="@drawable/loginbckg"
     tools:context=".Login">
 
     <ImageView
@@ -39,4 +39,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="@string/src_UseLicenceKey" />
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text=""
+        android:layout_gravity="bottom"/>
 </LinearLayout>

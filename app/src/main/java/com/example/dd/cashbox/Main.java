@@ -1,6 +1,9 @@
 package com.example.dd.cashbox;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -14,7 +17,7 @@ import android.view.WindowManager;
 
 import epson.Epson;
 
-public class Main extends AppCompatActivity {
+public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private View m_decorView;
     private DrawerLayout m_DrawerLayout;
@@ -33,6 +36,7 @@ public class Main extends AppCompatActivity {
         //init variables
         m_decorView = getWindow().getDecorView();
         m_DrawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
         //set header and footer
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -44,10 +48,13 @@ public class Main extends AppCompatActivity {
         m_decorView.setSystemUiVisibility(uiOptions);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        navigationView.setNavigationItemSelectedListener(this);
+
         //Epson printer = new Epson();
         //printer.printBon("TCP:192.168.178.39");
     }
 
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if(hasFocus){
@@ -63,5 +70,19 @@ public class Main extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Fragment fragment = null;
+        Bundle bundle = new Bundle();
+        if (id == R.id.nav_einstellungen) {
+            startActivity(new Intent(this, Settings.class));
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
