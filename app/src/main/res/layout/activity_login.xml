@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:baselineAligned="false"
     android:gravity="center"
-    android:background="@color/colorPrimary2"
+    android:background="@color/colorPrimary5"
     tools:context=".Login">
 
     <ImageView
