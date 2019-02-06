@@ -7,14 +7,14 @@
     android:orientation="vertical"
     android:baselineAligned="false"
     android:gravity="center"
-    android:background="@drawable/loginbckg"
+    android:background="@color/colorPrimary3"
     tools:context=".Login">
 
     <ImageView
         android:layout_width="300dp"
         android:layout_height="120dp"
         android:id="@+id/ivLogo"
-        android:src="@drawable/logoblack"
+        android:src="@drawable/loginlogo"
         android:layout_below="@+id/tbLicenceKey"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="200dp"/>

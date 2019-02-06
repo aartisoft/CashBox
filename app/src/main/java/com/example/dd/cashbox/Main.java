@@ -1,7 +1,6 @@
 package com.example.dd.cashbox;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-
-
-import epson.Epson;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -78,7 +74,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         Fragment fragment = null;
         Bundle bundle = new Bundle();
         if (id == R.id.nav_einstellungen) {
-            startActivity(new Intent(this, Settings.class));
+            startActivity(new Intent(this, MenuSettings.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -11,4 +11,9 @@
     <color name="colorRed">#FA0202</color>
     <color name="colorBlack">#070707</color>
     <color name="colorWhite">#9E9C9C</color>
+    <color name="colorPrimary1">#9DF2FF</color>
+    <color name="colorPrimary2">#88CBE8</color>
+    <color name="colorPrimary3">#2997FF</color>
+    <color name="colorPrimary4">#5A8AE8</color>
+    <color name="colorPrimary5">#748AFF</color>
 </resources>
