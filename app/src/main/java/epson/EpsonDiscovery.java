@@ -31,12 +31,17 @@ public class EpsonDiscovery {
         }
     };
 
-    public ArrayList<HashMap<String, String>> startDiscovery(){
+    public ArrayList<HashMap<String, String>> startDiscovery(Context p_Context){
         FilterOption filterOption = null;
+        m_Context = p_Context;
 
         //m_PrinterList.clear();
 
         filterOption = new FilterOption();
+        filterOption.setPortType(Discovery.PORTTYPE_ALL);
+        filterOption.setDeviceModel(Discovery.MODEL_ALL);
+        filterOption.setEpsonFilter(Discovery.FILTER_NONE);
+        filterOption.setDeviceType(Discovery.TYPE_ALL);
         filterOption.setBroadcast("255.255.255.255");
 
         try {

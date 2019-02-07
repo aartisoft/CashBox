@@ -66,7 +66,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
 
         //PrinterSearch
         EpsonDiscovery epsonDiscovery = new EpsonDiscovery();
-        m_PrinterList = epsonDiscovery.startDiscovery();
+        m_PrinterList = epsonDiscovery.startDiscovery(this);
 
         for (HashMap<String, String> entry : m_PrinterList) {
             for (String name : entry.keySet()) {
