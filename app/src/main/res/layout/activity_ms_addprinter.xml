@@ -39,6 +39,7 @@
         android:textColor="@color/colorBlack"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="40dp"
+        android:layout_marginLeft="20dp"
         android:layout_above ="@+id/toolbar_ms_addprinter"
         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
 
@@ -51,8 +52,7 @@
         tools:context="abhiandroid.com.listexample.MainActivity"
         android:divider="@color/colorGrey"
         android:dividerHeight="1dp"
-        android:theme="@style/ListView"
-        android:entries="@array/menusettings_entries">
+        android:theme="@style/ListView">
     </ListView>
 
     <android.support.design.widget.FloatingActionButton
