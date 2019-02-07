@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MenuSettings"></activity>
+        <activity android:name=".MS_AddPrinter"></activity>
     </application>
 
 </manifest>

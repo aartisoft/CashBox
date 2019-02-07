@@ -7,14 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class MenuSettings extends AppCompatActivity {
+public class MS_AddPrinter extends AppCompatActivity {
 
     private ListView m_listView;
     private View m_decorView;
-    private DrawerLayout m_DrawerLayout;
     private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -25,33 +25,31 @@ public class MenuSettings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menusettings);
+        setContentView(R.layout.activity_ms_addprinter);
 
         //init variables
-        m_listView = (ListView) findViewById(R.id.menusettings_listview);
+        m_listView = (ListView) findViewById(R.id.ms_addprinter_listview);
         m_decorView = getWindow().getDecorView();
-        m_DrawerLayout = findViewById(R.id.drawer_layout);
-
         m_decorView.setSystemUiVisibility(uiOptions);
 
         //set header
-        Toolbar toolbar = findViewById(R.id.toolbar_menusettings);
+        Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Set an item click listener for ListView
-        m_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*m_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Get the selected item text from ListView
                 String selectedItem = (String) parent.getItemAtPosition(position);
 
-                if (selectedItem.equals(getResources().getString(R.string.src_DruckerHinzufuegen))) {
-                    startActivity(new Intent(MenuSettings.this, MS_AddPrinter.class));
+                if (selectedItem.equals(R.string.src_DruckerHinzufuegen)) {
+                    //startActivity(new Intent(this, MenuSettings.class));
                 }
             }
-        });
+        });*/
     }
 
     @Override
@@ -66,9 +64,8 @@ public class MenuSettings extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(MenuSettings.this, Main.class);
+                Intent intent = new Intent(MS_AddPrinter.this, MenuSettings.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("EXTRA_SESSION_ID", 1);
                 startActivity(intent);
                 finish();
                 return true;
