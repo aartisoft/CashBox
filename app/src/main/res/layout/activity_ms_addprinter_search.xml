@@ -7,7 +7,6 @@
     android:background="?attr/colorPrimary"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-
     android:orientation="vertical">
 
 
@@ -31,18 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/ms_addprinter_textview_search"
-            android:text="@string/src_AktuelleDruckerNetzwerk"
-            android:textColor="@color/colorBlack"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_above ="@+id/toolbar_ms_addprinter"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
-
         <RelativeLayout
             android:id="@+id/loadingPanel"
             android:layout_width="match_parent"
@@ -60,7 +47,7 @@
             android:id="@+id/ms_addprinter_listview_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="20dp"
             tools:context="abhiandroid.com.listexample.MainActivity"
             android:divider="@color/colorGrey"
             android:dividerHeight="1dp"

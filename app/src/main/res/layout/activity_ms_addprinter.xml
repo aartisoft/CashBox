@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/src_DruckerHinzufuegen"
+            android:text="@string/src_Druckerverwaltung"
             android:textColor="@color/colorWhite"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 

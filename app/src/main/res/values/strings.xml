@@ -8,13 +8,13 @@
     <string name="src_Information">Information</string>
     <string name="src_Hilfe">Hilfe</string>
     <string name="src_KasseLoeschen">Kasse löschen</string>
-    <string name="src_DruckerHinzufuegen">Drucker Hinzufügen</string>
+    <string name="src_Druckerverwaltung">Druckerverwaltung</string>
     <string name="src_HinzugefuegteDrucker">Hinzugefügte Drucker</string>
     <string name="src_DruckerAuswaehlen">Drucker Auswählen</string>
     <string name="src_AktuelleDruckerNetzwerk">Aktuelle Drucker im Netzwerk</string>
 
     <string-array name="menusettings_entries">
-        <item>@string/src_DruckerHinzufuegen</item>
+        <item>@string/src_Druckerverwaltung</item>
         <item>Item n</item>
     </string-array>
 </resources>
