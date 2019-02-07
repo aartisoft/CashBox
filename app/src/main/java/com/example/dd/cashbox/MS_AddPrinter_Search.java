@@ -166,7 +166,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     HashMap<String, String> item = new HashMap<String, String>();
                     item.put("PrinterName", deviceInfo.getDeviceName());
                     item.put("Target", deviceInfo.getTarget());
-                    m_PrinterList.add(item);
+                    //m_PrinterList.add(item);
 
                     //write into ListView
                     Printer test = new Printer(deviceInfo.getDeviceName(), deviceInfo.getTarget());

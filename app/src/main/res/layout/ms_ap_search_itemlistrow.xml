@@ -1,19 +1,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+    <ImageView
+        android:id="@+id/ms_ap_search_ilr_icon"
+        android:layout_gravity="left"
+        android:src="@drawable/ic_print_black_24dp"
+        android:paddingLeft="20dp"
+        android:gravity="center|left|bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/ms_ap_search_ilr_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name" />
+        android:paddingLeft="20dp"
+        android:gravity="center"
+        android:text="Druckername" />
     <TextView
         android:id="@+id/ms_ap_search_ilr_ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HomeTown" />
-    <TextView
-        android:id="@+id/ms_ap_search_ilr_brand"
+        android:paddingLeft="20dp"
+        android:gravity="center"
+        android:text="Adresse" />
+    <CheckBox
+        android:id="@+id/ms_ap_search_ilr_cb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HomeTown" />
+        android:paddingRight="0dp"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="right|center"
+        android:layoutDirection="rtl"
+        android:text=""/>
 </LinearLayout>

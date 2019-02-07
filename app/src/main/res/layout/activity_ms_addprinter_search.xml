@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/src_GefundeneDrucker"
+            android:text="@string/src_DruckerAuswaehlen"
             android:textColor="@color/colorWhite"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
@@ -60,7 +60,7 @@
             android:id="@+id/ms_addprinter_listview_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="70dp"
             tools:context="abhiandroid.com.listexample.MainActivity"
             android:divider="@color/colorGrey"
             android:dividerHeight="1dp"

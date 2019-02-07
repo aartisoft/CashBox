@@ -29,12 +29,10 @@ public class ListViewPrinterAdapter extends ArrayAdapter<Printer> {
         // Lookup view for data population
         TextView tvName = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_name);
         TextView tvIP = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_ip);
-        TextView tvBrand = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_brand);
 
         // Populate the data into the template view using the data object
         tvName.setText(printer.m_strName);
         tvIP.setText(printer.m_strIP);
-        tvBrand.setText(printer.m_strBrand);
 
         // Return the completed view to render on screen
         return convertView;

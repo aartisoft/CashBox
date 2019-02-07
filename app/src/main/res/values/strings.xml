@@ -10,7 +10,7 @@
     <string name="src_KasseLoeschen">Kasse löschen</string>
     <string name="src_DruckerHinzufuegen">Drucker Hinzufügen</string>
     <string name="src_HinzugefuegteDrucker">Hinzugefügte Drucker</string>
-    <string name="src_GefundeneDrucker">Gefundene Drucker</string>
+    <string name="src_DruckerAuswaehlen">Drucker Auswählen</string>
     <string name="src_AktuelleDruckerNetzwerk">Aktuelle Drucker im Netzwerk</string>
 
     <string-array name="menusettings_entries">
