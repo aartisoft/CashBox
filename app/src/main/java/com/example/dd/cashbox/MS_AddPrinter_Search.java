@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import adapter.ListViewPrinterAdapter;
+import epson.Epson;
 import objects.Printer;
 
 //import epson.EpsonDiscovery;
@@ -174,6 +175,10 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
 
                     //disable Buffer Bar when a printer has been found
                     findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+
+                    //LÖSCHEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //Epson printer = new Epson();
+                    //printer.printBon("TCP:44:D2:44:F7:32:C1");
                 }
             });
         }
