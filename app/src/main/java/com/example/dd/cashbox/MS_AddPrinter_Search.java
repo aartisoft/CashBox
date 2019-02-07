@@ -29,14 +29,7 @@ import objects.Printer;
 
 public class MS_AddPrinter_Search extends AppCompatActivity {
 
-    //Epson
-    private SimpleAdapter m_PrinterListAdapter = null;
-    private Context m_Context = null;
-    private com.epson.epos2.printer.Printer m_Printer = null;
-    private String m_strTarget = null;
     private ArrayList<HashMap<String, String>> m_PrinterList = null;
-    private HashMap<String, String> foundPrinter;
-
     private ListViewPrinterAdapter m_adapter;
     private ListAdapter m_lstAdapter;
     private FloatingActionButton m_fab;
@@ -49,14 +42,16 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ms_addprinter_search);
 
         //init variables
-        m_fab = (FloatingActionButton) findViewById(R.id.ms_addprinter_searchok);
-        m_listView = (ListView) findViewById(R.id.ms_addprinter_listview_search);
+        m_fab = findViewById(R.id.ms_addprinter_searchok);
+        m_listView = findViewById(R.id.ms_addprinter_listview_search);
         m_decorView = getWindow().getDecorView();
         m_decorView.setSystemUiVisibility(uiOptions);
 
@@ -87,8 +82,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             for (String name : entry.keySet()) {
                 String target = entry.get(name);
 
-                Printer test = new Printer(name, target, "EPSON");
-                m_adapter.add(test);
+
 
                 System.out.println("key = " + name);
                 System.out.println("name = " + target);
@@ -141,12 +135,13 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         }
     }
 
-    private ArrayList<HashMap<String, String>> startDiscovery(){
+    private void startDiscovery(){
+
+        if(m_PrinterList != null){
+            m_PrinterList.clear();
+        }
+
         FilterOption filterOption = null;
-
-        //m_PrinterList.clear();
-        //m_PrinterListAdapter.notifyDataSetChanged();
-
         filterOption = new FilterOption();
         filterOption.setPortType(Discovery.PORTTYPE_ALL);
         filterOption.setDeviceModel(Discovery.MODEL_ALL);
@@ -156,13 +151,10 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
 
         try {
             Discovery.start(this, filterOption, m_DiscoveryListener);
-
         }
         catch (Exception e) {
-            Log.e("start failed", e.toString());
+            Log.e("Discovery failed", e.toString());
         }
-
-        return m_PrinterList;
     }
 
     private DiscoveryListener m_DiscoveryListener = new DiscoveryListener() {
@@ -174,11 +166,13 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     HashMap<String, String> item = new HashMap<String, String>();
                     item.put("PrinterName", deviceInfo.getDeviceName());
                     item.put("Target", deviceInfo.getTarget());
-                    //m_PrinterList.add(item);
+                    m_PrinterList.add(item);
 
-                    Printer test = new Printer(deviceInfo.getDeviceName(), deviceInfo.getTarget(), "EPSON");
+                    //write into ListView
+                    Printer test = new Printer(deviceInfo.getDeviceName(), deviceInfo.getTarget());
                     m_adapter.add(test);
-                    //m_PrinterListAdapter.notifyDataSetChanged();
+
+                    //disable Buffer Bar when a printer has been found
                     findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                 }
             });
