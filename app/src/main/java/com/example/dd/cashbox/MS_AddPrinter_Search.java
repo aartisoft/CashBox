@@ -1,7 +1,10 @@
 package com.example.dd.cashbox;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +16,7 @@ import android.widget.ListView;
 
 public class MS_AddPrinter_Search extends AppCompatActivity {
 
+    private FloatingActionButton m_fab;
     private ListView m_listView;
     private View m_decorView;
     private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -28,9 +32,14 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         setContentView(R.layout.activity_ms_addprinter_search);
 
         //init variables
+        m_fab = (FloatingActionButton) findViewById(R.id.ms_addprinter_searchok);
         m_listView = (ListView) findViewById(R.id.ms_addprinter_listview);
         m_decorView = getWindow().getDecorView();
         m_decorView.setSystemUiVisibility(uiOptions);
+
+        //init fab
+        m_fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorGrey)));
+        m_fab.setEnabled(false);
 
         //set header
         Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter_search);
