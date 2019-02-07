@@ -8,4 +8,10 @@
     <string name="src_Information">Information</string>
     <string name="src_Hilfe">Hilfe</string>
     <string name="src_KasseLoeschen">Kasse löschen</string>
+
+    <string-array name="menusettings_entries">
+        <item>Drucker hinzufügen</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+    </string-array>
 </resources>
