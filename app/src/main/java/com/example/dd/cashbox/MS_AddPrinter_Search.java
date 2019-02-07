@@ -2,27 +2,27 @@ package com.example.dd.cashbox;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import adapter.ListViewPrinterAdapter;
+import epson.EpsonDiscovery;
 import objects.Printer;
+
+//import epson.EpsonDiscovery;
 
 public class MS_AddPrinter_Search extends AppCompatActivity {
 
+    private ArrayList<HashMap<String, String>> m_PrinterList = null;
     private ListViewPrinterAdapter m_adapter;
     private ListAdapter m_lstAdapter;
     private FloatingActionButton m_fab;
@@ -47,8 +47,8 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         m_decorView.setSystemUiVisibility(uiOptions);
 
         //init fab
-        //m_fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorGrey)));
-        //m_fab.setEnabled(false);
+        m_fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorGrey)));
+        m_fab.setEnabled(false);
 
         //set header
         Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter_search);
@@ -64,18 +64,28 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         // Attach the adapter to a ListView
         m_listView.setAdapter(m_adapter);
 
-        //findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+        //PrinterSearch
+        EpsonDiscovery epsonDiscovery = new EpsonDiscovery();
+        m_PrinterList = epsonDiscovery.startDiscovery();
+
+        for (HashMap<String, String> entry : m_PrinterList) {
+            for (String name : entry.keySet()) {
+                String target = entry.get(name);
+
+                Printer test = new Printer(name, target, "EPSON");
+                m_adapter.add(test);
+
+                System.out.println("key = " + name);
+                System.out.println("name = " + target);
+            }
+        }
+        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
         m_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter_Search.class);
-                //startActivity(intent);
-
-                //NUR ZUM TESTEN
-                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
-                Printer test = new Printer("Speisedrucker", "192.168.179.39", "EPSON");
-                m_adapter.add(test);
+                Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter_Search.class);
+                startActivity(intent);
             }
         });
 

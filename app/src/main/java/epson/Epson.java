@@ -1,25 +1,9 @@
 package epson;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-
-import com.epson.epos2.Epos2Exception;
 import com.epson.epos2.printer.Printer;
-import com.epson.epos2.printer.PrinterStatusInfo;
-import com.epson.epos2.printer.ReceiveListener;
-import com.epson.epos2.Epos2CallbackCode;
-import com.example.dd.cashbox.R;
+
 
 public class Epson {
 
@@ -140,4 +124,5 @@ public class Epson {
         }
         return true;
     }
+
 }
