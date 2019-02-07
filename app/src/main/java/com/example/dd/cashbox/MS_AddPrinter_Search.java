@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import adapter.ListViewPrinterAdapter;
-import epson.EpsonDiscovery;
 import objects.Printer;
 
 //import epson.EpsonDiscovery;
