@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary2</item>
         <item name="colorPrimaryDark">@color/colorPrimary3</item>
         <item name="colorAccent">@color/colorPrimary4</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <!-- Style for ListView -->

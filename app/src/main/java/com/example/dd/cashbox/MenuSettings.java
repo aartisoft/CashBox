@@ -1,9 +1,11 @@
 package com.example.dd.cashbox;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -27,25 +29,13 @@ public class MenuSettings extends AppCompatActivity {
         m_decorView = getWindow().getDecorView();
         m_DrawerLayout = findViewById(R.id.drawer_layout);
 
+        m_decorView.setSystemUiVisibility(uiOptions);
+
         //set header
         Toolbar toolbar = findViewById(R.id.toolbar_menusettings);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-        //toolbar.setTitle(R.string.src_Einstellungen);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorBlack));
-
-
-        m_decorView.setSystemUiVisibility(uiOptions);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                finish();
-            }
-        });
-
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -53,6 +43,22 @@ public class MenuSettings extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
         if(hasFocus){
             m_decorView.setSystemUiVisibility(uiOptions);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(MenuSettings.this, Main.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("EXTRA_SESSION_ID", 1);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

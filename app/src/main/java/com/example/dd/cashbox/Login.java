@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -21,6 +22,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -37,7 +39,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                 | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        m_decorView.setSystemUiVisibility(uiOptions);
+        //m_decorView.setSystemUiVisibility(uiOptions);
 
         //SoftKeyBoardListener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -89,6 +91,22 @@ public class Login extends AppCompatActivity implements OnClickListener {
 
     @Override
     public void onClick(View v){
-        startActivity(new Intent(this, Main.class));
+        Intent intent = new Intent(Login.this, Main.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("EXTRA_SESSION_ID", 0);
+        startActivity(intent);
+        finish();
+    }
+
+    public void hideSystemUI(Window window) {
+        m_decorView = window.getDecorView();
+        final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        m_decorView.setSystemUiVisibility(uiOptions);
     }
 }

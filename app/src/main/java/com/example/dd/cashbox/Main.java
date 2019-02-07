@@ -15,6 +15,7 @@ import android.view.WindowManager;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private int iSessionId = 0;
     private View m_decorView;
     private DrawerLayout m_DrawerLayout;
     private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -30,6 +31,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         setContentView(R.layout.activity_main);
 
         //init variables
+        iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
         m_decorView = getWindow().getDecorView();
         m_DrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -45,6 +47,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        if(iSessionId == 1){
+            m_DrawerLayout.openDrawer(GravityCompat.START);
+        }
 
         //Epson printer = new Epson();
         //printer.printBon("TCP:192.168.178.39");
