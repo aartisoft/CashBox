@@ -20,9 +20,10 @@ import objects.Printer;
 public class ListViewPrinterAdapter extends BaseAdapter {
 
     private Context m_Context;
-    ArrayList<Printer> m_List = new ArrayList<>();
+    ArrayList<Printer> m_List;
 
     public ListViewPrinterAdapter(Context context, ArrayList<Printer> printers) {
+        super();
         this.m_Context = context;
         this.m_List = printers;
     }
@@ -53,12 +54,11 @@ public class ListViewPrinterAdapter extends BaseAdapter {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             view = new ViewHolder();
-            convertView = inflator.inflate(R.layout.ms_ap_search_itemlistrow, null);
-
+            convertView = inflator.inflate(R.layout.ms_ap_search_itemlistrow,  parent, false);
 
             // Lookup view for data population
-            view.txtName = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_name);
             view.txtTarget = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_ip);
+            view.txtName = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_name);
             view.cbAdd = (CheckBox)convertView.findViewById(R.id.ms_ap_search_ilr_cb);
 
             view.cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -70,8 +70,8 @@ public class ListViewPrinterAdapter extends BaseAdapter {
             });
 
             // Populate the data into the template view using the data object
-            view.txtName.setText(m_List.get(position).getName());
             view.txtTarget.setText(m_List.get(position).getTarget());
+            view.txtName.setText(m_List.get(position).getName());
             view.cbAdd.setChecked(m_List.get(position).isChecked());
         }
         // Return the completed view to render on screen
