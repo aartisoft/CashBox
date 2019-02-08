@@ -70,24 +70,15 @@ public class ListViewPrinterAdapter extends BaseAdapter {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             view = new ViewHolder();
-            convertView = inflator.inflate(R.layout.ms_ap_search_itemlistrow,  parent, false);
+            convertView = inflator.inflate(R.layout.ms_ap_itemlistrow,  parent, false);
 
             // Lookup view for data population
-            view.txtTarget = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_ip);
-            view.txtName = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_name);
-            view.cbAdd = (CheckBox)convertView.findViewById(R.id.ms_ap_search_ilr_cb);
+            view.txtTarget = (TextView) convertView.findViewById(R.id.ms_ap_ilr_ip);
+            view.txtName = (TextView) convertView.findViewById(R.id.ms_ap_ilr_name);
 
-            view.cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    //int getPosition = (Integer) buttonView.getTag(); // Here we get  the position that we have set for the checkbox using setTag.
-
-                    mCheckStates.put(position, isChecked);
-                }
-            });
             convertView.setTag(view);
         } else {
-                view = (ViewHolder) convertView.getTag();
+            view = (ListViewPrinterAdapter.ViewHolder) convertView.getTag();
         }
 
         // Populate the data into the template view using the data object
