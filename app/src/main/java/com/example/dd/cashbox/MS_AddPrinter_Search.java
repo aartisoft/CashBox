@@ -105,6 +105,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                             printer.setPrinterStruct(m_adapter.getName(i), m_adapter.getTarget(i), "");
 
                             PrinterList.m_lstPrinter.add(printer);
+                            Toast.makeText(MS_AddPrinter_Search.this, getResources().getString(R.string.src_DruckerHinzugefuegt), Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Toast.makeText(MS_AddPrinter_Search.this, getResources().getString(R.string.src_DruckerBereitsVorhanden), Toast.LENGTH_SHORT).show();
