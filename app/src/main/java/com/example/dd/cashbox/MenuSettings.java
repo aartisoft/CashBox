@@ -47,7 +47,7 @@ public class MenuSettings extends AppCompatActivity {
                 // Get the selected item text from ListView
                 String selectedItem = (String) parent.getItemAtPosition(position);
 
-                if (selectedItem.equals(getResources().getString(R.string.src_DruckerHinzufuegen))) {
+                if (selectedItem.equals(getResources().getString(R.string.src_Druckerverwaltung))) {
                     startActivity(new Intent(MenuSettings.this, MS_AddPrinter.class));
                 }
             }

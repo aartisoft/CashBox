@@ -1,14 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent" >
     <ImageView
         android:id="@+id/ms_ap_search_ilr_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
         android:layout_gravity="left"
         android:src="@drawable/ic_print_black_24dp"
         android:paddingLeft="20dp"
         android:gravity="center|left|bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/ms_ap_search_ilr_name"
         android:layout_width="wrap_content"
@@ -33,4 +34,4 @@
         android:gravity="right|center"
         android:layoutDirection="rtl"
         android:text=""/>
-</LinearLayout>
+</RelativeLayout>

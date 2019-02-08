@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,10 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import adapter.ListViewPrinterAdapter;
-import epson.Epson;
 import objects.Printer;
 
-//import epson.EpsonDiscovery;
 
 public class MS_AddPrinter_Search extends AppCompatActivity {
 
@@ -51,6 +50,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         setContentView(R.layout.activity_ms_addprinter_search);
 
         //init variables
+        m_PrinterList = new ArrayList<HashMap<String, String>>();
         m_fab = findViewById(R.id.ms_addprinter_searchok);
         m_listView = findViewById(R.id.ms_addprinter_listview_search);
         m_decorView = getWindow().getDecorView();
@@ -67,29 +67,21 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Construct the data source
+        //init adapter
         ArrayList<Printer> arrayOfPrinter = new ArrayList<Printer>();
-        // Create the adapter to convert the array to views
         m_adapter = new ListViewPrinterAdapter(this, arrayOfPrinter);
-        // Attach the adapter to a ListView
         m_listView.setAdapter(m_adapter);
 
         //PrinterSearch
         startDiscovery();
-        /*EpsonDiscovery epsonDiscovery = new EpsonDiscovery();
-        m_PrinterList = epsonDiscovery.startDiscovery(this);
 
-        for (HashMap<String, String> entry : m_PrinterList) {
-            for (String name : entry.keySet()) {
-                String target = entry.get(name);
-
-
-
-                System.out.println("key = " + name);
-                System.out.println("name = " + target);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                stopDiscovery();
             }
-        }
-        findViewById(R.id.loadingPanel).setVisibility(View.GONE);*/
+        }, 5000);
 
         m_fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,6 +150,44 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         }
     }
 
+    private void stopDiscovery(){
+        try {
+            Discovery.stop();
+            writeDiscoveryResult();
+        }
+        catch (Exception e) {
+            Log.e("stop Discovery failed", e.toString());
+        }
+    }
+
+    private void writeDiscoveryResult(){
+        try {
+            //disable Buffer Bar
+            findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+
+            if(m_PrinterList != null){
+                for (HashMap<String, String> entry : m_PrinterList) {
+                    for (String name : entry.keySet()) {
+                        String target = entry.get(name);
+
+                        //write into ListView
+                        Printer test = new Printer(name, target);
+                        m_adapter.add(test);
+
+                        System.out.println("name = " + name);
+                        System.out.println("target = " + target);
+                    }
+                }
+            }
+            else{
+                //no printer found
+            }
+        }
+        catch (Exception e) {
+            Log.e("write Discovery failed", e.toString());
+        }
+    }
+
     private DiscoveryListener m_DiscoveryListener = new DiscoveryListener() {
         @Override
         public void onDiscovery(final DeviceInfo deviceInfo) {
@@ -165,20 +195,13 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                 @Override
                 public synchronized void run() {
                     HashMap<String, String> item = new HashMap<String, String>();
-                    item.put("PrinterName", deviceInfo.getDeviceName());
-                    item.put("Target", deviceInfo.getTarget());
-                    //m_PrinterList.add(item);
 
-                    //write into ListView
-                    Printer test = new Printer(deviceInfo.getDeviceName(), deviceInfo.getTarget());
-                    m_adapter.add(test);
+                    //change string target
+                    String target = deviceInfo.getTarget();
+                    target = target.replace("TCP", "MAC");
 
-                    //disable Buffer Bar when a printer has been found
-                    findViewById(R.id.loadingPanel).setVisibility(View.GONE);
-
-                    //LÖSCHEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    //Epson printer = new Epson();
-                    //printer.printBon("TCP:44:D2:44:F7:32:C1");
+                    item.put(deviceInfo.getDeviceName(), target);
+                    m_PrinterList.add(item);
                 }
             });
         }
