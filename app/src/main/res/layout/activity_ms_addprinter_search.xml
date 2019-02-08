@@ -48,7 +48,7 @@
             android:id="@+id/ms_addprinter_listview_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             tools:context="abhiandroid.com.listexample.MainActivity"
             android:divider="@color/colorGrey"
             android:dividerHeight="1dp"
