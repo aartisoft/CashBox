@@ -55,6 +55,14 @@ public class ListViewPrinterAdapter extends BaseAdapter {
 
     }
 
+    public String getName(int position){
+        return m_List.get(position).getName();
+    }
+    public String getTarget(int position){
+        return m_List.get(position).getTarget();
+    }
+
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder view = null;

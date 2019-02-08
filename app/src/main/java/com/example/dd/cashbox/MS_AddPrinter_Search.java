@@ -1,23 +1,16 @@
 package com.example.dd.cashbox;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.epson.epos2.discovery.DeviceInfo;
@@ -26,10 +19,12 @@ import com.epson.epos2.discovery.DiscoveryListener;
 import com.epson.epos2.discovery.FilterOption;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import adapter.ListViewPrinterAdapter;
+import global.PrinterList;
 import objects.Printer;
+
+import global.PrinterList;
 
 
 public class MS_AddPrinter_Search extends AppCompatActivity {
@@ -96,12 +91,13 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     if(m_adapter.mCheckStates.get(i)==true)
                     {
                         bChecked = true;
-
+                        PrinterList printerlist = new PrinterList();
+                        printerlist.setPrinterList(m_adapter.getName(i), m_adapter.getTarget(i), "");
                     }
                 }
 
-                if(!bChecked){
-                    Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter_Search.class);
+                if(bChecked){
+                    Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter.class);
                     startActivity(intent);
                 }
                 else{

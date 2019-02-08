@@ -2,9 +2,10 @@ package global;
 
 import android.app.Application;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public final class PrinterList extends Application {
+public class PrinterList extends Application {
 
     private class Printer{
         private String m_strName;
@@ -12,7 +13,7 @@ public final class PrinterList extends Application {
         private String m_strCategory;
     }
 
-    private static List<Printer> m_lstPrinter;
+    private static List<Printer> m_lstPrinter = new ArrayList<Printer>();
 
     public void setPrinterList(String p_strName, String p_strTarget, String p_strCategory){
         Printer printer = new Printer();
