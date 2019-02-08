@@ -43,6 +43,20 @@
                 android:indeterminate="true"/>
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/ms_addprinter_listview_searchnoresult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/ms_ap_search_ilr_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:src="@drawable/ic_sentiment_dissatisfied_gray_24dp" />
+        </RelativeLayout>
+
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/ms_addprinter_listview_search"

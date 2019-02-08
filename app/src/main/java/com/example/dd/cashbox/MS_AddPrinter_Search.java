@@ -49,6 +49,8 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ms_addprinter_search);
 
+        findViewById(R.id.ms_addprinter_listview_searchnoresult).setVisibility(View.INVISIBLE);
+
         //init variables
         m_PrinterList = new ArrayList<HashMap<String, String>>();
         m_fab = findViewById(R.id.ms_addprinter_searchok);
@@ -165,7 +167,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             //disable Buffer Bar
             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
-            if(m_PrinterList != null){
+            if(m_PrinterList != null && m_PrinterList.size() != 0){
                 for (HashMap<String, String> entry : m_PrinterList) {
                     for (String name : entry.keySet()) {
                         String target = entry.get(name);
@@ -180,7 +182,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                 }
             }
             else{
-                //no printer found
+                findViewById(R.id.ms_addprinter_listview_searchnoresult).setVisibility(View.VISIBLE);
             }
         }
         catch (Exception e) {
