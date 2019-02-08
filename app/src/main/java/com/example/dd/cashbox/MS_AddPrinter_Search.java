@@ -9,8 +9,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -29,9 +32,9 @@ import objects.Printer;
 
 public class MS_AddPrinter_Search extends AppCompatActivity {
 
-    private ArrayList<HashMap<String, String>> m_PrinterList = null;
+    private Context m_Context;
+    private ArrayList<Printer> m_PrinterList = null;
     private ListViewPrinterAdapter m_adapter;
-    private ListAdapter m_lstAdapter;
     private FloatingActionButton m_fab;
     private ListView m_listView;
     private View m_decorView;
@@ -52,15 +55,12 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         findViewById(R.id.ms_addprinter_listview_searchnoresult).setVisibility(View.INVISIBLE);
 
         //init variables
-        m_PrinterList = new ArrayList<HashMap<String, String>>();
+        m_Context = this;
+        m_PrinterList = new ArrayList<Printer>();
         m_fab = findViewById(R.id.ms_addprinter_searchok);
         m_listView = findViewById(R.id.ms_addprinter_listview_search);
         m_decorView = getWindow().getDecorView();
         m_decorView.setSystemUiVisibility(uiOptions);
-
-        //init fab
-        m_fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorGrey)));
-        m_fab.setEnabled(false);
 
         //set header
         Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter_search);
@@ -68,11 +68,6 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        //init adapter
-        ArrayList<Printer> arrayOfPrinter = new ArrayList<Printer>();
-        m_adapter = new ListViewPrinterAdapter(this, arrayOfPrinter);
-        m_listView.setAdapter(m_adapter);
 
         //PrinterSearch
         startDiscovery();
@@ -85,24 +80,22 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             }
         }, 5000);
 
-        m_fab.setOnClickListener(new View.OnClickListener() {
+        /*m_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                SparseBooleanArray checked = m_listView.getCheckedItemPositions();
+
+                for (int i = 0; i < m_listView.getAdapter().getCount(); i++) {
+                    if (checked.get(i)) {
+                        int count = m_listView.getCheckedItemCount();
+                    }
+                }
+
+
+
                 Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter_Search.class);
                 startActivity(intent);
-            }
-        });
-
-        // Set an item click listener for ListView
-        /*m_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the selected item text from ListView
-                String selectedItem = (String) parent.getItemAtPosition(position);
-
-                if (selectedItem.equals(R.string.src_DruckerHinzufuegen)) {
-                    //startActivity(new Intent(this, MenuSettings.class));
-                }
             }
         });*/
     }
@@ -167,19 +160,11 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             //disable Buffer Bar
             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
-            if(m_PrinterList != null && m_PrinterList.size() != 0){
-                for (HashMap<String, String> entry : m_PrinterList) {
-                    for (String name : entry.keySet()) {
-                        String target = entry.get(name);
-
-                        //write into ListView
-                        Printer test = new Printer(name, target);
-                        m_adapter.add(test);
-
-                        System.out.println("name = " + name);
-                        System.out.println("target = " + target);
-                    }
-                }
+            if(m_PrinterList != null && m_PrinterList.size() != 0) {
+                //init adapter
+                ArrayList<Printer> arrayOfPrinter = new ArrayList<Printer>();
+                m_adapter = new ListViewPrinterAdapter(this, m_PrinterList);
+                m_listView.setAdapter(m_adapter);
             }
             else{
                 findViewById(R.id.ms_addprinter_listview_searchnoresult).setVisibility(View.VISIBLE);
@@ -196,14 +181,13 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public synchronized void run() {
-                    HashMap<String, String> item = new HashMap<String, String>();
-
                     //change string target
+                    String name = deviceInfo.getDeviceName();
                     String target = deviceInfo.getTarget();
                     target = target.replace("TCP:", "MAC-Adresse: ");
 
-                    item.put(deviceInfo.getDeviceName(), target);
-                    m_PrinterList.add(item);
+                    Printer printer = new Printer(name, target, false);
+                    m_PrinterList.add(printer);
                 }
             });
         }
