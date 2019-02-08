@@ -1,5 +1,6 @@
 package com.example.dd.cashbox;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -17,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.epson.epos2.discovery.DeviceInfo;
 import com.epson.epos2.discovery.Discovery;
@@ -80,24 +82,29 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             }
         }, 5000);
 
-        /*m_fab.setOnClickListener(new View.OnClickListener() {
+        m_fab.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("WrongConstant")
             @Override
             public void onClick(View view) {
 
-                SparseBooleanArray checked = m_listView.getCheckedItemPositions();
+                StringBuilder result = new StringBuilder();
+                for(int i=0;i<m_adapter.mCheckStates.size();i++)
+                {
+                    if(m_adapter.mCheckStates.get(i)==true)
+                    {
+                        Toast.makeText(MS_AddPrinter_Search.this, "checked", 1000).show();
 
-                for (int i = 0; i < m_listView.getAdapter().getCount(); i++) {
-                    if (checked.get(i)) {
-                        int count = m_listView.getCheckedItemCount();
                     }
+
                 }
 
 
 
-                Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter_Search.class);
-                startActivity(intent);
+
+                //Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter_Search.class);
+                //startActivity(intent);
             }
-        });*/
+        });
     }
 
     @Override

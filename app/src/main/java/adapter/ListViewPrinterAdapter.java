@@ -2,6 +2,7 @@ package adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import objects.Printer;
 
 public class ListViewPrinterAdapter extends BaseAdapter {
 
+    public SparseBooleanArray mCheckStates;
     private Context m_Context;
     ArrayList<Printer> m_List;
 
@@ -26,6 +28,7 @@ public class ListViewPrinterAdapter extends BaseAdapter {
         super();
         this.m_Context = context;
         this.m_List = printers;
+        mCheckStates = new SparseBooleanArray();
     }
 
     @Override
@@ -43,13 +46,19 @@ public class ListViewPrinterAdapter extends BaseAdapter {
     public void onItemSelected(int position) {
     }
 
+    public boolean isChecked(int position) {
+        return mCheckStates.get(position, false);
+    }
+
+    public void setChecked(int position, boolean isChecked) {
+        mCheckStates.put(position, isChecked);
+
+    }
+
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder view = null;
         LayoutInflater inflator = ((Activity) m_Context).getLayoutInflater();
-
-        // Get the data item for this position
-        //Printer printer = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -64,16 +73,21 @@ public class ListViewPrinterAdapter extends BaseAdapter {
             view.cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    int getPosition = (Integer) buttonView.getTag(); // Here we get  the position that we have set for the checkbox using setTag.
+                    //int getPosition = (Integer) buttonView.getTag(); // Here we get  the position that we have set for the checkbox using setTag.
 
+                    mCheckStates.put(position, isChecked);
                 }
             });
-
-            // Populate the data into the template view using the data object
-            view.txtTarget.setText(m_List.get(position).getTarget());
-            view.txtName.setText(m_List.get(position).getName());
-            view.cbAdd.setChecked(m_List.get(position).isChecked());
+            convertView.setTag(view);
+        } else {
+                view = (ViewHolder) convertView.getTag();
         }
+
+        // Populate the data into the template view using the data object
+        view.txtTarget.setText(m_List.get(position).getTarget());
+        view.txtName.setText(m_List.get(position).getName());
+        view.cbAdd.setChecked(m_List.get(position).isChecked());
+
         // Return the completed view to render on screen
         return convertView;
     }
