@@ -1,6 +1,6 @@
-package global;
+package objects;
 
-public class PrinterStruct{
+public class ObjPrinter {
     private String m_strName;
     private String m_strTarget;
     private String m_strCategory;

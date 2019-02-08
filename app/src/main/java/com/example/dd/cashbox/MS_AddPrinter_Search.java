@@ -22,14 +22,14 @@ import java.util.ArrayList;
 
 import adapter.ListViewPrinterSearchAdapter;
 import global.PrinterList;
-import global.PrinterStruct;
-import objects.Printer;
+import objects.ObjPrinter;
+import objects.ObjPrinterSearch;
 
 
 public class MS_AddPrinter_Search extends AppCompatActivity {
 
     private Context m_Context;
-    private ArrayList<Printer> m_PrinterList = null;
+    private ArrayList<ObjPrinterSearch> m_PrinterList = null;
     private ListViewPrinterSearchAdapter m_adapter;
     private FloatingActionButton m_fab;
     private ListView m_listView;
@@ -52,7 +52,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
 
         //init variables
         m_Context = this;
-        m_PrinterList = new ArrayList<Printer>();
+        m_PrinterList = new ArrayList<ObjPrinterSearch>();
         m_fab = findViewById(R.id.ms_addprinter_searchok);
         m_listView = findViewById(R.id.ms_addprinter_listview_search);
         m_decorView = getWindow().getDecorView();
@@ -93,7 +93,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                         //PrinterList printerlist = new PrinterList();
                         //printerlist.addEntryPrinterList(m_adapter.getName(i), m_adapter.getTarget(i), "");
 
-                        PrinterStruct printer = new PrinterStruct();
+                        ObjPrinter printer = new ObjPrinter();
                         printer.setPrinterStruct(m_adapter.getName(i), m_adapter.getTarget(i), "");
 
                         PrinterList.m_lstPrinter.add(printer);
@@ -174,7 +174,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
 
             if(m_PrinterList != null && m_PrinterList.size() != 0) {
                 //init adapter
-                ArrayList<Printer> arrayOfPrinter = new ArrayList<Printer>();
+                ArrayList<ObjPrinterSearch> arrayOfPrinter = new ArrayList<ObjPrinterSearch>();
                 m_adapter = new ListViewPrinterSearchAdapter(this, m_PrinterList);
                 m_listView.setAdapter(m_adapter);
             }
@@ -199,7 +199,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     String target = deviceInfo.getTarget();
                     target = target.replace("TCP:", "MAC-Adresse: ");
 
-                    Printer printer = new Printer(name, target, false);
+                    ObjPrinterSearch printer = new ObjPrinterSearch(name, target, false);
                     m_PrinterList.add(printer);
                 }
             });

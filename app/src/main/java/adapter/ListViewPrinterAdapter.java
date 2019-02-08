@@ -13,19 +13,17 @@ import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import objects.Printer;
-import global.PrinterStruct;
+import objects.ObjPrinter;
 
 public class ListViewPrinterAdapter extends BaseAdapter {
 
     public SparseBooleanArray mCheckStates;
     private Context m_Context;
-    List<PrinterStruct> m_List;
+    List<ObjPrinter> m_List;
 
-    public ListViewPrinterAdapter(Context context, List<PrinterStruct> printers) {
+    public ListViewPrinterAdapter(Context context, List<ObjPrinter> printers) {
         super();
         this.m_Context = context;
         this.m_List = printers;

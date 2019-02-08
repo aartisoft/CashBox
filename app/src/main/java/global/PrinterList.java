@@ -5,13 +5,13 @@ import android.app.Application;
 import java.util.ArrayList;
 import java.util.List;
 
-import global.PrinterStruct;
+import objects.ObjPrinter;
 
 public abstract class PrinterList extends Application {
 
 
 
-    public static List<PrinterStruct> m_lstPrinter = new ArrayList<PrinterStruct>();
+    public static List<ObjPrinter> m_lstPrinter = new ArrayList<ObjPrinter>();
 
     /*public void addEntryPrinterList(String p_strName, String p_strTarget, String p_strCategory){
         Printer printer = new Printer();

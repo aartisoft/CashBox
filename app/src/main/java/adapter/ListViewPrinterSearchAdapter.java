@@ -16,15 +16,15 @@ import com.example.dd.cashbox.R;
 
 import java.util.ArrayList;
 
-import objects.Printer;
+import objects.ObjPrinterSearch;
 
 public class ListViewPrinterSearchAdapter extends BaseAdapter {
 
     public SparseBooleanArray mCheckStates;
     private Context m_Context;
-    ArrayList<Printer> m_List;
+    ArrayList<ObjPrinterSearch> m_List;
 
-    public ListViewPrinterSearchAdapter(Context context, ArrayList<Printer> printers) {
+    public ListViewPrinterSearchAdapter(Context context, ArrayList<ObjPrinterSearch> printers) {
         super();
         this.m_Context = context;
         this.m_List = printers;
