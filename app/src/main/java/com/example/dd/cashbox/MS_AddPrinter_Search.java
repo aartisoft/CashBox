@@ -90,13 +90,25 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     if(m_adapter.mCheckStates.get(i)==true)
                     {
                         bChecked = true;
-                        //PrinterList printerlist = new PrinterList();
-                        //printerlist.addEntryPrinterList(m_adapter.getName(i), m_adapter.getTarget(i), "");
 
-                        ObjPrinter printer = new ObjPrinter();
-                        printer.setPrinterStruct(m_adapter.getName(i), m_adapter.getTarget(i), "");
+                        //check if printer already existing
+                        boolean bIsExisting = false;
+                        for(ObjPrinter printer : PrinterList.m_lstPrinter){
+                            if(m_adapter.getTarget(i).equals(printer.getTarget())){
+                                bIsExisting = true;
+                                break;
+                            }
+                        }
+                        //if printer is not existing then write into list
+                        if(!bIsExisting){
+                            ObjPrinter printer = new ObjPrinter();
+                            printer.setPrinterStruct(m_adapter.getName(i), m_adapter.getTarget(i), "");
 
-                        PrinterList.m_lstPrinter.add(printer);
+                            PrinterList.m_lstPrinter.add(printer);
+                        }
+                        else{
+                            Toast.makeText(MS_AddPrinter_Search.this, getResources().getString(R.string.src_DruckerBereitsVorhanden), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
 

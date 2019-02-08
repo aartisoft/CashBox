@@ -1,7 +1,5 @@
 package objects;
 
-import android.widget.CheckBox;
-
 public class ObjPrinterSearch {
     public String m_strName;
     public String m_strTarget;
