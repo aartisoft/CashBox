@@ -13,6 +13,7 @@
     <string name="src_DruckerAuswaehlen">Drucker Auswählen</string>
     <string name="src_AktuelleDruckerNetzwerk">Aktuelle Drucker im Netzwerk</string>
     <string name="src_KeineDruckerausgewaehlt">Keine(n) Drucker ausgewählt</string>
+    <string name="src_KeineDruckerGefunden">Keine(n) Drucker gefunden</string>
 
     <string-array name="menusettings_entries">
         <item>@string/src_Druckerverwaltung</item>
