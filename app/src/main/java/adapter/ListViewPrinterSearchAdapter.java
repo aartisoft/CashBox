@@ -6,6 +6,7 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -14,18 +15,16 @@ import android.widget.TextView;
 import com.example.dd.cashbox.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import objects.Printer;
-import global.PrinterStruct;
 
-public class ListViewPrinterAdapter extends BaseAdapter {
+public class ListViewPrinterSearchAdapter extends BaseAdapter {
 
     public SparseBooleanArray mCheckStates;
     private Context m_Context;
-    List<PrinterStruct> m_List;
+    ArrayList<Printer> m_List;
 
-    public ListViewPrinterAdapter(Context context, List<PrinterStruct> printers) {
+    public ListViewPrinterSearchAdapter(Context context, ArrayList<Printer> printers) {
         super();
         this.m_Context = context;
         this.m_List = printers;
@@ -95,7 +94,7 @@ public class ListViewPrinterAdapter extends BaseAdapter {
         // Populate the data into the template view using the data object
         view.txtTarget.setText(m_List.get(position).getTarget());
         view.txtName.setText(m_List.get(position).getName());
-        //view.cbAdd.setChecked(m_List.get(position).isChecked());
+        view.cbAdd.setChecked(m_List.get(position).isChecked());
 
         // Return the completed view to render on screen
         return convertView;

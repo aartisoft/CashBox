@@ -20,18 +20,17 @@ import com.epson.epos2.discovery.FilterOption;
 
 import java.util.ArrayList;
 
-import adapter.ListViewPrinterAdapter;
+import adapter.ListViewPrinterSearchAdapter;
 import global.PrinterList;
+import global.PrinterStruct;
 import objects.Printer;
-
-import global.PrinterList;
 
 
 public class MS_AddPrinter_Search extends AppCompatActivity {
 
     private Context m_Context;
     private ArrayList<Printer> m_PrinterList = null;
-    private ListViewPrinterAdapter m_adapter;
+    private ListViewPrinterSearchAdapter m_adapter;
     private FloatingActionButton m_fab;
     private ListView m_listView;
     private View m_decorView;
@@ -91,8 +90,13 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     if(m_adapter.mCheckStates.get(i)==true)
                     {
                         bChecked = true;
-                        PrinterList printerlist = new PrinterList();
-                        printerlist.setPrinterList(m_adapter.getName(i), m_adapter.getTarget(i), "");
+                        //PrinterList printerlist = new PrinterList();
+                        //printerlist.addEntryPrinterList(m_adapter.getName(i), m_adapter.getTarget(i), "");
+
+                        PrinterStruct printer = new PrinterStruct();
+                        printer.setPrinterStruct(m_adapter.getName(i), m_adapter.getTarget(i), "");
+
+                        PrinterList.m_lstPrinter.add(printer);
                     }
                 }
 
@@ -171,7 +175,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             if(m_PrinterList != null && m_PrinterList.size() != 0) {
                 //init adapter
                 ArrayList<Printer> arrayOfPrinter = new ArrayList<Printer>();
-                m_adapter = new ListViewPrinterAdapter(this, m_PrinterList);
+                m_adapter = new ListViewPrinterSearchAdapter(this, m_PrinterList);
                 m_listView.setAdapter(m_adapter);
             }
             else{

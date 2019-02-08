@@ -12,8 +12,12 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import adapter.ListViewPrinterAdapter;
+import global.PrinterList;
+
 public class MS_AddPrinter extends AppCompatActivity {
 
+    private ListViewPrinterAdapter m_adapter;
     private FloatingActionButton m_fab;
     private ListView m_listView;
     private View m_decorView;
@@ -40,6 +44,10 @@ public class MS_AddPrinter extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //set ListView
+        m_adapter = new ListViewPrinterAdapter(this, PrinterList.m_lstPrinter);
+        m_listView.setAdapter(m_adapter);
 
         m_fab.setOnClickListener(new View.OnClickListener() {
             @Override

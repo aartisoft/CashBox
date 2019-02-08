@@ -5,17 +5,15 @@ import android.app.Application;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrinterList extends Application {
+import global.PrinterStruct;
 
-    private class Printer{
-        private String m_strName;
-        private String m_strTarget;
-        private String m_strCategory;
-    }
+public abstract class PrinterList extends Application {
 
-    private static List<Printer> m_lstPrinter = new ArrayList<Printer>();
 
-    public void setPrinterList(String p_strName, String p_strTarget, String p_strCategory){
+
+    public static List<PrinterStruct> m_lstPrinter = new ArrayList<PrinterStruct>();
+
+    /*public void addEntryPrinterList(String p_strName, String p_strTarget, String p_strCategory){
         Printer printer = new Printer();
         printer.m_strName = p_strName;
         printer.m_strTarget = p_strTarget;
@@ -23,8 +21,11 @@ public class PrinterList extends Application {
 
         m_lstPrinter.add(printer);
     }
+    public void delEntryPrinterList(){
+        //m_lstPrinter.
+    }
 
     public List<Printer> getPrinterList(){
         return this.m_lstPrinter;
-    }
+    }*/
 }
