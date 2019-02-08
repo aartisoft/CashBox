@@ -1,37 +1,46 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip">
     <ImageView
         android:id="@+id/ms_ap_search_ilr_icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-        android:layout_gravity="left"
-        android:src="@drawable/ic_print_black_24dp"
-        android:paddingLeft="20dp"
-        android:gravity="center|left|bottom"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dip"
+        android:layout_marginLeft="15dip"
+        android:src="@drawable/ic_print_black_24dp" />
 
     <TextView
-        android:id="@+id/ms_ap_search_ilr_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:gravity="center"
-        android:text="Druckername" />
-    <TextView
         android:id="@+id/ms_ap_search_ilr_ip"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/ms_ap_search_ilr_icon"
+        android:singleLine="true"
+        android:text="Adresse"
+        android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/ms_ap_search_ilr_name"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:gravity="center"
-        android:text="Adresse" />
+        android:layout_above="@id/ms_ap_search_ilr_ip"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@id/ms_ap_search_ilr_icon"
+        android:gravity="center_vertical"
+        android:text="Druckername"
+        android:textSize="16sp"/>
     <CheckBox
         android:id="@+id/ms_ap_search_ilr_cb"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="0dp"
-        android:button="@null"
-        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-        android:gravity="right|center"
-        android:layoutDirection="rtl"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="15dip"
         android:text=""/>
 </RelativeLayout>
