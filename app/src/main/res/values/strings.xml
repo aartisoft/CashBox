@@ -12,6 +12,7 @@
     <string name="src_HinzugefuegteDrucker">Hinzugefügte Drucker</string>
     <string name="src_DruckerAuswaehlen">Drucker Auswählen</string>
     <string name="src_AktuelleDruckerNetzwerk">Aktuelle Drucker im Netzwerk</string>
+    <string name="src_KeineDruckerausgewaehlt">Keine(n) Drucker ausgewählt</string>
 
     <string-array name="menusettings_entries">
         <item>@string/src_Druckerverwaltung</item>

@@ -71,6 +71,9 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //init fab
+        m_fab.setEnabled(false);
+
         //PrinterSearch
         startDiscovery();
 
@@ -83,26 +86,27 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         }, 5000);
 
         m_fab.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("WrongConstant")
             @Override
             public void onClick(View view) {
 
                 StringBuilder result = new StringBuilder();
+                boolean bChecked = false;
                 for(int i=0;i<m_adapter.mCheckStates.size();i++)
                 {
                     if(m_adapter.mCheckStates.get(i)==true)
                     {
-                        Toast.makeText(MS_AddPrinter_Search.this, "checked", 1000).show();
+                        bChecked = true;
 
                     }
-
                 }
 
-
-
-
-                //Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter_Search.class);
-                //startActivity(intent);
+                if(!bChecked){
+                    Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter_Search.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(MS_AddPrinter_Search.this, getResources().getString(R.string.src_KeineDruckerausgewaehlt), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -166,6 +170,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         try {
             //disable Buffer Bar
             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            m_fab.setEnabled(true);
 
             if(m_PrinterList != null && m_PrinterList.size() != 0) {
                 //init adapter
