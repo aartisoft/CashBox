@@ -214,9 +214,14 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     //change string target
                     String name = deviceInfo.getDeviceName();
                     String target = deviceInfo.getTarget();
+
                     String targetshown = target.replace("TCP:", "MAC-Adresse: ");
 
-                    ObjPrinterSearch printer = new ObjPrinterSearch(name, targetshown, target, false);
+                    ObjPrinterSearch printer = new ObjPrinterSearch(deviceInfo.getDeviceName(), deviceInfo.getDeviceType(),
+                            deviceInfo.getTarget(), deviceInfo.getIpAddress(),
+                            deviceInfo.getMacAddress(), deviceInfo.getBdAddress(), false);
+
+
                     m_PrinterList.add(printer);
                 }
             });
