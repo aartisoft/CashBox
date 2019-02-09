@@ -86,7 +86,6 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                StringBuilder result = new StringBuilder();
                 boolean bChecked = false;
                 for(int i=0;i<m_adapter.mCheckStates.size();i++)
                 {
@@ -105,7 +104,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                         //if printer is not existing then write into list
                         if(!bIsExisting){
                             ObjPrinter printer = new ObjPrinter();
-                            printer.setPrinterStruct(m_adapter.getName(i), m_adapter.getTarget(i), "");
+                            printer.setPrinter(m_adapter.getName(i), m_adapter.getTargetShown(i), m_adapter.getTarget(i), "");
 
                             PrinterList.m_lstPrinter.add(printer);
                             Toast.makeText(MS_AddPrinter_Search.this, getResources().getString(R.string.src_DruckerHinzugefuegt), Toast.LENGTH_SHORT).show();
@@ -215,9 +214,9 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     //change string target
                     String name = deviceInfo.getDeviceName();
                     String target = deviceInfo.getTarget();
-                    target = target.replace("TCP:", "MAC-Adresse: ");
+                    String targetshown = target.replace("TCP:", "MAC-Adresse: ");
 
-                    ObjPrinterSearch printer = new ObjPrinterSearch(name, target, false);
+                    ObjPrinterSearch printer = new ObjPrinterSearch(name, target, targetshown, false);
                     m_PrinterList.add(printer);
                 }
             });

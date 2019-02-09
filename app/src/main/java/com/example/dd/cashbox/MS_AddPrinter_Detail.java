@@ -7,19 +7,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
 import adapter.ListViewPrinterAdapter;
+import epson.Epson;
 import global.PrinterList;
 import objects.ObjPrinter;
 
-public class MS_AddPrinter_Detail extends AppCompatActivity {
+public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
     private String m_strSessionTarget;
+    private String m_strTarget;
     private TextView m_tvName;
-    private TextView m_tvTarget;
+    private TextView m_tvTargetShown;
+    private Button m_btnPrint;
+    private Button m_btnDel;
     private SimpleAdapter m_adapter_target;
     private View m_decorView;
     private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -40,7 +46,9 @@ public class MS_AddPrinter_Detail extends AppCompatActivity {
         m_decorView = getWindow().getDecorView();
         m_decorView.setSystemUiVisibility(uiOptions);
         m_tvName = findViewById(R.id.ms_addprinter_detail_name);
-        m_tvTarget = findViewById(R.id.ms_addprinter_detail_target);
+        m_tvTargetShown = findViewById(R.id.ms_addprinter_detail_target);
+        m_btnPrint = findViewById(R.id.ms_addprinter_detail_btnPrint);
+        m_btnDel = findViewById(R.id.ms_addprinter_detail_btnDel);
 
         //set header
         Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter_detail);
@@ -52,24 +60,15 @@ public class MS_AddPrinter_Detail extends AppCompatActivity {
         for(ObjPrinter printer : PrinterList.m_lstPrinter){
             if(m_strSessionTarget.equals(printer.getTarget())){
                 m_tvName.setText(printer.getName());
-                m_tvTarget.setText(printer.getTarget());
+                m_strTarget = printer.getTarget();
+                m_tvTargetShown.setText(printer.getTargetShown());
                 break;
             }
         }
 
-
-        // Set an item click listener for ListView
-        /*m_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the selected item text from ListView
-                String selectedItem = (String) parent.getItemAtPosition(position);
-
-                if (selectedItem.equals(R.string.src_DruckerHinzufuegen)) {
-                    //startActivity(new Intent(this, MenuSettings.class));
-                }
-            }
-        });*/
+        //init events
+        m_btnPrint.setOnClickListener(this);
+        m_btnDel.setOnClickListener(this);
     }
 
     @Override
@@ -92,6 +91,24 @@ public class MS_AddPrinter_Detail extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onClick(View v){
+        switch (v.getId()) {
+
+            case R.id.ms_addprinter_detail_btnPrint:
+                Epson printer = new Epson();
+                printer.printBon(m_strTarget);
+                break;
+
+            case R.id.ms_addprinter_detail_btnDel:
+                // do your code
+                break;
+
+            default:
+                break;
         }
     }
 }

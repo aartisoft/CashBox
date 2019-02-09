@@ -58,6 +58,9 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
     public String getName(int position){
         return m_List.get(position).getName();
     }
+    public String getTargetShown(int position){
+        return m_List.get(position).getTargetShown();
+    }
     public String getTarget(int position){
         return m_List.get(position).getTarget();
     }
@@ -92,7 +95,7 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
         }
 
         // Populate the data into the template view using the data object
-        view.txtTarget.setText(m_List.get(position).getTarget());
+        view.txtTarget.setText(m_List.get(position).getTargetShown());
         view.txtName.setText(m_List.get(position).getName());
         view.cbAdd.setChecked(m_List.get(position).isChecked());
 

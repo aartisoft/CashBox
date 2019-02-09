@@ -82,7 +82,7 @@ public class ListViewPrinterAdapter extends BaseAdapter {
         }
 
         // Populate the data into the template view using the data object
-        view.txtTarget.setText(m_List.get(position).getTarget());
+        view.txtTarget.setText(m_List.get(position).getTargetShown());
         view.txtName.setText(m_List.get(position).getName());
         //view.cbAdd.setChecked(m_List.get(position).isChecked());
 

@@ -51,9 +51,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(iSessionId == 1){
             m_DrawerLayout.openDrawer(GravityCompat.START);
         }
-
-        //Epson printer = new Epson();
-        //printer.printBon("TCP:192.168.178.39");
     }
 
     @Override
