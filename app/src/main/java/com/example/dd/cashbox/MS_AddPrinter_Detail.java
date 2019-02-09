@@ -25,7 +25,8 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     private String m_strSessionTarget;
     private String m_strTarget;
     private TextView m_tvName;
-    private TextView m_tvTargetShown;
+    private TextView m_tvIP;
+    private TextView m_tvMAC;
     private Button m_btnPrint;
     private Button m_btnDel;
     private SimpleAdapter m_adapter_target;
@@ -48,7 +49,8 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         m_decorView = getWindow().getDecorView();
         m_decorView.setSystemUiVisibility(uiOptions);
         m_tvName = findViewById(R.id.ms_addprinter_detail_name);
-        m_tvTargetShown = findViewById(R.id.ms_addprinter_detail_target);
+        m_tvIP = findViewById(R.id.ms_addprinter_detail_ip);
+        m_tvMAC = findViewById(R.id.ms_addprinter_detail_mac);
         m_btnPrint = findViewById(R.id.ms_addprinter_detail_btnPrint);
         m_btnDel = findViewById(R.id.ms_addprinter_detail_btnDel);
 
@@ -63,7 +65,8 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
             if(m_strSessionTarget.equals(printer.getMacAddress())){
                 m_tvName.setText(printer.getDeviceName());
                 m_strTarget = printer.getTarget();
-                m_tvTargetShown.setText(printer.getTarget());
+                m_tvIP.setText(printer.getIpAddress());
+                m_tvMAC.setText(printer.getMacAddress());
                 m_ObjPrinter = printer;
                 break;
             }

@@ -55,13 +55,24 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ms_addprinter_detail_target"
-            android:text="MAC-Adresse"
+            android:id="@+id/ms_addprinter_detail_ip"
+            android:text="IP-Adresse"
             android:textColor="@color/colorBlack"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_above ="@+id/toolbar_ms_addprinter"
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ms_addprinter_detail_mac"
+                android:text="MAC-Adresse"
+                android:textColor="@color/colorBlack"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_above ="@+id/toolbar_ms_addprinter"
+                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
 
             <Button
                 android:id="@+id/ms_addprinter_detail_btnPrint"
