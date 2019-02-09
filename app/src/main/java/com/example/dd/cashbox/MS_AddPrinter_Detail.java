@@ -7,11 +7,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import adapter.ListViewPrinterDetailAdapter;
 import epson.Epson;
 import global.GlobVar;
 import objects.ObjPrinter;
@@ -21,12 +26,9 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     private ObjPrinter m_ObjPrinter;
     private String m_strSessionTarget;
     private String m_strTarget;
-    private TextView m_tvName;
-    private TextView m_tvIP;
-    private TextView m_tvMAC;
-    private Button m_btnPrint;
+    private ListView m_listview;
     private Button m_btnDel;
-    private SimpleAdapter m_adapter_target;
+    private ListViewPrinterDetailAdapter m_adapter;
     private View m_decorView;
     private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -45,10 +47,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         m_strSessionTarget = bundle.getString("TARGET", "NOTARGET");
         m_decorView = getWindow().getDecorView();
         m_decorView.setSystemUiVisibility(uiOptions);
-        m_tvName = findViewById(R.id.ms_addprinter_detail_name);
-        m_tvIP = findViewById(R.id.ms_addprinter_detail_ip);
-        m_tvMAC = findViewById(R.id.ms_addprinter_detail_mac);
-        m_btnPrint = findViewById(R.id.ms_addprinter_detail_btnPrint);
+        m_listview = findViewById(R.id.ms_addprinter_listview_detail);
         m_btnDel = findViewById(R.id.ms_addprinter_detail_btnDel);
 
         //set header
@@ -60,17 +59,33 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         //set TextViews
         for(ObjPrinter printer : GlobVar.m_lstPrinter){
             if(m_strSessionTarget.equals(printer.getMacAddress())){
-                m_tvName.setText(printer.getDeviceName());
-                m_strTarget = printer.getTarget();
-                m_tvIP.setText(printer.getIpAddress());
-                m_tvMAC.setText(printer.getMacAddress());
+
+                //build data for listview
+                ArrayList<HashMap<String,String>> lstAttr = new ArrayList<>();
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put("typ", "Druckername");
+                hashMap.put("value", printer.getDeviceName());
+                lstAttr.add(hashMap);
+
+                hashMap = new HashMap<>();
+                hashMap.put("typ", "IP-Adresse");
+                hashMap.put("value", printer.getIpAddress());
+                lstAttr.add(hashMap);
+
+                hashMap = new HashMap<>();
+                hashMap.put("typ", "MAC-Adresse");
+                hashMap.put("value", printer.getMacAddress());
+                lstAttr.add(hashMap);
+
+                m_adapter = new ListViewPrinterDetailAdapter(this, lstAttr);
+                m_listview.setAdapter(m_adapter);
+
                 m_ObjPrinter = printer;
                 break;
             }
         }
 
         //init events
-        m_btnPrint.setOnClickListener(this);
         m_btnDel.setOnClickListener(this);
     }
 
@@ -101,13 +116,13 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     public void onClick(View v){
         switch (v.getId()) {
 
-            case R.id.ms_addprinter_detail_btnPrint:
+            /*case R.id.ms_addprinter_detail_btnPrint:
 
                 Epson printer = new Epson(this, m_ObjPrinter);
                 printer.printTestMsg();
 
                 Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_TestnachrichtVersendet), Toast.LENGTH_SHORT).show();
-                break;
+                break;*/
 
             case R.id.ms_addprinter_detail_btnDel:
                 GlobVar.m_lstPrinter.remove(m_ObjPrinter);
