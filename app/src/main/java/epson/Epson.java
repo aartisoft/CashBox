@@ -55,7 +55,7 @@ public class Epson {
             textData.delete(0, textData.length());
             m_Printer.addFeedLine(1);
 
-            Bitmap icon = BitmapFactory.decodeResource(m_Context.getResources(), R.drawable.loginlogo);
+            /*Bitmap icon = BitmapFactory.decodeResource(m_Context.getResources(), R.drawable.loginlogo);
 
             m_Printer.addImage(icon, 50, 50,
                     300,
@@ -64,7 +64,7 @@ public class Epson {
                     Printer.MODE_MONO,
                     Printer.HALFTONE_DITHER,
                     Printer.PARAM_DEFAULT,
-                    Printer.COMPRESS_NONE);
+                    Printer.COMPRESS_NONE);*/
 
             m_Printer.addCut(Printer.CUT_FEED);
         }

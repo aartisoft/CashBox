@@ -108,6 +108,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        m_decorView.setSystemUiVisibility(uiOptions);
         switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);
