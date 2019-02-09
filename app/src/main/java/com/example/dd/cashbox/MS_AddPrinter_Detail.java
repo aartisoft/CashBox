@@ -2,21 +2,18 @@ package com.example.dd.cashbox;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-import adapter.ListViewPrinterAdapter;
 import epson.Epson;
-import global.PrinterList;
+import global.GlobVar;
 import objects.ObjPrinter;
 
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
@@ -61,7 +58,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //set TextViews
-        for(ObjPrinter printer : PrinterList.m_lstPrinter){
+        for(ObjPrinter printer : GlobVar.m_lstPrinter){
             if(m_strSessionTarget.equals(printer.getMacAddress())){
                 m_tvName.setText(printer.getDeviceName());
                 m_strTarget = printer.getTarget();
@@ -105,14 +102,15 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         switch (v.getId()) {
 
             case R.id.ms_addprinter_detail_btnPrint:
-                Epson printer = new Epson();
-                printer.printBon(m_ObjPrinter.getTarget());
+
+                Epson printer = new Epson(this, m_ObjPrinter);
+                printer.printTestMsg();
 
                 Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_TestnachrichtVersendet), Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.ms_addprinter_detail_btnDel:
-                PrinterList.m_lstPrinter.remove(m_ObjPrinter);
+                GlobVar.m_lstPrinter.remove(m_ObjPrinter);
                 Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_DruckerEntfernt), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);

@@ -21,7 +21,7 @@ import com.epson.epos2.discovery.FilterOption;
 import java.util.ArrayList;
 
 import adapter.ListViewPrinterSearchAdapter;
-import global.PrinterList;
+import global.GlobVar;
 import objects.ObjPrinter;
 import objects.ObjPrinterSearch;
 
@@ -95,7 +95,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
 
                         //check if printer already existing
                         boolean bIsExisting = false;
-                        for(ObjPrinter printer : PrinterList.m_lstPrinter){
+                        for(ObjPrinter printer : GlobVar.m_lstPrinter){
                             if(m_adapter.getTarget(i).equals(printer.getTarget())){
                                 bIsExisting = true;
                                 break;
@@ -107,7 +107,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                             printer.setPrinter(m_adapter.getDeviceName(i), m_adapter.getDeviceType(i), m_adapter.getTarget(i),
                                                 m_adapter.getIpAddress(i), m_adapter.getMacAddress(i), m_adapter.getBdAddress(i), "");
 
-                            PrinterList.m_lstPrinter.add(printer);
+                            GlobVar.m_lstPrinter.add(printer);
                             Toast.makeText(MS_AddPrinter_Search.this, getResources().getString(R.string.src_DruckerHinzugefuegt), Toast.LENGTH_SHORT).show();
                         }
                         else{

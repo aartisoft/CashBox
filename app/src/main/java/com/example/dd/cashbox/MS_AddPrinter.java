@@ -3,17 +3,15 @@ package com.example.dd.cashbox;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import adapter.ListViewPrinterAdapter;
-import global.PrinterList;
+import global.GlobVar;
 
 public class MS_AddPrinter extends AppCompatActivity {
 
@@ -46,7 +44,7 @@ public class MS_AddPrinter extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //set ListView
-        m_adapter = new ListViewPrinterAdapter(this, PrinterList.m_lstPrinter);
+        m_adapter = new ListViewPrinterAdapter(this, GlobVar.m_lstPrinter);
         m_listView.setAdapter(m_adapter);
 
         m_fab.setOnClickListener(new View.OnClickListener() {
