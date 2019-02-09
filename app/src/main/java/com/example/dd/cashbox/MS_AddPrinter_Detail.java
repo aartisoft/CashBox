@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -90,6 +92,13 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.user_menu, menu);
+        return true;
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if(hasFocus){
@@ -107,6 +116,12 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 finish();
                 return true;
 
+            case R.id.logout_menu:
+                Epson printer = new Epson(this, m_ObjPrinter);
+                printer.printTestMsg();
+
+                Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_TestnachrichtVersendet), Toast.LENGTH_SHORT).show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
