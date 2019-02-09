@@ -19,7 +19,7 @@ public class Epson {
 
         //init printer
         try {
-            m_Printer = new Printer(Printer.TM_T20, Printer.MODEL_ANK, m_Context);
+            m_Printer = new Printer(Printer.TM_M30, Printer.FALSE, m_Context);
         }
         catch (Exception e){
             Log.e("init mPrinter", e.toString());

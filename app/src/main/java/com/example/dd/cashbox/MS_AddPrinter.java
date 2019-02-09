@@ -62,11 +62,11 @@ public class MS_AddPrinter extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Get the selected item text from ListView
-                String selectedTarget = m_adapter.getTarget(position);
+                String selectedMAC = m_adapter.getMacAddress(position);
 
                 Intent intent = new Intent(MS_AddPrinter.this, MS_AddPrinter_Detail.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("TARGET", selectedTarget);
+                intent.putExtra("TARGET", selectedMAC);
                 startActivity(intent);
             }
         });

@@ -104,7 +104,8 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                         //if printer is not existing then write into list
                         if(!bIsExisting){
                             ObjPrinter printer = new ObjPrinter();
-                            printer.setPrinter(m_adapter.getName(i), m_adapter.getTargetShown(i), m_adapter.getTarget(i), "");
+                            printer.setPrinter(m_adapter.getDeviceName(i), m_adapter.getDeviceType(i), m_adapter.getTarget(i),
+                                                m_adapter.getIpAddress(i), m_adapter.getMacAddress(i), m_adapter.getBdAddress(i), "");
 
                             PrinterList.m_lstPrinter.add(printer);
                             Toast.makeText(MS_AddPrinter_Search.this, getResources().getString(R.string.src_DruckerHinzugefuegt), Toast.LENGTH_SHORT).show();

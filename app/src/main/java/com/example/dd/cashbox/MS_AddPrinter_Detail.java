@@ -60,10 +60,10 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         //set TextViews
         for(ObjPrinter printer : PrinterList.m_lstPrinter){
-            if(m_strSessionTarget.equals(printer.getTarget())){
-                m_tvName.setText(printer.getName());
+            if(m_strSessionTarget.equals(printer.getMacAddress())){
+                m_tvName.setText(printer.getDeviceName());
                 m_strTarget = printer.getTarget();
-                m_tvTargetShown.setText(printer.getTargetShown());
+                m_tvTargetShown.setText(printer.getTarget());
                 m_ObjPrinter = printer;
                 break;
             }

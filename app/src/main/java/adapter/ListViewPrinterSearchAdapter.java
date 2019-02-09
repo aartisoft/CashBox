@@ -54,15 +54,26 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
 
     }
 
-    public String getName(int position){
-        return m_List.get(position).getName();
+    public String getDeviceName(int position){
+        return m_List.get(position).getDeviceName();
     }
-    public String getTargetShown(int position){
-        return m_List.get(position).getTargetShown();
+    public int getDeviceType(int position){
+        return m_List.get(position).getDeviceType();
     }
     public String getTarget(int position){
         return m_List.get(position).getTarget();
     }
+    public String getIpAddress(int position){
+        return m_List.get(position).getIpAddress();
+    }
+    public String getMacAddress(int position){
+        return m_List.get(position).getMacAddress();
+    }
+    public String getBdAddress(int position){
+        return m_List.get(position).getBdAddress();
+    }
+
+
 
 
     @Override
@@ -94,8 +105,8 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
         }
 
         // Populate the data into the template view using the data object
-        view.txtTarget.setText(m_List.get(position).getTargetShown());
-        view.txtName.setText(m_List.get(position).getName());
+        view.txtTarget.setText(m_List.get(position).getIpAddress());
+        view.txtName.setText(m_List.get(position).getDeviceName());
         view.cbAdd.setChecked(m_List.get(position).isChecked());
 
         // Return the completed view to render on screen
