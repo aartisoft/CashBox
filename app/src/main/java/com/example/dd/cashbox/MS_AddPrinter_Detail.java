@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import adapter.ListViewPrinterAdapter;
 import epson.Epson;
@@ -20,6 +21,7 @@ import objects.ObjPrinter;
 
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
+    private ObjPrinter m_ObjPrinter;
     private String m_strSessionTarget;
     private String m_strTarget;
     private TextView m_tvName;
@@ -62,6 +64,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 m_tvName.setText(printer.getName());
                 m_strTarget = printer.getTarget();
                 m_tvTargetShown.setText(printer.getTargetShown());
+                m_ObjPrinter = printer;
                 break;
             }
         }
@@ -100,11 +103,19 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
             case R.id.ms_addprinter_detail_btnPrint:
                 Epson printer = new Epson();
-                printer.printBon(m_strTarget);
+                printer.printBon(m_ObjPrinter.getTarget());
+
+                Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_TestnachrichtVersendet), Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.ms_addprinter_detail_btnDel:
-                // do your code
+                PrinterList.m_lstPrinter.remove(m_ObjPrinter);
+                Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_DruckerEntfernt), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
                 break;
 
             default:
