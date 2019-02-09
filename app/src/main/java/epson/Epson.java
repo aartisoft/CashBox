@@ -38,11 +38,16 @@ public class Epson {
         try {
             m_Printer.addTextAlign(Printer.ALIGN_CENTER);
             m_Printer.addFeedLine(0);
+
             m_Printer.addTextSize(1, 2);
             textData.append("Druckerinformationen: \n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
+            m_Printer.addFeedLine(1);
+
             m_Printer.addTextSize(1, 1);
             textData.append("Druckername: " + m_objPrinter.getDeviceName() + "\n");
-            textData.append("\n");
+            //textData.append("Druckertyp: " + Printer.TM_U220 + "\n");
             textData.append("IP-Adresse: " + m_objPrinter.getIpAddress() + "\n");
             textData.append("MAC-Adresse: " + m_objPrinter.getMacAddress() + "\n");
 
@@ -59,7 +64,7 @@ public class Epson {
                     Printer.MODE_MONO,
                     Printer.HALFTONE_DITHER,
                     Printer.PARAM_DEFAULT,
-                    Printer.COMPRESS_AUTO);
+                    Printer.COMPRESS_NONE);
 
             m_Printer.addCut(Printer.CUT_FEED);
         }
