@@ -11,7 +11,7 @@
 
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_ms_addprinter"
+        android:id="@+id/toolbar_ms_addprinter_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary3"
