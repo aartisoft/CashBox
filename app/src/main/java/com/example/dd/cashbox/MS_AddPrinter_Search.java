@@ -28,6 +28,8 @@ import objects.ObjPrinterSearch;
 
 public class MS_AddPrinter_Search extends AppCompatActivity {
 
+    private Runnable runnable;
+    private Handler handler;
     private Context m_Context;
     private ArrayList<ObjPrinterSearch> m_PrinterList = null;
     private ListViewPrinterSearchAdapter m_adapter;
@@ -71,13 +73,14 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         //PrinterSearch
         startDiscovery();
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        handler = new Handler();
+        runnable = new Runnable() {
             @Override
             public void run() {
                 stopDiscovery();
             }
-        }, 5000);
+        };
+        handler.postDelayed(runnable,5000);
 
         m_fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +139,8 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                handler.removeCallbacks(runnable);
+
                 Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
