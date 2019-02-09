@@ -8,13 +8,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import adapter.ListViewPrinterAdapter;
 import global.PrinterList;
+import objects.ObjPrinter;
 
 public class MS_AddPrinter_Detail extends AppCompatActivity {
 
-    private ListViewPrinterAdapter m_adapter;
+    private String m_strSessionTarget;
+    private TextView m_tvName;
+    private TextView m_tvTarget;
+    private SimpleAdapter m_adapter_target;
     private View m_decorView;
     private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -29,8 +35,12 @@ public class MS_AddPrinter_Detail extends AppCompatActivity {
         setContentView(R.layout.activity_ms_addprinter_detail);
 
         //init variables
+        Bundle bundle = getIntent().getExtras();
+        m_strSessionTarget = bundle.getString("TARGET", "NOTARGET");
         m_decorView = getWindow().getDecorView();
         m_decorView.setSystemUiVisibility(uiOptions);
+        m_tvName = findViewById(R.id.ms_addprinter_detail_name);
+        m_tvTarget = findViewById(R.id.ms_addprinter_detail_target);
 
         //set header
         Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter_detail);
@@ -38,7 +48,14 @@ public class MS_AddPrinter_Detail extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        //set TextView
+        //set TextViews
+        for(ObjPrinter printer : PrinterList.m_lstPrinter){
+            if(m_strSessionTarget.equals(printer.getTarget())){
+                m_tvName.setText(printer.getName());
+                m_tvTarget.setText(printer.getTarget());
+                break;
+            }
+        }
 
 
         // Set an item click listener for ListView
