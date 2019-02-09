@@ -16,6 +16,9 @@
     <string name="src_KeineDruckerGefunden">Keine(n) Drucker gefunden</string>
     <string name="src_DruckerBereitsVorhanden">Drucker bereits vorhanden</string>
     <string name="src_DruckerHinzugefuegt">Drucker hinzugefügt</string>
+    <string name="src_DruckerInformationen">Drucker Informationen</string>
+    <string name="src_DruckerEntfernen">Drucker Entfernen</string>
+    <string name="src_Testdruck">Testdruck</string>
 
     <string-array name="menusettings_entries">
         <item>@string/src_Druckerverwaltung</item>

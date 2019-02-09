@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_ms_addprinter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary3"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/src_DruckerInformationen"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ms_addprinter_textview"
+            android:text="@string/src_HinzugefuegteDrucker"
+            android:textColor="@color/colorBlack"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_above ="@+id/toolbar_ms_addprinter"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:textColor="@color/colorButtonText"
+            android:background="@drawable/roundedbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="16dip"
+            android:layout_marginRight="16dip"
+            android:layout_marginLeft="16dip"
+            android:text="@string/src_DruckerEntfernen"
+            android:textStyle="bold"
+            android:textAllCaps="false"/>
+    </FrameLayout>
+</LinearLayout>
