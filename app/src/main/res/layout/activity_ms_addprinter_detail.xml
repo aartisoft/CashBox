@@ -7,7 +7,6 @@
     android:background="?attr/colorPrimary"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-
     android:orientation="vertical">
 
 
@@ -31,22 +30,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ms_addprinter_textview"
-            android:text="@string/src_HinzugefuegteDrucker"
+            android:id="@+id/ms_addprinter_detail_name"
+            android:text="Druckername"
             android:textColor="@color/colorBlack"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_above ="@+id/toolbar_ms_addprinter"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ms_addprinter_detail_target"
+            android:text="MAC-Adresse"
+            android:textColor="@color/colorBlack"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_above ="@+id/toolbar_ms_addprinter"
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
 
+            <Button
+                android:id="@+id/ms_addprinter_detail_btnPrint"
+                android:textColor="@color/colorButtonText"
+                android:background="@drawable/rectroundedbutton_blue"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="16dip"
+                android:layout_marginRight="16dip"
+                android:layout_marginLeft="16dip"
+                android:text="@string/src_Testdruck"
+                android:textStyle="bold"
+                android:textAllCaps="false"/>
+        </LinearLayout>
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/ms_addprinter_detail_btnDel"
             android:textColor="@color/colorButtonText"
-            android:background="@drawable/roundedbutton"
+            android:background="@drawable/roundedbutton_red"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
@@ -57,5 +92,6 @@
             android:text="@string/src_DruckerEntfernen"
             android:textStyle="bold"
             android:textAllCaps="false"/>
+
     </FrameLayout>
 </LinearLayout>

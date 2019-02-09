@@ -10,6 +10,7 @@
     <color name="colorTextBox">#5A5858</color>
 
     <color name="colorRed">#FA0202</color>
+    <color name="colorRedDark">#A80000</color>
     <color name="colorBlack">#070707</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey">#9B9898</color>

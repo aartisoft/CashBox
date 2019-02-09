@@ -34,7 +34,7 @@
     <Button
         android:id="@+id/btnLogin"
         android:textColor="@color/colorButtonText"
-        android:background="@drawable/roundedbutton"
+        android:background="@drawable/roundedbutton_blue"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
