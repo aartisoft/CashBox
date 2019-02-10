@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.view.View.OnClickListener;
@@ -41,6 +42,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ms_addprinter_detail);
 
+
         //get activity variables
         Bundle bundle = getIntent().getExtras();
         m_strSessionTarget = bundle.getString("TARGET", "NOTARGET");
@@ -52,6 +54,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter_detail);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -62,6 +65,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         //set Listener
         m_btnDel.setOnClickListener(this);
+        m_decorView.setOnSystemUiVisibilityChangeListener(navbarOnSystemUiVisibilityChangeListener);
     }
 
     @Override
@@ -81,7 +85,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        m_decorView.setSystemUiVisibility(m_uiOptions);
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);
@@ -104,14 +108,6 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     @Override
     public void onClick(View v){
         switch (v.getId()) {
-
-            /*case R.id.ms_addprinter_detail_btnPrint:
-
-                Epson printer = new Epson(this, m_ObjPrinter);
-                printer.printTestMsg();
-
-                Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_TestnachrichtVersendet), Toast.LENGTH_SHORT).show();
-                break;*/
 
             case R.id.ms_addprinter_detail_btnDel:
                 GlobVar.m_lstPrinter.remove(m_ObjPrinter);
@@ -157,4 +153,15 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
             }
         }
     }
+
+    private View.OnSystemUiVisibilityChangeListener navbarOnSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener(){
+        @Override
+        public void onSystemUiVisibilityChange(int visibility)
+        {
+            if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
+            {
+                m_decorView.setSystemUiVisibility(m_uiOptions);
+            }
+        }
+    };
 }

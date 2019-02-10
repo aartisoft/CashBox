@@ -10,6 +10,14 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
+    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorControlNormal">@color/colorWhite</item>
+    </style>
+
     <!-- Style for ListView -->
     <style name="ListView" parent="@android:style/Widget.ListView">
         <item name="android:textColor">#030303</item>

@@ -8,6 +8,7 @@
     android:baselineAligned="false"
     android:gravity="center"
     android:background="@color/colorWhite"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
     tools:context=".Login">
 
     <ImageView

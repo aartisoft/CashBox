@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
     android:padding="6dip">
     <ImageView
         android:id="@+id/ms_ap_search_ilr_icon"

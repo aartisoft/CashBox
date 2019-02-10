@@ -2,6 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:padding="6dip"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
     android:layout_marginLeft="16dip">
 
     <TextView
