@@ -19,7 +19,6 @@ import objects.ObjPrinterSearch;
 
 public class ListViewPrinterSearchAdapter extends BaseAdapter {
 
-    public SparseBooleanArray mCheckStates;
     private Context m_Context;
     ArrayList<ObjPrinterSearch> m_List;
 
@@ -27,7 +26,6 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
         super();
         this.m_Context = context;
         this.m_List = printers;
-        mCheckStates = new SparseBooleanArray();
     }
 
     @Override
@@ -43,15 +41,6 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
         return position;
     }
     public void onItemSelected(int position) {
-    }
-
-    public boolean isChecked(int position) {
-        return mCheckStates.get(position, false);
-    }
-
-    public void setChecked(int position, boolean isChecked) {
-        mCheckStates.put(position, isChecked);
-
     }
 
     public String getDeviceName(int position){
@@ -73,9 +62,6 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
         return m_List.get(position).getBdAddress();
     }
 
-
-
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder view = null;
@@ -94,9 +80,8 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
             view.cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    //int getPosition = (Integer) buttonView.getTag(); // Here we get  the position that we have set for the checkbox using setTag.
-
-                    mCheckStates.put(position, isChecked);
+                    //mCheckStates.put(position, isChecked);
+                    m_List.get(position).setChecked(isChecked);
                 }
             });
             convertView.setTag(view);

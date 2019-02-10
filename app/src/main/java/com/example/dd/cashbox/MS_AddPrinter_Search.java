@@ -70,7 +70,6 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         m_epsonDiscover.startDiscovery();
         discoverPrinterHandler();
 
-
         //init Listener
         m_fab.setOnClickListener(fabOnClickListener);
     }
@@ -104,9 +103,9 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             boolean bChecked = false;
-            for(int i=0;i<m_adapter.mCheckStates.size();i++)
+            for(int i=0;i<m_PrinterList.size();i++)
             {
-                if(m_adapter.mCheckStates.get(i)==true)
+                if(m_PrinterList.get(i).isChecked()==true)
                 {
                     bChecked = true;
 
