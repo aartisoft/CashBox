@@ -15,8 +15,9 @@ import android.view.WindowManager;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private int iSessionId = 0;
+    private int m_iSessionId = 0;
     private View m_decorView;
+    private NavigationView m_navigationView;
     private DrawerLayout m_DrawerLayout;
     private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -30,25 +31,28 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //activity variables
+        m_iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
+
         //init variables
-        iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
         m_decorView = getWindow().getDecorView();
         m_DrawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        m_navigationView = findViewById(R.id.nav_view);
 
-        //set header and footer
+        //set UI
+        m_decorView.setSystemUiVisibility(uiOptions);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 
-        m_decorView.setSystemUiVisibility(uiOptions);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //set Listener
+        m_navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.setNavigationItemSelectedListener(this);
-
-        if(iSessionId == 1){
+        //open Drawer
+        if(m_iSessionId == 1){
             m_DrawerLayout.openDrawer(GravityCompat.START);
         }
     }
@@ -74,14 +78,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Fragment fragment = null;
-        Bundle bundle = new Bundle();
         if (id == R.id.nav_einstellungen) {
             startActivity(new Intent(this, MenuSettings.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        m_DrawerLayout= findViewById(R.id.drawer_layout);
+        m_DrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }
