@@ -10,8 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
@@ -31,7 +29,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     private Button m_btnDel;
     private ListViewPrinterDetailAdapter m_adapter;
     private View m_decorView;
-    private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+    private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
@@ -53,7 +51,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         m_btnDel = findViewById(R.id.ms_addprinter_detail_btnDel);
 
         //set UI
-        m_decorView.setSystemUiVisibility(uiOptions);
+        m_decorView.setSystemUiVisibility(m_uiOptions);
         Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter_detail);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,13 +75,13 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if(hasFocus){
-            m_decorView.setSystemUiVisibility(uiOptions);
+            m_decorView.setSystemUiVisibility(m_uiOptions);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        m_decorView.setSystemUiVisibility(uiOptions);
+        m_decorView.setSystemUiVisibility(m_uiOptions);
         switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);

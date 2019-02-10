@@ -19,7 +19,7 @@ public class MS_AddPrinter extends AppCompatActivity {
     private FloatingActionButton m_fab;
     private ListView m_listView;
     private View m_decorView;
-    private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+    private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
@@ -37,7 +37,7 @@ public class MS_AddPrinter extends AppCompatActivity {
         m_decorView = getWindow().getDecorView();
 
         //set UI
-        m_decorView.setSystemUiVisibility(uiOptions);
+        m_decorView.setSystemUiVisibility(m_uiOptions);
         Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -56,7 +56,7 @@ public class MS_AddPrinter extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if(hasFocus){
-            m_decorView.setSystemUiVisibility(uiOptions);
+            m_decorView.setSystemUiVisibility(m_uiOptions);
         }
     }
 

@@ -15,7 +15,7 @@ public class MenuSettings extends AppCompatActivity {
     private ListView m_listView;
     private View m_decorView;
     private DrawerLayout m_DrawerLayout;
-    private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+    private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
@@ -28,37 +28,38 @@ public class MenuSettings extends AppCompatActivity {
         setContentView(R.layout.activity_menusettings);
 
         //init variables
-        m_listView = (ListView) findViewById(R.id.menusettings_listview);
+        m_listView = findViewById(R.id.menusettings_listview);
         m_decorView = getWindow().getDecorView();
         m_DrawerLayout = findViewById(R.id.drawer_layout);
 
-        m_decorView.setSystemUiVisibility(uiOptions);
-
-        //set header
+        //set UI
+        m_decorView.setSystemUiVisibility(m_uiOptions);
         Toolbar toolbar = findViewById(R.id.toolbar_menusettings);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Set an item click listener for ListView
-        m_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the selected item text from ListView
-                String selectedItem = (String) parent.getItemAtPosition(position);
-
-                if (selectedItem.equals(getResources().getString(R.string.src_Druckerverwaltung))) {
-                    startActivity(new Intent(MenuSettings.this, MS_AddPrinter.class));
-                }
-            }
-        });
+        m_listView.setOnItemClickListener(listviewOnItemClickListener);
     }
+
+    private AdapterView.OnItemClickListener listviewOnItemClickListener = new AdapterView.OnItemClickListener(){
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // Get the selected item text from ListView
+            String selectedItem = (String) parent.getItemAtPosition(position);
+
+            if (selectedItem.equals(getResources().getString(R.string.src_Druckerverwaltung))) {
+                startActivity(new Intent(MenuSettings.this, MS_AddPrinter.class));
+            }
+        }
+    };
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if(hasFocus){
-            m_decorView.setSystemUiVisibility(uiOptions);
+            m_decorView.setSystemUiVisibility(m_uiOptions);
         }
     }
 
