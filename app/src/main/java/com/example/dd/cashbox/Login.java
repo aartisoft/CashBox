@@ -19,7 +19,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
     private View m_decorView;
     private EditText m_tbLicenceKey;
     private Button m_btnLogin;
-    private int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+    private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
 
         //set UI
         m_decorView = getWindow().getDecorView();
-        m_decorView.setSystemUiVisibility(uiOptions);
+        m_decorView.setSystemUiVisibility(m_uiOptions);
 
         //set Listener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
@@ -87,7 +87,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
             else {
                 //keyboard is closed
                 m_tbLicenceKey.setCursorVisible(false);
-                m_decorView.setSystemUiVisibility(uiOptions);
+                m_decorView.setSystemUiVisibility(m_uiOptions);
             }
         }
     };
