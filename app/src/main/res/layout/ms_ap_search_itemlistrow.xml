@@ -42,5 +42,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="16dip"
+        android:buttonTint="@color/colorPrimary3"
         android:text=""/>
 </RelativeLayout>
