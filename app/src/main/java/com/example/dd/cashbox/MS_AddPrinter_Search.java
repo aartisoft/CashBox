@@ -13,11 +13,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.epson.epos2.discovery.DeviceInfo;
-import com.epson.epos2.discovery.Discovery;
-import com.epson.epos2.discovery.DiscoveryListener;
-import com.epson.epos2.discovery.FilterOption;
-
 import java.util.ArrayList;
 
 import adapter.ListViewPrinterSearchAdapter;
@@ -33,6 +28,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
     private final Handler m_handler = new Handler();
     private Thread m_thread;
     private Context m_Context;
+    private EpsonDiscover m_epsonDiscover;
     private ArrayList<ObjPrinterSearch> m_PrinterList = null;
     private ListViewPrinterSearchAdapter m_adapter;
     private FloatingActionButton m_fab;
@@ -70,19 +66,9 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         m_fab.setEnabled(false);
 
         //PrinterSearch
-        final EpsonDiscover epsonDiscover = new EpsonDiscover(this);
-        epsonDiscover.startDiscovery();
-
-        m_runnable = new Runnable() {
-            @Override
-            public void run() {
-                epsonDiscover.stopDiscovery();
-                m_PrinterList = epsonDiscover.getPrinterList();
-                writeDiscoveryResult();
-            }
-        };
-        m_handler.postDelayed(m_runnable,5000);
-        m_thread = new Thread(m_runnable);
+        m_epsonDiscover = new EpsonDiscover(this);
+        m_epsonDiscover.startDiscovery();
+        discoverPrinterHandler();
 
 
         //init Listener
@@ -101,8 +87,8 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                m_handler.removeCallbacks(m_runnable);
-                m_thread.interrupt();
+                m_epsonDiscover.stopDiscovery();
+
                 Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -157,9 +143,6 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         }
     };
 
-
-
-
     private void writeDiscoveryResult(){
         try {
             //disable Buffer Bar
@@ -180,6 +163,18 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         catch (Exception e) {
             Log.e("write Discovery failed", e.toString());
         }
+    }
+
+    private void discoverPrinterHandler(){
+        m_runnable = new Runnable() {
+            @Override
+            public void run() {
+                m_epsonDiscover.stopDiscovery();
+                m_PrinterList = m_epsonDiscover.getPrinterList();
+                writeDiscoveryResult();
+            }
+        };
+        m_handler.postDelayed(m_runnable,5000);
     }
 
 }
