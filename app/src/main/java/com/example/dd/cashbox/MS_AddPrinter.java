@@ -44,14 +44,7 @@ public class MS_AddPrinter extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //set ListView
-        if(GlobVar.m_lstPrinter.size() != 0){
-            findViewById(R.id.ms_addprinter_noprinter).setVisibility(View.INVISIBLE);
-            m_adapter = new ListViewPrinterAdapter(this, GlobVar.m_lstPrinter);
-            m_listView.setAdapter(m_adapter);
-        }
-        else{
-            findViewById(R.id.ms_addprinter_noprinter).setVisibility(View.VISIBLE);
-        }
+        setListView();
 
         //set Listener
         m_fab.setOnClickListener(fabOnClickListener);
@@ -79,6 +72,17 @@ public class MS_AddPrinter extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setListView(){
+        if(GlobVar.m_lstPrinter.size() != 0){
+            findViewById(R.id.ms_addprinter_noprinter).setVisibility(View.INVISIBLE);
+            m_adapter = new ListViewPrinterAdapter(this, GlobVar.m_lstPrinter);
+            m_listView.setAdapter(m_adapter);
+        }
+        else{
+            findViewById(R.id.ms_addprinter_noprinter).setVisibility(View.VISIBLE);
         }
     }
 
