@@ -30,7 +30,8 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
 
     private Runnable m_runnableStopDis;
     private Runnable m_runnableStartDis;
-    private Handler m_handler;
+    private final Handler m_handler = new Handler();
+    private final Handler m_handlerTest = new Handler();
     private Context m_Context;
     private ArrayList<ObjPrinterSearch> m_PrinterList = null;
     private ListViewPrinterSearchAdapter m_adapter;
@@ -88,7 +89,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                m_handler.removeCallbacksAndMessages(m_runnableStopDis);
+                m_handler.removeCallbacks(m_runnableStopDis);
                 m_handler.removeCallbacks(m_runnableStartDis);
 
                 Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter.class);
@@ -146,7 +147,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
     };
 
     private void discoveryHandler(){
-        m_handler = new Handler();
+
         m_runnableStopDis = new Runnable() {
             @Override
             public void run() {
@@ -209,16 +210,12 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
     private DiscoveryListener m_DiscoveryListener = new DiscoveryListener() {
         @Override
         public void onDiscovery(final DeviceInfo deviceInfo) {
-            runOnUiThread(m_runnableStartDis = new Runnable() {
-                @Override
-                public synchronized void run() {
-                    ObjPrinterSearch printer = new ObjPrinterSearch(deviceInfo.getDeviceName(), deviceInfo.getDeviceType(),
+
+            ObjPrinterSearch printer = new ObjPrinterSearch(deviceInfo.getDeviceName(), deviceInfo.getDeviceType(),
                                                                         deviceInfo.getTarget(), deviceInfo.getIpAddress(),
                                                                         deviceInfo.getMacAddress(), deviceInfo.getBdAddress(), false);
 
-                    m_PrinterList.add(printer);
-                }
-            });
+            m_PrinterList.add(printer);
         }
     };
 }
