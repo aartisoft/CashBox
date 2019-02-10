@@ -35,6 +35,7 @@ public class EpsonPrint {
 
     public void printTestMsg(){
 
+        m_Printer.clearCommandBuffer();
         //create message for printer
         StringBuilder textData = new StringBuilder();
         try {
@@ -69,6 +70,8 @@ public class EpsonPrint {
                     Printer.COMPRESS_NONE);*/
 
             m_Printer.addCut(Printer.CUT_FEED);
+
+
         }
         catch (Exception e){
             Log.e("createTestMsg failed", e.toString());
@@ -77,6 +80,7 @@ public class EpsonPrint {
         //print message
         try {
             sendData();
+
         }
         catch (Exception e){
             Log.e("sendData failed", e.toString());
