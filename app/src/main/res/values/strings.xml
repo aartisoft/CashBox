@@ -20,6 +20,7 @@
     <string name="src_DruckerEntfernen">Drucker Entfernen</string>
     <string name="src_Testdruck">Testdruck</string>
     <string name="src_DruckerEntfernt">Drucker entfernt</string>
+    <string name="src_KeineDruckerHinzugefuegt">Keine Drucker hinzugefügt</string>
     <string name="src_TestnachrichtVersendet">Testnachricht versendet</string>
 
     <string-array name="menusettings_entries">

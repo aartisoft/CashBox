@@ -32,42 +32,31 @@ public class MS_AddPrinter extends AppCompatActivity {
         setContentView(R.layout.activity_ms_addprinter);
 
         //init variables
-        m_fab = (FloatingActionButton) findViewById(R.id.ms_addprinter_add);
-        m_listView = (ListView) findViewById(R.id.ms_addprinter_listview);
+        m_fab = findViewById(R.id.ms_addprinter_add);
+        m_listView = findViewById(R.id.ms_addprinter_listview);
         m_decorView = getWindow().getDecorView();
-        m_decorView.setSystemUiVisibility(uiOptions);
 
-        //set header
+        //set UI
+        m_decorView.setSystemUiVisibility(uiOptions);
         Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //set ListView
-        m_adapter = new ListViewPrinterAdapter(this, GlobVar.m_lstPrinter);
-        m_listView.setAdapter(m_adapter);
+        if(GlobVar.m_lstPrinter.size() != 0){
+            findViewById(R.id.ms_addprinter_noprinter).setVisibility(View.INVISIBLE);
+            m_adapter = new ListViewPrinterAdapter(this, GlobVar.m_lstPrinter);
+            m_listView.setAdapter(m_adapter);
+        }
+        else{
+            findViewById(R.id.ms_addprinter_noprinter).setVisibility(View.VISIBLE);
+        }
 
-        m_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MS_AddPrinter.this, MS_AddPrinter_Search.class);
-                startActivity(intent);
-            }
-        });
+        //set Listener
+        m_fab.setOnClickListener(fabOnClickListener);
+        m_listView.setOnItemClickListener(listviewOnItemListener);
 
-        // Set an item click listener for ListView
-        m_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the selected item text from ListView
-                String selectedMAC = m_adapter.getMacAddress(position);
-
-                Intent intent = new Intent(MS_AddPrinter.this, MS_AddPrinter_Detail.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("TARGET", selectedMAC);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -92,4 +81,25 @@ public class MS_AddPrinter extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(MS_AddPrinter.this, MS_AddPrinter_Search.class);
+            startActivity(intent);
+        }
+    };
+
+    private AdapterView.OnItemClickListener listviewOnItemListener = new AdapterView.OnItemClickListener(){
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // Get the selected item text from ListView
+            String selectedMAC = m_adapter.getMacAddress(position);
+
+            Intent intent = new Intent(MS_AddPrinter.this, MS_AddPrinter_Detail.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("TARGET", selectedMAC);
+            startActivity(intent);
+        }
+    };
 }
