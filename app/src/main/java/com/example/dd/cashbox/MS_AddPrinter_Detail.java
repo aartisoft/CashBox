@@ -27,7 +27,6 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
     private ObjPrinter m_ObjPrinter;
     private String m_strSessionTarget;
-    private String m_strTarget;
     private ListView m_listview;
     private Button m_btnDel;
     private ListViewPrinterDetailAdapter m_adapter;
@@ -44,50 +43,26 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ms_addprinter_detail);
 
-        //init variables
+        //get activity variables
         Bundle bundle = getIntent().getExtras();
         m_strSessionTarget = bundle.getString("TARGET", "NOTARGET");
+
+        //init variables
         m_decorView = getWindow().getDecorView();
-        m_decorView.setSystemUiVisibility(uiOptions);
         m_listview = findViewById(R.id.ms_addprinter_listview_detail);
         m_btnDel = findViewById(R.id.ms_addprinter_detail_btnDel);
 
-        //set header
+        //set UI
+        m_decorView.setSystemUiVisibility(uiOptions);
         Toolbar toolbar = findViewById(R.id.toolbar_ms_addprinter_detail);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        //set TextViews
-        for(ObjPrinter printer : GlobVar.m_lstPrinter){
-            if(m_strSessionTarget.equals(printer.getMacAddress())){
+        //set ListView
+        setListView();
 
-                //build data for listview
-                ArrayList<HashMap<String,String>> lstAttr = new ArrayList<>();
-                HashMap<String,String> hashMap = new HashMap<>();
-                hashMap.put("typ", "Druckername");
-                hashMap.put("value", printer.getDeviceName());
-                lstAttr.add(hashMap);
-
-                hashMap = new HashMap<>();
-                hashMap.put("typ", "IP-Adresse");
-                hashMap.put("value", printer.getIpAddress());
-                lstAttr.add(hashMap);
-
-                hashMap = new HashMap<>();
-                hashMap.put("typ", "MAC-Adresse");
-                hashMap.put("value", printer.getMacAddress());
-                lstAttr.add(hashMap);
-
-                m_adapter = new ListViewPrinterDetailAdapter(this, lstAttr);
-                m_listview.setAdapter(m_adapter);
-
-                m_ObjPrinter = printer;
-                break;
-            }
-        }
-
-        //init events
+        //set Listener
         m_btnDel.setOnClickListener(this);
     }
 
@@ -152,6 +127,36 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
             default:
                 break;
+        }
+    }
+
+    private void setListView(){
+        for(ObjPrinter printer : GlobVar.m_lstPrinter){
+            if(m_strSessionTarget.equals(printer.getMacAddress())){
+
+                //build data for listview
+                ArrayList<HashMap<String,String>> lstAttr = new ArrayList<>();
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put("typ", "Druckername");
+                hashMap.put("value", printer.getDeviceName());
+                lstAttr.add(hashMap);
+
+                hashMap = new HashMap<>();
+                hashMap.put("typ", "IP-Adresse");
+                hashMap.put("value", printer.getIpAddress());
+                lstAttr.add(hashMap);
+
+                hashMap = new HashMap<>();
+                hashMap.put("typ", "MAC-Adresse");
+                hashMap.put("value", printer.getMacAddress());
+                lstAttr.add(hashMap);
+
+                m_adapter = new ListViewPrinterDetailAdapter(this, lstAttr);
+                m_listview.setAdapter(m_adapter);
+
+                m_ObjPrinter = printer;
+                break;
+            }
         }
     }
 }
