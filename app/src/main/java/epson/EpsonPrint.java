@@ -29,6 +29,8 @@ public class EpsonPrint {
         catch (Exception e){
             Log.e("init mPrinter", e.toString());
         }
+
+        connectPrinter();
     }
 
     public void printTestMsg(){
@@ -135,6 +137,7 @@ public class EpsonPrint {
             m_Printer.addFeedLine(1);
 
             m_Printer.addCut(Printer.CUT_FEED);
+
         }
         catch (Exception e) {
             Log.e("create receipt failed", e.toString());
@@ -148,9 +151,9 @@ public class EpsonPrint {
             return false;
         }
 
-        if (!connectPrinter()) {
+        /*if (!connectPrinter()) {
             return false;
-        }
+        }*/
 
         try {
             m_Printer.sendData(Printer.PARAM_DEFAULT);

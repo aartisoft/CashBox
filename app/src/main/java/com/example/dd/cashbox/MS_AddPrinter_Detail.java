@@ -25,6 +25,7 @@ import objects.ObjPrinter;
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
     private ObjPrinter m_ObjPrinter;
+    private EpsonPrint m_printer;
     private String m_strSessionTarget;
     private ListView m_listview;
     private Button m_btnDel;
@@ -63,6 +64,9 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         //set ListView
         setListView();
 
+        //set Printer
+        m_printer = new EpsonPrint(this, m_ObjPrinter);
+
         //set Listener
         m_btnDel.setOnClickListener(this);
         m_decorView.setOnSystemUiVisibilityChangeListener(navbarOnSystemUiVisibilityChangeListener);
@@ -94,9 +98,8 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 finish();
                 return true;
 
-            case R.id.logout_menu:
-                EpsonPrint printer = new EpsonPrint(this, m_ObjPrinter);
-                printer.printTestMsg();
+            case R.id.testdruck_menu:
+                m_printer.printTestMsg();
 
                 Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_TestnachrichtVersendet), Toast.LENGTH_SHORT).show();
                 return true;
