@@ -156,7 +156,6 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             }
             else{
                 findViewById(R.id.ms_addprinter_listview_searchnoresult).setVisibility(View.VISIBLE);
-                Toast.makeText(MS_AddPrinter_Search.this, getResources().getString(R.string.src_KeineDruckerGefunden), Toast.LENGTH_SHORT).show();
             }
         }
         catch (Exception e) {

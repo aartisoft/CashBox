@@ -49,12 +49,12 @@
             android:layout_height="match_parent"
             android:gravity="center" >
 
-            <ImageView
-                android:id="@+id/ms_ap_search_ilr_icon"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:src="@drawable/ic_sentiment_dissatisfied_gray_24dp" />
+                android:text="@string/src_KeineDruckerGefunden"
+                android:textColor="@color/colorGrey"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
         </RelativeLayout>
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
