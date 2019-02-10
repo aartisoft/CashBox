@@ -21,6 +21,7 @@ import com.epson.epos2.discovery.FilterOption;
 import java.util.ArrayList;
 
 import adapter.ListViewPrinterSearchAdapter;
+import epson.EpsonDiscover;
 import global.GlobVar;
 import objects.ObjPrinter;
 import objects.ObjPrinterSearch;
@@ -28,10 +29,9 @@ import objects.ObjPrinterSearch;
 
 public class MS_AddPrinter_Search extends AppCompatActivity {
 
-    private Runnable m_runnableStopDis;
-    private Runnable m_runnableStartDis;
+    private Runnable m_runnable;
     private final Handler m_handler = new Handler();
-    private final Handler m_handlerTest = new Handler();
+    private Thread m_thread;
     private Context m_Context;
     private ArrayList<ObjPrinterSearch> m_PrinterList = null;
     private ListViewPrinterSearchAdapter m_adapter;
@@ -70,8 +70,20 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         m_fab.setEnabled(false);
 
         //PrinterSearch
-        startDiscovery();
-        discoveryHandler();
+        final EpsonDiscover epsonDiscover = new EpsonDiscover(this);
+        epsonDiscover.startDiscovery();
+
+        m_runnable = new Runnable() {
+            @Override
+            public void run() {
+                epsonDiscover.stopDiscovery();
+                m_PrinterList = epsonDiscover.getPrinterList();
+                writeDiscoveryResult();
+            }
+        };
+        m_handler.postDelayed(m_runnable,5000);
+        m_thread = new Thread(m_runnable);
+
 
         //init Listener
         m_fab.setOnClickListener(fabOnClickListener);
@@ -89,9 +101,8 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                m_handler.removeCallbacks(m_runnableStopDis);
-                m_handler.removeCallbacks(m_runnableStartDis);
-
+                m_handler.removeCallbacks(m_runnable);
+                m_thread.interrupt();
                 Intent intent = new Intent(MS_AddPrinter_Search.this, MS_AddPrinter.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -146,46 +157,9 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
         }
     };
 
-    private void discoveryHandler(){
 
-        m_runnableStopDis = new Runnable() {
-            @Override
-            public void run() {
-                stopDiscovery();
-            }
-        };
-        m_handler.postDelayed(m_runnableStopDis,5000);
-    }
-    private void startDiscovery(){
 
-        if(m_PrinterList != null){
-            m_PrinterList.clear();
-        }
 
-        FilterOption filterOption = null;
-        filterOption = new FilterOption();
-        filterOption.setPortType(Discovery.PORTTYPE_ALL);
-        filterOption.setDeviceModel(Discovery.MODEL_ALL);
-        filterOption.setEpsonFilter(Discovery.FILTER_NONE);
-        filterOption.setDeviceType(Discovery.TYPE_ALL);
-        filterOption.setBroadcast("255.255.255.255");
-
-        try {
-            Discovery.start(this, filterOption, m_DiscoveryListener);
-        }
-        catch (Exception e) {
-            Log.e("Discovery failed", e.toString());
-        }
-    }
-    private void stopDiscovery(){
-        try {
-            Discovery.stop();
-            writeDiscoveryResult();
-        }
-        catch (Exception e) {
-            Log.e("stop Discovery failed", e.toString());
-        }
-    }
     private void writeDiscoveryResult(){
         try {
             //disable Buffer Bar
@@ -207,15 +181,5 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             Log.e("write Discovery failed", e.toString());
         }
     }
-    private DiscoveryListener m_DiscoveryListener = new DiscoveryListener() {
-        @Override
-        public void onDiscovery(final DeviceInfo deviceInfo) {
 
-            ObjPrinterSearch printer = new ObjPrinterSearch(deviceInfo.getDeviceName(), deviceInfo.getDeviceType(),
-                                                                        deviceInfo.getTarget(), deviceInfo.getIpAddress(),
-                                                                        deviceInfo.getMacAddress(), deviceInfo.getBdAddress(), false);
-
-            m_PrinterList.add(printer);
-        }
-    };
 }

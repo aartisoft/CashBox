@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import adapter.ListViewPrinterDetailAdapter;
-import epson.Epson;
+import epson.EpsonPrint;
 import global.GlobVar;
 import objects.ObjPrinter;
 
@@ -118,7 +118,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 return true;
 
             case R.id.logout_menu:
-                Epson printer = new Epson(this, m_ObjPrinter);
+                EpsonPrint printer = new EpsonPrint(this, m_ObjPrinter);
                 printer.printTestMsg();
 
                 Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_TestnachrichtVersendet), Toast.LENGTH_SHORT).show();

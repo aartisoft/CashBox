@@ -11,14 +11,14 @@ import global.GlobVar;
 import objects.ObjPrinter;
 
 
-public class Epson {
+public class EpsonPrint {
 
     private Context m_Context = null;
     private Printer  m_Printer = null;
     private ObjPrinter m_objPrinter;
 
     //Constructor
-    public Epson(Context p_Context, ObjPrinter p_objPrinter){
+    public EpsonPrint(Context p_Context, ObjPrinter p_objPrinter){
         m_Context = p_Context;
         m_objPrinter = p_objPrinter;
 
