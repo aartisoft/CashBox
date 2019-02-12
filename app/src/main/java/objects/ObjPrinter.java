@@ -1,6 +1,7 @@
 package objects;
 
 public class ObjPrinter {
+    private String m_strDeviceBrand;
     private String m_strDeviceName;
     private int m_iDeviceType;
     private String m_strTarget;
@@ -11,9 +12,10 @@ public class ObjPrinter {
     private String m_strCategory;
 
 
-    public void setPrinter(String p_strDeviceName, int p_iDeviceType, String p_strTarget, String p_strIpAddress
+    public void setPrinter(String p_strDeviceBrand, String p_strDeviceName, int p_iDeviceType, String p_strTarget, String p_strIpAddress
             , String p_strMacAddress, String p_strBdAddress, String p_strCategory){
 
+        this.m_strDeviceBrand = p_strDeviceBrand;
         this.m_strDeviceName = p_strDeviceName;
         this.m_iDeviceType = p_iDeviceType;
         this.m_strTarget = p_strTarget;
@@ -23,6 +25,9 @@ public class ObjPrinter {
         m_strCategory = p_strCategory;
     }
 
+    public String getDeviceBrand(){
+        return this.m_strDeviceBrand;
+    }
     public String getDeviceName(){
         return this.m_strDeviceName;
     }
@@ -45,6 +50,9 @@ public class ObjPrinter {
         return m_strCategory;
     }
 
+    public void setDeviceBrand(String p_strDeviceBrand){
+        this.m_strDeviceBrand = p_strDeviceBrand;
+    }
     public void setDeviceName(String p_strDeviceName){
         this.m_strDeviceName = p_strDeviceName;
     }

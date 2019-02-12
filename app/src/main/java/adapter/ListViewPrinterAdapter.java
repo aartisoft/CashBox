@@ -16,6 +16,7 @@ import com.example.dd.cashbox.R;
 import java.util.List;
 
 import objects.ObjPrinter;
+import objects.ObjPrinterSearch;
 
 public class ListViewPrinterAdapter extends BaseAdapter {
 
@@ -59,6 +60,9 @@ public class ListViewPrinterAdapter extends BaseAdapter {
     }
     public String getMacAddress(int position){
         return m_List.get(position).getMacAddress();
+    }
+    public ObjPrinter getObjPrinter(int position){
+        return m_List.get(position);
     }
 
 

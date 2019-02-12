@@ -61,6 +61,9 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
     public String getBdAddress(int position){
         return m_List.get(position).getBdAddress();
     }
+    public ObjPrinterSearch getObjPrinter(int position){
+        return m_List.get(position);
+    }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {

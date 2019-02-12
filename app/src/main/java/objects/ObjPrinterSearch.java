@@ -1,6 +1,7 @@
 package objects;
 
 public class ObjPrinterSearch {
+    private String m_strDeviceBrand;
     private String m_strDeviceName;
     private int m_iDeviceType;
     private String m_strTarget;
@@ -10,8 +11,9 @@ public class ObjPrinterSearch {
 
     private boolean m_bChecked = false;
 
-    public ObjPrinterSearch(String p_strDeviceName, int p_iDeviceType, String p_strTarget, String p_strIpAddress
+    public void setPrinter(String p_strDeviceBrand, String p_strDeviceName, int p_iDeviceType, String p_strTarget, String p_strIpAddress
                             , String p_strMacAddress, String p_strBdAddress, boolean p_bChecked) {
+        this.m_strDeviceBrand = p_strDeviceBrand;
         this.m_strDeviceName = p_strDeviceName;
         this.m_iDeviceType = p_iDeviceType;
         this.m_strTarget = p_strTarget;
@@ -21,6 +23,9 @@ public class ObjPrinterSearch {
         this.m_bChecked = p_bChecked;
     }
 
+    public String getDeviceBrand(){
+        return this.m_strDeviceBrand;
+    }
     public String getDeviceName(){
         return this.m_strDeviceName;
     }
@@ -43,6 +48,9 @@ public class ObjPrinterSearch {
         return m_bChecked;
     }
 
+    public void setDeviceBrand(String p_strDeviceBrand){
+        this.m_strDeviceBrand = p_strDeviceBrand;
+    }
     public void setDeviceName(String p_strDeviceName){
         this.m_strDeviceName = p_strDeviceName;
     }
