@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import adapter.ListViewPrinterDetailAdapter;
 import epson.EpsonPrint;
@@ -202,6 +203,9 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 catch (Exception e){
 
                 }
+
+
+
                 Log.e("Printer Status", strPrinterStatus);
                 handler.postDelayed(this, 1500);
             }
