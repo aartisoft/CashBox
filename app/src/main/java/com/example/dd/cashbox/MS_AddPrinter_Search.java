@@ -105,6 +105,8 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
             boolean bChecked = false;
             for(int i=0;i<m_PrinterList.size();i++)
             {
+                //get Object from adapter
+                ObjPrinterSearch printerAdapter = m_adapter.getObjPrinter(i);
                 if(m_PrinterList.get(i).isChecked()==true)
                 {
                     bChecked = true;
@@ -112,14 +114,13 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     //check if printer already existing
                     boolean bIsExisting = false;
                     for(ObjPrinter printer : GlobVar.m_lstPrinter){
-                        if(m_adapter.getTarget(i).equals(printer.getTarget())){
+                        if(printerAdapter.getTarget().equals(printer.getTarget())){
                             bIsExisting = true;
                             break;
                         }
                     }
                     //if printer is not existing then write into list
                     if(!bIsExisting){
-                        ObjPrinterSearch printerAdapter = m_adapter.getObjPrinter(i);
 
                         ObjPrinter printer = new ObjPrinter();
                         printer.setPrinter(printerAdapter.getDeviceBrand(), printerAdapter.getDeviceName(), printerAdapter.getDeviceType(), printerAdapter.getTarget(),

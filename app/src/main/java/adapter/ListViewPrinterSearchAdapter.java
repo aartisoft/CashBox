@@ -43,24 +43,6 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
     public void onItemSelected(int position) {
     }
 
-    public String getDeviceName(int position){
-        return m_List.get(position).getDeviceName();
-    }
-    public int getDeviceType(int position){
-        return m_List.get(position).getDeviceType();
-    }
-    public String getTarget(int position){
-        return m_List.get(position).getTarget();
-    }
-    public String getIpAddress(int position){
-        return m_List.get(position).getIpAddress();
-    }
-    public String getMacAddress(int position){
-        return m_List.get(position).getMacAddress();
-    }
-    public String getBdAddress(int position){
-        return m_List.get(position).getBdAddress();
-    }
     public ObjPrinterSearch getObjPrinter(int position){
         return m_List.get(position);
     }
