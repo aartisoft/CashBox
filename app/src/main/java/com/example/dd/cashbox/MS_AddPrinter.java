@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import adapter.ListViewPrinterAdapter;
 import global.GlobVar;
@@ -89,6 +90,7 @@ public class MS_AddPrinter extends AppCompatActivity {
     private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Toast.makeText(MS_AddPrinter.this, getResources().getString(R.string.src_DruckerNetzwerkGesucht), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MS_AddPrinter.this, MS_AddPrinter_Search.class);
             startActivity(intent);
         }

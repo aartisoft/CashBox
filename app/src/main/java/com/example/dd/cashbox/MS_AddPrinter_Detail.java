@@ -134,17 +134,22 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 //build data for listview
                 ArrayList<HashMap<String,String>> lstAttr = new ArrayList<>();
                 HashMap<String,String> hashMap = new HashMap<>();
-                hashMap.put("typ", "Druckername");
+                hashMap.put("typ", getResources().getString(R.string.src_Hersteller));
+                hashMap.put("value", printer.getDeviceBrand());
+                lstAttr.add(hashMap);
+
+                hashMap = new HashMap<>();
+                hashMap.put("typ", getResources().getString(R.string.src_DruckerName));
                 hashMap.put("value", printer.getDeviceName());
                 lstAttr.add(hashMap);
 
                 hashMap = new HashMap<>();
-                hashMap.put("typ", "IP-Adresse");
+                hashMap.put("typ",getResources().getString(R.string.src_IPAdresse));
                 hashMap.put("value", printer.getIpAddress());
                 lstAttr.add(hashMap);
 
                 hashMap = new HashMap<>();
-                hashMap.put("typ", "MAC-Adresse");
+                hashMap.put("typ", getResources().getString(R.string.src_MACAdresse));
                 hashMap.put("value", printer.getMacAddress());
                 lstAttr.add(hashMap);
 

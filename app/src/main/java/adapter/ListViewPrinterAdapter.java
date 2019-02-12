@@ -87,7 +87,7 @@ public class ListViewPrinterAdapter extends BaseAdapter {
 
         // Populate the data into the template view using the data object
         view.txtTarget.setText(m_List.get(position).getIpAddress());
-        view.txtName.setText(m_List.get(position).getDeviceName());
+        view.txtName.setText(m_List.get(position).getDeviceBrand() + " " +  m_List.get(position).getDeviceName());
 
         // Return the completed view to render on screen
         return convertView;

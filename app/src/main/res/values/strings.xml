@@ -22,6 +22,11 @@
     <string name="src_DruckerEntfernt">Drucker entfernt</string>
     <string name="src_KeineDruckerHinzugefuegt">Keine Drucker hinzugefügt</string>
     <string name="src_TestnachrichtVersendet">Testnachricht versendet</string>
+    <string name="src_Hersteller">Hersteller</string>
+    <string name="src_DruckerName">Druckername</string>
+    <string name="src_IPAdresse">IP-Adresse</string>
+    <string name="src_MACAdresse">MAC-Adresse</string>
+    <string name="src_DruckerNetzwerkGesucht">Drucker im Netzwerk werden gesucht</string>
 
     <string-array name="menusettings_entries">
         <item>@string/src_Druckerverwaltung</item>

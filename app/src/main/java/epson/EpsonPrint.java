@@ -49,8 +49,8 @@ public class EpsonPrint {
             m_Printer.addFeedLine(1);
 
             m_Printer.addTextSize(1, 1);
+            textData.append("Hersteller: " + m_objPrinter.getDeviceBrand() + "\n");
             textData.append("Druckername: " + m_objPrinter.getDeviceName() + "\n");
-            //textData.append("Druckertyp: " + Printer.TM_U220 + "\n");
             textData.append("IP-Adresse: " + m_objPrinter.getIpAddress() + "\n");
             textData.append("MAC-Adresse: " + m_objPrinter.getMacAddress() + "\n");
 

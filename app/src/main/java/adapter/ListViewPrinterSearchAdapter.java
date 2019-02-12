@@ -75,8 +75,8 @@ public class ListViewPrinterSearchAdapter extends BaseAdapter {
         }
 
         // Populate the data into the template view using the data object
+        view.txtName.setText(m_List.get(position).getDeviceBrand() + " " +  m_List.get(position).getDeviceName());
         view.txtTarget.setText(m_List.get(position).getIpAddress());
-        view.txtName.setText(m_List.get(position).getDeviceName());
         view.cbAdd.setChecked(m_List.get(position).isChecked());
 
         // Return the completed view to render on screen
