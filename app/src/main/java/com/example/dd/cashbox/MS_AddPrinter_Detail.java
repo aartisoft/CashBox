@@ -1,9 +1,12 @@
 package com.example.dd.cashbox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +28,7 @@ import objects.ObjPrinter;
 
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
+    private Context m_Context;
     private ObjPrinter m_ObjPrinter;
     private EpsonPrint m_printer;
     private String m_strSessionTarget;
@@ -50,6 +54,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         m_strSessionTarget = bundle.getString("TARGET", "NOTARGET");
 
         //init variables
+        m_Context = this;
         m_decorView = getWindow().getDecorView();
         m_listview = findViewById(R.id.ms_addprinter_listview_detail);
         m_btnDel = findViewById(R.id.ms_addprinter_detail_btnDel);
@@ -66,7 +71,13 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         setListView();
 
         //set Printer
-        m_printer = new EpsonPrint(this, m_ObjPrinter);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                m_printer = new EpsonPrint(m_Context, m_ObjPrinter);
+            }
+        }).start();
+        PrinterStatus();
 
         //set Listener
         m_btnDel.setOnClickListener(this);
@@ -156,7 +167,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
                 hashMap = new HashMap<>();
                 hashMap.put("typ", getResources().getString(R.string.src_DruckerStatus));
-                hashMap.put("value", "");
+                hashMap.put("value", "Momentan kein Status verfügbar");
                 lstAttr.add(hashMap);
 
                 m_adapter = new ListViewPrinterDetailAdapter(this, lstAttr);
@@ -180,6 +191,21 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     };
 
     private void PrinterStatus(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String strPrinterStatus = "";
+                try{
+                    strPrinterStatus = m_printer.getPrinterStatus();
+                }
+                catch (Exception e){
+
+                }
+                Log.e("Printer Status", strPrinterStatus);
+                handler.postDelayed(this, 1500);
+            }
+        }, 1500);
 
     }
 }

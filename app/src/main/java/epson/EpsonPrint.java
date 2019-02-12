@@ -3,6 +3,7 @@ package epson;
 import android.content.Context;
 import android.util.Log;
 
+import com.epson.epos2.printer.PrinterStatusInfo;
 import com.epson.epos2.printer.StatusChangeListener;
 import com.epson.epos2.printer.Printer;
 
@@ -15,27 +16,27 @@ public class EpsonPrint {
     private Context m_Context = null;
     private Printer  m_Printer = null;
     private ObjPrinter m_objPrinter;
+    private String m_status = "test";
 
     private StatusChangeListener m_StatusChangeListener = new StatusChangeListener() {
         @Override
         public void onPtrStatusChange(Printer printer, final int eventType) {
-            new Thread(new Runnable() {
-                @Override
-                public synchronized void run() {
                     switch (eventType) {
                         case Printer.EVENT_DISCONNECT:
-                            Log.e("Printer disconnected", "Printer disconnected");
+                            //Log.e("Printer disconnected", "Printer disconnected");
                             break;
                         case Printer.EVENT_ONLINE:
                             break;
                         case Printer.EVENT_OFFLINE:
-                            Log.e("Printer offline", "Printer offline");
+                            m_status = "Offline";
+                            //Log.e("Printer offline", "Printer offline");
                             break;
                         case Printer.EVENT_COVER_CLOSE:
                             //Displays notification messages
                             break;
                         case Printer.EVENT_COVER_OPEN:
-                            //Displays notification messages
+                            m_status = "Cover open";
+                            //Log.e("Cover open", "Cover open");
                             break;
                         case Printer.EVENT_PAPER_OK:
                             //Displays notification messages
@@ -62,8 +63,6 @@ public class EpsonPrint {
                             break;
                     }
                 }
-            });
-        }
     };
 
     //Constructor
@@ -84,6 +83,14 @@ public class EpsonPrint {
 
         //set Listener
         m_Printer.setStatusChangeEventListener(m_StatusChangeListener);
+
+        try {
+            m_Printer.startMonitor();
+            m_Printer.setInterval(1000);
+        }
+        catch(Exception e){
+
+        }
     }
 
     public void printTestMsg(){
@@ -241,5 +248,9 @@ public class EpsonPrint {
             return false;
         }
         return true;
+    }
+
+    public String getPrinterStatus(){
+        return m_status;
     }
 }
