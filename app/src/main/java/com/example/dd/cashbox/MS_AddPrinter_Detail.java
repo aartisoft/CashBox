@@ -22,6 +22,7 @@ import epson.EpsonPrint;
 import global.GlobVar;
 import objects.ObjPrinter;
 
+
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
     private ObjPrinter m_ObjPrinter;
@@ -153,6 +154,11 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 hashMap.put("value", printer.getMacAddress());
                 lstAttr.add(hashMap);
 
+                hashMap = new HashMap<>();
+                hashMap.put("typ", getResources().getString(R.string.src_DruckerStatus));
+                hashMap.put("value", "");
+                lstAttr.add(hashMap);
+
                 m_adapter = new ListViewPrinterDetailAdapter(this, lstAttr);
                 m_listview.setAdapter(m_adapter);
 
@@ -172,4 +178,8 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
             }
         }
     };
+
+    private void PrinterStatus(){
+
+    }
 }

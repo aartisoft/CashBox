@@ -27,6 +27,7 @@
     <string name="src_IPAdresse">IP-Adresse</string>
     <string name="src_MACAdresse">MAC-Adresse</string>
     <string name="src_DruckerNetzwerkGesucht">Drucker im Netzwerk werden gesucht</string>
+    <string name="src_DruckerStatus">Druckerstatus</string>
 
     <string-array name="menusettings_entries">
         <item>@string/src_Druckerverwaltung</item>

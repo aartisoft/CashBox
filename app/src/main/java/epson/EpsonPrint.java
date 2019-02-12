@@ -1,11 +1,10 @@
 package epson;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import com.epson.epos2.printer.StatusChangeListener;
 import com.epson.epos2.printer.Printer;
-import com.example.dd.cashbox.R;
 
 import global.GlobVar;
 import objects.ObjPrinter;
@@ -16,6 +15,56 @@ public class EpsonPrint {
     private Context m_Context = null;
     private Printer  m_Printer = null;
     private ObjPrinter m_objPrinter;
+
+    private StatusChangeListener m_StatusChangeListener = new StatusChangeListener() {
+        @Override
+        public void onPtrStatusChange(Printer printer, final int eventType) {
+            new Thread(new Runnable() {
+                @Override
+                public synchronized void run() {
+                    switch (eventType) {
+                        case Printer.EVENT_DISCONNECT:
+                            Log.e("Printer disconnected", "Printer disconnected");
+                            break;
+                        case Printer.EVENT_ONLINE:
+                            break;
+                        case Printer.EVENT_OFFLINE:
+                            Log.e("Printer offline", "Printer offline");
+                            break;
+                        case Printer.EVENT_COVER_CLOSE:
+                            //Displays notification messages
+                            break;
+                        case Printer.EVENT_COVER_OPEN:
+                            //Displays notification messages
+                            break;
+                        case Printer.EVENT_PAPER_OK:
+                            //Displays notification messages
+                            break;
+                        case Printer.EVENT_PAPER_NEAR_END:
+                            //Displays notification messages
+                            break;
+                        case Printer.EVENT_PAPER_EMPTY:
+                            //Displays notification messages
+                            break;
+                        case Printer.EVENT_DRAWER_HIGH:
+                            //Displays notification messages
+                            break;
+                        case Printer.EVENT_DRAWER_LOW:
+                            //Displays notification messages
+                            break;
+                        case Printer.EVENT_BATTERY_ENOUGH:
+                            //Displays notification messages
+                            break;
+                        case Printer.EVENT_BATTERY_EMPTY:
+                            //Displays notification messages
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+        }
+    };
 
     //Constructor
     public EpsonPrint(Context p_Context, ObjPrinter p_objPrinter){
@@ -30,7 +79,11 @@ public class EpsonPrint {
             Log.e("init mPrinter", e.toString());
         }
 
+        //connect to Printer
         connectPrinter();
+
+        //set Listener
+        m_Printer.setStatusChangeEventListener(m_StatusChangeListener);
     }
 
     public void printTestMsg(){
@@ -189,5 +242,4 @@ public class EpsonPrint {
         }
         return true;
     }
-
 }
