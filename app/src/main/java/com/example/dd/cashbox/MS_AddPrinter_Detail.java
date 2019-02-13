@@ -218,8 +218,6 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                     iCounter++;
                 }
 
-
-
                 Log.e("Printer Status", strPrinterStatus);
                 handler.postDelayed(this, 1500);
             }

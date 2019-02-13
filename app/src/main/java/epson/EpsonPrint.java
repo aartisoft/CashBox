@@ -16,47 +16,43 @@ public class EpsonPrint {
     private Context m_Context = null;
     private Printer  m_Printer = null;
     private ObjPrinter m_objPrinter;
-    private String m_status = "test";
+    private String m_status = "Offline";
 
     private StatusChangeListener m_StatusChangeListener = new StatusChangeListener() {
         @Override
         public void onPtrStatusChange(Printer printer, final int eventType) {
                     switch (eventType) {
                         case Printer.EVENT_DISCONNECT:
-                            //Log.e("Printer disconnected", "Printer disconnected");
+                            m_status = "Offline";
+                            reconnectPrinter();
                             break;
                         case Printer.EVENT_ONLINE:
+                            m_status = "Online";
                             break;
                         case Printer.EVENT_OFFLINE:
                             m_status = "Offline";
-                            //Log.e("Printer offline", "Printer offline");
+                            reconnectPrinter();
                             break;
                         case Printer.EVENT_COVER_CLOSE:
-                            //Displays notification messages
+                            m_status = "Online";
                             break;
                         case Printer.EVENT_COVER_OPEN:
-                            m_status = "Cover open";
+                            m_status = "Online - Abdeckung geöffnet";
                             //Log.e("Cover open", "Cover open");
                             break;
                         case Printer.EVENT_PAPER_OK:
-                            //Displays notification messages
+                            m_status = "Online";
                             break;
                         case Printer.EVENT_PAPER_NEAR_END:
-                            //Displays notification messages
+                            m_status = "Online - Papier fast leer";
                             break;
                         case Printer.EVENT_PAPER_EMPTY:
-                            //Displays notification messages
+                            m_status = "Online - Papier leer";
                             break;
                         case Printer.EVENT_DRAWER_HIGH:
                             //Displays notification messages
                             break;
                         case Printer.EVENT_DRAWER_LOW:
-                            //Displays notification messages
-                            break;
-                        case Printer.EVENT_BATTERY_ENOUGH:
-                            //Displays notification messages
-                            break;
-                        case Printer.EVENT_BATTERY_EMPTY:
                             //Displays notification messages
                             break;
                         default:
@@ -248,6 +244,41 @@ public class EpsonPrint {
             return false;
         }
         return true;
+    }
+
+    private void reconnectPrinter(){
+        PrinterStatusInfo printerStatusInfo = m_Printer.getStatus();
+        boolean bConnection = false;
+
+        if(printerStatusInfo.getOnline() == Printer.TRUE) {
+            bConnection = true;
+        }
+        else {
+            bConnection = false;
+        }
+
+        while(!bConnection) {
+            try {
+                m_Printer.connect(m_objPrinter.getTarget(), Printer.PARAM_DEFAULT);
+            } catch (Exception e) {
+                Log.e("Connect failed", e.toString());
+            }
+
+            if(printerStatusInfo.getOnline() == Printer.TRUE) {
+                bConnection = true;
+            }
+            else {
+                bConnection = false;
+            }
+        }
+
+        try {
+            m_Printer.beginTransaction();
+            //isBeginTransaction = true;
+        }
+        catch (Exception e) {
+            Log.e("beginTransaction failed", e.toString());
+        }
     }
 
     public String getPrinterStatus(){
