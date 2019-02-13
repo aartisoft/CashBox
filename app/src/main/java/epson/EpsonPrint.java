@@ -3,6 +3,7 @@ package epson;
 import android.content.Context;
 import android.util.Log;
 
+import com.epson.epos2.ConnectionListener;
 import com.epson.epos2.printer.PrinterStatusInfo;
 import com.epson.epos2.printer.StatusChangeListener;
 import com.epson.epos2.printer.Printer;
@@ -24,14 +25,14 @@ public class EpsonPrint {
                     switch (eventType) {
                         case Printer.EVENT_DISCONNECT:
                             m_status = "Offline";
-                            reconnectPrinter();
+                            //reconnectPrinter();
                             break;
                         case Printer.EVENT_ONLINE:
                             m_status = "Online";
                             break;
                         case Printer.EVENT_OFFLINE:
                             m_status = "Offline";
-                            reconnectPrinter();
+                            //reconnectPrinter();
                             break;
                         case Printer.EVENT_COVER_CLOSE:
                             m_status = "Online";
@@ -61,6 +62,23 @@ public class EpsonPrint {
                 }
     };
 
+    private ConnectionListener m_ConnectionListener = new ConnectionListener() {
+        @Override
+        public void onConnection(Object o, int eventType) {
+            switch (eventType) {
+                case Printer.EVENT_DISCONNECT:
+                    //m_status = "Offline";
+                    reconnectPrinter();
+                    break;
+                case Printer.EVENT_RECONNECTING:
+                    //m_status = "Online";
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     //Constructor
     public EpsonPrint(Context p_Context, ObjPrinter p_objPrinter){
         m_Context = p_Context;
@@ -79,6 +97,7 @@ public class EpsonPrint {
 
         //set Listener
         m_Printer.setStatusChangeEventListener(m_StatusChangeListener);
+        m_Printer.setConnectionEventListener(m_ConnectionListener);
 
         try {
             m_Printer.startMonitor();
