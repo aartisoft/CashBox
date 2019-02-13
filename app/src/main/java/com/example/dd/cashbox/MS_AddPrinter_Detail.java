@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 
 import adapter.ListViewPrinterDetailAdapter;
 import epson.EpsonPrint;
@@ -29,6 +29,7 @@ import objects.ObjPrinter;
 
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
+    private ArrayList<HashMap<String,String>> m_lstViewAttr;
     private Context m_Context;
     private ObjPrinter m_ObjPrinter;
     private EpsonPrint m_printer;
@@ -145,33 +146,33 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
             if(m_strSessionTarget.equals(printer.getMacAddress())){
 
                 //build data for listview
-                ArrayList<HashMap<String,String>> lstAttr = new ArrayList<>();
+                m_lstViewAttr = new ArrayList<>();
                 HashMap<String,String> hashMap = new HashMap<>();
                 hashMap.put("typ", getResources().getString(R.string.src_Hersteller));
                 hashMap.put("value", printer.getDeviceBrand());
-                lstAttr.add(hashMap);
+                m_lstViewAttr.add(hashMap);
 
                 hashMap = new HashMap<>();
                 hashMap.put("typ", getResources().getString(R.string.src_DruckerName));
                 hashMap.put("value", printer.getDeviceName());
-                lstAttr.add(hashMap);
+                m_lstViewAttr.add(hashMap);
 
                 hashMap = new HashMap<>();
                 hashMap.put("typ",getResources().getString(R.string.src_IPAdresse));
                 hashMap.put("value", printer.getIpAddress());
-                lstAttr.add(hashMap);
+                m_lstViewAttr.add(hashMap);
 
                 hashMap = new HashMap<>();
                 hashMap.put("typ", getResources().getString(R.string.src_MACAdresse));
                 hashMap.put("value", printer.getMacAddress());
-                lstAttr.add(hashMap);
+                m_lstViewAttr.add(hashMap);
 
                 hashMap = new HashMap<>();
                 hashMap.put("typ", getResources().getString(R.string.src_DruckerStatus));
                 hashMap.put("value", "Momentan kein Status verfügbar");
-                lstAttr.add(hashMap);
+                m_lstViewAttr.add(hashMap);
 
-                m_adapter = new ListViewPrinterDetailAdapter(this, lstAttr);
+                m_adapter = new ListViewPrinterDetailAdapter(this, m_lstViewAttr);
                 m_listview.setAdapter(m_adapter);
 
                 m_ObjPrinter = printer;
@@ -202,6 +203,19 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 }
                 catch (Exception e){
 
+                }
+
+                //update ListView with adapter
+                int iCounter = 0;
+                for(HashMap<String,String> map : m_lstViewAttr){
+                    if(map.get("typ").equals(getResources().getString(R.string.src_DruckerStatus))){
+                        m_lstViewAttr.get(iCounter).put("value", strPrinterStatus);
+
+                        m_listview.setAdapter(new ListViewPrinterDetailAdapter(m_Context, m_lstViewAttr));
+                        m_adapter.notifyDataSetChanged();
+                        break;
+                    }
+                    iCounter++;
                 }
 
 
