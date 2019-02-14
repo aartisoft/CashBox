@@ -401,7 +401,7 @@ public class EpsonPrintTestMsg {
         return true;
     }
 
-    private void threadDisconnectPrinter(){
+    public void threadDisconnectPrinter(){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -413,19 +413,19 @@ public class EpsonPrintTestMsg {
     public String getPrinterStatus(){
 
         if (!initalizePrinter()) {
-            String msg = "can't init Printer";
+            String msg = "";
             threadDisconnectPrinter();
             return msg;
         }
 
         if (m_Printer == null) {
-            String msg = "can't init Printer";
+            String msg = "";
             threadDisconnectPrinter();
             return msg;
         }
 
         if (!connectPrinter()) {
-            String msg = "can't init Printer";
+            String msg = "";
             threadDisconnectPrinter();
             return msg;
         }

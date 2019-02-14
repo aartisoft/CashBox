@@ -29,8 +29,10 @@ import objects.ObjPrinter;
 
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
+    private Handler m_handler;
+    private Runnable m_runnable;
     private boolean m_bPrintStatus = false;
-    private String m_strPrinterStatus;
+    private String m_strPrinterStatus = "";
     private ArrayList<HashMap<String,String>> m_lstViewAttr;
     private Context m_Context;
     private ObjPrinter m_ObjPrinter;
@@ -76,7 +78,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         //set Printer
         m_printer =  new EpsonPrintTestMsg(m_Context, m_ObjPrinter);
-        PrinterStatus();
+        PrinterStatusDelayed();
 
         //set Listener
         m_btnDel.setOnClickListener(this);
@@ -110,6 +112,9 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 return true;
 
             case R.id.testdruck_menu:
+                m_handler.removeCallbacks(m_runnable);
+                m_printer.threadDisconnectPrinter();
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -127,17 +132,15 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                         String strPrinterWarning = m_printer.getPrinterWarning();
 
                         if(m_bPrintStatus){
-                            Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht erfolgreich gesendet "  + strPrinterError + " " + strPrinterWarning, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht erfolgreich gesendet", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht erfolgreich gesendet "  + strPrinterError + " " + strPrinterWarning, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht nicht erfolgreich gesendet \n"  + strPrinterError + " " + strPrinterWarning, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, 2000);
-                return true;
 
-            case R.id.statusaktualisieren_menu:
-                PrinterStatus();
+                PrinterStatusDelayed();
                 return true;
 
             default:
@@ -192,7 +195,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
                 hashMap = new HashMap<>();
                 hashMap.put("typ", getResources().getString(R.string.src_DruckerStatus));
-                hashMap.put("value", "Momentan kein Status verfügbar");
+                hashMap.put("value", "Offline");
                 m_lstViewAttr.add(hashMap);
 
                 m_adapter = new ListViewPrinterDetailAdapter(this, m_lstViewAttr);
@@ -215,21 +218,22 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         }
     };
 
-    private void PrinterStatus(){
-        m_strPrinterStatus = "";
-
-        new Thread(new Runnable() {
+    private void PrinterStatusDelayed(){
+        m_handler = new Handler();
+        m_handler.postDelayed(m_runnable = new Runnable() {
             @Override
             public void run() {
-                m_strPrinterStatus = m_printer.getPrinterStatus();
-            }
-        }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        m_strPrinterStatus = m_strPrinterStatus = m_printer.getPrinterStatus();
+                    }
+                }).start();
 
-        final Handler handler = new Handler();
-        Runnable runToast;
-        handler.postDelayed(runToast = new Runnable() {
-            @Override
-            public void run() {
+                if(m_strPrinterStatus.equals("")){
+                    m_strPrinterStatus = "Offline";
+                }
+
                 //update ListView with adapter
                 int iCounter = 0;
                 for(HashMap<String,String> map : m_lstViewAttr){
@@ -243,7 +247,37 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                     iCounter++;
                 }
                 Log.e("Printer Status", m_strPrinterStatus);
+                m_handler.postDelayed(this, 5000);
             }
-        }, 1000);
+        }, 5000);
+    }
+
+    private void PrinterStatus(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                m_strPrinterStatus = m_strPrinterStatus = m_printer.getPrinterStatus();
+            }
+        }).start();
+
+        if(m_strPrinterStatus.equals("")){
+            m_strPrinterStatus = "Offline";
+        }
+
+        //update ListView with adapter
+        int iCounter = 0;
+        for(HashMap<String,String> map : m_lstViewAttr){
+            if(map.get("typ").equals(getResources().getString(R.string.src_DruckerStatus))){
+                m_lstViewAttr.get(iCounter).put("value", m_strPrinterStatus);
+
+                m_listview.setAdapter(new ListViewPrinterDetailAdapter(m_Context, m_lstViewAttr));
+                m_adapter.notifyDataSetChanged();
+                break;
+            }
+            iCounter++;
+        }
+        Log.e("Printer Status", m_strPrinterStatus);
+
+        PrinterStatusDelayed();
     }
 }
