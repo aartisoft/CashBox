@@ -79,8 +79,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         //set Printer
         m_printer =  new EpsonPrintTestMsg(m_Context, m_ObjPrinter);
-        m_iHandlerTime = 0;
-        PrinterStatusDelayed();
+        PrinterStatus();
 
         //set Listener
         m_btnDel.setOnClickListener(this);
@@ -107,8 +106,6 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                m_handler.removeCallbacks(m_runnable);
-                m_printer.threadDisconnectPrinter();
                 Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -116,9 +113,6 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 return true;
 
             case R.id.testdruck_menu:
-                m_handler.removeCallbacks(m_runnable);
-                m_printer.threadDisconnectPrinter();
-
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -144,7 +138,11 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                     }
                 }, 3000);
 
-                PrinterStatusDelayed();
+                PrinterStatus();
+                return true;
+
+            case R.id.statusaktualisieren_menu:
+                PrinterStatus();
                 return true;
 
             default:
@@ -222,22 +220,20 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         }
     };
 
-    private void PrinterStatusDelayed(){
-        m_handler = new Handler();
-        m_handler.postDelayed(m_runnable = new Runnable() {
+    private void PrinterStatus(){
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        m_strPrinterStatus = m_strPrinterStatus = m_printer.getPrinterStatus();
-                    }
-                }).start();
+                m_strPrinterStatus = m_strPrinterStatus = m_printer.getPrinterStatus();
+            }
+        }).start();
 
-                if(m_strPrinterStatus.equals("")){
-                    m_strPrinterStatus = "Offline";
-                }
 
+        final Handler handler = new Handler();
+        Runnable runToast;
+        handler.postDelayed(runToast = new Runnable() {
+            @Override
+            public void run() {
                 //update ListView with adapter
                 int iCounter = 0;
                 for(HashMap<String,String> map : m_lstViewAttr){
@@ -251,11 +247,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                     iCounter++;
                 }
                 Log.e("Printer Status", m_strPrinterStatus);
-                m_handler.postDelayed(this, m_iHandlerTime);
             }
-        }, m_iHandlerTime);
-
-        //set HandlerTime Delay to 5s
-        m_iHandlerTime = 5000;
+        }, 3000);
     }
 }
