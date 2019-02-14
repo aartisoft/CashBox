@@ -45,7 +45,8 @@
     <string name="handlingmsg_err_battery">Battery of printer is hot.\n</string>
     <string name="handlingmsg_err_wrong_paper">Please set correct roll paper.\n</string>
     <string name="handlingmsg_err_battery_real_end">Please connect AC adapter or change the battery.\nBattery of printer is almost empty.\n</string>
-    <string name="handlingmsg_err_offline">Printer is offline.\n</string>
+    <string name="handlingmsg_err_offline">Offline\n</string>
+    <string name="handlingmsg_online">Online - Ready to print\n</string>
 
     <string-array name="menusettings_entries">
         <item>@string/src_Druckerverwaltung</item>

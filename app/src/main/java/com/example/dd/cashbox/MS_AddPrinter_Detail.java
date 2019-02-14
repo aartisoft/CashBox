@@ -30,6 +30,7 @@ import objects.ObjPrinter;
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
     private boolean m_bPrintStatus = false;
+    private String m_strPrinterStatus;
     private ArrayList<HashMap<String,String>> m_lstViewAttr;
     private Context m_Context;
     private ObjPrinter m_ObjPrinter;
@@ -75,6 +76,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         //set Printer
         m_printer =  new EpsonPrintTestMsg(m_Context, m_ObjPrinter);
+        PrinterStatus();
 
         //set Listener
         m_btnDel.setOnClickListener(this);
@@ -136,8 +138,8 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
             case R.id.statusaktualisieren_menu:
                 PrinterStatus();
-
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -214,20 +216,34 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     };
 
     private void PrinterStatus(){
-        String strPrinterStatus = m_printer.getPrinterStatus();
+        m_strPrinterStatus = "";
 
-        //update ListView with adapter
-        int iCounter = 0;
-        for(HashMap<String,String> map : m_lstViewAttr){
-            if(map.get("typ").equals(getResources().getString(R.string.src_DruckerStatus))){
-                m_lstViewAttr.get(iCounter).put("value", strPrinterStatus);
-
-                m_listview.setAdapter(new ListViewPrinterDetailAdapter(m_Context, m_lstViewAttr));
-                m_adapter.notifyDataSetChanged();
-                break;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                m_strPrinterStatus = m_printer.getPrinterStatus();
             }
-            iCounter++;
-        }
-        Log.e("Printer Status", strPrinterStatus);
+        }).start();
+
+        final Handler handler = new Handler();
+        Runnable runToast;
+        handler.postDelayed(runToast = new Runnable() {
+            @Override
+            public void run() {
+                //update ListView with adapter
+                int iCounter = 0;
+                for(HashMap<String,String> map : m_lstViewAttr){
+                    if(map.get("typ").equals(getResources().getString(R.string.src_DruckerStatus))){
+                        m_lstViewAttr.get(iCounter).put("value", m_strPrinterStatus);
+
+                        m_listview.setAdapter(new ListViewPrinterDetailAdapter(m_Context, m_lstViewAttr));
+                        m_adapter.notifyDataSetChanged();
+                        break;
+                    }
+                    iCounter++;
+                }
+                Log.e("Printer Status", m_strPrinterStatus);
+            }
+        }, 1000);
     }
 }

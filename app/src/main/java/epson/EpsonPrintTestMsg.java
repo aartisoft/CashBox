@@ -109,12 +109,7 @@ public class EpsonPrintTestMsg {
             dispPrinterWarnings(printerStatusInfo);
             m_PrinterError = makeErrorMessage(printerStatusInfo);
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    disconnectPrinter();
-                }
-            }).start();
+            threadDisconnectPrinter();
         }
     };
 
@@ -291,6 +286,9 @@ public class EpsonPrintTestMsg {
         if (status.getOnline() == Printer.FALSE) {
             msg += m_Context.getResources().getString(R.string.handlingmsg_err_offline);
         }
+        if (status.getOnline() == Printer.TRUE) {
+            msg += m_Context.getResources().getString(R.string.handlingmsg_online);
+        }
         if (status.getConnection() == Printer.FALSE) {
             msg += m_Context.getResources().getString(R.string.handlingmsg_err_no_response);
         }
@@ -333,6 +331,8 @@ public class EpsonPrintTestMsg {
 
         return msg;
     }
+
+
 
     private void dispPrinterWarnings(PrinterStatusInfo status) {
         String warningsMsg = "";
@@ -401,41 +401,38 @@ public class EpsonPrintTestMsg {
         return true;
     }
 
-    private boolean sendData() {
-        if (m_Printer == null) {
-            return false;
-        }
-
-        try {
-            m_Printer.sendData(Printer.PARAM_DEFAULT);
-        }
-        catch (Exception e) {
-            Log.e("printData", e.toString());
-            return false;
-        }
-
-        return true;
+    private void threadDisconnectPrinter(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                disconnectPrinter();
+            }
+        }).start();
     }
 
     public String getPrinterStatus(){
 
         if (!initalizePrinter()) {
             String msg = "can't init Printer";
+            threadDisconnectPrinter();
             return msg;
         }
 
         if (m_Printer == null) {
             String msg = "can't init Printer";
+            threadDisconnectPrinter();
             return msg;
         }
 
         if (!connectPrinter()) {
             String msg = "can't init Printer";
+            threadDisconnectPrinter();
             return msg;
         }
 
         PrinterStatusInfo status = m_Printer.getStatus();
         String errmsg = makeErrorMessage(status);
+        threadDisconnectPrinter();
         return errmsg;
     }
 
