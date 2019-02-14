@@ -29,6 +29,7 @@ import objects.ObjPrinter;
 
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
+    private int m_iHandlerTime;
     private Handler m_handler;
     private Runnable m_runnable;
     private boolean m_bPrintStatus = false;
@@ -78,6 +79,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         //set Printer
         m_printer =  new EpsonPrintTestMsg(m_Context, m_ObjPrinter);
+        m_iHandlerTime = 0;
         PrinterStatusDelayed();
 
         //set Listener
@@ -105,6 +107,8 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         switch (item.getItemId()) {
             case android.R.id.home:
+                m_handler.removeCallbacks(m_runnable);
+                m_printer.threadDisconnectPrinter();
                 Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -135,10 +139,10 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                             Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht erfolgreich gesendet", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht nicht erfolgreich gesendet \n"  + strPrinterError + " " + strPrinterWarning, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht nicht erfolgreich gesendet \n"  + strPrinterError + " " + strPrinterWarning, Toast.LENGTH_LONG).show();
                         }
                     }
-                }, 2000);
+                }, 3000);
 
                 PrinterStatusDelayed();
                 return true;
@@ -247,37 +251,11 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                     iCounter++;
                 }
                 Log.e("Printer Status", m_strPrinterStatus);
-                m_handler.postDelayed(this, 5000);
+                m_handler.postDelayed(this, m_iHandlerTime);
             }
-        }, 5000);
-    }
+        }, m_iHandlerTime);
 
-    private void PrinterStatus(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                m_strPrinterStatus = m_strPrinterStatus = m_printer.getPrinterStatus();
-            }
-        }).start();
-
-        if(m_strPrinterStatus.equals("")){
-            m_strPrinterStatus = "Offline";
-        }
-
-        //update ListView with adapter
-        int iCounter = 0;
-        for(HashMap<String,String> map : m_lstViewAttr){
-            if(map.get("typ").equals(getResources().getString(R.string.src_DruckerStatus))){
-                m_lstViewAttr.get(iCounter).put("value", m_strPrinterStatus);
-
-                m_listview.setAdapter(new ListViewPrinterDetailAdapter(m_Context, m_lstViewAttr));
-                m_adapter.notifyDataSetChanged();
-                break;
-            }
-            iCounter++;
-        }
-        Log.e("Printer Status", m_strPrinterStatus);
-
-        PrinterStatusDelayed();
+        //set HandlerTime Delay to 5s
+        m_iHandlerTime = 5000;
     }
 }
