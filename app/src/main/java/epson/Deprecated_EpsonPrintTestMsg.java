@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.epson.epos2.ConnectionListener;
+import com.epson.epos2.Epos2CallbackCode;
 import com.epson.epos2.printer.PrinterStatusInfo;
+import com.epson.epos2.printer.ReceiveListener;
 import com.epson.epos2.printer.StatusChangeListener;
 import com.epson.epos2.printer.Printer;
 
@@ -12,49 +14,62 @@ import global.GlobVar;
 import objects.ObjPrinter;
 
 
-public class EpsonPrint {
+public class Deprecated_EpsonPrintTestMsg {
 
     private Context m_Context = null;
     private Printer  m_Printer = null;
     private ObjPrinter m_objPrinter;
-    private String m_status = "Offline";
+    private String m_PrinterStatus = "Offline";
+    private String m_PrintStatus = "";
 
     private StatusChangeListener m_StatusChangeListener = new StatusChangeListener() {
         @Override
         public void onPtrStatusChange(Printer printer, final int eventType) {
                     switch (eventType) {
                         case Printer.EVENT_DISCONNECT:
-                            m_status = "Offline";
-                            //reconnectPrinter();
+                            m_PrinterStatus = "Offline";
+
+                            //disconnect Printer
+                            try {
+                                m_Printer.disconnect();
+                            }
+                            catch (Exception e){
+                                Log.e("init mPrinter", e.toString());
+                            }
                             break;
                         case Printer.EVENT_ONLINE:
-                            m_status = "Online";
+                            m_PrinterStatus = "Online";
                             break;
                         case Printer.EVENT_OFFLINE:
-                            m_status = "Offline";
-                            //reconnectPrinter();
+                            m_PrinterStatus = "Offline";
+
+                            //disconnect Printer
+                            try {
+                                m_Printer.disconnect();
+                            }
+                            catch (Exception e){
+                                Log.e("init mPrinter", e.toString());
+                            }
                             break;
                         case Printer.EVENT_COVER_CLOSE:
-                            m_status = "Online";
+                            m_PrinterStatus = "Online";
                             break;
                         case Printer.EVENT_COVER_OPEN:
-                            m_status = "Online - Abdeckung geöffnet";
-                            //Log.e("Cover open", "Cover open");
+                            m_PrinterStatus = "Online - Abdeckung geöffnet";
                             break;
                         case Printer.EVENT_PAPER_OK:
-                            m_status = "Online";
+                            m_PrinterStatus = "Online";
                             break;
                         case Printer.EVENT_PAPER_NEAR_END:
-                            m_status = "Online - Papier fast leer";
+                            m_PrinterStatus = "Online - Papier fast leer";
                             break;
                         case Printer.EVENT_PAPER_EMPTY:
-                            m_status = "Online - Papier leer";
+                            m_PrinterStatus = "Online - Papier leer";
                             break;
                         case Printer.EVENT_DRAWER_HIGH:
                             //Displays notification messages
                             break;
                         case Printer.EVENT_DRAWER_LOW:
-                            //Displays notification messages
                             break;
                         default:
                             break;
@@ -67,8 +82,13 @@ public class EpsonPrint {
         public void onConnection(Object o, int eventType) {
             switch (eventType) {
                 case Printer.EVENT_DISCONNECT:
-                    //m_status = "Offline";
-                    reconnectPrinter();
+                    //disconnect Printer
+                    try {
+                        m_Printer.disconnect();
+                    }
+                    catch (Exception e){
+                        Log.e("init mPrinter", e.toString());
+                    }
                     break;
                 case Printer.EVENT_RECONNECTING:
                     //m_status = "Online";
@@ -79,8 +99,31 @@ public class EpsonPrint {
         }
     };
 
+    private ReceiveListener m_ReceiveListener = new ReceiveListener(){
+        @Override
+        public void onPtrReceive(Printer printer, int eventType, PrinterStatusInfo printerStatusInfo, String s) {
+            if (eventType == Epos2CallbackCode.CODE_SUCCESS) {
+                m_PrintStatus = "Testnachricht erfolgreich gesendet";
+                Log.e("Printer Status", "send success");
+            }
+            else {
+                m_PrintStatus = "Testnachricht nicht erfolgreich gesendet";
+                Log.e("Printer Status", "send unsuccessful");
+            }
+
+            //disconnect Printer
+            try {
+                m_Printer.disconnect();
+            }
+            catch (Exception e){
+                Log.e("init mPrinter", e.toString());
+            }
+        }
+    };
+
+
     //Constructor
-    public EpsonPrint(Context p_Context, ObjPrinter p_objPrinter){
+    public Deprecated_EpsonPrintTestMsg(Context p_Context, ObjPrinter p_objPrinter){
         m_Context = p_Context;
         m_objPrinter = p_objPrinter;
 
@@ -91,6 +134,9 @@ public class EpsonPrint {
         catch (Exception e){
             Log.e("init mPrinter", e.toString());
         }
+    }
+
+    public void printTestMsg(){
 
         //connect to Printer
         connectPrinter();
@@ -98,17 +144,17 @@ public class EpsonPrint {
         //set Listener
         m_Printer.setStatusChangeEventListener(m_StatusChangeListener);
         m_Printer.setConnectionEventListener(m_ConnectionListener);
+        m_Printer.setReceiveEventListener(m_ReceiveListener);
 
+        //start monitoring
         try {
             m_Printer.startMonitor();
             m_Printer.setInterval(1000);
         }
         catch(Exception e){
-
+            Log.e("start Monitor failed", e.toString());
         }
-    }
 
-    public void printTestMsg(){
 
         m_Printer.clearCommandBuffer();
         //create message for printer
@@ -145,8 +191,6 @@ public class EpsonPrint {
                     Printer.COMPRESS_NONE);*/
 
             m_Printer.addCut(Printer.CUT_FEED);
-
-
         }
         catch (Exception e){
             Log.e("createTestMsg failed", e.toString());
@@ -162,77 +206,10 @@ public class EpsonPrint {
         }
     }
 
-    public void printBon(){
-
-        //create message for printer
-        try {
-            createBon();
-        }
-        catch (Exception e){
-            Log.e("createBon failed", e.toString());
-        }
-
-        //print message
-        try {
-            sendData();
-        }
-        catch (Exception e){
-            Log.e("sendData failed", e.toString());
-        }
-    }
-
-    private boolean createBon() {
-        StringBuilder textData = new StringBuilder();
-
-        try {
-
-            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
-
-            /*Bitmap icon = BitmapFactory.decodeResource(.getResources(),
-                    R.drawable.logo);
-
-            m_Printer.addImage(icon, 0, 0,
-                    300,
-                    150,
-                    Printer.COLOR_1,
-                    Printer.MODE_MONO,
-                    Printer.HALFTONE_DITHER,
-                    Printer.PARAM_DEFAULT,
-                    Printer.COMPRESS_AUTO);*/
-
-            m_Printer.addFeedLine(0);
-            textData.append(GlobVar.m_strBedienername + "\n");
-            textData.append("\n");
-            textData.append("25/01/2019 16:58 \n");
-            textData.append("\n");
-
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
-
-            m_Printer.addTextSize(2, 2);
-
-            m_Printer.addText("1x BIER\n");
-
-            m_Printer.addFeedLine(1);
-
-            m_Printer.addCut(Printer.CUT_FEED);
-
-        }
-        catch (Exception e) {
-            Log.e("create receipt failed", e.toString());
-            return false;
-        }
-        return true;
-    }
-
     private boolean sendData() {
         if (m_Printer == null) {
             return false;
         }
-
-        /*if (!connectPrinter()) {
-            return false;
-        }*/
 
         try {
             m_Printer.sendData(Printer.PARAM_DEFAULT);
@@ -265,7 +242,7 @@ public class EpsonPrint {
         return true;
     }
 
-    private void reconnectPrinter(){
+    public void reconnectPrinter(){
         PrinterStatusInfo printerStatusInfo = m_Printer.getStatus();
         boolean bConnection = false;
 
@@ -301,6 +278,49 @@ public class EpsonPrint {
     }
 
     public String getPrinterStatus(){
-        return m_status;
+
+        //connect to Printer
+        connectPrinter();
+
+        //set Listener
+        m_Printer.setStatusChangeEventListener(m_StatusChangeListener);
+
+        //start monitoring
+        try {
+            m_Printer.startMonitor();
+            m_Printer.setInterval(1000);
+        }
+        catch(Exception e){
+            Log.e("start Monitor failed", e.toString());
+        }
+
+        return m_PrinterStatus;
+    }
+
+    public String getPrintStatus(){
+
+        try {
+            m_Printer.clearCommandBuffer();
+            m_Printer.endTransaction();
+        }
+        catch(Exception e){
+            Log.e("start Monitor failed", e.toString());
+        }
+
+        connectPrinter();
+
+
+        //set Listener
+        m_Printer.setReceiveEventListener(m_ReceiveListener);
+
+        //start monitoring
+        try {
+            m_Printer.startMonitor();
+            m_Printer.setInterval(1000);
+        }
+        catch(Exception e){
+            Log.e("start Monitor failed", e.toString());
+        }
+        return m_PrintStatus;
     }
 }

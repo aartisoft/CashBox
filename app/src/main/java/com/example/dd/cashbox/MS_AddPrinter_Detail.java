@@ -22,17 +22,18 @@ import java.util.HashMap;
 
 
 import adapter.ListViewPrinterDetailAdapter;
-import epson.EpsonPrint;
+import epson.EpsonPrintTestMsg;
 import global.GlobVar;
 import objects.ObjPrinter;
 
 
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
+    private boolean m_bPrintStatus = false;
     private ArrayList<HashMap<String,String>> m_lstViewAttr;
     private Context m_Context;
     private ObjPrinter m_ObjPrinter;
-    private EpsonPrint m_printer;
+    private EpsonPrintTestMsg m_printer;
     private String m_strSessionTarget;
     private ListView m_listview;
     private Button m_btnDel;
@@ -73,13 +74,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         setListView();
 
         //set Printer
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                m_printer = new EpsonPrint(m_Context, m_ObjPrinter);
-            }
-        }).start();
-        PrinterStatus();
+        m_printer =  new EpsonPrintTestMsg(m_Context, m_ObjPrinter);
 
         //set Listener
         m_btnDel.setOnClickListener(this);
@@ -89,7 +84,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.user_menu, menu);
+        inflater.inflate(R.menu.ms_addprinter_detail_usermenu, menu);
         return true;
     }
 
@@ -113,9 +108,35 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 return true;
 
             case R.id.testdruck_menu:
-                m_printer.printTestMsg();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        m_bPrintStatus = m_printer.runPrintTestMsgSequence();
+                    }
+                }).start();
 
-                Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_TestnachrichtVersendet), Toast.LENGTH_SHORT).show();
+                final Handler handler = new Handler();
+                Runnable runToast;
+                handler.postDelayed(runToast = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        String strPrinterError = m_printer.getPrinterError();
+                        String strPrinterWarning = m_printer.getPrinterWarning();
+
+                        if(m_bPrintStatus){
+                            Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht erfolgreich gesendet "  + strPrinterError + " " + strPrinterWarning, Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht erfolgreich gesendet "  + strPrinterError + " " + strPrinterWarning, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, 2000);
+                return true;
+
+            case R.id.statusaktualisieren_menu:
+                PrinterStatus();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -193,35 +214,20 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     };
 
     private void PrinterStatus(){
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String strPrinterStatus = "";
-                try{
-                    strPrinterStatus = m_printer.getPrinterStatus();
-                }
-                catch (Exception e){
+        String strPrinterStatus = m_printer.getPrinterStatus();
 
-                }
+        //update ListView with adapter
+        int iCounter = 0;
+        for(HashMap<String,String> map : m_lstViewAttr){
+            if(map.get("typ").equals(getResources().getString(R.string.src_DruckerStatus))){
+                m_lstViewAttr.get(iCounter).put("value", strPrinterStatus);
 
-                //update ListView with adapter
-                int iCounter = 0;
-                for(HashMap<String,String> map : m_lstViewAttr){
-                    if(map.get("typ").equals(getResources().getString(R.string.src_DruckerStatus))){
-                        m_lstViewAttr.get(iCounter).put("value", strPrinterStatus);
-
-                        m_listview.setAdapter(new ListViewPrinterDetailAdapter(m_Context, m_lstViewAttr));
-                        m_adapter.notifyDataSetChanged();
-                        break;
-                    }
-                    iCounter++;
-                }
-
-                Log.e("Printer Status", strPrinterStatus);
-                handler.postDelayed(this, 1500);
+                m_listview.setAdapter(new ListViewPrinterDetailAdapter(m_Context, m_lstViewAttr));
+                m_adapter.notifyDataSetChanged();
+                break;
             }
-        }, 1500);
-
+            iCounter++;
+        }
+        Log.e("Printer Status", strPrinterStatus);
     }
 }
