@@ -29,6 +29,9 @@
     <string name="src_DruckerNetzwerkGesucht">Drucker im Netzwerk werden gesucht</string>
     <string name="src_DruckerStatus">Druckerstatus</string>
     <string name="src_StatusAktualisieren">Status aktualisieren</string>
+    <string name="src_DruckerStatusNichtAbrufbar">Druckerstatus nicht abrufbar. Bitte Status erneut abrufen.</string>
+    <string name="src_BitteWarten">Bitte warten...</string>
+    <string name="src_Offline">Offline</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

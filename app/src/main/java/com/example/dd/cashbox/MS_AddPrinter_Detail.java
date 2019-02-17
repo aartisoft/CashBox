@@ -197,7 +197,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
                 hashMap = new HashMap<>();
                 hashMap.put("typ", getResources().getString(R.string.src_DruckerStatus));
-                hashMap.put("value", "Offline");
+                hashMap.put("value", getResources().getString(R.string.src_BitteWarten));
                 m_lstViewAttr.add(hashMap);
 
                 m_adapter = new ListViewPrinterDetailAdapter(this, m_lstViewAttr);
@@ -231,7 +231,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
             m_strPrinterStatus = m_printer.getPrinterStatus();
 
             if(m_strPrinterStatus.equals("")){
-                m_strPrinterStatus = "Offline";
+                m_strPrinterStatus = getResources().getString(R.string.src_Offline);
             }
             return new String[0];
         }
