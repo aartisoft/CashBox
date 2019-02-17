@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +54,7 @@ public class EditTable extends AppCompatActivity {
 
         //set EditText
         m_tbTable.setText(String.valueOf(GlobVar.m_iTables), TextView.BufferType.EDITABLE);
+        m_tbTable.setCursorVisible(true);
 
         //set Listener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);

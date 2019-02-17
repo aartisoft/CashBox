@@ -57,16 +57,20 @@
 
         <EditText
             android:id="@+id/edittable_edtxt"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_alignParentTop="false"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:textColor="@color/colorBlack"
+            android:textStyle="normal"
+            android:textAlignment="center"
+            android:textSize="30dp"
             android:backgroundTint="@color/colorPrimary3"
-            android:textColorHint="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary3"
             android:textCursorDrawable="@color/colorPrimary3"
+            android:background="@null"
             android:inputType="numberSigned"/>
 
         <android.support.design.widget.FloatingActionButton
