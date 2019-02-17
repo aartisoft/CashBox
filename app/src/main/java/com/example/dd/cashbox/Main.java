@@ -76,13 +76,19 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_einstellungen) {
-            startActivity(new Intent(this, MenuSettings.class));
-        }
-
         m_DrawerLayout= findViewById(R.id.drawer_layout);
         m_DrawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+
+        switch (item.getItemId()) {
+            case R.id.nav_einstellungen:
+                startActivity(new Intent(this, MenuSettings.class));
+                return true;
+
+            case R.id.nav_tische:
+                startActivity(new Intent(this, EditTable.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

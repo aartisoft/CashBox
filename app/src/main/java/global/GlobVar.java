@@ -11,5 +11,6 @@ public abstract class GlobVar extends Application {
 
     public static List<ObjPrinter> m_lstPrinter = new ArrayList<ObjPrinter>();
     public static String m_strBedienername = "Bedienername";
+    public static int m_iTables = 0;
 
 }

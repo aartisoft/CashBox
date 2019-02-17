@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_edittable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary3"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/src_TischeBearbeiten"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edittable_textview"
+        android:text="@string/src_AnzahlTische"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_above ="@+id/toolbar_edittable"
+        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+
+    <RelativeLayout
+        android:id="@+id/edittable_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/edittable_flb_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            app:fabSize="mini"
+            app:backgroundTint="@color/colorPrimary3"
+            android:src="@drawable/ic_remove_white_24dp"
+            android:scaleType="center"
+            android:layout_margin="16dp"
+            android:clickable="true"/>
+
+        <EditText
+            android:id="@+id/edittable_edtxt"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorBlack"
+            android:backgroundTint="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary"
+            android:textCursorDrawable="@color/colorPrimary3"
+            android:inputType="numberSigned"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/edittable_flb_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            app:fabSize="mini"
+            app:backgroundTint="@color/colorPrimary3"
+            android:src="@drawable/ic_add_white_24dp"
+            android:scaleType="center"
+            android:layout_margin="16dp"
+            android:clickable="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

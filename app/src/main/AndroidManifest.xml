@@ -26,6 +26,7 @@
         <activity android:name=".MS_AddPrinter"></activity>
         <activity android:name=".MS_AddPrinter_Search"></activity>
         <activity android:name=".MS_AddPrinter_Detail"></activity>
+        <activity android:name=".EditTable"></activity>
     </application>
 
 </manifest>
