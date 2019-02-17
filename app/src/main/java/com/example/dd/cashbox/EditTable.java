@@ -105,7 +105,7 @@ public class EditTable extends AppCompatActivity {
 
             //Log.d(TAG, "keypadHeight = " + keypadHeight);
 
-            if (keypadHeight > screenHeight * 0.10) {
+            if (keypadHeight > screenHeight * 0.5) {
                 // keyboard is opened
             }
             else {
