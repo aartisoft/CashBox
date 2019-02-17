@@ -1,13 +1,13 @@
 package com.example.dd.cashbox;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,6 +30,8 @@ import objects.ObjPrinter;
 
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
+    private AlertDialog.Builder m_AlertDialogBuilder;
+    private AlertDialog m_AlertDialog;
     private Menu m_Menu;
     private MenuItem m_MenuItemTestdruck;
     private MenuItem m_MenuItemStatus;
@@ -68,6 +70,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         m_decorView = getWindow().getDecorView();
         m_listview = findViewById(R.id.ms_addprinter_listview_detail);
         m_btnDel = findViewById(R.id.ms_addprinter_detail_btnDel);
+        m_AlertDialogBuilder = new AlertDialog.Builder(this);
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -80,6 +83,13 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         //set ListView
         setListView();
 
+        //set AlertDialog
+        m_AlertDialogBuilder.setTitle(getResources().getString(R.string.src_DruckerLoeschen));
+        m_AlertDialogBuilder.setMessage(getResources().getString(R.string.src_SindSieSicher));
+        m_AlertDialogBuilder.setPositiveButton(getResources().getString(R.string.src_Ja), dialogOnclickListener);
+        m_AlertDialogBuilder.setNegativeButton(getResources().getString(R.string.src_Nein), dialogOnclickListener);
+        m_AlertDialog = m_AlertDialogBuilder.create();
+
         //set Printer
         m_printer =  new EpsonPrintTestMsg(m_Context, m_ObjPrinter);
         m_PrinterStatusTask = new PrinterStatusTask();
@@ -91,6 +101,27 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         m_btnDel.setOnClickListener(this);
         m_decorView.setOnSystemUiVisibilityChangeListener(navbarOnSystemUiVisibilityChangeListener);
     }
+
+    private DialogInterface.OnClickListener dialogOnclickListener = new DialogInterface.OnClickListener(){
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    GlobVar.m_lstPrinter.remove(m_ObjPrinter);
+                    Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_DruckerEntfernt), Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -153,15 +184,8 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     @Override
     public void onClick(View v){
         switch (v.getId()) {
-
             case R.id.ms_addprinter_detail_btnDel:
-                GlobVar.m_lstPrinter.remove(m_ObjPrinter);
-                Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_DruckerEntfernt), Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                m_AlertDialog.show();;
                 break;
 
             default:

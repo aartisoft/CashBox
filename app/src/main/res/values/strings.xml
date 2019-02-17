@@ -32,6 +32,10 @@
     <string name="src_DruckerStatusNichtAbrufbar">Druckerstatus nicht abrufbar. Bitte Status erneut abrufen.</string>
     <string name="src_BitteWarten">Bitte warten...</string>
     <string name="src_Offline">Offline</string>
+    <string name="src_Ja">Ja</string>
+    <string name="src_Nein">Nein</string>
+    <string name="src_SindSieSicher">Sind Sie sicher?</string>
+    <string name="src_DruckerLoeschen">Drucker löschen</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
