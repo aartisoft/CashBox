@@ -2,6 +2,7 @@ package com.example.dd.cashbox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -29,9 +30,7 @@ import objects.ObjPrinter;
 
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
-    private int m_iHandlerTime;
-    private Handler m_handler;
-    private Runnable m_runnable;
+    private PrinterStatusTask m_PrinterStatusTask;
     private boolean m_bPrintStatus = false;
     private String m_strPrinterStatus = "";
     private ArrayList<HashMap<String,String>> m_lstViewAttr;
@@ -79,7 +78,9 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         //set Printer
         m_printer =  new EpsonPrintTestMsg(m_Context, m_ObjPrinter);
-        PrinterStatus();
+        m_PrinterStatusTask = new PrinterStatusTask();
+        m_PrinterStatusTask.execute("Status");
+
 
         //set Listener
         m_btnDel.setOnClickListener(this);
@@ -113,36 +114,14 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 return true;
 
             case R.id.testdruck_menu:
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        m_bPrintStatus = m_printer.runPrintTestMsgSequence();
-                    }
-                }).start();
+                PrinterPrintTask printerPrintTask = new PrinterPrintTask();
+                printerPrintTask.execute("Print");
 
-                final Handler handler = new Handler();
-                Runnable runToast;
-                handler.postDelayed(runToast = new Runnable() {
-                    @Override
-                    public void run() {
-
-                        String strPrinterError = m_printer.getPrinterError();
-                        String strPrinterWarning = m_printer.getPrinterWarning();
-
-                        if(m_bPrintStatus){
-                            Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht erfolgreich gesendet", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht nicht erfolgreich gesendet \n"  + strPrinterError + " " + strPrinterWarning, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }, 3000);
-
-                PrinterStatus();
                 return true;
 
             case R.id.statusaktualisieren_menu:
-                PrinterStatus();
+                PrinterStatusTask printerStatusTask = new PrinterStatusTask();
+                printerStatusTask.execute("Status");
                 return true;
 
             default:
@@ -220,34 +199,52 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         }
     };
 
-    private void PrinterStatus(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                m_strPrinterStatus = m_strPrinterStatus = m_printer.getPrinterStatus();
+    public class PrinterStatusTask extends AsyncTask<String, Integer, String[]> {
+        @Override
+        protected String[] doInBackground(String... strings) {
+            m_strPrinterStatus = m_printer.getPrinterStatus();
+
+            if(m_strPrinterStatus.equals("")){
+                m_strPrinterStatus = "Offline";
             }
-        }).start();
+            return new String[0];
+        }
 
+        @Override
+        protected void onPostExecute(String[] strings) {
+            int iCounter = 0;
+            for(HashMap<String,String> map : m_lstViewAttr) {
+                if (map.get("typ").equals(getResources().getString(R.string.src_DruckerStatus))) {
+                    m_lstViewAttr.get(iCounter).put("value", m_strPrinterStatus);
 
-        final Handler handler = new Handler();
-        Runnable runToast;
-        handler.postDelayed(runToast = new Runnable() {
-            @Override
-            public void run() {
-                //update ListView with adapter
-                int iCounter = 0;
-                for(HashMap<String,String> map : m_lstViewAttr){
-                    if(map.get("typ").equals(getResources().getString(R.string.src_DruckerStatus))){
-                        m_lstViewAttr.get(iCounter).put("value", m_strPrinterStatus);
-
-                        m_listview.setAdapter(new ListViewPrinterDetailAdapter(m_Context, m_lstViewAttr));
-                        m_adapter.notifyDataSetChanged();
-                        break;
-                    }
-                    iCounter++;
+                    m_listview.setAdapter(new ListViewPrinterDetailAdapter(m_Context, m_lstViewAttr));
+                    m_adapter.notifyDataSetChanged();
+                    break;
                 }
-                Log.e("Printer Status", m_strPrinterStatus);
+                iCounter++;
             }
-        }, 3000);
+        }
+    }
+
+    public class PrinterPrintTask extends AsyncTask<String, Integer, String[]> {
+        @Override
+        protected String[] doInBackground(String... strings) {
+            m_bPrintStatus = m_printer.runPrintTestMsgSequence();
+
+            return new String[0];
+        }
+
+        @Override
+        protected void onPostExecute(String[] strings) {
+            String strPrinterError = m_printer.getPrinterError();
+            String strPrinterWarning = m_printer.getPrinterWarning();
+
+            if(m_bPrintStatus){
+                Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht erfolgreich gesendet", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht nicht erfolgreich gesendet \n"  + strPrinterError + " " + strPrinterWarning, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
