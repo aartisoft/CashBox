@@ -8,13 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView.OnEditorActionListener;
 
 import global.GlobVar;
 
@@ -56,7 +59,7 @@ public class EditTable extends AppCompatActivity {
 
         //set Listener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
-        m_tbTable.addTextChangedListener(keyTextWatcher);
+        m_tbTable.setOnEditorActionListener(DoneOnEditorActionListener);
         m_fab_minus.setOnClickListener(fabMinusOnClickListener);
         m_fab_plus.setOnClickListener(fabPlusOnClickListener);
     }
@@ -76,6 +79,17 @@ public class EditTable extends AppCompatActivity {
         public void onClick(View v) {
             GlobVar.m_iTables++;
             m_tbTable.setText(String.valueOf(GlobVar.m_iTables), TextView.BufferType.EDITABLE);
+        }
+    };
+
+    private OnEditorActionListener DoneOnEditorActionListener = new OnEditorActionListener(){
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                GlobVar.m_iTables = Integer.parseInt(m_tbTable.getText().toString());
+            }
+            return false;
         }
     };
 
@@ -100,21 +114,6 @@ public class EditTable extends AppCompatActivity {
                 m_tbTable.setCursorVisible(false);
                 m_decorView.setSystemUiVisibility(m_uiOptions);
             }
-        }
-    };
-
-    private TextWatcher keyTextWatcher = new TextWatcher(){
-        public void afterTextChanged(Editable s) {
-
-        }
-
-        public void beforeTextChanged(CharSequence s, int start,
-                                      int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start,
-                                  int before, int count) {
-            GlobVar.m_iTables = Integer.parseInt(m_tbTable.getText().toString());
         }
     };
 
