@@ -36,6 +36,7 @@
     <string name="src_Nein">Nein</string>
     <string name="src_SindSieSicher">Sind Sie sicher?</string>
     <string name="src_DruckerLoeschen">Drucker löschen</string>
+    <string name="src_DruckerStatusWirdAbgefragt">Druckerstatus wird abgefragt</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

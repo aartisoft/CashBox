@@ -174,6 +174,8 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 m_PrinterStatusTask = new PrinterStatusTask();
                 m_PrinterStatusTask.execute();
 
+                Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_DruckerStatusWirdAbgefragt), Toast.LENGTH_SHORT).show();
+
                 return true;
 
             default:
