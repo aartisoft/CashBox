@@ -30,7 +30,11 @@ import objects.ObjPrinter;
 
 public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickListener {
 
+    private Menu m_Menu;
+    private MenuItem m_MenuItemTestdruck;
+    private MenuItem m_MenuItemStatus;
     private PrinterStatusTask m_PrinterStatusTask;
+    private PrinterPrintTask m_PrinterPrintTask;
     private boolean m_bPrintStatus = false;
     private String m_strPrinterStatus = "";
     private ArrayList<HashMap<String,String>> m_lstViewAttr;
@@ -79,8 +83,9 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         //set Printer
         m_printer =  new EpsonPrintTestMsg(m_Context, m_ObjPrinter);
         m_PrinterStatusTask = new PrinterStatusTask();
-        m_PrinterStatusTask.execute("Status");
-
+        m_PrinterStatusTask.execute();
+        m_PrinterPrintTask = new PrinterPrintTask();
+        m_PrinterStatusTask = new PrinterStatusTask();
 
         //set Listener
         m_btnDel.setOnClickListener(this);
@@ -91,6 +96,13 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.ms_addprinter_detail_usermenu, menu);
+
+        //init menu variables
+        m_Menu = menu;
+        m_MenuItemStatus = menu.findItem(R.id.ms_Addprinterdetail_usermenu_statusaktualisieren);
+        m_MenuItemTestdruck = menu.findItem(R.id.ms_Addprinterdetail_usermenu_testdruck_menu);
+        m_MenuItemTestdruck.setEnabled(false);
+        m_MenuItemStatus.setEnabled(false);
         return true;
     }
 
@@ -107,21 +119,30 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
         switch (item.getItemId()) {
             case android.R.id.home:
+                m_PrinterStatusTask.cancel(true);
+                m_PrinterPrintTask.cancel(true);
+
                 Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
                 return true;
 
-            case R.id.testdruck_menu:
-                PrinterPrintTask printerPrintTask = new PrinterPrintTask();
-                printerPrintTask.execute("Print");
+            case R.id.ms_Addprinterdetail_usermenu_testdruck_menu:
+                m_MenuItemTestdruck.setEnabled(false);
+                m_MenuItemStatus.setEnabled(false);
 
+                m_PrinterPrintTask = new PrinterPrintTask();
+                m_PrinterPrintTask.execute();
                 return true;
 
-            case R.id.statusaktualisieren_menu:
-                PrinterStatusTask printerStatusTask = new PrinterStatusTask();
-                printerStatusTask.execute("Status");
+            case R.id.ms_Addprinterdetail_usermenu_statusaktualisieren:
+                m_MenuItemTestdruck.setEnabled(false);
+                m_MenuItemStatus.setEnabled(false);
+
+                m_PrinterStatusTask = new PrinterStatusTask();
+                m_PrinterStatusTask.execute();
+
                 return true;
 
             default:
@@ -201,6 +222,11 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
     public class PrinterStatusTask extends AsyncTask<String, Integer, String[]> {
         @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
         protected String[] doInBackground(String... strings) {
             m_strPrinterStatus = m_printer.getPrinterStatus();
 
@@ -223,6 +249,9 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                 }
                 iCounter++;
             }
+
+            m_MenuItemTestdruck.setEnabled(true);
+            m_MenuItemStatus.setEnabled(true);
         }
     }
 
@@ -245,6 +274,9 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
             else{
                 Toast.makeText(MS_AddPrinter_Detail.this, "Testnachricht nicht erfolgreich gesendet \n"  + strPrinterError + " " + strPrinterWarning, Toast.LENGTH_LONG).show();
             }
+
+            m_MenuItemTestdruck.setEnabled(true);
+            m_MenuItemStatus.setEnabled(true);
         }
     }
 }

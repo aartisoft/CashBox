@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:baselineAligned="false"
     android:gravity="center"
-    android:background="@color/colorWhite"
+    android:background="@color/colorPrimary3"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
     tools:context=".Login">
 
@@ -15,16 +15,16 @@
         android:layout_width="300dp"
         android:layout_height="120dp"
         android:id="@+id/ivLogo"
-        android:src="@drawable/loginlogo"
+        android:src="@drawable/logo"
         android:layout_below="@+id/tbLicenceKey"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="200dp"/>
 
     <EditText
         android:id="@+id/tbLicenceKey"
-        android:textColor="@color/colorBlack"
-        android:backgroundTint="@color/colorTextBox"
-        android:textColorHint="@color/colorHintText"
+        android:textColor="@color/colorWhite"
+        android:backgroundTint="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
         android:hint="Lizenzkey"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
     <Button
         android:id="@+id/btnLogin"
         android:textColor="@color/colorButtonText"
-        android:background="@drawable/roundedbutton_blue"
+        android:background="@drawable/roundedbutton_silver"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"

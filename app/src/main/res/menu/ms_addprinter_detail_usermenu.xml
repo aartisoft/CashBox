@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-    android:id="@+id/testdruck_menu"
-    android:orderInCategory="100"
-    android:title="@string/src_Testdruck"
-    app:showAsAction="never" />
+        android:id="@+id/ms_Addprinterdetail_usermenu_testdruck_menu"
+        android:orderInCategory="100"
+        android:title="@string/src_Testdruck"
+        app:showAsAction="never" />
     <item
-        android:id="@+id/statusaktualisieren_menu"
+        android:id="@+id/ms_Addprinterdetail_usermenu_statusaktualisieren"
         android:orderInCategory="100"
         android:title="@string/src_StatusAktualisieren"
         app:showAsAction="never" />
