@@ -22,8 +22,7 @@ public class EpsonDiscover {
     private DiscoveryListener m_DiscoveryListener = new DiscoveryListener() {
         @Override
         public void onDiscovery(final DeviceInfo deviceInfo) {
-            ObjPrinterSearch printer = new ObjPrinterSearch();
-            printer.setPrinter("Epson", deviceInfo.getDeviceName(), deviceInfo.getDeviceType(),
+            ObjPrinterSearch printer = new ObjPrinterSearch("Epson", deviceInfo.getDeviceName(), deviceInfo.getDeviceType(),
                     deviceInfo.getTarget(), deviceInfo.getIpAddress(),
                     deviceInfo.getMacAddress(), deviceInfo.getBdAddress(), false);
 

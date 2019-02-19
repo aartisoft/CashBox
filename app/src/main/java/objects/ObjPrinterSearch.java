@@ -11,7 +11,7 @@ public class ObjPrinterSearch {
 
     private boolean m_bChecked = false;
 
-    public void setPrinter(String p_strDeviceBrand, String p_strDeviceName, int p_iDeviceType, String p_strTarget, String p_strIpAddress
+    public ObjPrinterSearch(String p_strDeviceBrand, String p_strDeviceName, int p_iDeviceType, String p_strTarget, String p_strIpAddress
                             , String p_strMacAddress, String p_strBdAddress, boolean p_bChecked) {
         this.m_strDeviceBrand = p_strDeviceBrand;
         this.m_strDeviceName = p_strDeviceName;

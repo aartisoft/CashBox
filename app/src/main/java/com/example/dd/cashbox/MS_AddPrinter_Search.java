@@ -122,8 +122,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     //if printer is not existing then write into list
                     if(!bIsExisting){
 
-                        ObjPrinter printer = new ObjPrinter();
-                        printer.setPrinter(printerAdapter.getDeviceBrand(), printerAdapter.getDeviceName(), printerAdapter.getDeviceType(), printerAdapter.getTarget(),
+                        ObjPrinter printer = new ObjPrinter(printerAdapter.getDeviceBrand(), printerAdapter.getDeviceName(), printerAdapter.getDeviceType(), printerAdapter.getTarget(),
                                 printerAdapter.getIpAddress(), printerAdapter.getMacAddress(), printerAdapter.getBdAddress(), "");
 
 
