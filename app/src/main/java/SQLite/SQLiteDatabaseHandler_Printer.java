@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import objects.ObjPrinter;
 
 public class SQLiteDatabaseHandler_Printer extends SQLiteOpenHelper {
@@ -26,7 +30,7 @@ public class SQLiteDatabaseHandler_Printer extends SQLiteOpenHelper {
     private static final String[] COLUMNS = { KEY_ID, KEY_DEVICEBRAND, KEY_DEVICENAME, KEY_DEVICETYPE,
             KEY_TARGET, KEY_IPADRESS, KEY_MACADRESS, KEY_BDADRESS, KEY_CATEGORY };
 
-    SQLiteDatabaseHandler_Printer(Context context){
+    public SQLiteDatabaseHandler_Printer(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -45,6 +49,32 @@ public class SQLiteDatabaseHandler_Printer extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         this.onCreate(db);
+    }
+
+    public List<ObjPrinter> allPrinters() {
+
+        List<ObjPrinter> printers = new ArrayList<ObjPrinter>();
+        String query = "SELECT  * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        ObjPrinter printer = null;
+
+        if (cursor.moveToFirst()) {
+            do {
+                printer = new ObjPrinter();
+                printer.setDeviceBrand(cursor.getString(1));
+                printer.setDeviceName(cursor.getString(2));
+                printer.setDeviceType(Integer.parseInt(cursor.getString(3)));
+                printer.setTarget(cursor.getString(4));
+                printer.setIpAdress(cursor.getString(5));
+                printer.setMacAddress(cursor.getString(6));
+                printer.setBdAddress(cursor.getString(7));
+                printer.setCategory(cursor.getString(8));
+                printers.add(printer);
+            } while (cursor.moveToNext());
+        }
+
+        return printers;
     }
 
     public ObjPrinter getPrinter(int id) {
@@ -111,5 +141,12 @@ public class SQLiteDatabaseHandler_Printer extends SQLiteOpenHelper {
         db.close();
 
         return i;
+    }
+
+    public void deletePrinter(ObjPrinter printer) {
+        // Get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, "macadress = ?", new String[] { String.valueOf(printer.getMacAddress()) });
+        db.close();
     }
 }

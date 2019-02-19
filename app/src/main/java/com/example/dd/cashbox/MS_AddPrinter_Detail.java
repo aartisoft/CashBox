@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
+import SQLite.SQLiteDatabaseHandler_Printer;
 import adapter.ListViewPrinterDetailAdapter;
 import epson.EpsonPrintTestMsg;
 import global.GlobVar;
@@ -107,7 +108,11 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
+
+                    SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
                     GlobVar.m_lstPrinter.remove(m_ObjPrinter);
+                    db.deletePrinter(m_ObjPrinter);
+
                     Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_DruckerEntfernt), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(MS_AddPrinter_Detail.this, MS_AddPrinter.class);

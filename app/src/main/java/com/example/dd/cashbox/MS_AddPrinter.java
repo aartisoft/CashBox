@@ -1,5 +1,6 @@
 package com.example.dd.cashbox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,11 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import SQLite.SQLiteDatabaseHandler_Printer;
 import adapter.ListViewPrinterAdapter;
 import global.GlobVar;
+import objects.ObjPrinter;
 
 public class MS_AddPrinter extends AppCompatActivity {
 
+    private Context m_Context;
     private ListViewPrinterAdapter m_adapter;
     private FloatingActionButton m_fab;
     private ListView m_listView;
@@ -33,6 +37,7 @@ public class MS_AddPrinter extends AppCompatActivity {
         setContentView(R.layout.activity_ms_addprinter);
 
         //init variables
+        m_Context = this;
         m_fab = findViewById(R.id.ms_addprinter_add);
         m_listView = findViewById(R.id.ms_addprinter_listview);
         m_decorView = getWindow().getDecorView();
@@ -43,6 +48,9 @@ public class MS_AddPrinter extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //read database
+        readSQLiteDB();
 
         //set ListView
         setListView();
@@ -73,6 +81,21 @@ public class MS_AddPrinter extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void readSQLiteDB(){
+        SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
+        if(GlobVar.m_lstPrinter.isEmpty()){
+            GlobVar.m_lstPrinter = db.allPrinters();
+        }
+    }
+
+    private void writeSQLiteDB(){
+        SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
+
+        for(ObjPrinter printer : GlobVar.m_lstPrinter){
+            db.addPrinter(printer);
         }
     }
 

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import SQLite.SQLiteDatabaseHandler_Printer;
 import adapter.ListViewPrinterSearchAdapter;
 import epson.EpsonDiscover;
 import global.GlobVar;
@@ -121,12 +122,15 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     }
                     //if printer is not existing then write into list
                     if(!bIsExisting){
-
+                        SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
                         ObjPrinter printer = new ObjPrinter(printerAdapter.getDeviceBrand(), printerAdapter.getDeviceName(), printerAdapter.getDeviceType(), printerAdapter.getTarget(),
                                 printerAdapter.getIpAddress(), printerAdapter.getMacAddress(), printerAdapter.getBdAddress(), "");
 
 
+                        //save printer
                         GlobVar.m_lstPrinter.add(printer);
+                        db.addPrinter(printer);
+
                         Toast.makeText(MS_AddPrinter_Search.this, getResources().getString(R.string.src_DruckerHinzugefuegt), Toast.LENGTH_SHORT).show();
                     }
                     else{
