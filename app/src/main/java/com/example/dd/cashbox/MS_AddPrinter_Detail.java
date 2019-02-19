@@ -109,6 +109,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
 
+                    //delete printer
                     SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
                     GlobVar.m_lstPrinter.remove(m_ObjPrinter);
                     db.deletePrinter(m_ObjPrinter);
