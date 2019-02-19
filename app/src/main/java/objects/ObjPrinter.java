@@ -11,6 +11,9 @@ public class ObjPrinter {
 
     private String m_strCategory;
 
+    public ObjPrinter(){
+    }
+
 
     public ObjPrinter(String p_strDeviceBrand, String p_strDeviceName, int p_iDeviceType, String p_strTarget, String p_strIpAddress
             , String p_strMacAddress, String p_strBdAddress, String p_strCategory){
