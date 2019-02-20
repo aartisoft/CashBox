@@ -35,7 +35,7 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATION_TABLE = "CREATE TABLE Printers ( "
+        String CREATION_TABLE = "CREATE TABLE Products ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "name TEXT, "
                 + "ek FLOAT, " + "vk FLOAT, " + "bpwan BOOLEAN, "
                 + "pawn FLOAT, " + "enabled BOOLEAN, " + "category TEXT)";
