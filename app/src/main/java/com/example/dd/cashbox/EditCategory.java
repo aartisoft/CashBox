@@ -88,7 +88,8 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
     private View.OnClickListener fabPlusOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            Intent intent = new Intent(EditCategory.this, EditCategory_Add.class);
+            startActivity(intent);
         }
     };
 

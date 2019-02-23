@@ -13,15 +13,18 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import global.GlobVar;
+import objects.ObjCategory;
 
 public class EditCategory_Add extends AppCompatActivity {
 
     private FloatingActionButton m_fab;
     private EditText m_EditTextName;
+    private Spinner m_Spinner_Printer;
     private View m_decorView;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -38,7 +41,8 @@ public class EditCategory_Add extends AppCompatActivity {
         setContentView(R.layout.activity_editcategory_add);
 
         //init variables
-        m_fab = findViewById(R.id.ms_addprinter_searchok);
+        m_Spinner_Printer = findViewById(R.id.editcategory_add_spinnerprinter);
+        m_fab = findViewById(R.id.editcategory_add_fab);
         m_EditTextName = findViewById(R.id.editcategory_add_tvname);
         m_decorView = getWindow().getDecorView();
 
@@ -59,7 +63,14 @@ public class EditCategory_Add extends AppCompatActivity {
     private View.OnClickListener fabMinusOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            ObjCategory category = new ObjCategory();
+            category.setID(GlobVar.m_lstCategory.get(GlobVar.m_lstCategory.size()).getID()+1);
+            category.setName(m_EditTextName.getText().toString());
+            //category.setProdColor(m_EditTextColor.getText().toString());
+            //category.setPrinter();
+            category.setEnabled(true);
 
+            GlobVar.m_lstCategory.add(category);
         }
     };
 
@@ -68,7 +79,7 @@ public class EditCategory_Add extends AppCompatActivity {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                GlobVar.m_iTables = Integer.parseInt(m_EditTextName.getText().toString());
+                //GlobVar.m_iTables = Integer.parseInt(m_EditTextName.getText().toString());
             }
             return false;
         }

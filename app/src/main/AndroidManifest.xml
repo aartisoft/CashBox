@@ -28,6 +28,7 @@
         <activity android:name=".MS_AddPrinter_Detail"></activity>
         <activity android:name=".EditTable"></activity>
         <activity android:name=".EditCategory"></activity>
+        <activity android:name=".EditCategory_Add"></activity>
     </application>
 
 </manifest>
