@@ -25,6 +25,7 @@ import java.util.List;
 import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjPrinter;
+import objects.ObjProduct;
 
 public class EditCategory_Add extends AppCompatActivity {
 
@@ -79,6 +80,12 @@ public class EditCategory_Add extends AppCompatActivity {
             category.setID(0);
             category.setName(m_EditTextName.getText().toString());
             //category.setProdColor(m_EditTextColor.getText().toString());
+
+            ObjProduct product = new ObjProduct(0, "bier", 1.0f, 1.0f, false, 1.0f, true, "Speisen");
+            ArrayList<ObjProduct> lstproducts = new ArrayList<>();
+            lstproducts.add(product);
+            category.setProductList(lstproducts);
+
             category.setProdColor("Grün");
             category.setPrinter(GlobVar.m_lstPrinter.get(0));
             category.setEnabled(true);
