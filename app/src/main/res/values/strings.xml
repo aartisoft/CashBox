@@ -40,6 +40,10 @@
     <string name="src_AnzahlTische">Anzahl der Tische</string>
     <string name="src_Kategorien">Kategorien</string>
     <string name="src_Löschen">löschen</string>
+    <string name="src_KategorieErstellen">Kategorie erstellen</string>
+    <string name="src_Name">Name</string>
+    <string name="src_Farbe">Farbe</string>
+    <string name="src_Drucker">Drucker</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
