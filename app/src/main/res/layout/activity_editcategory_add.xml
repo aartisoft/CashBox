@@ -51,23 +51,45 @@
             android:inputType="text"/>
         </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            android:id="@+id/editcategory_add_tvcolor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+
+            android:text="@string/src_Farbe">
+        </TextView>
         <Spinner
             android:id="@+id/editcategory_add_spinnercolor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:spinnerMode="dialog"/>
 
+        <TextView
+            android:id="@+id/editcategory_add_tvprinter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/src_Drucker"
+            android:textColorHint="@color/colorBlack">
+        </TextView>
         <Spinner
             android:id="@+id/editcategory_add_spinnerprinter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:spinnerMode="dialog"/>
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/editcategory_add_switch"

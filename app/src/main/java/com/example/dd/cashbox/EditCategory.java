@@ -68,6 +68,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //set RecyclerView
+        m_adapter = new RecyclerViewCategoryAdapter(this, GlobVar.m_lstCategory);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         m_recyclerview.setLayoutManager(mLayoutManager);
         m_recyclerview.setItemAnimator(new DefaultItemAnimator());

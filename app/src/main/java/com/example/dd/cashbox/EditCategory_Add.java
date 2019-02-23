@@ -12,19 +12,26 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import global.GlobVar;
 import objects.ObjCategory;
+import objects.ObjPrinter;
 
 public class EditCategory_Add extends AppCompatActivity {
 
     private FloatingActionButton m_fab;
     private EditText m_EditTextName;
     private Spinner m_Spinner_Printer;
+    private SpinnerAdapter m_SpinnerAdapterPrinter;
     private View m_decorView;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -53,24 +60,33 @@ public class EditCategory_Add extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        m_fab.setEnabled(false);
+        //m_fab.setEnabled(false);
+
+        //set Spinner Printer
+        setSpinnerPrinter();
 
         //set Listener
+        m_fab.setOnClickListener(fabOnClickListener);
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
         m_EditTextName.setOnEditorActionListener(DoneOnEditorActionListener);
     }
 
-    private View.OnClickListener fabMinusOnClickListener = new View.OnClickListener() {
+    private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             ObjCategory category = new ObjCategory();
-            category.setID(GlobVar.m_lstCategory.get(GlobVar.m_lstCategory.size()).getID()+1);
+            //category.setID(GlobVar.m_lstCategory.get(GlobVar.m_lstCategory.size()).getID()+1);
+            category.setID(0);
             category.setName(m_EditTextName.getText().toString());
             //category.setProdColor(m_EditTextColor.getText().toString());
-            //category.setPrinter();
+            category.setProdColor("Grün");
+            category.setPrinter(GlobVar.m_lstPrinter.get(0));
             category.setEnabled(true);
 
             GlobVar.m_lstCategory.add(category);
+
+            Intent intent = new Intent(EditCategory_Add.this, EditCategory.class);
+            startActivity(intent);
         }
     };
 
@@ -141,6 +157,25 @@ public class EditCategory_Add extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setSpinnerPrinter(){
+        m_Spinner_Printer.setPrompt(getResources().getString(R.string.src_DruckerAuswaehlen));
+
+        if(!GlobVar.m_lstPrinter.isEmpty()){
+            List<String> categories = new ArrayList<>();
+            for(ObjPrinter printer : GlobVar.m_lstPrinter){
+                categories.add(printer.getDeviceName() + " - MAC:" + printer.getMacAddress());
+            }
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+            m_Spinner_Printer.setAdapter(dataAdapter);
+        }
+        else{
+            List<String> categories = new ArrayList<>();
+            categories.add(getResources().getString(R.string.src_KeineDruckerVorhanden));
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+            m_Spinner_Printer.setAdapter(dataAdapter);
         }
     }
 }
