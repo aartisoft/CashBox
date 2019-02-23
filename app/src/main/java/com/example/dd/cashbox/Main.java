@@ -87,6 +87,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             case R.id.nav_tische:
                 startActivity(new Intent(this, EditTable.class));
                 return true;
+
+            case R.id.nav_artikel:
+                startActivity(new Intent(this, EditCategory.class));
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

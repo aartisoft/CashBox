@@ -1,206 +1,101 @@
-package com.swipelistview;
+package com.example.dd.cashbox;
 
-import android.content.pm.ApplicationInfo;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.TypedValue;
-import android.view.Menu;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.BounceInterpolator;
-import android.widget.BaseAdapter;
+import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView.OnEditorActionListener;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
+import global.GlobVar;
 
+public class EditCategory extends AppCompatActivity {
 
-import java.util.ArrayList;
+    private RecyclerView m_recyclerview;
+    private FloatingActionButton m_fab_plus;
+    private View m_decorView;
+    private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
-public class MainActivity extends AppCompatActivity {
-
-    private SwipeMenuListView mListView;
-    private ArrayList<String> mArrayList=new ArrayList<>();
-    private ListDataAdapter mListDataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_editcategory);
 
-        initControls();
+        //init variables
+        m_recyclerview = findViewById(R.id.editcategory_recycler_view);
+        m_fab_plus = findViewById(R.id.editcategory_fab);
+        m_decorView = getWindow().getDecorView();
+
+        //set UI
+        m_decorView.setSystemUiVisibility(m_uiOptions);
+        Toolbar toolbar = findViewById(R.id.toolbar_editcategory);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //set Listener
+        m_fab_plus.setOnClickListener(fabPlusOnClickListener);
     }
 
-    private void initControls() {
+    private View.OnClickListener fabPlusOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
-        mListView=(SwipeMenuListView)findViewById(R.id.listView);
-        mListView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
-
-        for (int i=0;i<5;i++){
-            mArrayList.add("List item --> "+i);
         }
-       // mListView.setCloseInterpolator(new BounceInterpolator());
+    };
 
-        mListDataAdapter=new ListDataAdapter();
-        mListView.setAdapter(mListDataAdapter);
-
-
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
-
-            @Override
-            public void create(SwipeMenu menu) {
-                // Create different menus depending on the view type
-                SwipeMenuItem goodItem = new SwipeMenuItem(
-                        getApplicationContext());
-                // set item background
-                goodItem.setBackground(new ColorDrawable(Color.rgb(0x30, 0xB1,
-                        0xF5)));
-                // set item width
-                goodItem.setWidth(dp2px(90));
-                // set a icon
-                goodItem.setIcon(R.drawable.ic_action_good);
-                // add to menu
-                menu.addMenuItem(goodItem);
-
-                // create "delete" item
-                SwipeMenuItem deleteItem = new SwipeMenuItem(
-                        getApplicationContext());
-                // set item background
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                        0x3F, 0x25)));
-                // set item width
-                deleteItem.setWidth(dp2px(90));
-                // set a icon
-                deleteItem.setIcon(R.drawable.ic_action_discard);
-                // add to menu
-                menu.addMenuItem(deleteItem);
-            }
-        };
-
-        // set creator
-        mListView.setMenuCreator(creator);
-
-        mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-
-                switch (index) {
-                    case 0:
-                        Toast.makeText(MainActivity.this,"Like button press",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
-                        mArrayList.remove(position);
-                        mListDataAdapter.notifyDataSetChanged();
-                        Toast.makeText(MainActivity.this,"Item deleted",Toast.LENGTH_SHORT).show();
-
-                        break;
-                }
-                return true;
-            }
-        });
-
-        //mListView
-
-        mListView.setOnMenuStateChangeListener(new SwipeMenuListView.OnMenuStateChangeListener() {
-            @Override
-            public void onMenuOpen(int position) {
-
-            }
-
-            @Override
-            public void onMenuClose(int position) {
-
-            }
-        });
-
-        mListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
-            @Override
-            public void onSwipeStart(int position) {
-
-            }
-
-            @Override
-            public void onSwipeEnd(int position) {
-
-            }
-        });
+    public void hideSystemUI(Window window) {
+        m_decorView = window.getDecorView();
+        final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        m_decorView.setSystemUiVisibility(uiOptions);
     }
+
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus){
+            m_decorView.setSystemUiVisibility(m_uiOptions);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_add) {
-            //TODO add item to list from here
-            mArrayList.add("List item --> "+mArrayList.size());
-            mListDataAdapter.notifyDataSetChanged();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(EditCategory.this, Main.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("EXTRA_SESSION_ID", 1);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-
-    class ListDataAdapter extends BaseAdapter {
-
-        ViewHolder holder;
-        @Override
-        public int getCount() {
-            return mArrayList.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            if(convertView==null){
-
-                holder=new ViewHolder();
-
-                convertView=getLayoutInflater().inflate(R.layout.list_item,null);
-
-                holder.mTextview=(TextView)convertView.findViewById(R.id.textView);
-
-                convertView.setTag(holder);
-            }else {
-
-                holder= (ViewHolder) convertView.getTag();
-            }
-
-            holder.mTextview.setText(mArrayList.get(position));
-
-            return convertView;
-        }
-
-        class ViewHolder {
-
-            TextView mTextview;
-
-        }
-    }
-    private int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                getResources().getDisplayMetrics());
     }
 }
