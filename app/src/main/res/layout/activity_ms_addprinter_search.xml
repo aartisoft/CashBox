@@ -10,7 +10,7 @@
     android:orientation="vertical">
 
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_ms_addprinter_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:textColor="@color/colorWhite"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
             android:theme="@style/ListView">
         </ListView>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ms_addprinter_searchok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

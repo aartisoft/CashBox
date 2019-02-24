@@ -8,7 +8,7 @@
     android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_editcategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,13 +22,13 @@
             android:textColor="@color/colorWhite"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
@@ -37,15 +37,15 @@
             tools:context="info.androidhive.recyclerviewswipe.MainActivity"
             tools:showIn="@layout/activity_editcategory">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/editcategory_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/editcategory_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

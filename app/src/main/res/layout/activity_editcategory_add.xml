@@ -7,7 +7,7 @@
     android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_editcategory_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             android:textColor="@color/colorWhite"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -32,7 +32,7 @@
         android:paddingTop="40dp"
         android:paddingBottom="20dp">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editcategory_add_tiname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             android:backgroundTint="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
             android:inputType="text"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/editcategory_add_tvcolor"
@@ -91,7 +91,7 @@
             android:layout_marginBottom="20dp"
             android:spinnerMode="dialog"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/editcategory_add_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <android.support.design.widget.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/editcategory_add_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
