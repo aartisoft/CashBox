@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +33,9 @@ public class EditCategory_Add extends AppCompatActivity {
 
     private FloatingActionButton m_fab;
     private EditText m_EditTextName;
+    private Spinner m_Spinner_Color;
     private Spinner m_Spinner_Printer;
-    private SpinnerAdapter m_SpinnerAdapterPrinter;
+    private SwitchCompat m_Switch;
     private View m_decorView;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -49,10 +52,12 @@ public class EditCategory_Add extends AppCompatActivity {
         setContentView(R.layout.activity_editcategory_add);
 
         //init variables
+        m_Spinner_Color = findViewById(R.id.editcategory_add_spinnercolor);
         m_Spinner_Printer = findViewById(R.id.editcategory_add_spinnerprinter);
         m_fab = findViewById(R.id.editcategory_add_fab);
         m_EditTextName = findViewById(R.id.editcategory_add_tvname);
         m_decorView = getWindow().getDecorView();
+        m_Switch = findViewById(R.id.editcategory_add_switch);
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -61,7 +66,7 @@ public class EditCategory_Add extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //m_fab.setEnabled(false);
+        m_fab.setEnabled(false);
 
         //set Spinner Printer
         setSpinnerPrinter();
@@ -75,18 +80,26 @@ public class EditCategory_Add extends AppCompatActivity {
     private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ObjCategory category = new ObjCategory();
-            category.setName(m_EditTextName.getText().toString());
-            //category.setProdColor(m_EditTextColor.getText().toString());
+            //check weather all field are filled --> set fab enabled/disabled
+            if(m_EditTextName.getText().toString().equals("") || m_Spinner_Color.getSelectedItem().equals("")
+                    || m_Spinner_Printer.getSelectedItem().equals("")){
+                Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_KategorieAngelegt), Toast.LENGTH_SHORT).show();
 
-            category.setProdColor("Grün");
-            category.setPrinter(GlobVar.m_lstPrinter.get(0));
-            category.setEnabled(true);
+                ObjCategory category = new ObjCategory();
+                category.setName(m_EditTextName.getText().toString());
+                //category.setProdColor(m_EditTextColor.getText().toString());
+                category.setProdColor("Grün");
+                category.setPrinter(GlobVar.m_lstPrinter.get(0));
+                category.setEnabled(m_Switch.isChecked());
 
-            GlobVar.m_lstCategory.add(category);
+                GlobVar.m_lstCategory.add(category);
 
-            Intent intent = new Intent(EditCategory_Add.this, EditCategory.class);
-            startActivity(intent);
+                Intent intent = new Intent(EditCategory_Add.this, EditCategory.class);
+                startActivity(intent);
+            }
         }
     };
 
