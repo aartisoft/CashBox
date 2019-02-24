@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jaredrummler.android.colorpicker.ColorPanelView;
+import com.jaredrummler.android.colorpicker.ColorPickerView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
@@ -24,6 +28,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.fragment.app.FragmentManager;
+import fragments.ChooseColorDialogFragment;
 import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjPrinter;
@@ -32,7 +38,7 @@ public class EditCategory_Add extends AppCompatActivity {
 
     private FloatingActionButton m_fab;
     private EditText m_EditTextName;
-    //private ColorPickerView m_ColorPickerView;
+    private EditText m_EditTextColor;
     private Spinner m_Spinner_Printer;
     private SwitchCompat m_Switch;
     private View m_decorView;
@@ -51,7 +57,7 @@ public class EditCategory_Add extends AppCompatActivity {
         setContentView(R.layout.activity_editcategory_add);
 
         //init variables
-        //m_ColorPickerView = findViewById(R.id.editcategory_add_colorpicker);
+        m_EditTextColor = findViewById(R.id.editcategory_add_tvcolor);
         m_Spinner_Printer = findViewById(R.id.editcategory_add_spinnerprinter);
         m_fab = findViewById(R.id.editcategory_add_fab);
         m_EditTextName = findViewById(R.id.editcategory_add_tvname);
@@ -74,9 +80,10 @@ public class EditCategory_Add extends AppCompatActivity {
         m_fab.setOnClickListener(fabOnClickListener);
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
         m_EditTextName.setOnEditorActionListener(DoneOnEditorActionListener);
+        m_EditTextColor.setOnClickListener(OnClickListener);
     }
 
-    private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
+    private OnClickListener fabOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             //check weather all field are filled
@@ -110,6 +117,13 @@ public class EditCategory_Add extends AppCompatActivity {
                 //GlobVar.m_iTables = Integer.parseInt(m_EditTextName.getText().toString());
             }
             return false;
+        }
+    };
+
+    private OnClickListener OnClickListener = new OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            showColorDialog();
         }
     };
 
@@ -190,4 +204,11 @@ public class EditCategory_Add extends AppCompatActivity {
             m_Spinner_Printer.setAdapter(dataAdapter);
         }
     }
+
+    private void showColorDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        ChooseColorDialogFragment chooseColorDialogFragment = ChooseColorDialogFragment.newInstance("Some Title");
+        chooseColorDialogFragment.show(fm, "fragment_edit_name");
+    }
+
 }
