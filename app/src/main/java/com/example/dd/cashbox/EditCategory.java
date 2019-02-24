@@ -74,6 +74,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
         m_recyclerview.setItemAnimator(new DefaultItemAnimator());
         m_recyclerview.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         m_recyclerview.setAdapter(m_adapter);
+        m_adapter.notifyDataSetChanged();
 
         //set item touch helper
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);

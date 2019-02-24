@@ -27,7 +27,7 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
 
         public MyViewHolder(View view) {
             super(view);
-            textview_itemname = view.findViewById(R.id.editcategory_recycler_view);
+            textview_itemname = view.findViewById(R.id.editcategory_recycview_textviewname);
             viewBackground = view.findViewById(R.id.editcategory_recycview_background);
             viewForeground = view.findViewById(R.id.editcategory_recycview_foreground);
         }
