@@ -37,8 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/edittext_back">
+            android:layout_marginRight="15dp">
         <EditText
             android:id="@+id/editcategory_add_tvname"
             android:layout_width="match_parent"
@@ -52,25 +51,21 @@
             android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/editcategory_add_ticolor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edittext_back">
             <EditText
                 android:id="@+id/editcategory_add_tvcolor"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/colorBlack"
                 android:textStyle="normal"
-                android:textAlignment="textStart"
                 android:hint="@string/src_Farbe"
+                android:textColorHint="@color/colorWhite"
+                android:background="@color/colorBlack"
                 android:cursorVisible="false"
-                android:inputType="none"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:inputType="none"
+                android:focusable="false"/>
 
         <TextView
             android:id="@+id/editcategory_add_tvprinter"
