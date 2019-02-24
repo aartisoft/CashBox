@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class EditCategory_Add extends AppCompatActivity {
 
     private FloatingActionButton m_fab;
     private EditText m_EditTextName;
-    private Spinner m_Spinner_Color;
+    //private ColorPickerView m_ColorPickerView;
     private Spinner m_Spinner_Printer;
     private SwitchCompat m_Switch;
     private View m_decorView;
@@ -52,7 +53,7 @@ public class EditCategory_Add extends AppCompatActivity {
         setContentView(R.layout.activity_editcategory_add);
 
         //init variables
-        m_Spinner_Color = findViewById(R.id.editcategory_add_spinnercolor);
+        //m_ColorPickerView = findViewById(R.id.editcategory_add_colorpicker);
         m_Spinner_Printer = findViewById(R.id.editcategory_add_spinnerprinter);
         m_fab = findViewById(R.id.editcategory_add_fab);
         m_EditTextName = findViewById(R.id.editcategory_add_tvname);
@@ -66,7 +67,7 @@ public class EditCategory_Add extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        m_fab.setEnabled(false);
+        m_fab.setEnabled(true);
 
         //set Spinner Printer
         setSpinnerPrinter();
@@ -80,8 +81,8 @@ public class EditCategory_Add extends AppCompatActivity {
     private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //check weather all field are filled --> set fab enabled/disabled
-            if(m_EditTextName.getText().toString().equals("") || m_Spinner_Color.getSelectedItem().equals("")
+            //check weather all field are filled
+            if(m_EditTextName.getText().toString().equals("") //|| m_ColorPickerView.get
                     || m_Spinner_Printer.getSelectedItem().equals("")){
                 Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
             }
