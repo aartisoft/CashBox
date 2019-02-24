@@ -1,5 +1,6 @@
 package com.example.dd.cashbox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,8 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+import SQLite.SQLiteDatabaseHandler_Printer;
+import global.GlobVar;
+
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Context m_Context;
     private int m_iSessionId = 0;
     private View m_decorView;
     private NavigationView m_navigationView;
@@ -34,6 +39,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
 
         //init variables
+        m_Context = this;
         m_decorView = getWindow().getDecorView();
         m_DrawerLayout = findViewById(R.id.drawer_layout);
         m_navigationView = findViewById(R.id.nav_view);
@@ -46,6 +52,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+
+        //read database
+        readSQLiteDB();
 
         //set Listener
         m_navigationView.setNavigationItemSelectedListener(this);
@@ -94,6 +103,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void readSQLiteDB(){
+        SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
+        if(GlobVar.m_lstPrinter.isEmpty()){
+            GlobVar.m_lstPrinter = db.allPrinters();
         }
     }
 }

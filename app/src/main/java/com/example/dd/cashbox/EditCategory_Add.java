@@ -76,15 +76,8 @@ public class EditCategory_Add extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             ObjCategory category = new ObjCategory();
-            //category.setID(GlobVar.m_lstCategory.get(GlobVar.m_lstCategory.size()).getID()+1);
-            category.setID(0);
             category.setName(m_EditTextName.getText().toString());
             //category.setProdColor(m_EditTextColor.getText().toString());
-
-            ObjProduct product = new ObjProduct(0, "bier", 1.0f, 1.0f, false, 1.0f, true, "Speisen");
-            ArrayList<ObjProduct> lstproducts = new ArrayList<>();
-            lstproducts.add(product);
-            category.setProductList(lstproducts);
 
             category.setProdColor("Grün");
             category.setPrinter(GlobVar.m_lstPrinter.get(0));

@@ -49,9 +49,6 @@ public class MS_AddPrinter extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        //read database
-        readSQLiteDB();
-
         //set ListView
         setListView();
 
@@ -81,13 +78,6 @@ public class MS_AddPrinter extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void readSQLiteDB(){
-        SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
-        if(GlobVar.m_lstPrinter.isEmpty()){
-            GlobVar.m_lstPrinter = db.allPrinters();
         }
     }
 
