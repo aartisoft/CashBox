@@ -102,9 +102,20 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
 
                 ObjCategory category = new ObjCategory();
                 category.setName(m_EditTextName.getText().toString());
-                //category.setProdColor(m_EditTextColor.getText().toString());
-                category.setProdColor("Grün");
-                category.setPrinter(GlobVar.m_lstPrinter.get(0));
+                category.setProdColor(m_EditTextColor.getDrawingCacheBackgroundColor());
+
+                //get object printer
+                ObjPrinter foundPrinter = new ObjPrinter();
+                String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
+                String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") +1);
+                for(ObjPrinter printer : GlobVar.m_lstPrinter){
+                    if(printer.getMacAddress().equals(macadress)){
+                        foundPrinter = printer;
+                        break;
+                    }
+                }
+
+                category.setPrinter(foundPrinter);
                 category.setEnabled(m_Switch.isChecked());
 
                 GlobVar.m_lstCategory.add(category);
