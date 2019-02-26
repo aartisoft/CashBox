@@ -1,6 +1,8 @@
 package com.example.dd.cashbox;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,9 +36,10 @@ import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjPrinter;
 
-public class EditCategory_Add extends AppCompatActivity {
+public class EditCategory_Add extends AppCompatActivity implements ChooseColorDialogFragment.ChooseColorDialogListener {
 
     private FloatingActionButton m_fab;
+    private Context m_Context;
     private EditText m_EditTextName;
     private EditText m_EditTextColor;
     private Spinner m_Spinner_Printer;
@@ -57,6 +60,7 @@ public class EditCategory_Add extends AppCompatActivity {
         setContentView(R.layout.activity_editcategory_add);
 
         //init variables
+        m_Context = this;
         m_EditTextColor = findViewById(R.id.editcategory_add_tvcolor);
         m_Spinner_Printer = findViewById(R.id.editcategory_add_spinnerprinter);
         m_fab = findViewById(R.id.editcategory_add_fab);
@@ -116,7 +120,6 @@ public class EditCategory_Add extends AppCompatActivity {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                //GlobVar.m_iTables = Integer.parseInt(m_EditTextName.getText().toString());
             }
             return false;
         }
@@ -211,6 +214,11 @@ public class EditCategory_Add extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         ChooseColorDialogFragment chooseColorDialogFragment = ChooseColorDialogFragment.newInstance("Some Title");
         chooseColorDialogFragment.show(fm, "fragment_edit_name");
+
     }
 
+    @Override
+    public void onFinishChooseColorDialog(int colorInt) {
+        m_EditTextColor.setBackgroundColor(colorInt);
+    }
 }

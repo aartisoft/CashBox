@@ -16,6 +16,7 @@ public class ChooseColorDialogFragment extends DialogFragment implements View.On
 
     private ColorPickerView m_colorPickerView;
     private Button m_button;
+    private ChooseColorDialogListener m_listener;
     private static ChooseColorDialogFragment m_frag;
 
     public ChooseColorDialogFragment() {
@@ -27,6 +28,10 @@ public class ChooseColorDialogFragment extends DialogFragment implements View.On
         args.putString("title", title);
         m_frag.setArguments(args);
         return m_frag;
+    }
+
+    public interface ChooseColorDialogListener {
+        void onFinishChooseColorDialog(int colorInt);
     }
 
     @Override
@@ -53,6 +58,8 @@ public class ChooseColorDialogFragment extends DialogFragment implements View.On
     @Override
     public void onClick(View v) {
         int color = m_colorPickerView.getColor();
+        m_listener = (ChooseColorDialogListener)getActivity();
+        m_listener.onFinishChooseColorDialog(color);
         m_frag.dismiss();
     }
 }

@@ -56,7 +56,8 @@
             android:textColorHint="@color/colorGrey"
             android:textSize="15dp"
             android:textCursorDrawable="@drawable/colorcursor_black"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:singleLine="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
