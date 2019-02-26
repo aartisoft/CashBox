@@ -29,6 +29,7 @@
         <activity android:name=".EditTable"></activity>
         <activity android:name=".EditCategory"></activity>
         <activity android:name=".EditCategory_Add"></activity>
+        <activity android:name=".EditCategory_Edit"></activity>
     </application>
 
 </manifest>

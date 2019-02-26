@@ -2,16 +2,8 @@ package com.example.dd.cashbox;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.jaredrummler.android.colorpicker.ColorPanelView;
-import com.jaredrummler.android.colorpicker.ColorPickerView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,17 +18,21 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import fragments.ChooseColorDialogFragment;
 import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjPrinter;
 
-public class EditCategory_Add extends AppCompatActivity implements ChooseColorDialogFragment.ChooseColorDialogListener {
+public class EditCategory_Edit extends AppCompatActivity implements ChooseColorDialogFragment.ChooseColorDialogListener {
 
     private FloatingActionButton m_fab;
     private Context m_Context;
@@ -63,7 +59,6 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
         //init variables
         m_Context = this;
         m_TextViewTitle = findViewById(R.id.editcategory_add_tititle);
-        m_EditTextColor = findViewById(R.id.editcategory_add_tvcolor);
         m_Spinner_Printer = findViewById(R.id.editcategory_add_spinnerprinter);
         m_fab = findViewById(R.id.editcategory_add_fab);
         m_EditTextName = findViewById(R.id.editcategory_add_tvname);
@@ -81,8 +76,8 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
         m_Switch.setChecked(true);
         m_TextViewTitle.setText(R.string.src_KategorieBearbeiten);
 
-        //set Spinner Printer
-        setSpinnerPrinter();
+        //set values
+
 
 
         //set Listener
@@ -98,7 +93,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
             //check weather all field are filled
             if(m_EditTextName.getText().toString().equals("") //|| m_ColorPickerView.get
                     || m_Spinner_Printer.getSelectedItem().equals("")){
-                Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
             }
             else {
                 if(!GlobVar.m_lstCategory.equals(m_EditTextName.getText().toString())){
@@ -121,13 +116,13 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
                     category.setEnabled(m_Switch.isChecked());
 
                     GlobVar.m_lstCategory.add(category);
-                    Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_KategorieAngelegt), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieAngelegt), Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(EditCategory_Add.this, EditCategory.class);
+                    Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_KategorieBereitsVorhanden), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieBereitsVorhanden), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -198,7 +193,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(EditCategory_Add.this, EditCategory.class);
+                Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
