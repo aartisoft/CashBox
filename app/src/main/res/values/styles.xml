@@ -27,4 +27,15 @@
     <style name="ProgressBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorAccent">@color/colorPrimary3</item>
     </style>
+
+    <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorPrimary3</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:backgroundTint">@color/colorPrimary3</item>
+    </style>
+
+    <style name="Color1SwitchStyle">
+        <item name="colorControlActivated">@color/colorPrimary3</item>
+        <item name="android:textSize">15dp</item>
+    </style>
 </resources>

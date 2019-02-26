@@ -72,9 +72,11 @@ public class EditCategory_Add extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         m_fab.setEnabled(true);
+        m_Switch.setChecked(true);
 
         //set Spinner Printer
         setSpinnerPrinter();
+
 
         //set Listener
         m_fab.setOnClickListener(fabOnClickListener);

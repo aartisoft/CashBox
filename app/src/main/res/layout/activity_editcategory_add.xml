@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorPrimary"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_editcategory_add"
@@ -29,53 +31,72 @@
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="40dp"
+        android:paddingTop="30dp"
         android:paddingBottom="20dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editcategory_add_tiname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColorHint="@color/colorGrey"
+            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
         <EditText
             android:id="@+id/editcategory_add_tvname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
             android:textColor="@color/colorBlack"
             android:textStyle="normal"
             android:textAlignment="textStart"
             android:hint="@string/src_Name"
-            android:backgroundTint="@color/colorPrimary3"
-            android:textColorHint="@color/colorPrimary3"
+            android:backgroundTint="@color/colorGrey"
+            android:textColorHint="@color/colorGrey"
+            android:textSize="15dp"
+            android:textCursorDrawable="@drawable/colorcursor_black"
             android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/editcategory_add_tvcolor"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/colorBlack"
-                android:textStyle="normal"
-                android:hint="@string/src_Farbe"
-                android:textColorHint="@color/colorWhite"
-                android:background="@color/colorBlack"
-                android:cursorVisible="false"
-                android:inputType="none"
-                android:focusable="false"/>
+        <TextView
+            android:id="@+id/editcategory_add_tvvolor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/src_Farbe"
+            android:textColorHint="@color/colorGrey"
+            android:textColor="@color/colorGrey"
+            android:textSize="15dp">
+        </TextView>
+        <EditText
+            android:id="@+id/editcategory_add_tvcolor"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="normal"
+            android:textColorHint="@color/colorWhite"
+            android:background="@color/colorBlack"
+            android:cursorVisible="false"
+            android:inputType="none"
+            android:focusable="false"/>
 
         <TextView
             android:id="@+id/editcategory_add_tvprinter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:text="@string/src_Drucker"
-            android:textColorHint="@color/colorBlack">
+            android:textColorHint="@color/colorGrey"
+            android:textColor="@color/colorGrey"
+            android:textSize="15dp">
         </TextView>
         <Spinner
             android:id="@+id/editcategory_add_spinnerprinter"
@@ -83,7 +104,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"
             android:spinnerMode="dialog"/>
 
@@ -95,7 +115,8 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:text="@string/src_Aktiv"/>
+            android:text="@string/src_Aktiv"
+            android:theme="@style/Color1SwitchStyle"/>
 
         <FrameLayout
             android:layout_width="match_parent"
