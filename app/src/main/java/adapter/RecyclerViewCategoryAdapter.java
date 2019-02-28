@@ -1,12 +1,17 @@
 package adapter;
 
 import android.content.Context;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dd.cashbox.R;
 
@@ -14,26 +19,40 @@ import java.util.List;
 
 import objects.ObjCategory;
 
-public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerViewCategoryAdapter.MyViewHolder> {
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+
+public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerViewCategoryAdapter.MyViewHolder>{
     private Context context;
     private List<ObjCategory> categoryList;
+    private OnItemClickListener m_onItemClickListener;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView textview_itemname;
         public RelativeLayout viewBackground, viewForeground;
+        OnItemClickListener onItemClickListener;
 
-        public MyViewHolder(View view) {
+        public MyViewHolder(@NonNull View view, OnItemClickListener onItemClickListener) {
             super(view);
+            this.onItemClickListener = onItemClickListener;
+
             textview_itemname = view.findViewById(R.id.editcategory_recycview_textviewname);
             viewBackground = view.findViewById(R.id.editcategory_recycview_background);
             viewForeground = view.findViewById(R.id.editcategory_recycview_foreground);
+
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(v, getAdapterPosition());
         }
     }
 
-
-    public RecyclerViewCategoryAdapter(Context context, List<ObjCategory> categoryList) {
+    public RecyclerViewCategoryAdapter(Context context, List<ObjCategory> categoryList, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.categoryList = categoryList;
+        this.m_onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -41,7 +60,7 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.editcategory_recyclerview_items, parent, false);
 
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(itemView, m_onItemClickListener);
     }
 
     @Override
@@ -71,5 +90,9 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
         categoryList.add(position, item);
         // notify item added by position
         notifyItemInserted(position);
+    }
+
+    public interface OnItemClickListener{
+         void onItemClick(View view, int position);
     }
 }

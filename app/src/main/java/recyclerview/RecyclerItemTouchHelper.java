@@ -1,8 +1,10 @@
 package recyclerview;
 
 import android.graphics.Canvas;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
+
 import android.view.View;
 
 import adapter.RecyclerViewCategoryAdapter;
@@ -13,6 +15,7 @@ import adapter.RecyclerViewCategoryAdapter;
  */
 
 public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
+
     private RecyclerItemTouchHelperListener listener;
 
     public RecyclerItemTouchHelper(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener) {

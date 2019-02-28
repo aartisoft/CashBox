@@ -1,5 +1,6 @@
 package com.example.dd.cashbox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,13 +26,14 @@ import global.GlobVar;
 import objects.ObjCategory;
 import recyclerview.RecyclerItemTouchHelper;
 
-public class EditCategory extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class EditCategory extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewCategoryAdapter.OnItemClickListener{
 
     private ArrayList<ObjCategory> m_lstCategoryList;
     private RecyclerViewCategoryAdapter m_adapter;
     private RecyclerView m_recyclerview;
     private LinearLayout m_linearlayour;
     private FloatingActionButton m_fab_plus;
+    private Context m_Context;
     private View m_decorView;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -48,6 +50,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
         setContentView(R.layout.activity_editcategory);
 
         //init variables
+        m_Context = this;
         m_linearlayour = findViewById(R.id.editcategory_linearlayout);
         m_recyclerview = findViewById(R.id.editcategory_recycler_view);
         m_fab_plus = findViewById(R.id.editcategory_fab);
@@ -61,7 +64,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //set RecyclerView
-        m_adapter = new RecyclerViewCategoryAdapter(this, GlobVar.m_lstCategory);
+        m_adapter = new RecyclerViewCategoryAdapter(this, GlobVar.m_lstCategory, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         m_recyclerview.setLayoutManager(mLayoutManager);
         m_recyclerview.setItemAnimator(new DefaultItemAnimator());
@@ -75,7 +78,6 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
 
         //prepare Category
 
-
         //set Listener
         m_fab_plus.setOnClickListener(fabPlusOnClickListener);
     }
@@ -87,6 +89,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
             startActivity(intent);
         }
     };
+
 
     public void hideSystemUI(Window window) {
         m_decorView = window.getDecorView();
@@ -140,8 +143,8 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
 
             // showing snack bar with Undo option
             Snackbar snackbar = Snackbar
-                    .make(m_linearlayour, name + " removed from cart!", Snackbar.LENGTH_LONG);
-            snackbar.setAction("UNDO", new View.OnClickListener() {
+                    .make(m_linearlayour, name + " " + getResources().getString(R.string.src_Entfernt), Snackbar.LENGTH_LONG);
+            snackbar.setAction(getResources().getString(R.string.src_Rueckgaengig), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -157,5 +160,11 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
     private void prepareCategory(){
 
         //m_lstCategoryList = GlobVar.m_lstCategroy;
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Intent intent = new Intent(EditCategory.this, EditCategory_Edit.class);
+        startActivity(intent);
     }
 }
