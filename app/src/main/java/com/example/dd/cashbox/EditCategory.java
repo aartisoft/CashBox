@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,6 @@ import recyclerview.RecyclerItemTouchHelper;
 
 public class EditCategory extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewCategoryAdapter.OnItemClickListener{
 
-    private ArrayList<ObjCategory> m_lstCategoryList;
     private RecyclerViewCategoryAdapter m_adapter;
     private RecyclerView m_recyclerview;
     private LinearLayout m_linearlayour;
@@ -163,8 +163,12 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        Intent intent = new Intent(EditCategory.this, EditCategory_Edit.class);
-        startActivity(intent);
+    public void onItemClick(int position) {
+
+        ObjCategory category = GlobVar.m_lstCategory.get(position);
+
+        Toast.makeText(EditCategory.this, category.getName(), Toast.LENGTH_SHORT).show();
+        //Intent intent = new Intent(EditCategory.this, EditCategory_Edit.class);
+        //startActivity(intent);
     }
 }
