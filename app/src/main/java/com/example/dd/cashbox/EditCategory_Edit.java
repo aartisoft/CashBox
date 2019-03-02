@@ -45,6 +45,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     private SwitchCompat m_Switch;
     private View m_decorView;
     private String m_SessionCategory;
+    private String m_strCategoryName;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -146,7 +147,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                             //update global and in database
                             GlobVar.m_lstCategory.set(indexcounter, category);
                             SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
-                            db.updateCategory(category);
+                            db.updateCategory(m_strCategoryName, category);
 
                             Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieGeaendert), Toast.LENGTH_SHORT).show();
 
@@ -263,6 +264,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         for(ObjCategory category : GlobVar.m_lstCategory){
             if(category.getName().equals(m_SessionCategory)){
                 m_EditTextName.setText(category.getName());
+                m_strCategoryName = category.getName();
                 m_EditTextColor.setBackgroundColor(category.getProdColor());
                 setSpinnerPrinter(category.getPrinter());
                 m_Switch.setChecked(category.getEnabled());

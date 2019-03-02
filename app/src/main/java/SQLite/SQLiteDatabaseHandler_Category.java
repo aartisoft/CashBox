@@ -128,8 +128,10 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int updateCategory(ObjCategory category) {
+    public int updateCategory(String oldname, ObjCategory category) {
         SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT  * FROM " + TABLE_NAME;
+        Cursor cursor = db.rawQuery(query, null);
         ContentValues values = new ContentValues();
 
         values.put(KEY_NAME, category.getName());
@@ -145,8 +147,7 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
         int i = db.update(TABLE_NAME, // table
                 values, // column/value
                 "name = ?", // selections
-                new String[] { String.valueOf(category.getName()) });
-
+                new String[] { String.valueOf(oldname) });
         db.close();
 
         return i;
