@@ -189,6 +189,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
         m_recyclerview.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                m_RecyclerItemTouchHelper.onDraw(c);
             }
         });
 
