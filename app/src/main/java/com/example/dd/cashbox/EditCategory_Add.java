@@ -3,6 +3,7 @@ package com.example.dd.cashbox;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -76,7 +77,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         m_fab.setEnabled(true);
         m_Switch.setChecked(true);
-        m_TextViewTitle.setText(R.string.src_KategorieBearbeiten);
+        m_TextViewTitle.setText(R.string.src_KategorieErstellen);
 
         //set Spinner Printer
         setSpinnerPrinter();
@@ -98,16 +99,25 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
                 Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
             }
             else {
+                //does category already exists?
                 boolean b_CategoryExists = false;
                 for(ObjCategory category : GlobVar.m_lstCategory){
                     if(category.getName().equals(m_EditTextName.getText().toString())){
                         b_CategoryExists = true;
                     }
                 }
+
                 if(!b_CategoryExists){
                     ObjCategory category = new ObjCategory();
                     category.setName(m_EditTextName.getText().toString());
-                    category.setProdColor(m_EditTextColor.getDrawingCacheBackgroundColor());
+
+                    try{
+                        ColorDrawable viewColor = (ColorDrawable) m_EditTextColor.getBackground();
+                        category.setProdColor(viewColor.getColor());
+                    }
+                    catch(Exception e){
+                        category.setProdColor(1);
+                    }
 
                     //get object printer
                     ObjPrinter foundPrinter = new ObjPrinter();
