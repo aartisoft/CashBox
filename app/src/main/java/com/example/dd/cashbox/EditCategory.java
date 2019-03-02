@@ -67,11 +67,10 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setTextNoCategory();
 
         //set RecyclerView
         setupRecyclerView();
-
-        //prepare Category
 
         //set Listener
         m_fab_plus.setOnClickListener(fabPlusOnClickListener);
@@ -123,35 +122,6 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
         }
     }
 
-    /*@Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof RecyclerViewCategoryAdapter.MyViewHolder) {
-            // get the removed item name to display it in snack bar
-            String name = GlobVar.m_lstCategory.get(viewHolder.getAdapterPosition()).getName();
-
-            // backup of removed item for undo purpose
-            final ObjCategory deletedItem = GlobVar.m_lstCategory.get(viewHolder.getAdapterPosition());
-            final int deletedIndex = viewHolder.getAdapterPosition();
-
-            // remove the item from recycler view
-            m_adapter.removeItem(viewHolder.getAdapterPosition());
-
-            // showing snack bar with Undo option
-            Snackbar snackbar = Snackbar
-                    .make(m_linearlayour, name + " " + getResources().getString(R.string.src_Entfernt), Snackbar.LENGTH_LONG);
-            snackbar.setAction(getResources().getString(R.string.src_Rueckgaengig), new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    // undo is selected, restore the deleted item
-                    m_adapter.restoreItem(deletedItem, deletedIndex);
-                }
-            });
-            snackbar.setActionTextColor(Color.YELLOW);
-            snackbar.show();
-        }
-    }*/
-
     @Override
     public void onItemClick(int position) {
 
@@ -197,10 +167,12 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
                         // undo is selected, restore the deleted item
                         m_adapter.restoreItem(deletedItem, deletedIndex);
                         db.addCategory(category);
+                        setTextNoCategory();
                     }
                 });
                 snackbar.setActionTextColor(Color.YELLOW);
                 snackbar.show();
+                setTextNoCategory();
             }
             @Override
             public void onLeftClicked(int position) {
@@ -225,7 +197,14 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
 
         m_recyclerview.setAdapter(m_adapter);
         m_adapter.notifyDataSetChanged();
+    }
 
-
+    private void setTextNoCategory(){
+        //set text if no category available
+        if(!GlobVar.m_lstCategory.isEmpty()){
+            findViewById(R.id.editcategory_tv_nocategory).setVisibility(View.INVISIBLE);
+        }else{
+            findViewById(R.id.editcategory_tv_nocategory).setVisibility(View.VISIBLE);
+        }
     }
 }

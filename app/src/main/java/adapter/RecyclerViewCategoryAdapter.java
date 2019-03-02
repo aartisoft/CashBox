@@ -73,7 +73,14 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
 
         //get printername
         ObjPrinter printer = (item).getPrinter();
-        String printername = printer.getDeviceName() + " - " + printer.getMacAddress();
+        String printername;
+        if(printer != null){
+            printername = printer.getDeviceName() + " - " + printer.getMacAddress();
+        }
+        else{
+            printername = context.getResources().getString(R.string.src_KeinDruckerHinzugefuegt);
+        }
+
         holder.textview_printername.setText(printername);
 
         //get status
@@ -86,10 +93,6 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
             status = context.getResources().getString(R.string.src_Inaktiv);
         }
         holder.textview_status.setText(status);
-
-        /*Glide.with(context)
-                   .load(item.getThumbnail())
-                   .into(holder.thumbnail);*/
     }
 
     @Override

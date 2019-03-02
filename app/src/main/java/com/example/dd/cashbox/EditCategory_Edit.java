@@ -131,6 +131,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
 
                             //get object printer
                             ObjPrinter foundPrinter = new ObjPrinter();
+                            foundPrinter = null;
                             String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
                             String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") + 1);
                             for (ObjPrinter printer : GlobVar.m_lstPrinter) {
@@ -233,9 +234,12 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
             int counter = 0;
             for(ObjPrinter printer : GlobVar.m_lstPrinter){
                 //get position of choosen printer
-                if(printer.getMacAddress().equals(p_printer.getMacAddress())){
-                    printer_position = counter;
+                if(p_printer != null){
+                    if(printer.getMacAddress().equals(p_printer.getMacAddress())){
+                        printer_position = counter;
+                    }
                 }
+
                 categories.add(printer.getDeviceName() + " - MAC:" + printer.getMacAddress());
                 counter++;
             }

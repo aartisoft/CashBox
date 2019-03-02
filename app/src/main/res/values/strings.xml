@@ -21,6 +21,8 @@
     <string name="src_Testdruck">Testdruck</string>
     <string name="src_DruckerEntfernt">Drucker entfernt</string>
     <string name="src_KeineDruckerHinzugefuegt">Keine Drucker hinzugefügt</string>
+    <string name="src_KeinDruckerHinzugefuegt">Kein Drucker hinzugefügt</string>
+    <string name="src_KeineKategorienHinzugefuegt">Keine Kategorien hinzugefügt</string>
     <string name="src_KeineDruckerVorhanden">Keine Drucker vorhanden</string>
     <string name="src_TestnachrichtVersendet">Testnachricht versendet</string>
     <string name="src_Hersteller">Hersteller</string>

@@ -125,6 +125,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
 
                     //get object printer
                     ObjPrinter foundPrinter = new ObjPrinter();
+                    foundPrinter = null;
                     String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
                     String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") +1);
                     for(ObjPrinter printer : GlobVar.m_lstPrinter){
