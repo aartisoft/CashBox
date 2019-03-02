@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjPrinter;
 
@@ -21,7 +22,7 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
     private static final String KEY_NAME = "name";
     private static final String KEY_COLOR = "color";
     private static final String KEY_PRINTERMACADRESS = "macadress";
-    private static final String KEY_ENABLED= "enabled";
+    private static final String KEY_ENABLED = "enabled";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_NAME, KEY_COLOR, KEY_PRINTERMACADRESS,
                                                 KEY_ENABLED };
@@ -34,7 +35,7 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE Categories ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "name TEXT, "
-                + "color TEXT, " + "macadress TEXT, " + "KEY_ENABLED BOOLEAN)";
+                + "color INTEGER, " + "macadress TEXT, " + "enabled INTEGER)";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -56,16 +57,25 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 category = new ObjCategory();
-                category.setID(Integer.parseInt(cursor.getString(0)));
                 category.setName(cursor.getString(1));
-                category.setProdColor(2);
+                category.setProdColor(Integer.parseInt(cursor.getString(3)));
 
                 //set printer
                 ObjPrinter printer = new ObjPrinter();
-                printer.setMacAddress(cursor.getString(3));
+                for(ObjPrinter objprinter : GlobVar.m_lstPrinter){
+                    if(objprinter.getMacAddress().equals(cursor.getString(3))){
+                        printer = objprinter;
+                        break;
+                    }
+                }
                 category.setPrinter(printer);
 
-                category.setEnabled(Boolean.parseBoolean(cursor.getString(4)));
+                //set key enabled
+                boolean b_keyEnabled = true;
+                if(cursor.getString(4).equals("0")){
+                    b_keyEnabled = false;
+                }
+                category.setEnabled(b_keyEnabled);
                 categories.add(category);
             } while (cursor.moveToNext());
         }
@@ -103,7 +113,6 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
     public void addCategory(ObjCategory category) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, category.getID());
         values.put(KEY_NAME, category.getName());
         values.put(KEY_COLOR, category.getProdColor());
 
@@ -111,7 +120,8 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
         ObjPrinter printer = category.getPrinter();
         values.put(KEY_PRINTERMACADRESS, printer.getMacAddress());
 
-        values.put(KEY_ENABLED, category.getEnabled());
+        int key_enabled = category.getEnabled() ? 1 : 0;
+        values.put(KEY_ENABLED, key_enabled);
 
         // insert
         db.insert(TABLE_NAME,null, values);
@@ -121,7 +131,6 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
     public int updatePrinter(ObjCategory category) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, category.getID());
         values.put(KEY_NAME, category.getName());
         values.put(KEY_COLOR, category.getProdColor());
 
@@ -133,8 +142,8 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
 
         int i = db.update(TABLE_NAME, // table
                 values, // column/value
-                "id = ?", // selections
-                new String[] { String.valueOf(category.getID()) });
+                "name = ?", // selections
+                new String[] { String.valueOf(category.getName()) });
 
         db.close();
 
@@ -144,7 +153,7 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
     public void deleteCategory(ObjCategory category) {
         // Get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, "id = ?", new String[] { String.valueOf(category.getID()) });
+        db.delete(TABLE_NAME, "name = ?", new String[] { String.valueOf(category.getName()) });
         db.close();
     }
 }

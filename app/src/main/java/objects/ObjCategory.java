@@ -3,7 +3,6 @@ package objects;
 import java.util.List;
 
 public class ObjCategory {
-    private int m_iID;
     private String m_strName;
     private int m_iColor;
     private ObjPrinter m_Printer;
@@ -14,7 +13,7 @@ public class ObjCategory {
 
     }
 
-    ObjCategory(int p_iID, String p_strName, int p_iColor, ObjPrinter p_Printer, boolean p_bEnabled, List<ObjProduct> p_lstProduct){
+    ObjCategory(String p_strName, int p_iColor, ObjPrinter p_Printer, boolean p_bEnabled, List<ObjProduct> p_lstProduct){
         this.m_strName = p_strName;
         this.m_iColor = p_iColor;
         this.m_Printer = p_Printer;
@@ -22,9 +21,6 @@ public class ObjCategory {
         this.m_lstProduct = p_lstProduct;
     }
 
-    public int getID(){
-        return this.m_iID;
-    }
     public String getName(){
         return this.m_strName;
     }
@@ -41,9 +37,6 @@ public class ObjCategory {
         return this.m_lstProduct;
     }
 
-    public void setID(int p_iID){
-        this.m_iID = p_iID;
-    }
     public void setName(String p_strName){
         this.m_strName = p_strName;
     }

@@ -9,8 +9,13 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -109,16 +114,21 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void readSQLiteDB(){
-        //read printers
-        SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
-        if(GlobVar.m_lstPrinter.isEmpty()){
-            GlobVar.m_lstPrinter = db_printer.allPrinters();
-        }
+        try{
+            //read printers
+            SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
+            if(GlobVar.m_lstPrinter.isEmpty()){
+                GlobVar.m_lstPrinter = db_printer.allPrinters();
+            }
 
-        //read categories
-        SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
-        if(GlobVar.m_lstCategory.isEmpty()) {
-            GlobVar.m_lstCategory = db_category.allCategories();
+            //read categories
+            SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
+            if(GlobVar.m_lstCategory.isEmpty()) {
+                GlobVar.m_lstCategory = db_category.allCategories();
+            }
+        }
+        catch(SQLiteException se){
+            Log.e(getClass().getSimpleName(), "Could not create or open the database");
         }
     }
 }
