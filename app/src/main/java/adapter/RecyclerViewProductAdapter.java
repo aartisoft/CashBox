@@ -22,13 +22,11 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
 
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textview_itemname;
         public TextView textview_category;
         public TextView textview_pawn;
         public TextView textview_vk;
-
-        OnItemClickListener onItemClickListener;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
@@ -37,11 +35,6 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
             textview_category = view.findViewById(R.id.editproduct_rv_items_category);
             textview_pawn = view.findViewById(R.id.editproduct_rv_items_pawn);
             textview_pawn = view.findViewById(R.id.editproduct_rv_items_vk);
-        }
-
-        @Override
-        public void onClick(View v) {
-            onItemClickListener.onItemClick(getAdapterPosition());
         }
     }
 
@@ -63,7 +56,7 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
         final ObjProduct item = productList.get(position);
         holder.textview_itemname.setText((item).getName());
         holder.textview_category.setText((item).getCategory());
-        holder.textview_vk.setText((item).getVK().toString());
+        holder.textview_vk.setText(String.valueOf((item).getVK()));
 
         //set pawn
         String strPawn = "";
@@ -90,9 +83,5 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
         productList.add(position, item);
         // notify item added by position
         notifyItemInserted(position);
-    }
-
-    public interface OnItemClickListener{
-         void onItemClick(int position);
     }
 }

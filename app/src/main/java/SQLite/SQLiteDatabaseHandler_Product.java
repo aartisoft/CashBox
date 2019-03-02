@@ -15,7 +15,7 @@ import objects.ObjProduct;
 public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "Product";
+    private static final String DATABASE_NAME = "ProductDB";
     private static final String TABLE_NAME = "Products";
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
@@ -36,8 +36,8 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE Products ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "name TEXT, "
-                + "vk FLOAT, " + "bpwan BOOLEAN, "
-                + "pawn FLOAT, " + "enabled BOOLEAN, " + "category TEXT)";
+                + "vk FLOAT, " + "bpwan INTEGER, "
+                + "pawn FLOAT, " + "enabled INTEGER, " + "category TEXT)";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -60,12 +60,25 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
             do {
                 if(cursor.getString(7).equals(p_strCategory)){
                     product = new ObjProduct();
-                    product.setID(Integer.parseInt(cursor.getString(0)));
                     product.setName(cursor.getString(1));
-                    product.setVK(Float.parseFloat(cursor.getString(2)));
-                    product.setbPAWN(Boolean.parseBoolean(cursor.getString(3)));
-                    product.setPAWN(Float.parseFloat(cursor.getString(4)));
-                    product.setEnabled(Boolean.parseBoolean(cursor.getString(5)));
+                    product.setVK(Double.parseDouble(cursor.getString(2)));
+
+                    //set pawn
+                    boolean bPawn = true;
+                    if(cursor.getString(3).equals("0")){
+                        bPawn = false;
+                    }
+                    product.setbPAWN(bPawn);
+
+                    product.setPAWN(Double.parseDouble(cursor.getString(4)));
+
+                    //set enabled
+                    boolean bEnabled = true;
+                    if(cursor.getString(5).equals("0")){
+                        bEnabled = false;
+                    }
+                    product.setEnabled(bEnabled);
+
                     products.add(product);
                 }
             } while (cursor.moveToNext());
@@ -89,7 +102,6 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         ObjProduct product = new ObjProduct();
-        product.setID(Integer.parseInt(cursor.getString(0)));
         product.setName(cursor.getString(1));
         product.setVK(Float.parseFloat(cursor.getString(2)));
         product.setbPAWN(Boolean.parseBoolean(cursor.getString(3)));
@@ -102,12 +114,17 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
     public void addProduct(ObjProduct product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, product.getID());
         values.put(KEY_NAME, product.getName());
         values.put(KEY_VK, product.getVK());
-        values.put(KEY_BPAWN, product.getbPawn());
+
+        int bpawn = product.getbPawn() ? 1 : 0;
+        values.put(KEY_BPAWN, bpawn);
+
         values.put(KEY_PAWN, product.getPawn());
-        values.put(KEY_ENABLED, product.getEnabled());
+
+        int key_enabled = product.getEnabled() ? 1 : 0;
+        values.put(KEY_ENABLED, key_enabled);
+
         values.put(KEY_CATEGORY, product.getCategory());
 
         // insert
@@ -118,18 +135,23 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
     public int updatePrinter(ObjProduct product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, product.getID());
         values.put(KEY_NAME, product.getName());
         values.put(KEY_VK, product.getVK());
-        values.put(KEY_BPAWN, product.getbPawn());
+
+        int bpawn = product.getbPawn() ? 1 : 0;
+        values.put(KEY_BPAWN, bpawn);
+
         values.put(KEY_PAWN, product.getPawn());
-        values.put(KEY_ENABLED, product.getEnabled());
+
+        int key_enabled = product.getEnabled() ? 1 : 0;
+        values.put(KEY_ENABLED, key_enabled);
+
         values.put(KEY_CATEGORY, product.getCategory());
 
         int i = db.update(TABLE_NAME, // table
                 values, // column/value
-                "id = ?", // selections
-                new String[] { String.valueOf(product.getID()) });
+                "name = ?", // selections
+                new String[] { String.valueOf(product.getName()) });
 
         db.close();
 
@@ -139,7 +161,7 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
     public void deleteProduct(ObjProduct product) {
         // Get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, "id = ?", new String[] { String.valueOf(product.getID()) });
+        db.delete(TABLE_NAME, "name = ?", new String[] { String.valueOf(product.getName()) });
         db.close();
     }
 }

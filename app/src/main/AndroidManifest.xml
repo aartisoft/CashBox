@@ -31,6 +31,7 @@
         <activity android:name=".EditCategory_Add"></activity>
         <activity android:name=".EditCategory_Edit"></activity>
         <activity android:name=".EditProduct"></activity>
+        <activity android:name=".EditProduct_Add"></activity>
     </application>
 
 </manifest>

@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
 import adapter.RecyclerViewProductAdapter;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +26,7 @@ import objects.ObjProduct;
 import recyclerview.RecyclerItemTouchHelper;
 import recyclerview.RecyclerItemTouchHelperActions;
 
-public class EditProduct extends AppCompatActivity implements RecyclerViewProductAdapter.OnItemClickListener{
+public class EditProduct extends AppCompatActivity{
 
     private RecyclerViewProductAdapter m_adapter;
     private RecyclerItemTouchHelper m_RecyclerItemTouchHelper;
@@ -80,7 +79,7 @@ public class EditProduct extends AppCompatActivity implements RecyclerViewProduc
     private View.OnClickListener fabPlusOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(EditProduct.this, EditCategory_Add.class);
+            Intent intent = new Intent(EditProduct.this, EditProduct_Add.class);
             startActivity(intent);
         }
     };
@@ -120,17 +119,6 @@ public class EditProduct extends AppCompatActivity implements RecyclerViewProduc
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    @Override
-    public void onItemClick(int position) {
-
-        ObjCategory category = GlobVar.m_lstCategory.get(position);
-
-        //Intent intent = new Intent(EditCategory.this, EditCategory_Edit.class);
-        //intent.putExtra("CATEGORY", category);
-        //startActivity(intent);
-    }
-
 
     private void setupRecyclerView(){
         m_adapter = new RecyclerViewProductAdapter(this, GlobVar.m_lstProduct);
