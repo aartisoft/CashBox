@@ -5,29 +5,27 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import SQLite.SQLiteDatabaseHandler_Category;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.ItemTouchHelper;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
+import SQLite.SQLiteDatabaseHandler_Category;
 import adapter.RecyclerViewCategoryAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import global.GlobVar;
 import objects.ObjCategory;
 import recyclerview.RecyclerItemTouchHelper;
 import recyclerview.RecyclerItemTouchHelperActions;
 
-public class EditCategory extends AppCompatActivity implements RecyclerViewCategoryAdapter.OnItemClickListener{
+public class EditProduct extends AppCompatActivity implements RecyclerViewCategoryAdapter.OnItemClickListener{
 
     private RecyclerViewCategoryAdapter m_adapter;
     private RecyclerItemTouchHelper m_RecyclerItemTouchHelper;
@@ -48,18 +46,18 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
     protected void onCreate(Bundle savedInstanceState) {
         hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editcategory);
+        setContentView(R.layout.activity_editproduct);
 
         //init variables
         m_Context = this;
-        m_linearlayout = findViewById(R.id.editcategory_linearlayout);
-        m_recyclerview = findViewById(R.id.editcategory_recycler_view);
-        m_fab_plus = findViewById(R.id.editcategory_fab);
+        m_linearlayout = findViewById(R.id.editproduct_linearlayout);
+        m_recyclerview = findViewById(R.id.editproduct_recycler_view);
+        m_fab_plus = findViewById(R.id.editproduct_fab);
         m_decorView = getWindow().getDecorView();
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
-        Toolbar toolbar = findViewById(R.id.toolbar_editcategory);
+        Toolbar toolbar = findViewById(R.id.toolbar_editproduct);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -75,7 +73,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
     private View.OnClickListener fabPlusOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(EditCategory.this, EditCategory_Add.class);
+            Intent intent = new Intent(EditProduct.this, EditCategory_Add.class);
             startActivity(intent);
         }
     };
@@ -106,7 +104,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(EditCategory.this, Main.class);
+                Intent intent = new Intent(EditProduct.this, Main.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("EXTRA_SESSION_ID", 1);
                 startActivity(intent);
@@ -123,9 +121,9 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
 
         ObjCategory category = GlobVar.m_lstCategory.get(position);
 
-        Intent intent = new Intent(EditCategory.this, EditProduct.class);
-        intent.putExtra("CATEGORY", category.getName());
-        startActivity(intent);
+        //Intent intent = new Intent(EditCategory.this, EditCategory_Edit.class);
+        //intent.putExtra("CATEGORY", category);
+        //startActivity(intent);
     }
 
 
@@ -175,7 +173,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
                 ObjCategory obj_category = GlobVar.m_lstCategory.get(position);
                 String category = obj_category.getName();
 
-                Intent intent = new Intent(EditCategory.this, EditCategory_Edit.class);
+                Intent intent = new Intent(EditProduct.this, EditCategory_Edit.class);
                 intent.putExtra("CATEGORY", category);
                 startActivity(intent);
             }

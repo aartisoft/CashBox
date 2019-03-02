@@ -7,6 +7,7 @@ import java.util.List;
 
 import objects.ObjCategory;
 import objects.ObjPrinter;
+import objects.ObjProduct;
 
 public abstract class GlobVar extends Application {
 
@@ -15,5 +16,6 @@ public abstract class GlobVar extends Application {
     public static String m_strBedienername = "Bedienername";
     public static int m_iTables = 0;
     public static List<ObjCategory> m_lstCategory = new ArrayList<ObjCategory>();
+    public static List<ObjProduct> m_lstProduct = new ArrayList<ObjProduct>();
 
 }

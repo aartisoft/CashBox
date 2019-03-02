@@ -23,6 +23,7 @@
     <string name="src_KeineDruckerHinzugefuegt">Keine Drucker hinzugefügt</string>
     <string name="src_KeinDruckerHinzugefuegt">Kein Drucker hinzugefügt</string>
     <string name="src_KeineKategorienHinzugefuegt">Keine Kategorien hinzugefügt</string>
+    <string name="src_KeineProdukteHinzugefuegt">Keine Produkte hinzugefügt</string>
     <string name="src_KeineDruckerVorhanden">Keine Drucker vorhanden</string>
     <string name="src_TestnachrichtVersendet">Testnachricht versendet</string>
     <string name="src_Hersteller">Hersteller</string>
@@ -60,6 +61,7 @@
     <string name="src_Entfernt">entfernt</string>
     <string name="src_Rueckgaengig">Rückgängig</string>
     <string name="src_Bearbeiten">Bearbeiten</string>
+    <string name="src_Produkte">Produkte</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

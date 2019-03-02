@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import SQLite.SQLiteDatabaseHandler_Category;
-import SQLite.SQLiteDatabaseHandler_Printer;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
