@@ -63,7 +63,6 @@ public class EditProduct extends AppCompatActivity{
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
         Toolbar toolbar = findViewById(R.id.toolbar_editproduct);
-        //toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -80,6 +79,7 @@ public class EditProduct extends AppCompatActivity{
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(EditProduct.this, EditProduct_Add.class);
+            intent.putExtra("CATEGORY", m_SessionCategory);
             startActivity(intent);
         }
     };

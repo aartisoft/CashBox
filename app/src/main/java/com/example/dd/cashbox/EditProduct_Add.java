@@ -47,6 +47,7 @@ public class EditProduct_Add extends AppCompatActivity {
     private SwitchCompat m_PawnSwitch;
     private SwitchCompat m_EnableSwitch;
     private View m_decorView;
+    private String m_SessionCategory;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -66,11 +67,14 @@ public class EditProduct_Add extends AppCompatActivity {
         m_TextViewTitle = findViewById(R.id.editproduct_add_tititle);
         m_EditTextName = findViewById(R.id.editproduct_add_tvname);
         m_EditTextVK = findViewById(R.id.editproduct_add_tvvk);
-        m_EditTextPawn = findViewById(R.id.editproduct_add_tvvk);
+        m_EditTextPawn = findViewById(R.id.editproduct_add_tvpawn);
         m_fab = findViewById(R.id.editproduct_add_fab);
         m_decorView = getWindow().getDecorView();
         m_PawnSwitch = findViewById(R.id.editproduct_add_Pawnswitch);
         m_EnableSwitch = findViewById(R.id.editproduct_add_Enabledswitch);
+
+        //activity variables
+        m_SessionCategory = getIntent().getStringExtra( "CATEGORY");
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -111,10 +115,10 @@ public class EditProduct_Add extends AppCompatActivity {
                     ObjProduct product = new ObjProduct();
                     product.setName(m_EditTextName.getText().toString());
                     product.setVK(Double.parseDouble(m_EditTextVK.getText().toString()));
-
                     product.setEnabled(m_EnableSwitch.isChecked());
                     product.setbPAWN(m_PawnSwitch.isChecked());
                     product.setPAWN(Double.parseDouble(m_EditTextPawn.getText().toString()));
+                    product.set_Category(m_SessionCategory);
 
                     //save category to global and sql
                     GlobVar.m_lstProduct.add(product);
@@ -124,6 +128,7 @@ public class EditProduct_Add extends AppCompatActivity {
                     Toast.makeText(EditProduct_Add.this, getResources().getString(R.string.src_ProduktWurdeAngelegt), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(EditProduct_Add.this, EditProduct.class);
+                    intent.putExtra("CATEGORY", m_SessionCategory);
                     startActivity(intent);
                     finish();
                 } else {

@@ -29,14 +29,19 @@
                 android:textStyle="bold"
                 tools:text="Produktnname" />
 
-            <TextView
-                android:id="@+id/editproduct_rv_items_vk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="textEnd"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:text="VK" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/editproduct_rv_items_vk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="VK" />
+            </RelativeLayout>
 
         </LinearLayout>
 

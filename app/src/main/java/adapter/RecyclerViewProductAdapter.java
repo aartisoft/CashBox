@@ -33,8 +33,8 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
 
             textview_itemname = view.findViewById(R.id.editproduct_rv_items_name);
             textview_category = view.findViewById(R.id.editproduct_rv_items_category);
+            textview_vk = view.findViewById(R.id.editproduct_rv_items_vk);
             textview_pawn = view.findViewById(R.id.editproduct_rv_items_pawn);
-            textview_pawn = view.findViewById(R.id.editproduct_rv_items_vk);
         }
     }
 
@@ -46,7 +46,7 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.editcategory_recyclerview_items, parent, false);
+                .inflate(R.layout.editproduct_recyclerview_items, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -56,12 +56,20 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
         final ObjProduct item = productList.get(position);
         holder.textview_itemname.setText((item).getName());
         holder.textview_category.setText((item).getCategory());
-        holder.textview_vk.setText(String.valueOf((item).getVK()));
+
+        //set VK
+        String strVK = String.valueOf((item).getVK()) + "€";
+        strVK = strVK.replace(".", ",");
+        holder.textview_vk.setText(strVK);
 
         //set pawn
         String strPawn = "";
         if((item).getbPawn()){
-            strPawn = (item).getName();
+            strPawn = context.getResources().getString(R.string.src_Pfand) + ": " + String.valueOf((item).getPawn()) + "€";
+            strPawn = strPawn.replace(".", ",");
+        }
+        else{
+            strPawn = context.getResources().getString(R.string.src_KeinPfand);
         }
         holder.textview_pawn.setText(strPawn);
     }
