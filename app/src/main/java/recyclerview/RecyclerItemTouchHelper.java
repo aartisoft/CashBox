@@ -118,7 +118,17 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.Callback {
                     });
                     setItemsClickable(recyclerView, true);
                     swipeBack = false;
+
+                    if (buttonsActions != null && buttonInstance != null && buttonInstance.contains(event.getX(), event.getY())) {
+                        if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
+                            buttonsActions.onLeftClicked(viewHolder.getAdapterPosition());
+                        }
+                        else if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
+                            buttonsActions.onRightClicked(viewHolder.getAdapterPosition());
+                        }
+                    }
                     buttonShowedState = ButtonsState.GONE;
+                    currentItemViewHolder = null;
                 }
                 return false;
             }
@@ -190,5 +200,11 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.Callback {
                 return false;
             }
         });
+    }
+
+    public void onDraw(Canvas c) {
+        if (currentItemViewHolder != null) {
+            drawButtons(c, currentItemViewHolder);
+        }
     }
 }
