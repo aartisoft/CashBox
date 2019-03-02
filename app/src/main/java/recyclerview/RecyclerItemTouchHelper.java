@@ -11,6 +11,8 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.dd.cashbox.R;
+
 import adapter.RecyclerViewCategoryAdapter;
 
 import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE;
@@ -150,14 +152,14 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.Callback {
         Paint p = new Paint();
 
         RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
-        p.setColor(Color.BLUE);
+        p.setColor(itemView.getResources().getColor(R.color.colorPrimary3));
         c.drawRoundRect(leftButton, corners, corners, p);
-        drawText("EDIT", c, leftButton, p);
+        drawText(itemView.getResources().getString(R.string.src_Bearbeiten), c, leftButton, p);
 
         RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop(), itemView.getRight(), itemView.getBottom());
-        p.setColor(Color.RED);
+        p.setColor(itemView.getResources().getColor(R.color.colorRed));
         c.drawRoundRect(rightButton, corners, corners, p);
-        drawText("DELETE", c, rightButton, p);
+        drawText(itemView.getResources().getString(R.string.src_Löschen), c, rightButton, p);
 
         buttonInstance = null;
         if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
@@ -169,7 +171,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.Callback {
     }
 
     private void drawText(String text, Canvas c, RectF button, Paint p) {
-        float textSize = 60;
+        float textSize = 50;
         p.setColor(Color.WHITE);
         p.setAntiAlias(true);
         p.setTextSize(textSize);
