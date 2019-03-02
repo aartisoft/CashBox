@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -53,20 +54,21 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
+        DecimalFormat df = new DecimalFormat("#.00");
         final ObjProduct item = productList.get(position);
         holder.textview_itemname.setText((item).getName());
         holder.textview_category.setText((item).getCategory());
 
         //set VK
-        String strVK = String.valueOf((item).getVK()) + "€";
-        strVK = strVK.replace(".", ",");
+        String strVK = df.format((item).getVK());
+        strVK = strVK + "€";
         holder.textview_vk.setText(strVK);
 
         //set pawn
         String strPawn = "";
         if((item).getbPawn()){
-            strPawn = context.getResources().getString(R.string.src_Pfand) + ": " + String.valueOf((item).getPawn()) + "€";
-            strPawn = strPawn.replace(".", ",");
+            strPawn = df.format((item).getPawn());
+            strPawn = context.getResources().getString(R.string.src_Pfand) + ": " + strPawn + "€";
         }
         else{
             strPawn = context.getResources().getString(R.string.src_KeinPfand);
