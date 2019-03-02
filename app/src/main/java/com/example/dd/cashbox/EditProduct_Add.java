@@ -59,7 +59,7 @@ public class EditProduct_Add extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editcategory_editadd);
+        setContentView(R.layout.activity_editproduct_editadd);
 
         //init variables
         m_Context = this;
@@ -74,7 +74,7 @@ public class EditProduct_Add extends AppCompatActivity {
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
-        Toolbar toolbar = findViewById(R.id.toolbar_editcategory_add);
+        Toolbar toolbar = findViewById(R.id.toolbar_editproduct_add);
         toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

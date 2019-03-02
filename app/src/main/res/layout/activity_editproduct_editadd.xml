@@ -66,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:textColorHint="@color/colorGrey"
             app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
             <EditText
@@ -82,13 +83,14 @@
                 android:textColorHint="@color/colorGrey"
                 android:textSize="15dp"
                 android:textCursorDrawable="@drawable/colorcursor_black"
-                android:inputType="text"
+                android:inputType="numberDecimal"
                 android:singleLine="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editproduct_add_tipawn"
@@ -118,15 +120,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/editproduct_add_Pawnswitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="20dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
                 android:text=""
                 android:inputType="numberDecimal"
                 android:theme="@style/Color1SwitchStyle"/>
@@ -139,9 +140,9 @@
             android:id="@+id/editproduct_add_Enabledswitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
             android:text="@string/src_Aktiv"
             android:theme="@style/Color1SwitchStyle"/>
