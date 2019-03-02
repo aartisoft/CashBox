@@ -16,7 +16,17 @@ import adapter.RecyclerViewCategoryAdapter;
 
 public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
+    enum ButtonsState {
+        GONE,
+        LEFT_VISIBLE,
+        RIGHT_VISIBLE
+    }
+
+
     private RecyclerItemTouchHelperListener listener;
+    private boolean swipeBack = false;
+    private ButtonsState buttonShowedState = ButtonsState.GONE;
+    private static final float buttonWidth = 300;
 
     public RecyclerItemTouchHelper(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener) {
         super(dragDirs, swipeDirs);
@@ -56,6 +66,8 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
+
+
         final View foregroundView = ((RecyclerViewCategoryAdapter.MyViewHolder) viewHolder).viewForeground;
 
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
@@ -69,6 +81,10 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public int convertToAbsoluteDirection(int flags, int layoutDirection) {
+        if (swipeBack) {
+            swipeBack = false;
+            return 0;
+        }
         return super.convertToAbsoluteDirection(flags, layoutDirection);
     }
 
