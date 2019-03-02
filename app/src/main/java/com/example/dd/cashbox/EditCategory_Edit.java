@@ -42,6 +42,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     private Spinner m_Spinner_Printer;
     private SwitchCompat m_Switch;
     private View m_decorView;
+    private String m_SessionCategory;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -65,6 +66,9 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         m_decorView = getWindow().getDecorView();
         m_Switch = findViewById(R.id.editcategory_add_switch);
 
+        //activity variables
+        m_SessionCategory = getIntent().getStringExtra( "");
+
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
         Toolbar toolbar = findViewById(R.id.toolbar_editcategory_add);
@@ -77,8 +81,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         m_TextViewTitle.setText(R.string.src_KategorieBearbeiten);
 
         //set values
-
-
+        setData();
 
         //set Listener
         m_fab.setOnClickListener(fabOnClickListener);
@@ -189,31 +192,27 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void setSpinnerPrinter(){
+    private void setSpinnerPrinter(ObjPrinter p_printer){
         m_Spinner_Printer.setPrompt(getResources().getString(R.string.src_DruckerAuswaehlen));
+        int printer_position = 0;
 
         if(!GlobVar.m_lstPrinter.isEmpty()){
             List<String> categories = new ArrayList<>();
+
+            int counter = 0;
             for(ObjPrinter printer : GlobVar.m_lstPrinter){
+                //get position of choosen printer
+                if(printer.getMacAddress().equals(p_printer.getMacAddress())){
+                    printer_position = counter;
+                }
                 categories.add(printer.getDeviceName() + " - MAC:" + printer.getMacAddress());
+                counter++;
             }
+
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categories);
             m_Spinner_Printer.setAdapter(dataAdapter);
+
+            m_Spinner_Printer.setSelection(printer_position);
         }
         else{
             List<String> categories = new ArrayList<>();
@@ -230,8 +229,34 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
 
     }
 
+    private void setData(){
+        for(ObjCategory category : GlobVar.m_lstCategory){
+            if(category.getName().equals(m_SessionCategory)){
+                m_EditTextName.setText(category.getName());
+                m_EditTextColor.setBackgroundColor(category.getProdColor());
+                setSpinnerPrinter(category.getPrinter());
+                m_Switch.setChecked(category.getEnabled());
+            }
+        }
+    }
+
     @Override
     public void onFinishChooseColorDialog(int colorInt) {
         m_EditTextColor.setBackgroundColor(colorInt);
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

@@ -174,6 +174,15 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
                 m_adapter.notifyItemRemoved(position);
                 m_adapter.notifyItemRangeChanged(position, m_adapter.getItemCount());
             }
+            @Override
+            public void onLeftClicked(int position) {
+                ObjCategory obj_category = GlobVar.m_lstCategory.get(position);
+                String category = obj_category.getName();
+
+                Intent intent = new Intent(EditCategory.this, EditCategory_Edit.class);
+                intent.putExtra("CATEGORY", category);
+                startActivity(intent);
+            }
         });
 
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(m_RecyclerItemTouchHelper);
