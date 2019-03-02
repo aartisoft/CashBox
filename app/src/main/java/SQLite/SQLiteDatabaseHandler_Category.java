@@ -128,9 +128,10 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int updatePrinter(ObjCategory category) {
+    public int updateCategory(ObjCategory category) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+
         values.put(KEY_NAME, category.getName());
         values.put(KEY_COLOR, category.getProdColor());
 
@@ -138,7 +139,8 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
         ObjPrinter printer = category.getPrinter();
         values.put(KEY_PRINTERMACADRESS, printer.getMacAddress());
 
-        values.put(KEY_ENABLED, category.getEnabled());
+        int key_enabled = category.getEnabled() ? 1 : 0;
+        values.put(KEY_ENABLED, key_enabled);
 
         int i = db.update(TABLE_NAME, // table
                 values, // column/value

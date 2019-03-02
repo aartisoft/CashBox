@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import SQLite.SQLiteDatabaseHandler_Category;
 import adapter.ListViewPrinterAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -34,6 +36,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
     private RecyclerViewCategoryAdapter m_adapter;
     private RecyclerItemTouchHelper m_RecyclerItemTouchHelper;
     private RecyclerView m_recyclerview;
+    private LinearLayout m_linearlayout;
     private FloatingActionButton m_fab_plus;
     private Context m_Context;
     private View m_decorView;
@@ -53,6 +56,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
 
         //init variables
         m_Context = this;
+        m_linearlayout = findViewById(R.id.editcategory_linearlayout);
         m_recyclerview = findViewById(R.id.editcategory_recycler_view);
         m_fab_plus = findViewById(R.id.editcategory_fab);
         m_decorView = getWindow().getDecorView();
@@ -168,9 +172,35 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
         m_RecyclerItemTouchHelper = new RecyclerItemTouchHelper(new RecyclerItemTouchHelperActions() {
             @Override
             public void onRightClicked(int position) {
+                //get current category
+                final ObjCategory category = GlobVar.m_lstCategory.get(position);
+
+                // backup of removed item for undo purpose
+                final ObjCategory deletedItem = GlobVar.m_lstCategory.get(position);
+                final int deletedIndex = position;
+
                 m_adapter.removeItem(position);
                 m_adapter.notifyItemRemoved(position);
                 m_adapter.notifyItemRangeChanged(position, m_adapter.getItemCount());
+
+                //delete category in database
+                final SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
+                db.deleteCategory(category);
+
+                // showing snack bar with Undo option
+                Snackbar snackbar = Snackbar
+                        .make(m_linearlayout, category.getName() + " " + getResources().getString(R.string.src_Entfernt), Snackbar.LENGTH_LONG);
+                snackbar.setAction(getResources().getString(R.string.src_Rueckgaengig), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        // undo is selected, restore the deleted item
+                        m_adapter.restoreItem(deletedItem, deletedIndex);
+                        db.addCategory(category);
+                    }
+                });
+                snackbar.setActionTextColor(Color.YELLOW);
+                snackbar.show();
             }
             @Override
             public void onLeftClicked(int position) {

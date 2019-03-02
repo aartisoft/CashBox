@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import SQLite.SQLiteDatabaseHandler_Category;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -141,7 +142,12 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                             category.setPrinter(foundPrinter);
                             category.setEnabled(m_Switch.isChecked());
 
+
+                            //update global and in database
                             GlobVar.m_lstCategory.set(indexcounter, category);
+                            SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
+                            db.updateCategory(category);
+
                             Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieGeaendert), Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);

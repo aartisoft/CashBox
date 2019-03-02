@@ -115,16 +115,21 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void readSQLiteDB(){
         try{
-            //read printers
-            SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
-            if(GlobVar.m_lstPrinter.isEmpty()){
-                GlobVar.m_lstPrinter = db_printer.allPrinters();
-            }
+            if(GlobVar.m_bReadSQL){
+                //read printers
+                SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
+                if(GlobVar.m_lstPrinter.isEmpty()){
+                    GlobVar.m_lstPrinter = db_printer.allPrinters();
+                }
 
-            //read categories
-            SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
-            if(GlobVar.m_lstCategory.isEmpty()) {
-                GlobVar.m_lstCategory = db_category.allCategories();
+                //read categories
+                SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
+                if(GlobVar.m_lstCategory.isEmpty()) {
+                    GlobVar.m_lstCategory = db_category.allCategories();
+                }
+
+                //database read only at start of app
+                GlobVar.m_bReadSQL = false;
             }
         }
         catch(SQLiteException se){
