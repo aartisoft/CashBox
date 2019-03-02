@@ -27,11 +27,10 @@ import global.GlobVar;
 import objects.ObjCategory;
 import recyclerview.RecyclerItemTouchHelper;
 
-public class EditCategory extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewCategoryAdapter.OnItemClickListener{
+public class EditCategory extends AppCompatActivity implements RecyclerViewCategoryAdapter.OnItemClickListener{
 
     private RecyclerViewCategoryAdapter m_adapter;
     private RecyclerView m_recyclerview;
-    private LinearLayout m_linearlayour;
     private FloatingActionButton m_fab_plus;
     private Context m_Context;
     private View m_decorView;
@@ -51,7 +50,6 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
 
         //init variables
         m_Context = this;
-        m_linearlayour = findViewById(R.id.editcategory_linearlayout);
         m_recyclerview = findViewById(R.id.editcategory_recycler_view);
         m_fab_plus = findViewById(R.id.editcategory_fab);
         m_decorView = getWindow().getDecorView();
@@ -73,8 +71,11 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
         m_adapter.notifyDataSetChanged();
 
         //set item touch helper
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(m_recyclerview);
+        //ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        //new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(m_recyclerview);
+        RecyclerItemTouchHelper swipeController = new RecyclerItemTouchHelper();
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(m_recyclerview);
 
         //prepare Category
 
@@ -128,7 +129,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
         }
     }
 
-    @Override
+    /*@Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof RecyclerViewCategoryAdapter.MyViewHolder) {
             // get the removed item name to display it in snack bar
@@ -155,7 +156,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerItemTouch
             snackbar.setActionTextColor(Color.YELLOW);
             snackbar.show();
         }
-    }
+    }*/
 
     private void prepareCategory(){
 

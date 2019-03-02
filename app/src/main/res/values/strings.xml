@@ -46,6 +46,7 @@
     <string name="src_Farbe">Farbe</string>
     <string name="src_Drucker">Drucker</string>
     <string name="src_Aktiv">Aktiv</string>
+    <string name="src_Inaktiv">Inaktiv</string>
     <string name="src_NichtAlleFelderAusgefuellt">Nicht alle Felder ausgefüllt</string>
     <string name="src_KategorieAngelegt">Kategorie wurde angelegt</string>
     <string name="src_Uebernehmen">Übernehmen</string>

@@ -19,14 +19,13 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "Products";
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
-    private static final String KEY_EK = "ek";
     private static final String KEY_VK = "vk";
     private static final String KEY_BPAWN = "bpawn";
     private static final String KEY_PAWN = "pawn";
     private static final String KEY_ENABLED= "enabled";
     private static final String KEY_CATEGORY= "category";
 
-    private static final String[] COLUMNS = { KEY_ID, KEY_NAME, KEY_EK, KEY_VK,
+    private static final String[] COLUMNS = { KEY_ID, KEY_NAME, KEY_VK,
             KEY_BPAWN, KEY_PAWN, KEY_ENABLED, KEY_CATEGORY };
 
     public SQLiteDatabaseHandler_Product(Context context){
@@ -37,7 +36,7 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE Products ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "name TEXT, "
-                + "ek FLOAT, " + "vk FLOAT, " + "bpwan BOOLEAN, "
+                + "vk FLOAT, " + "bpwan BOOLEAN, "
                 + "pawn FLOAT, " + "enabled BOOLEAN, " + "category TEXT)";
 
         db.execSQL(CREATION_TABLE);
@@ -63,11 +62,10 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
                     product = new ObjProduct();
                     product.setID(Integer.parseInt(cursor.getString(0)));
                     product.setName(cursor.getString(1));
-                    product.setEK(Float.parseFloat(cursor.getString(2)));
-                    product.setVK(Float.parseFloat(cursor.getString(3)));
-                    product.setbPAWN(Boolean.parseBoolean(cursor.getString(4)));
-                    product.setPAWN(Float.parseFloat(cursor.getString(5)));
-                    product.setEnabled(Boolean.parseBoolean(cursor.getString(6)));
+                    product.setVK(Float.parseFloat(cursor.getString(2)));
+                    product.setbPAWN(Boolean.parseBoolean(cursor.getString(3)));
+                    product.setPAWN(Float.parseFloat(cursor.getString(4)));
+                    product.setEnabled(Boolean.parseBoolean(cursor.getString(5)));
                     products.add(product);
                 }
             } while (cursor.moveToNext());
@@ -93,11 +91,10 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         ObjProduct product = new ObjProduct();
         product.setID(Integer.parseInt(cursor.getString(0)));
         product.setName(cursor.getString(1));
-        product.setEK(Float.parseFloat(cursor.getString(2)));
-        product.setVK(Float.parseFloat(cursor.getString(3)));
-        product.setbPAWN(Boolean.parseBoolean(cursor.getString(4)));
-        product.setPAWN(Float.parseFloat(cursor.getString(5)));
-        product.setEnabled(Boolean.parseBoolean(cursor.getString(6)));
+        product.setVK(Float.parseFloat(cursor.getString(2)));
+        product.setbPAWN(Boolean.parseBoolean(cursor.getString(3)));
+        product.setPAWN(Float.parseFloat(cursor.getString(4)));
+        product.setEnabled(Boolean.parseBoolean(cursor.getString(5)));
 
         return product;
     }
@@ -107,7 +104,6 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ID, product.getID());
         values.put(KEY_NAME, product.getName());
-        values.put(KEY_EK, product.getEK());
         values.put(KEY_VK, product.getVK());
         values.put(KEY_BPAWN, product.getbPawn());
         values.put(KEY_PAWN, product.getPawn());
@@ -124,7 +120,6 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ID, product.getID());
         values.put(KEY_NAME, product.getName());
-        values.put(KEY_EK, product.getEK());
         values.put(KEY_VK, product.getVK());
         values.put(KEY_BPAWN, product.getbPawn());
         values.put(KEY_PAWN, product.getPawn());

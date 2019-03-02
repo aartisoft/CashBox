@@ -18,6 +18,7 @@ import com.example.dd.cashbox.R;
 import java.util.List;
 
 import objects.ObjCategory;
+import objects.ObjPrinter;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
@@ -29,16 +30,18 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView textview_itemname;
-        public RelativeLayout viewBackground, viewForeground;
+        public TextView textview_printername;
+        public TextView textview_status;
+
         OnItemClickListener onItemClickListener;
 
         public MyViewHolder(@NonNull View view, OnItemClickListener onItemClickListener) {
             super(view);
             this.onItemClickListener = onItemClickListener;
 
-            textview_itemname = view.findViewById(R.id.editcategory_recycview_textviewname);
-            viewBackground = view.findViewById(R.id.editcategory_recycview_background);
-            viewForeground = view.findViewById(R.id.editcategory_recycview_foreground);
+            textview_itemname = view.findViewById(R.id.editcategory_rv_items_name);
+            textview_printername = view.findViewById(R.id.editcategory_rv_items_printer);
+            textview_status = view.findViewById(R.id.editcategory_rv_items_status);
 
             view.setOnClickListener(this);
         }
@@ -67,6 +70,22 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final ObjCategory item = categoryList.get(position);
         holder.textview_itemname.setText((item).getName());
+
+        //get printername
+        ObjPrinter printer = (item).getPrinter();
+        String printername = printer.getDeviceName() + " - " + printer.getMacAddress();
+        holder.textview_printername.setText(printername);
+
+        //get status
+        boolean bstatus = (item).getEnabled();
+        String status;
+        if(bstatus){
+            status = context.getResources().getString(R.string.src_Aktiv);
+        }
+        else{
+            status = context.getResources().getString(R.string.src_Inaktiv);
+        }
+        holder.textview_status.setText(status);
 
         /*Glide.with(context)
                    .load(item.getThumbnail())
