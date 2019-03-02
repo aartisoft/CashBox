@@ -53,6 +53,8 @@
     <string name="src_FarbeWaehlen">Farbe wählen</string>
     <string name="src_KategorieBearbeiten">Kategorie Bearbeiten</string>
     <string name="src_KategorieBereitsVorhanden">Kategorie bereits vorhanden</string>
+    <string name="src_KategorieNameBereitsVorhanden">Kategoriename bereits vorhanden</string>
+    <string name="src_KategorieGeaendert">Kategorie geändert</string>
     <string name="src_Entfernt">entfernt</string>
     <string name="src_Rueckgaengig">Rückgängig</string>
 

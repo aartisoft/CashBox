@@ -104,6 +104,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
                 for(ObjCategory category : GlobVar.m_lstCategory){
                     if(category.getName().equals(m_EditTextName.getText().toString())){
                         b_CategoryExists = true;
+                        break;
                     }
                 }
 
@@ -111,6 +112,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
                     ObjCategory category = new ObjCategory();
                     category.setName(m_EditTextName.getText().toString());
 
+                    //ColorDrawable can throw exception
                     try{
                         ColorDrawable viewColor = (ColorDrawable) m_EditTextColor.getBackground();
                         category.setProdColor(viewColor.getColor());

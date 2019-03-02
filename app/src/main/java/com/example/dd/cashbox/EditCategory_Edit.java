@@ -3,6 +3,7 @@ package com.example.dd.cashbox;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -100,33 +101,56 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                 Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
             }
             else {
-                if(!GlobVar.m_lstCategory.equals(m_EditTextName.getText().toString())){
-                    ObjCategory category = new ObjCategory();
-                    category.setName(m_EditTextName.getText().toString());
-                    category.setProdColor(m_EditTextColor.getDrawingCacheBackgroundColor());
-
-                    //get object printer
-                    ObjPrinter foundPrinter = new ObjPrinter();
-                    String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
-                    String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") +1);
-                    for(ObjPrinter printer : GlobVar.m_lstPrinter){
-                        if(printer.getMacAddress().equals(macadress)){
-                            foundPrinter = printer;
+                //does category already exists?
+                boolean b_CategoryExists = false;
+                for (ObjCategory objcategory : GlobVar.m_lstCategory) {
+                    if (objcategory.getName().equals(m_EditTextName.getText().toString())) {
+                        if (!objcategory.getName().equals(m_SessionCategory)) {
+                            b_CategoryExists = true;
                             break;
                         }
                     }
-
-                    category.setPrinter(foundPrinter);
-                    category.setEnabled(m_Switch.isChecked());
-
-                    GlobVar.m_lstCategory.add(category);
-                    Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieAngelegt), Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);
-                    startActivity(intent);
                 }
-                else{
-                    Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieBereitsVorhanden), Toast.LENGTH_SHORT).show();
+                int indexcounter = 0;
+                for (ObjCategory objcategory : GlobVar.m_lstCategory) {
+                    if (objcategory.getName().equals(m_SessionCategory)) {
+                        if (!b_CategoryExists) {
+                            ObjCategory category = new ObjCategory();
+                            category.setName(m_EditTextName.getText().toString());
+
+                            //ColorDrawable can throw exception
+                            try{
+                                ColorDrawable viewColor = (ColorDrawable) m_EditTextColor.getBackground();
+                                category.setProdColor(viewColor.getColor());
+                            }
+                            catch(Exception e){
+                                category.setProdColor(1);
+                            }
+
+                            //get object printer
+                            ObjPrinter foundPrinter = new ObjPrinter();
+                            String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
+                            String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") + 1);
+                            for (ObjPrinter printer : GlobVar.m_lstPrinter) {
+                                if (printer.getMacAddress().equals(macadress)) {
+                                    foundPrinter = printer;
+                                    break;
+                                }
+                            }
+
+                            category.setPrinter(foundPrinter);
+                            category.setEnabled(m_Switch.isChecked());
+
+                            GlobVar.m_lstCategory.set(indexcounter, category);
+                            Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieGeaendert), Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieNameBereitsVorhanden), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    indexcounter++;
                 }
             }
         }
