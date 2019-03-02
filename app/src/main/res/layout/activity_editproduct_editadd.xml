@@ -77,7 +77,7 @@
                 android:textColor="@color/colorBlack"
                 android:textStyle="normal"
                 android:textAlignment="textStart"
-                android:hint="@string/src_Name"
+                android:hint="Verkaufspreis"
                 android:backgroundTint="@color/colorGrey"
                 android:textColorHint="@color/colorGrey"
                 android:textSize="15dp"
@@ -86,32 +86,59 @@
                 android:singleLine="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/editproduct_add_tvprinter"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/src_Drucker"
-            android:textColorHint="@color/colorGrey"
-            android:textColor="@color/colorGrey"
-            android:textSize="15dp">
-        </TextView>
-        <Spinner
-            android:id="@+id/editproduct_add_spinnerprinter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="20dp"
-            android:spinnerMode="dialog"/>
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editproduct_add_tipawn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textColorHint="@color/colorGrey"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                <EditText
+                    android:id="@+id/editproduct_add_tvpawn"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="normal"
+                    android:textAlignment="textStart"
+                    android:hint="Pfand"
+                    android:backgroundTint="@color/colorGrey"
+                    android:textColorHint="@color/colorGrey"
+                    android:textSize="15dp"
+                    android:textCursorDrawable="@drawable/colorcursor_black"
+                    android:inputType="text"
+                    android:singleLine="true"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/editproduct_add_Pawnswitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:text=""
+                android:theme="@style/Color1SwitchStyle"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/editproduct_add_switch"
+            android:id="@+id/editproduct_add_Enabledswitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
