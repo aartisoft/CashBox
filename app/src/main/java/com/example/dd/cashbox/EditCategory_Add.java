@@ -2,12 +2,9 @@ package com.example.dd.cashbox;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.jaredrummler.android.colorpicker.ColorPanelView;
-import com.jaredrummler.android.colorpicker.ColorPickerView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -58,7 +55,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
     protected void onCreate(Bundle savedInstanceState) {
         hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editcategory_add);
+        setContentView(R.layout.activity_editcategory_editadd);
 
         //init variables
         m_Context = this;
@@ -101,7 +98,13 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
                 Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
             }
             else {
-                if(!GlobVar.m_lstCategory.equals(m_EditTextName.getText().toString())){
+                boolean b_CategoryExists = false;
+                for(ObjCategory category : GlobVar.m_lstCategory){
+                    if(category.getName().equals(m_EditTextName.getText().toString())){
+                        b_CategoryExists = true;
+                    }
+                }
+                if(!b_CategoryExists){
                     ObjCategory category = new ObjCategory();
                     category.setName(m_EditTextName.getText().toString());
                     category.setProdColor(m_EditTextColor.getDrawingCacheBackgroundColor());

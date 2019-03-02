@@ -55,7 +55,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     protected void onCreate(Bundle savedInstanceState) {
         hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editcategory_add);
+        setContentView(R.layout.activity_editcategory_editadd);
 
         //init variables
         m_Context = this;
@@ -63,11 +63,12 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         m_Spinner_Printer = findViewById(R.id.editcategory_add_spinnerprinter);
         m_fab = findViewById(R.id.editcategory_add_fab);
         m_EditTextName = findViewById(R.id.editcategory_add_tvname);
+        m_EditTextColor = findViewById(R.id.editcategory_add_tvcolor);
         m_decorView = getWindow().getDecorView();
         m_Switch = findViewById(R.id.editcategory_add_switch);
 
         //activity variables
-        m_SessionCategory = getIntent().getStringExtra( "");
+        m_SessionCategory = getIntent().getStringExtra( "CATEGORY");
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -132,7 +133,6 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     };
 
     private OnEditorActionListener DoneOnEditorActionListener = new OnEditorActionListener(){
-
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
