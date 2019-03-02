@@ -61,7 +61,7 @@
             android:clickable="true"/>
 
         <RelativeLayout
-            android:id="@+id/editproduct_tv_nocategory"
+            android:id="@+id/editproduct_tv_noproduct"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center" >

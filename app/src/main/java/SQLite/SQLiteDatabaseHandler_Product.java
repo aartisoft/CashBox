@@ -99,7 +99,7 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         return product;
     }
 
-    public void addPrinter(ObjProduct product) {
+    public void addProduct(ObjProduct product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_ID, product.getID());
@@ -136,7 +136,7 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         return i;
     }
 
-    public void deletePrinter(ObjProduct product) {
+    public void deleteProduct(ObjProduct product) {
         // Get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, "id = ?", new String[] { String.valueOf(product.getID()) });

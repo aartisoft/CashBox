@@ -14,7 +14,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import SQLite.SQLiteDatabaseHandler_Category;
-import adapter.RecyclerViewCategoryAdapter;
+import SQLite.SQLiteDatabaseHandler_Product;
+import adapter.RecyclerViewProductAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -22,18 +23,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import global.GlobVar;
 import objects.ObjCategory;
+import objects.ObjProduct;
 import recyclerview.RecyclerItemTouchHelper;
 import recyclerview.RecyclerItemTouchHelperActions;
 
-public class EditProduct extends AppCompatActivity implements RecyclerViewCategoryAdapter.OnItemClickListener{
+public class EditProduct extends AppCompatActivity implements RecyclerViewProductAdapter.OnItemClickListener{
 
-    private RecyclerViewCategoryAdapter m_adapter;
+    private RecyclerViewProductAdapter m_adapter;
     private RecyclerItemTouchHelper m_RecyclerItemTouchHelper;
     private RecyclerView m_recyclerview;
     private LinearLayout m_linearlayout;
     private FloatingActionButton m_fab_plus;
     private Context m_Context;
     private View m_decorView;
+    private String m_SessionCategory;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -48,6 +51,9 @@ public class EditProduct extends AppCompatActivity implements RecyclerViewCatego
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editproduct);
 
+        //activity variables
+        m_SessionCategory = getIntent().getStringExtra( "CATEGORY");
+
         //init variables
         m_Context = this;
         m_linearlayout = findViewById(R.id.editproduct_linearlayout);
@@ -58,10 +64,11 @@ public class EditProduct extends AppCompatActivity implements RecyclerViewCatego
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
         Toolbar toolbar = findViewById(R.id.toolbar_editproduct);
+        //toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        setTextNoCategory();
+        setTextNoProduct();
 
         //set RecyclerView
         setupRecyclerView();
@@ -104,9 +111,7 @@ public class EditProduct extends AppCompatActivity implements RecyclerViewCatego
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(EditProduct.this, Main.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("EXTRA_SESSION_ID", 1);
+                Intent intent = new Intent(EditProduct.this, EditCategory.class);
                 startActivity(intent);
                 finish();
                 return true;
@@ -128,7 +133,7 @@ public class EditProduct extends AppCompatActivity implements RecyclerViewCatego
 
 
     private void setupRecyclerView(){
-        m_adapter = new RecyclerViewCategoryAdapter(this, GlobVar.m_lstCategory, this);
+        m_adapter = new RecyclerViewProductAdapter(this, GlobVar.m_lstProduct);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         m_recyclerview.setLayoutManager(mLayoutManager);
@@ -137,10 +142,10 @@ public class EditProduct extends AppCompatActivity implements RecyclerViewCatego
             @Override
             public void onRightClicked(int position) {
                 //get current category
-                final ObjCategory category = GlobVar.m_lstCategory.get(position);
+                final ObjProduct product = GlobVar.m_lstProduct.get(position);
 
                 // backup of removed item for undo purpose
-                final ObjCategory deletedItem = GlobVar.m_lstCategory.get(position);
+                final ObjProduct deletedItem = GlobVar.m_lstProduct.get(position);
                 final int deletedIndex = position;
 
                 m_adapter.removeItem(position);
@@ -148,25 +153,25 @@ public class EditProduct extends AppCompatActivity implements RecyclerViewCatego
                 m_adapter.notifyItemRangeChanged(position, m_adapter.getItemCount());
 
                 //delete category in database
-                final SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
-                db.deleteCategory(category);
+                final SQLiteDatabaseHandler_Product db = new SQLiteDatabaseHandler_Product(m_Context);
+                db.deleteProduct(product);
 
                 // showing snack bar with Undo option
                 Snackbar snackbar = Snackbar
-                        .make(m_linearlayout, category.getName() + " " + getResources().getString(R.string.src_Entfernt), Snackbar.LENGTH_LONG);
+                        .make(m_linearlayout, product.getName() + " " + getResources().getString(R.string.src_Entfernt), Snackbar.LENGTH_LONG);
                 snackbar.setAction(getResources().getString(R.string.src_Rueckgaengig), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
                         // undo is selected, restore the deleted item
                         m_adapter.restoreItem(deletedItem, deletedIndex);
-                        db.addCategory(category);
-                        setTextNoCategory();
+                        db.addProduct(product);
+                        setTextNoProduct();
                     }
                 });
                 snackbar.setActionTextColor(Color.YELLOW);
                 snackbar.show();
-                setTextNoCategory();
+                setTextNoProduct();
             }
             @Override
             public void onLeftClicked(int position) {
@@ -193,12 +198,12 @@ public class EditProduct extends AppCompatActivity implements RecyclerViewCatego
         m_adapter.notifyDataSetChanged();
     }
 
-    private void setTextNoCategory(){
+    private void setTextNoProduct(){
         //set text if no category available
-        if(!GlobVar.m_lstCategory.isEmpty()){
-            findViewById(R.id.editcategory_tv_nocategory).setVisibility(View.INVISIBLE);
+        if(!GlobVar.m_lstProduct.isEmpty()){
+            findViewById(R.id.editproduct_tv_noproduct).setVisibility(View.INVISIBLE);
         }else{
-            findViewById(R.id.editcategory_tv_nocategory).setVisibility(View.VISIBLE);
+            findViewById(R.id.editproduct_tv_noproduct).setVisibility(View.VISIBLE);
         }
     }
 }
