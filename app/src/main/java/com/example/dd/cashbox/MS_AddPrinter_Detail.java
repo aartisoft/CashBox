@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import SQLite.SQLiteDatabaseHandler_Category;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -26,6 +28,7 @@ import SQLite.SQLiteDatabaseHandler_Printer;
 import adapter.ListViewPrinterDetailAdapter;
 import epson.EpsonPrintTestMsg;
 import global.GlobVar;
+import objects.ObjCategory;
 import objects.ObjPrinter;
 
 
@@ -113,6 +116,21 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
                     SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
                     GlobVar.m_lstPrinter.remove(m_ObjPrinter);
                     db.deletePrinter(m_ObjPrinter);
+
+                    //delete printer in categories
+                    int indexcounter = 0;
+                    SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
+
+                    for(ObjCategory category : GlobVar.m_lstCategory){
+                        ObjPrinter printer = category.getPrinter();
+                        if(printer.getMacAddress().equals(m_ObjPrinter.getMacAddress())){
+                            ObjCategory tempcategory = GlobVar.m_lstCategory.get(indexcounter);
+                            tempcategory.setPrinter(null);
+                            GlobVar.m_lstCategory.set(indexcounter, tempcategory);
+                            db_category.updateCategory(category.getName(), tempcategory);
+                        }
+                        indexcounter++;
+                    }
 
                     Toast.makeText(MS_AddPrinter_Detail.this, getResources().getString(R.string.src_DruckerEntfernt), Toast.LENGTH_SHORT).show();
 

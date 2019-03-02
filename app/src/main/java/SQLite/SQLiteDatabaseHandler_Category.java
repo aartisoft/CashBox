@@ -140,7 +140,12 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
 
         //get printer macadress
         ObjPrinter printer = category.getPrinter();
-        values.put(KEY_PRINTERMACADRESS, printer.getMacAddress());
+        if(printer != null){
+            values.put(KEY_PRINTERMACADRESS, printer.getMacAddress());
+        }
+        else{
+            values.put(KEY_PRINTERMACADRESS, "");
+        }
 
         int key_enabled = category.getEnabled() ? 1 : 0;
         values.put(KEY_ENABLED, key_enabled);
