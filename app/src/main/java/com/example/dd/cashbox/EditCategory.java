@@ -2,6 +2,7 @@ package com.example.dd.cashbox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,19 +18,19 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 
 import adapter.RecyclerViewCategoryAdapter;
 import global.GlobVar;
 import objects.ObjCategory;
 import recyclerview.RecyclerItemTouchHelper;
+import recyclerview.RecyclerItemTouchHelperActions;
 
 public class EditCategory extends AppCompatActivity implements RecyclerViewCategoryAdapter.OnItemClickListener{
 
     private RecyclerViewCategoryAdapter m_adapter;
+    private RecyclerItemTouchHelper m_RecyclerItemTouchHelper;
     private RecyclerView m_recyclerview;
     private FloatingActionButton m_fab_plus;
     private Context m_Context;
@@ -62,20 +63,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //set RecyclerView
-        m_adapter = new RecyclerViewCategoryAdapter(this, GlobVar.m_lstCategory, this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        m_recyclerview.setLayoutManager(mLayoutManager);
-        m_recyclerview.setItemAnimator(new DefaultItemAnimator());
-        m_recyclerview.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        m_recyclerview.setAdapter(m_adapter);
-        m_adapter.notifyDataSetChanged();
-
-        //set item touch helper
-        //ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
-        //new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(m_recyclerview);
-        RecyclerItemTouchHelper swipeController = new RecyclerItemTouchHelper();
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
-        itemTouchhelper.attachToRecyclerView(m_recyclerview);
+        setupRecyclerView();
 
         //prepare Category
 
@@ -158,11 +146,6 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
         }
     }*/
 
-    private void prepareCategory(){
-
-        //m_lstCategoryList = GlobVar.m_lstCategroy;
-    }
-
     @Override
     public void onItemClick(int position) {
 
@@ -171,5 +154,40 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
         Toast.makeText(EditCategory.this, category.getName(), Toast.LENGTH_SHORT).show();
         //Intent intent = new Intent(EditCategory.this, EditCategory_Edit.class);
         //startActivity(intent);
+    }
+
+    private void prepareCategory(){
+
+        //m_lstCategoryList = GlobVar.m_lstCategroy;
+    }
+
+    private void setupRecyclerView(){
+        m_adapter = new RecyclerViewCategoryAdapter(this, GlobVar.m_lstCategory, this);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        m_recyclerview.setLayoutManager(mLayoutManager);
+
+        m_RecyclerItemTouchHelper = new RecyclerItemTouchHelper(new RecyclerItemTouchHelperActions() {
+            @Override
+            public void onRightClicked(int position) {
+                m_adapter.removeItem(position);
+                m_adapter.notifyItemRemoved(position);
+                m_adapter.notifyItemRangeChanged(position, m_adapter.getItemCount());
+            }
+        });
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(m_RecyclerItemTouchHelper);
+        itemTouchhelper.attachToRecyclerView(m_recyclerview);
+
+        m_recyclerview.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            }
+        });
+
+        m_recyclerview.setAdapter(m_adapter);
+        m_adapter.notifyDataSetChanged();
+
+
     }
 }
