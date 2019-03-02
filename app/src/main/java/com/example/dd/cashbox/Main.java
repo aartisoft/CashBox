@@ -3,6 +3,8 @@ package com.example.dd.cashbox;
 import android.content.Context;
 import android.content.Intent;
 import com.google.android.material.navigation.NavigationView;
+
+import SQLite.SQLiteDatabaseHandler_Category;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
@@ -107,9 +109,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void readSQLiteDB(){
-        SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
+        //read printers
+        SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
         if(GlobVar.m_lstPrinter.isEmpty()){
-            GlobVar.m_lstPrinter = db.allPrinters();
+            GlobVar.m_lstPrinter = db_printer.allPrinters();
+        }
+
+        //read categories
+        SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
+        if(GlobVar.m_lstCategory.isEmpty()) {
+            GlobVar.m_lstCategory = db_category.allCategories();
         }
     }
 }

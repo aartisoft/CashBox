@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import SQLite.SQLiteDatabaseHandler_Category;
+import SQLite.SQLiteDatabaseHandler_Printer;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -135,7 +137,11 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
                     category.setPrinter(foundPrinter);
                     category.setEnabled(m_Switch.isChecked());
 
+                    //save category to global and sql
                     GlobVar.m_lstCategory.add(category);
+                    SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
+                    db.addCategory(category);
+
                     Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_KategorieAngelegt), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(EditCategory_Add.this, EditCategory.class);

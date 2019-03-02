@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import adapter.ListViewPrinterAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -156,10 +158,6 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
         //startActivity(intent);
     }
 
-    private void prepareCategory(){
-
-        //m_lstCategoryList = GlobVar.m_lstCategroy;
-    }
 
     private void setupRecyclerView(){
         m_adapter = new RecyclerViewCategoryAdapter(this, GlobVar.m_lstCategory, this);
