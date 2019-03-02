@@ -58,7 +58,7 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
             do {
                 category = new ObjCategory();
                 category.setName(cursor.getString(1));
-                category.setProdColor(Integer.parseInt(cursor.getString(3)));
+                category.setProdColor(Integer.parseInt(cursor.getString(2)));
 
                 //set printer
                 ObjPrinter printer = new ObjPrinter();
