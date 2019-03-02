@@ -113,25 +113,37 @@ public class EditProduct_Add extends AppCompatActivity {
                 }
 
                 if (!b_ProductExists) {
-                    ObjProduct product = new ObjProduct();
-                    product.setName(m_EditTextName.getText().toString());
-                    product.setVK(Double.parseDouble(m_EditTextVK.getText().toString()));
-                    product.setEnabled(m_EnableSwitch.isChecked());
-                    product.setbPAWN(m_PawnSwitch.isChecked());
-                    product.setPAWN(Double.parseDouble(m_EditTextPawn.getText().toString()));
-                    product.set_Category(m_SessionCategory);
+                    int indexcounter = 0;
+                    for(ObjCategory objcategory : GlobVar.m_lstCategory){
+                        if(objcategory.getName().equals(m_SessionCategory)){
+                            ObjCategory category = objcategory;
+                            List<ObjProduct> lstProduct = category.getListProduct();
 
-                    //save category to global and sql
-                    GlobVar.m_lstProduct.add(product);
-                    SQLiteDatabaseHandler_Product db = new SQLiteDatabaseHandler_Product(m_Context);
-                    db.addProduct(product);
+                            ObjProduct product = new ObjProduct();
+                            product.setName(m_EditTextName.getText().toString());
+                            product.setVK(Double.parseDouble(m_EditTextVK.getText().toString()));
+                            product.setEnabled(m_EnableSwitch.isChecked());
+                            product.setbPAWN(m_PawnSwitch.isChecked());
+                            product.setPAWN(Double.parseDouble(m_EditTextPawn.getText().toString()));
+                            product.set_Category(m_SessionCategory);
+                            lstProduct.add(product);
 
-                    Toast.makeText(EditProduct_Add.this, getResources().getString(R.string.src_ProduktWurdeAngelegt), Toast.LENGTH_SHORT).show();
+                            category.setProductList(lstProduct);
 
-                    Intent intent = new Intent(EditProduct_Add.this, EditProduct.class);
-                    intent.putExtra("CATEGORY", m_SessionCategory);
-                    startActivity(intent);
-                    finish();
+                            //save category to global and sql
+                            GlobVar.m_lstCategory.set(indexcounter, category);
+                            SQLiteDatabaseHandler_Product db = new SQLiteDatabaseHandler_Product(m_Context);
+                            db.addProduct(product);
+
+                            Toast.makeText(EditProduct_Add.this, getResources().getString(R.string.src_ProduktWurdeAngelegt), Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(EditProduct_Add.this, EditProduct.class);
+                            intent.putExtra("CATEGORY", m_SessionCategory);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                    indexcounter++;
                 } else {
                     Toast.makeText(EditProduct_Add.this, getResources().getString(R.string.src_ProduktBereitsVorhanden), Toast.LENGTH_SHORT).show();
                 }
@@ -196,7 +208,8 @@ public class EditProduct_Add extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(EditProduct_Add.this, EditCategory.class);
+                Intent intent = new Intent(EditProduct_Add.this, EditProduct.class);
+                intent.putExtra("CATEGORY", m_SessionCategory);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();

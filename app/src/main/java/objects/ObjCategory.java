@@ -1,5 +1,6 @@
 package objects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ObjCategory {
@@ -7,7 +8,7 @@ public class ObjCategory {
     private int m_iColor;
     private ObjPrinter m_Printer;
     private boolean m_bEnabled;
-    private List<ObjProduct> m_lstProduct;
+    private List<ObjProduct> m_lstProduct = new ArrayList<ObjProduct>();
 
     public ObjCategory(){
 
