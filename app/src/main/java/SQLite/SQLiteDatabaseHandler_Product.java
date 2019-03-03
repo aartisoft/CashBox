@@ -15,14 +15,14 @@ import objects.ObjProduct;
 public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "ProductDB";
+    private static final String DATABASE_NAME = "ProductsDB";
     private static final String TABLE_NAME = "Products";
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_VK = "vk";
     private static final String KEY_BPAWN = "bpawn";
     private static final String KEY_PAWN = "pawn";
-    private static final String KEY_ENABLED= "enabled";
+    private static final String KEY_ENABLED = "enabled";
     private static final String KEY_CATEGORY= "category";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_NAME, KEY_VK,
@@ -36,8 +36,8 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE Products ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "name TEXT, "
-                + "vk FLOAT, " + "bpwan INTEGER, "
-                + "pawn FLOAT, " + "enabled INTEGER, " + "category TEXT)";
+                + "vk REAL, " + "bpawn INTEGER, "
+                + "pawn REAL, " + "enabled INTEGER, " + "category TEXT)";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -58,7 +58,7 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                if(cursor.getString(7).equals(p_strCategory)){
+                if(cursor.getString(6).equals(p_strCategory)){
                     product = new ObjProduct();
                     product.setName(cursor.getString(1));
                     product.setVK(Double.parseDouble(cursor.getString(2)));
@@ -78,6 +78,8 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
                         bEnabled = false;
                     }
                     product.setEnabled(bEnabled);
+
+                    product.set_Category(cursor.getString(6));
 
                     products.add(product);
                 }
