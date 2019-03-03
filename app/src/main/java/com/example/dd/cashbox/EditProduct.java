@@ -63,6 +63,8 @@ public class EditProduct extends AppCompatActivity{
         m_recyclerview = findViewById(R.id.editproduct_recycler_view);
         m_fab_plus = findViewById(R.id.editproduct_fab);
         m_decorView = getWindow().getDecorView();
+
+        //get product list
         getCurrentProductList();
 
         //set UI
@@ -193,6 +195,7 @@ public class EditProduct extends AppCompatActivity{
         for(ObjCategory objcategory : GlobVar.m_lstCategory) {
             if (objcategory.getName().equals(m_SessionCategory)) {
                 m_lstProduct = objcategory.getListProduct();
+                break;
             }
         }
     }

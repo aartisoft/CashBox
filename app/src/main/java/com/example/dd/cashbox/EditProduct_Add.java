@@ -49,6 +49,7 @@ public class EditProduct_Add extends AppCompatActivity {
     private SwitchCompat m_EnableSwitch;
     private View m_decorView;
     private String m_SessionCategory;
+    private List<ObjProduct> m_lstProduct = new ArrayList<ObjProduct>();
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -73,6 +74,9 @@ public class EditProduct_Add extends AppCompatActivity {
         m_decorView = getWindow().getDecorView();
         m_PawnSwitch = findViewById(R.id.editproduct_add_Pawnswitch);
         m_EnableSwitch = findViewById(R.id.editproduct_add_Enabledswitch);
+
+        //get product list
+        getCurrentProductList();
 
         //activity variables
         m_SessionCategory = getIntent().getStringExtra( "CATEGORY");
@@ -105,7 +109,7 @@ public class EditProduct_Add extends AppCompatActivity {
             } else {
                 //does category already exists?
                 boolean b_ProductExists = false;
-                for (ObjProduct product : GlobVar.m_lstProduct) {
+                for (ObjProduct product : m_lstProduct) {
                     if (product.getName().equals(m_EditTextName.getText().toString())) {
                         b_ProductExists = true;
                         break;
@@ -193,6 +197,15 @@ public class EditProduct_Add extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LOW_PROFILE;
         m_decorView.setSystemUiVisibility(uiOptions);
+    }
+
+    private void getCurrentProductList(){
+        for(ObjCategory objcategory : GlobVar.m_lstCategory) {
+            if (objcategory.getName().equals(m_SessionCategory)) {
+                m_lstProduct = objcategory.getListProduct();
+                break;
+            }
+        }
     }
 
 
