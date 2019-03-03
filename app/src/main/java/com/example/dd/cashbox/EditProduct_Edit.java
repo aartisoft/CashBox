@@ -171,9 +171,9 @@ public class EditProduct_Edit extends AppCompatActivity {
                                     //save category to global and sql
                                     GlobVar.m_lstCategory.set(indexcounter, category);
                                     SQLiteDatabaseHandler_Product db = new SQLiteDatabaseHandler_Product(m_Context);
-                                    db.addProduct(product);
+                                    db.updateProduct(m_SessionProduct, product);
 
-                                    Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_ProduktWurdeAngelegt), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_ProduktGaendert), Toast.LENGTH_SHORT).show();
 
                                     Intent intent = new Intent(EditProduct_Edit.this, EditProduct.class);
                                     intent.putExtra("CATEGORY", m_SessionCategory);
@@ -187,7 +187,7 @@ public class EditProduct_Edit extends AppCompatActivity {
                         indexcounter++;
                     }
                 } else {
-                    Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_ProduktBereitsVorhanden), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_ProduktNameBereitsVorhanden), Toast.LENGTH_SHORT).show();
                 }
             }
         }

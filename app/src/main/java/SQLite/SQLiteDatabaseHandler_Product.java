@@ -134,7 +134,7 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int updatePrinter(ObjProduct product) {
+    public int updateProduct(String oldname, ObjProduct product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, product.getName());
@@ -152,8 +152,8 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
 
         int i = db.update(TABLE_NAME, // table
                 values, // column/value
-                "name = ?", // selections
-                new String[] { String.valueOf(product.getName()) });
+                "name = ? AND category = ?", // selections
+                new String[] { oldname, String.valueOf(product.getCategory()) });
 
         db.close();
 
