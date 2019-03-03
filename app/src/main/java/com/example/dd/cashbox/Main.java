@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.google.android.material.navigation.NavigationView;
 
 import SQLite.SQLiteDatabaseHandler_Category;
+import SQLite.SQLiteDatabaseHandler_Product;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
@@ -20,8 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import SQLite.SQLiteDatabaseHandler_Printer;
 import global.GlobVar;
+import objects.ObjCategory;
+import objects.ObjProduct;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -126,6 +132,21 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
                 if(GlobVar.m_lstCategory.isEmpty()) {
                     GlobVar.m_lstCategory = db_category.allCategories();
+                }
+
+                //read products and add to specific category
+                SQLiteDatabaseHandler_Product db_products = new SQLiteDatabaseHandler_Product(m_Context);
+                int indexcounter = 0;
+                for(ObjCategory objcategory : GlobVar.m_lstCategory){
+                    List<ObjProduct> lstProduct = new ArrayList<ObjProduct>();
+                    ObjCategory category = new ObjCategory();
+                    category = objcategory;
+
+                    lstProduct = db_products.allCategoryProducts(objcategory.getName());
+                    category.setProductList(lstProduct);
+
+                    GlobVar.m_lstCategory.set(indexcounter, category);
+                    indexcounter++;
                 }
 
                 //database read only at start of app
