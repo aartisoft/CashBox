@@ -171,9 +171,10 @@ public class EditProduct extends AppCompatActivity{
                 ObjProduct obj_product = m_lstProduct.get(position);
                 String product = obj_product.getName();
 
-                //Intent intent = new Intent(EditProduct.this, EditProduct_Edit.class);
-                //intent.putExtra("CATEGORY", product);
-                //startActivity(intent);
+                Intent intent = new Intent(EditProduct.this, EditProduct_Edit.class);
+                intent.putExtra("CATEGORY", m_SessionCategory);
+                intent.putExtra("PRODUCT", product);
+                startActivity(intent);
             }
         });
 

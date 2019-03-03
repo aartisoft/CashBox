@@ -63,6 +63,7 @@
     <string name="src_Bearbeiten">Bearbeiten</string>
     <string name="src_Produkte">Produkte</string>
     <string name="src_ProduktAnlegen">Produkt Anlegen</string>
+    <string name="src_ProduktBearbeiten">Produkt Bearbeiten</string>
     <string name="src_ProduktWurdeAngelegt">Produkt wurde angelegt</string>
     <string name="src_ProduktBereitsVorhanden">Produkt bereits vorhanden</string>
     <string name="src_Pfand">Pfand</string>
