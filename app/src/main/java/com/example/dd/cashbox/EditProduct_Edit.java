@@ -252,22 +252,18 @@ public class EditProduct_Edit extends AppCompatActivity {
         for(ObjProduct product : m_lstProduct){
             if(product.getName().equals(m_SessionProduct)){
                 m_EditTextName.setText(product.getName());
-
-                DecimalFormat df = new DecimalFormat("#.00");
-                //set VK
-                String strVK = df.format(product.getVK());
-                strVK = strVK + "€";
-                m_EditTextVK.setText(strVK);
+                m_EditTextVK.setText(String.valueOf(product.getVK()));
 
                 //set pawn
                 m_PawnSwitch.setChecked(product.getbPawn());
                 String strPawn = "";
                 if(product.getbPawn()){
-                    strPawn = df.format(product.getPawn());
-                    strPawn = m_Context.getResources().getString(R.string.src_Pfand) + ": " + strPawn + "€";
+                    strPawn = String.valueOf(product.getPawn());
+                    m_EditTextPawn.setEnabled(true);
                 }
                 else{
-                    strPawn = m_Context.getResources().getString(R.string.src_KeinPfand);
+                    strPawn = "";
+                    m_EditTextPawn.setEnabled(false);
                 }
                 m_EditTextPawn.setText(strPawn);
 
@@ -280,8 +276,8 @@ public class EditProduct_Edit extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(EditProduct_Edit.this, EditCategory.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(EditProduct_Edit.this, EditProduct.class);
+                intent.putExtra("CATEGORY", m_SessionCategory);
                 startActivity(intent);
                 finish();
                 return true;
