@@ -157,7 +157,7 @@ public class EditProduct extends AppCompatActivity{
                     @Override
                     public void onClick(View view) {
                         // undo is selected, restore the deleted item
-                        // m_adapter.restoreItem(deletedItem, deletedIndex);
+                        m_adapter.restoreItem(deletedItem, deletedIndex);
                         db.addProduct(product);
                         setTextNoProduct();
                     }

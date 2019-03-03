@@ -145,9 +145,10 @@ public class EditProduct_Add extends AppCompatActivity {
                             intent.putExtra("CATEGORY", m_SessionCategory);
                             startActivity(intent);
                             finish();
+                            break;
                         }
+                        indexcounter++;
                     }
-                    indexcounter++;
                 } else {
                     Toast.makeText(EditProduct_Add.this, getResources().getString(R.string.src_ProduktBereitsVorhanden), Toast.LENGTH_SHORT).show();
                 }
