@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import SQLite.SQLiteDatabaseHandler_Product;
 import adapter.RecyclerViewProductAdapter;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +39,7 @@ public class EditProduct extends AppCompatActivity{
     private Context m_Context;
     private View m_decorView;
     private String m_SessionCategory;
+    private List<ObjProduct> m_lstProduct = new ArrayList<ObjProduct>();
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -59,6 +63,7 @@ public class EditProduct extends AppCompatActivity{
         m_recyclerview = findViewById(R.id.editproduct_recycler_view);
         m_fab_plus = findViewById(R.id.editproduct_fab);
         m_decorView = getWindow().getDecorView();
+        getCurrentProductList();
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -121,7 +126,7 @@ public class EditProduct extends AppCompatActivity{
     }
 
     private void setupRecyclerView(){
-        m_adapter = new RecyclerViewProductAdapter(this, GlobVar.m_lstProduct);
+        m_adapter = new RecyclerViewProductAdapter(this, m_lstProduct);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         m_recyclerview.setLayoutManager(mLayoutManager);
@@ -130,10 +135,10 @@ public class EditProduct extends AppCompatActivity{
             @Override
             public void onRightClicked(int position) {
                 //get current category
-                final ObjProduct product = GlobVar.m_lstProduct.get(position);
+                final ObjProduct product = m_lstProduct.get(position);
 
                 // backup of removed item for undo purpose
-                final ObjProduct deletedItem = GlobVar.m_lstProduct.get(position);
+                final ObjProduct deletedItem = m_lstProduct.get(position);
                 final int deletedIndex = position;
 
                 m_adapter.removeItem(position);
@@ -145,14 +150,12 @@ public class EditProduct extends AppCompatActivity{
                 db.deleteProduct(product);
 
                 // showing snack bar with Undo option
-                Snackbar snackbar = Snackbar
-                        .make(m_linearlayout, product.getName() + " " + getResources().getString(R.string.src_Entfernt), Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(m_linearlayout, product.getName() + " " + getResources().getString(R.string.src_Entfernt), Snackbar.LENGTH_LONG);
                 snackbar.setAction(getResources().getString(R.string.src_Rueckgaengig), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         // undo is selected, restore the deleted item
-                        m_adapter.restoreItem(deletedItem, deletedIndex);
+                        // m_adapter.restoreItem(deletedItem, deletedIndex);
                         db.addProduct(product);
                         setTextNoProduct();
                     }
@@ -163,12 +166,12 @@ public class EditProduct extends AppCompatActivity{
             }
             @Override
             public void onLeftClicked(int position) {
-                ObjCategory obj_category = GlobVar.m_lstCategory.get(position);
-                String category = obj_category.getName();
+                ObjProduct obj_product = m_lstProduct.get(position);
+                String product = obj_product.getName();
 
-                Intent intent = new Intent(EditProduct.this, EditCategory_Edit.class);
-                intent.putExtra("CATEGORY", category);
-                startActivity(intent);
+                //Intent intent = new Intent(EditProduct.this, EditProduct_Edit.class);
+                //intent.putExtra("CATEGORY", product);
+                //startActivity(intent);
             }
         });
 
@@ -186,9 +189,17 @@ public class EditProduct extends AppCompatActivity{
         m_adapter.notifyDataSetChanged();
     }
 
+    private void getCurrentProductList(){
+        for(ObjCategory objcategory : GlobVar.m_lstCategory) {
+            if (objcategory.getName().equals(m_SessionCategory)) {
+                m_lstProduct = objcategory.getListProduct();
+            }
+        }
+    }
+
     private void setTextNoProduct(){
         //set text if no category available
-        if(!GlobVar.m_lstProduct.isEmpty()){
+        if(!m_lstProduct.isEmpty()){
             findViewById(R.id.editproduct_tv_noproduct).setVisibility(View.INVISIBLE);
         }else{
             findViewById(R.id.editproduct_tv_noproduct).setVisibility(View.VISIBLE);
