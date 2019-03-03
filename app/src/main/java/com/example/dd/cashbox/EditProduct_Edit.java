@@ -251,14 +251,16 @@ public class EditProduct_Edit extends AppCompatActivity {
     private void setData(){
         for(ObjProduct product : m_lstProduct){
             if(product.getName().equals(m_SessionProduct)){
+                DecimalFormat df = new DecimalFormat("#.00");
+
                 m_EditTextName.setText(product.getName());
-                m_EditTextVK.setText(String.valueOf(product.getVK()));
+                m_EditTextVK.setText(String.valueOf(df.format(product.getVK())));
 
                 //set pawn
                 m_PawnSwitch.setChecked(product.getbPawn());
                 String strPawn = "";
                 if(product.getbPawn()){
-                    strPawn = String.valueOf(product.getPawn());
+                    strPawn = String.valueOf(df.format(product.getPawn()));
                     m_EditTextPawn.setEnabled(true);
                 }
                 else{
