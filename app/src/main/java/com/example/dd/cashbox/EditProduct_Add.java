@@ -7,12 +7,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -90,6 +92,7 @@ public class EditProduct_Add extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         m_fab.setEnabled(true);
         m_PawnSwitch.setChecked(false);
+        m_EditTextPawn.setEnabled(false);
         m_EnableSwitch.setChecked(true);
         m_TextViewTitle.setText(R.string.src_ProduktAnlegen);
 
@@ -97,14 +100,27 @@ public class EditProduct_Add extends AppCompatActivity {
         m_fab.setOnClickListener(fabOnClickListener);
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
         m_EditTextName.setOnEditorActionListener(DoneOnEditorActionListener);
+        m_PawnSwitch.setOnCheckedChangeListener(pawnOnCheckedChangeListener);
     }
+
+    private CompoundButton.OnCheckedChangeListener pawnOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener(){
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(isChecked){
+                m_EditTextPawn.setEnabled(true);
+            }
+            else{
+                m_EditTextPawn.setEnabled(false);
+            }
+        }
+    };
 
     private OnClickListener fabOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             //check weather all field are filled
             if (m_EditTextName.getText().toString().equals("") || m_EditTextVK.getText().toString().equals("")
-                    || m_EditTextPawn.getText().toString().equals("")) {
+                    || (m_EditTextPawn.getText().toString().equals("")) && m_PawnSwitch.isChecked())  {
                 Toast.makeText(EditProduct_Add.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
             } else {
                 //does category already exists?
@@ -127,8 +143,16 @@ public class EditProduct_Add extends AppCompatActivity {
                             product.setName(m_EditTextName.getText().toString());
                             product.setVK(Double.parseDouble(m_EditTextVK.getText().toString()));
                             product.setEnabled(m_EnableSwitch.isChecked());
+
+                            //set pawn
                             product.setbPAWN(m_PawnSwitch.isChecked());
-                            product.setPAWN(Double.parseDouble(m_EditTextPawn.getText().toString()));
+                            if(m_PawnSwitch.isChecked()){
+                                product.setPAWN(Double.parseDouble(m_EditTextPawn.getText().toString()));
+                            }
+                            else{
+                                product.setPAWN(0.00);
+                            }
+
                             product.set_Category(m_SessionCategory);
                             lstProduct.add(product);
 
