@@ -132,8 +132,10 @@ public class EditProduct_Edit extends AppCompatActivity {
                 boolean b_ProductExists = false;
                 for (ObjProduct product : m_lstProduct) {
                     if (product.getName().equals(m_EditTextName.getText().toString())) {
-                        b_ProductExists = true;
-                        break;
+                        if (!product.getName().equals(m_SessionProduct)) {
+                            b_ProductExists = true;
+                            break;
+                        }
                     }
                 }
 
@@ -144,37 +146,43 @@ public class EditProduct_Edit extends AppCompatActivity {
                             ObjCategory category = objcategory;
                             List<ObjProduct> lstProduct = category.getListProduct();
 
-                            ObjProduct product = new ObjProduct();
-                            product.setName(m_EditTextName.getText().toString());
-                            product.setVK(Double.parseDouble(m_EditTextVK.getText().toString()));
-                            product.setEnabled(m_EnableSwitch.isChecked());
+                            int indexcounter_prod = 0;
+                            for(ObjProduct objproduct : lstProduct){
+                                if(objproduct.getName().equals(m_SessionProduct)){
+                                    ObjProduct product = new ObjProduct();
+                                    product.setName(m_EditTextName.getText().toString());
+                                    product.setVK(Double.parseDouble(m_EditTextVK.getText().toString()));
+                                    product.setEnabled(m_EnableSwitch.isChecked());
 
-                            //set pawn
-                            product.setbPAWN(m_PawnSwitch.isChecked());
-                            if(m_PawnSwitch.isChecked()){
-                                product.setPAWN(Double.parseDouble(m_EditTextPawn.getText().toString()));
+                                    //set pawn
+                                    product.setbPAWN(m_PawnSwitch.isChecked());
+                                    if(m_PawnSwitch.isChecked()){
+                                        product.setPAWN(Double.parseDouble(m_EditTextPawn.getText().toString()));
+                                    }
+                                    else{
+                                        product.setPAWN(0.00);
+                                    }
+
+                                    product.set_Category(m_SessionCategory);
+                                    lstProduct.set(indexcounter_prod, product);
+
+                                    category.setProductList(lstProduct);
+
+                                    //save category to global and sql
+                                    GlobVar.m_lstCategory.set(indexcounter, category);
+                                    SQLiteDatabaseHandler_Product db = new SQLiteDatabaseHandler_Product(m_Context);
+                                    db.addProduct(product);
+
+                                    Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_ProduktWurdeAngelegt), Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(EditProduct_Edit.this, EditProduct.class);
+                                    intent.putExtra("CATEGORY", m_SessionCategory);
+                                    startActivity(intent);
+                                    finish();
+                                    break;
+                                }
+                                indexcounter_prod++;
                             }
-                            else{
-                                product.setPAWN(0.00);
-                            }
-
-                            product.set_Category(m_SessionCategory);
-                            lstProduct.add(product);
-
-                            category.setProductList(lstProduct);
-
-                            //save category to global and sql
-                            GlobVar.m_lstCategory.set(indexcounter, category);
-                            SQLiteDatabaseHandler_Product db = new SQLiteDatabaseHandler_Product(m_Context);
-                            db.addProduct(product);
-
-                            Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_ProduktWurdeAngelegt), Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent(EditProduct_Edit.this, EditProduct.class);
-                            intent.putExtra("CATEGORY", m_SessionCategory);
-                            startActivity(intent);
-                            finish();
-                            break;
                         }
                         indexcounter++;
                     }
@@ -254,13 +262,17 @@ public class EditProduct_Edit extends AppCompatActivity {
                 DecimalFormat df = new DecimalFormat("#.00");
 
                 m_EditTextName.setText(product.getName());
-                m_EditTextVK.setText(String.valueOf(df.format(product.getVK())));
+
+                String vk = String.valueOf(df.format(product.getVK()));
+                vk = vk.replace(",", ".");
+                m_EditTextVK.setText(vk);
 
                 //set pawn
                 m_PawnSwitch.setChecked(product.getbPawn());
                 String strPawn = "";
                 if(product.getbPawn()){
                     strPawn = String.valueOf(df.format(product.getPawn()));
+                    strPawn = strPawn.replace(",", ".");
                     m_EditTextPawn.setEnabled(true);
                 }
                 else{
