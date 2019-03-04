@@ -160,6 +160,21 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         return i;
     }
 
+    public int updateProductsCategory(String oldcategoryname, String newcategoryname) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_CATEGORY, newcategoryname);
+
+        int i = db.update(TABLE_NAME, // table
+                values, // column/value
+                "category = ?", // selections
+                new String[] { oldcategoryname });
+
+        db.close();
+
+        return i;
+    }
+
     public void deleteProduct(ObjProduct product) {
         // Get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_Category;
+import SQLite.SQLiteDatabaseHandler_Product;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -143,12 +144,18 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
 
                             category.setPrinter(foundPrinter);
                             category.setEnabled(m_Switch.isChecked());
-
+                            category.setProductList(objcategory.getListProduct());
 
                             //update global and in database
                             GlobVar.m_lstCategory.set(indexcounter, category);
                             SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
                             db.updateCategory(m_strCategoryName, category);
+                            //if categoryname has changed
+                            if(!m_SessionCategory.equals(m_EditTextName.getText().toString())){
+                                SQLiteDatabaseHandler_Product db_product = new SQLiteDatabaseHandler_Product(m_Context);
+                                db_product.updateProductsCategory(m_SessionCategory, m_EditTextName.getText().toString());
+                            }
+
 
                             Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieGeaendert), Toast.LENGTH_SHORT).show();
 
