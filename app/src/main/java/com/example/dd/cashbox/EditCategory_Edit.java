@@ -34,6 +34,7 @@ import fragments.ChooseColorDialogFragment;
 import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjPrinter;
+import objects.ObjProduct;
 
 public class EditCategory_Edit extends AppCompatActivity implements ChooseColorDialogFragment.ChooseColorDialogListener {
 
@@ -150,8 +151,13 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                             GlobVar.m_lstCategory.set(indexcounter, category);
                             SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
                             db.updateCategory(m_strCategoryName, category);
-                            //if categoryname has changed
+
+                            //if categoryname has changed --> update global and in database
                             if(!m_SessionCategory.equals(m_EditTextName.getText().toString())){
+                                for(ObjProduct objproduct : objcategory.getListProduct()){
+                                    objproduct.set_Category(m_EditTextName.getText().toString());
+                                }
+
                                 SQLiteDatabaseHandler_Product db_product = new SQLiteDatabaseHandler_Product(m_Context);
                                 db_product.updateProductsCategory(m_SessionCategory, m_EditTextName.getText().toString());
                             }
