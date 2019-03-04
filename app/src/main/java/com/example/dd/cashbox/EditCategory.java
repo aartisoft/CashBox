@@ -9,6 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import SQLite.SQLiteDatabaseHandler_Category;
+import SQLite.SQLiteDatabaseHandler_Product;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +25,7 @@ import android.widget.LinearLayout;
 import adapter.RecyclerViewCategoryAdapter;
 import global.GlobVar;
 import objects.ObjCategory;
+import objects.ObjProduct;
 import recyclerview.RecyclerItemTouchHelper;
 import recyclerview.RecyclerItemTouchHelperActions;
 
@@ -153,6 +155,10 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
                 final SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
                 db.deleteCategory(category);
 
+                //delete all products of category
+                final SQLiteDatabaseHandler_Product db_products = new SQLiteDatabaseHandler_Product(m_Context);
+                db_products.deleteProductsCategory(category.getName());
+
                 // showing snack bar with Undo option
                 Snackbar snackbar = Snackbar
                         .make(m_linearlayout, category.getName() + " " + getResources().getString(R.string.src_Entfernt), Snackbar.LENGTH_LONG);
@@ -163,6 +169,10 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
                         // undo is selected, restore the deleted item
                         m_adapter.restoreItem(deletedItem, deletedIndex);
                         db.addCategory(category);
+                        for(ObjProduct objproduct : category.getListProduct()){
+                            db_products.addProduct(objproduct);
+                        }
+
                         setTextNoCategory();
                     }
                 });
