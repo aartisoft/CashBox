@@ -181,4 +181,11 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, "name = ?", new String[] { String.valueOf(product.getName()) });
         db.close();
     }
+
+    public void deleteProductsCategory(String categoryname) {
+        // Get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, "category = ?", new String[] { categoryname });
+        db.close();
+    }
 }
