@@ -101,15 +101,17 @@
                 android:textColorHint="@color/colorGrey"
                 app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
                 <EditText
+                    android:tag="EUR"
                     android:id="@+id/editproduct_add_tvpawn"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
+                    android:drawableEnd="@drawable/edittext_euro"
                     android:textColor="@color/colorBlack"
                     android:textStyle="normal"
                     android:textAlignment="textStart"
-                    android:hint="Pfand"
+                    android:hint="@string/src_Pfandpreis"
                     android:backgroundTint="@color/colorGrey"
                     android:textColorHint="@color/colorGrey"
                     android:textSize="15dp"
