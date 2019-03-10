@@ -7,12 +7,12 @@ import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
+import adapter.ViewPagerAdapter;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_Printer;
+import androidx.viewpager.widget.ViewPager;
 import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjProduct;
@@ -38,6 +39,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private NavigationView m_navigationView;
     private DrawerLayout m_DrawerLayout;
     private TabLayout m_TabLayout;
+    private ViewPager m_ViewPager;
+    private ViewPagerAdapter m_ViewPagerAdapter;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -59,6 +62,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_DrawerLayout = findViewById(R.id.drawer_layout);
         m_navigationView = findViewById(R.id.am_menu_nav_view);
         m_TabLayout = findViewById(R.id.am_register_tab);
+        m_ViewPager = findViewById(R.id.am_register_viewpager);
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -165,10 +169,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void setTabulator(){
-        for(ObjCategory objcategory : GlobVar.m_lstCategory){
+        m_ViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        m_ViewPager.setAdapter(m_ViewPagerAdapter);
+        m_TabLayout.setupWithViewPager(m_ViewPager);
+
+        /*for(ObjCategory objcategory : GlobVar.m_lstCategory){
             TabLayout.Tab tab = new TabLayout.Tab();
-            tab.setText(objcategory.getName());
+            CharSequence tmpChar = objcategory.getName();
+            tab.setText(tmpChar);
             m_TabLayout.addTab(tab);
-        }
+        }*/
     }
 }

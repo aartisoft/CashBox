@@ -9,33 +9,83 @@
     android:fitsSystemWindows="true">
 
     <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
-    <FrameLayout
-        android:id="@+id/content_frame"
+    <RelativeLayout
+        android:id="@+id/activity_main_rlcontent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary3"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+        <RelativeLayout
+            android:id="@+id/activity_main_rltoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary3"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
 
-        <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="CashBox"
+                    android:textColor="@color/colorWhite"
+                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+            </androidx.appcompat.widget.Toolbar>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_main_rlregister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CashBox"
-            android:textColor="@color/colorWhite"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+            android:layout_below="@id/activity_main_rltoolbar">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">>
+                <!-- Main UI Register -->
+                <!--<include layout="@layout/activity_main_register"/>-->
 
-    </androidx.appcompat.widget.Toolbar>
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-    </FrameLayout>
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/am_register_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.tabs.TabLayout>
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/am_register_viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </androidx.viewpager.widget.ViewPager>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Test"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <!-- Drawer Menu -->
     <include layout="@layout/activity_main_menu"/>
-
-    <!-- Main UI Register -->
-    <!--<include layout="@layout/activity_main_register"/>-->
 
 </androidx.drawerlayout.widget.DrawerLayout>
