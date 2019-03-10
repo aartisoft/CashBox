@@ -172,12 +172,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_ViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), GlobVar.m_lstCategory);
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
         m_TabLayout.setupWithViewPager(m_ViewPager);
-
-        /*for(ObjCategory objcategory : GlobVar.m_lstCategory){
-            TabLayout.Tab tab = new TabLayout.Tab();
-            CharSequence tmpChar = objcategory.getName();
-            tab.setText(tmpChar);
-            m_TabLayout.addTab(tab);
-        }*/
+        m_TabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 }
