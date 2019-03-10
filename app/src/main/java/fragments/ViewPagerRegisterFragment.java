@@ -6,17 +6,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
 
+import adapter.GridViewProductAdapter;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import global.GlobVar;
 
 public class ViewPagerRegisterFragment extends Fragment {
 
     int position;
-    private TextView textView;
+    private GridView m_GridView;
+    private GridViewProductAdapter m_gridViewProductAdapter;
 
     public static Fragment getInstance(int position) {
         Bundle bundle = new Bundle();
@@ -41,9 +45,10 @@ public class ViewPagerRegisterFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        textView = (TextView) view.findViewById(R.id.textView);
+        m_GridView = view.findViewById(R.id.fragment_tagregister_gridview);
 
-        textView.setText("Fragment " + (position + 1));
-
+        m_gridViewProductAdapter = new GridViewProductAdapter(getActivity().getApplicationContext(),
+                                    GlobVar.m_lstCategory.get(position).getListProduct(), GlobVar.m_lstCategory.get(position).getProdColor());
+        m_GridView.setAdapter(m_gridViewProductAdapter);
     }
 }
