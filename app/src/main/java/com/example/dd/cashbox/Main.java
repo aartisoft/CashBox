@@ -169,7 +169,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void setTabulator(){
-        m_ViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        m_ViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), GlobVar.m_lstCategory);
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
         m_TabLayout.setupWithViewPager(m_ViewPager);
 
