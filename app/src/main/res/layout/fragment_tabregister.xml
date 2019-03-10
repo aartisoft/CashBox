@@ -4,14 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
+    <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:text="Test"/>
-
+        android:numColumns="2"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:verticalScrollbarPosition="right"
+        android:scrollbars="vertical"/>
 </LinearLayout>
