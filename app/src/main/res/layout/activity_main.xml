@@ -44,41 +44,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">>
-                <!-- Main UI Register -->
-                <!--<include layout="@layout/activity_main_register"/>-->
 
-                <LinearLayout
+                <RelativeLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/am_register_tab"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </com.google.android.material.tabs.TabLayout>
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/am_register_viewpager"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    </androidx.viewpager.widget.ViewPager>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Test"/>
+                        android:text="Kassenzettel"/>
 
-                </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5">
+
+                    <!-- Main UI Register -->
+                    <include layout="@layout/activity_main_register"/>
+
+                </RelativeLayout>
 
             </LinearLayout>
         </RelativeLayout>
