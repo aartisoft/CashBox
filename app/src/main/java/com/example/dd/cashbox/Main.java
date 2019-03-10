@@ -3,6 +3,7 @@ package com.example.dd.cashbox;
 import android.content.Context;
 import android.content.Intent;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
@@ -36,6 +37,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View m_decorView;
     private NavigationView m_navigationView;
     private DrawerLayout m_DrawerLayout;
+    private TabLayout m_TabLayout;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -55,7 +57,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_Context = this;
         m_decorView = getWindow().getDecorView();
         m_DrawerLayout = findViewById(R.id.drawer_layout);
-        m_navigationView = findViewById(R.id.nav_view);
+        m_navigationView = findViewById(R.id.am_menu_nav_view);
+        m_TabLayout = findViewById(R.id.am_register_tab);
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -76,6 +79,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(m_iSessionId == 1){
             m_DrawerLayout.openDrawer(GravityCompat.START);
         }
+
+        //set Tabulator
+        setTabulator();
     }
 
     @Override
@@ -155,6 +161,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
         catch(SQLiteException se){
             Log.e(getClass().getSimpleName(), "Could not create or open the database");
+        }
+    }
+
+    private void setTabulator(){
+        for(ObjCategory objcategory : GlobVar.m_lstCategory){
+            TabLayout.Tab tab = new TabLayout.Tab();
+            tab.setText(objcategory.getName());
+            m_TabLayout.addTab(tab);
         }
     }
 }
