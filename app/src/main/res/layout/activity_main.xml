@@ -39,7 +39,9 @@
             android:id="@+id/activity_main_rlregister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_main_rltoolbar">
+            android:layout_below="@id/activity_main_rltoolbar"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

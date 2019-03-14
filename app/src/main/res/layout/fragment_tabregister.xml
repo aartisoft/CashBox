@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"
-        android:verticalSpacing="5dp"
-        android:horizontalSpacing="5dp"
+        android:verticalSpacing="4dp"
+        android:horizontalSpacing="4dp"
         android:scrollbarStyle="outsideOverlay"
         android:verticalScrollbarPosition="right"
         android:scrollbars="vertical"
         android:stretchMode="columnWidth"
-        android:columnWidth="80dp"
         android:gravity="center"
+        android:columnWidth="80dp"
         android:textAlignment="gravity"
         android:layout_centerHorizontal="true" />
 </LinearLayout>

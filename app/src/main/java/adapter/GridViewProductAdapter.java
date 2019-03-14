@@ -2,6 +2,7 @@ package adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import objects.ObjProduct;
@@ -44,17 +46,29 @@ public class GridViewProductAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        if (convertView == null) {
+            final LayoutInflater layoutInflater = LayoutInflater.from(m_Context);
+            convertView = layoutInflater.inflate(R.layout.fragment_tabregister_layout, null);
+        }
+
         GridView grid = (GridView)parent;
         int size = grid.getRequestedColumnWidth();
 
-        TextView tempTextView = new TextView(m_Context);
-        tempTextView.setText(m_lstProducts.get(position).getName());
-        tempTextView.setLayoutParams(new GridView.LayoutParams(size, 150));
+        //title
+        TextView titleTextView = convertView.findViewById(R.id.fragm_tabregister_layout_tvtitle);
+        titleTextView.setText(m_lstProducts.get(position).getName());
+        titleTextView.setBackgroundColor(m_iProdColor);
+
+        //subtitle
+        TextView subtitleTextView = convertView.findViewById(R.id.fragm_tabregister_layout_tvsubtitle);
+        subtitleTextView.setBackgroundColor(m_iProdColor);
+        DecimalFormat df = new DecimalFormat("#.00");
+        String strVK = df.format(m_lstProducts.get(position).getVK());
+        strVK = strVK + "€";
+        subtitleTextView.setText(strVK);
 
 
-        tempTextView.setBackgroundColor(m_iProdColor);
-        tempTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        tempTextView.setTypeface(null, Typeface.BOLD);
-        return tempTextView;
+
+        return convertView;
     }
 }
