@@ -65,6 +65,7 @@
             android:scaleType="center"
             android:layout_margin="16dp"
             android:clickable="true"
+            android:alpha="0.25"
             android:visibility="visible"/>
 
         <include layout="@layout/fab_layoutanimation" />

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="false">
 
     <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
     <RelativeLayout
@@ -42,7 +42,8 @@
             android:layout_below="@id/activity_main_rltoolbar"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp">
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
