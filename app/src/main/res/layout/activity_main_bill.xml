@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/activity_main_bill_tvtable"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_above="@+id/activity_main_bill_tvbill"
         android:text="Tisch X"
         android:textColor="@color/colorWhite"
         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
@@ -18,6 +25,7 @@
         android:id="@+id/activity_main_bill_tvbill"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_above="@+id/activity_main_bill_lv"
         android:layout_marginTop="1dp"
         android:text="Beleg X"
         android:textColor="@color/colorWhite"
@@ -26,16 +34,39 @@
         android:textAlignment="center"
         android:background="@drawable/textview_border"/>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_main_bill_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="2dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/listview_border"
         android:divider="@color/colorGrey"
         android:dividerHeight="1dp"
-        android:theme="@style/ListView"
-        android:background="@drawable/listview_border">
-    </ListView>
+        android:theme="@style/ListView"></ListView>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/activity_main_bill_fb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_gravity="bottom"
+            app:layout_anchorGravity="bottom"
+            app:fabSize="normal"
+            app:backgroundTint="@color/colorPrimary3"
+            android:src="@drawable/ic_add_white_24dp"
+            android:scaleType="center"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:visibility="visible"/>
+
+        <include layout="@layout/fab_layoutanimation" />
+    </FrameLayout>
 </LinearLayout>
