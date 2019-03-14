@@ -30,11 +30,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_main_bill_lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="2dp"
         android:divider="@color/colorGrey"
         android:dividerHeight="1dp"
-        android:theme="@style/ListView">
+        android:theme="@style/ListView"
+        android:background="@drawable/listview_border">
     </ListView>
 
 </LinearLayout>

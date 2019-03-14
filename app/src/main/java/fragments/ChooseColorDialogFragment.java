@@ -17,15 +17,18 @@ public class ChooseColorDialogFragment extends DialogFragment implements View.On
     private ColorPickerView m_colorPickerView;
     private Button m_button;
     private ChooseColorDialogListener m_listener;
+    private static int m_ProdColor;
     private static ChooseColorDialogFragment m_frag;
 
     public ChooseColorDialogFragment() {
     }
 
-    public static ChooseColorDialogFragment newInstance(String title) {
+    public static ChooseColorDialogFragment newInstance(String title, int color) {
+        m_ProdColor = color;
         m_frag = new ChooseColorDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putInt("color", color);
         m_frag.setArguments(args);
         return m_frag;
     }
@@ -43,6 +46,7 @@ public class ChooseColorDialogFragment extends DialogFragment implements View.On
         //set variables
         m_colorPickerView = view.findViewById(R.id.cpv_color_picker_view);
         m_button = view.findViewById(R.id.color_picker_view_button);
+        m_colorPickerView.setColor(m_ProdColor);
 
         //set Listener
         m_button.setOnClickListener(this);

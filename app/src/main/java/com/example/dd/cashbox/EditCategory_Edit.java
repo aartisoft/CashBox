@@ -48,6 +48,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     private View m_decorView;
     private String m_SessionCategory;
     private String m_strCategoryName;
+    private int m_iProdColor;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -272,7 +273,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
 
     private void showColorDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        ChooseColorDialogFragment chooseColorDialogFragment = ChooseColorDialogFragment.newInstance("Some Title");
+        ChooseColorDialogFragment chooseColorDialogFragment = ChooseColorDialogFragment.newInstance("Some Title", m_iProdColor);
         chooseColorDialogFragment.show(fm, "fragment_edit_name");
 
     }
@@ -285,6 +286,9 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                 m_EditTextColor.setBackgroundColor(category.getProdColor());
                 setSpinnerPrinter(category.getPrinter());
                 m_Switch.setChecked(category.getEnabled());
+
+                //set global variables
+                m_iProdColor = category.getProdColor();
             }
         }
     }
@@ -292,6 +296,9 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     @Override
     public void onFinishChooseColorDialog(int colorInt) {
         m_EditTextColor.setBackgroundColor(colorInt);
+
+        //set global variables
+        m_iProdColor = colorInt;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
