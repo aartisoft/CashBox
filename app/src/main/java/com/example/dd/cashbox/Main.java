@@ -228,12 +228,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //Floating Action Button 1
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) m_fab_1.getLayoutParams();
         layoutParams.leftMargin += (int) (m_fab_1.getWidth() * 1.7);
-        layoutParams.bottomMargin += (int) (m_fab_1.getHeight() * 0.25);
+        layoutParams.bottomMargin += (int) (m_fab_1.getHeight() * 0.10);
         m_fab_1.setLayoutParams(layoutParams);
         m_fab_1.startAnimation(m_animShowFab1);
         m_fab_1.setClickable(true);
 
-        /*//Floating Action Button 2
+        //Floating Action Button 2
         FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) m_fab_2.getLayoutParams();
         layoutParams2.leftMargin += (int) (m_fab_2.getWidth() * 1.5);
         layoutParams2.bottomMargin += (int) (m_fab_2.getHeight() * 1.5);
@@ -243,24 +243,24 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //Floating Action Button 3
         FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) m_fab_3.getLayoutParams();
-        layoutParams3.leftMargin += (int) (m_fab_3.getWidth() * 0.25);
+        layoutParams3.leftMargin += (int) (m_fab_3.getWidth() * 0.1);
         layoutParams3.bottomMargin += (int) (m_fab_3.getHeight() * 1.7);
         m_fab_3.setLayoutParams(layoutParams3);
         m_fab_3.startAnimation(m_animShowFab3);
-        m_fab_3.setClickable(true);*/
+        m_fab_3.setClickable(true);
     }
 
     private void hideFab(){
 
         //Floating Action Button 1
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) m_fab_1.getLayoutParams();
-        layoutParams.rightMargin -= (int) (m_fab_1.getWidth() * 1.7);
-        layoutParams.bottomMargin -= (int) (m_fab_1.getHeight() * 0.25);
+        layoutParams.leftMargin -= (int) (m_fab_1.getWidth() * 1.7);
+        layoutParams.bottomMargin -= (int) (m_fab_1.getHeight() * 0.10);
         m_fab_1.setLayoutParams(layoutParams);
         m_fab_1.startAnimation(m_animHideFab1);
         m_fab_1.setClickable(false);
 
-        /*//Floating Action Button 2
+        //Floating Action Button 2
         FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) m_fab_2.getLayoutParams();
         layoutParams2.leftMargin -= (int) (m_fab_2.getWidth() * 1.5);
         layoutParams2.bottomMargin -= (int) (m_fab_2.getHeight() * 1.5);
@@ -270,10 +270,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //Floating Action Button 3
         FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) m_fab_3.getLayoutParams();
-        layoutParams3.leftMargin -= (int) (m_fab_3.getWidth() * 0.25);
+        layoutParams3.leftMargin -= (int) (m_fab_3.getWidth() * 0.1);
         layoutParams3.bottomMargin -= (int) (m_fab_3.getHeight() * 1.7);
         m_fab_3.setLayoutParams(layoutParams3);
         m_fab_3.startAnimation(m_animHideFab3);
-        m_fab_3.setClickable(false);*/
+        m_fab_3.setClickable(false);
     }
 }
