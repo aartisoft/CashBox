@@ -61,7 +61,7 @@
             app:layout_anchorGravity="bottom"
             app:fabSize="normal"
             app:backgroundTint="@color/colorPrimary3"
-            android:src="@drawable/ic_add_white_24dp"
+            android:src="@drawable/ic_layers_white_24dp"
             android:scaleType="center"
             android:layout_margin="16dp"
             android:clickable="true"

@@ -107,7 +107,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:drawableEnd="@drawable/edittext_euro"
                     android:textColor="@color/colorBlack"
                     android:textStyle="normal"
                     android:textAlignment="textStart"
