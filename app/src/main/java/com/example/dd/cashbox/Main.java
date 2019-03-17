@@ -27,6 +27,7 @@ import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_Printer;
 import androidx.viewpager.widget.ViewPager;
+import fragments.ViewPagerRegisterFragment;
 import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjProduct;
