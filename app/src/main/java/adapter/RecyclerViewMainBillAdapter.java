@@ -13,11 +13,13 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import objects.ObjBill;
+import objects.ObjBillProducts;
 import objects.ObjProduct;
 
 public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerViewMainBillAdapter.MyViewHolder>{
     private Context context;
-    private List<ObjProduct> productList;
+    private List<ObjBillProducts> billproductList;
 
 
 
@@ -33,9 +35,9 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    public RecyclerViewMainBillAdapter(Context context, List<ObjProduct> productList) {
+    public RecyclerViewMainBillAdapter(Context context, List<ObjBillProducts> billproductList) {
         this.context = context;
-        this.productList = productList;
+        this.billproductList = billproductList;
     }
 
     @Override
@@ -49,31 +51,34 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         DecimalFormat df = new DecimalFormat("#.00");
-        final ObjProduct item = productList.get(position);
-        holder.textview_itemname.setText((item).getName());
-        holder.textview_prize.setText((item).getCategory());
+        final ObjBillProducts item = billproductList.get(position);
 
-        //set VK
-        String strVK = df.format((item).getVK());
+        //set name
+        String strName = item.getQuantity() + item.getProduct().getName();
+        holder.textview_itemname.setText(strName);
+
+        //set prize
+        double prize = item.getQuantity() * item.getProduct().getVK();
+        String strVK = df.format(prize);
         strVK = strVK + "€";
         holder.textview_prize.setText(strVK);
     }
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return billproductList.size();
     }
 
     public void removeItem(int position) {
-        productList.remove(position);
+        billproductList.remove(position);
         // notify the item removed by position
         // to perform recycler view delete animations
         // NOTE: don't call notifyDataSetChanged()
         notifyItemRemoved(position);
     }
 
-    public void restoreItem(ObjProduct item, int position) {
-        productList.add(position, item);
+    public void restoreItem(ObjBillProducts item, int position) {
+        billproductList.add(position, item);
         // notify item added by position
         notifyItemInserted(position);
     }
