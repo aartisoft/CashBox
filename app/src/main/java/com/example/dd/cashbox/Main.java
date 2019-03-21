@@ -48,16 +48,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private ViewPagerAdapter m_ViewPagerAdapter;
 
     //fab buttons
-    private FloatingActionButton m_fab_1;
-    private FloatingActionButton m_fab_2;
-    private FloatingActionButton m_fab_3;
+    private FloatingActionButton m_fab_newbill;
+    private FloatingActionButton m_fab_print;
+    private FloatingActionButton m_fab_pay;
     private FloatingActionButton m_fab_main;
-    private Animation m_animShowFab1;
-    private Animation m_animHideFab1;
-    private Animation m_animShowFab2;
-    private Animation m_animHideFab2;
-    private Animation m_animShowFab3;
-    private Animation m_animHideFab3;
+    private Animation m_animShowFabNewBill;
+    private Animation m_animHideFabNewBill;
+    private Animation m_animShowFabPrint;
+    private Animation m_animHideFabPrint;
+    private Animation m_animShowFabPay;
+    private Animation m_animHideFabPay;
     private boolean m_Fab_Status = false;
 
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -84,16 +84,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_ViewPager = findViewById(R.id.am_register_viewpager);
 
         //init fab buttons
-        m_fab_1  = findViewById(R.id.fab_layoutanimation_1);
-        m_fab_2  = findViewById(R.id.fab_layoutanimation_2);
-        m_fab_3  = findViewById(R.id.fab_layoutanimation_3);
+        m_fab_newbill  = findViewById(R.id.fab_layoutanimation_newbill);
+        m_fab_print  = findViewById(R.id.fab_layoutanimation_print);
+        m_fab_pay  = findViewById(R.id.fab_layoutanimation_pay);
         m_fab_main  = findViewById(R.id.activity_main_bill_fb);
-        m_animShowFab1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
-        m_animHideFab1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
-        m_animShowFab2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_show);
-        m_animHideFab2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_hide);
-        m_animShowFab3 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab3_show);
-        m_animHideFab3 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab3_hide);
+        m_animShowFabNewBill = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_newbill_show);
+        m_animHideFabNewBill = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_newbill_hide);
+        m_animShowFabPrint = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_print_show);
+        m_animHideFabPrint = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_print_hide);
+        m_animShowFabPay = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_pay_show);
+        m_animHideFabPay = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_pay_hide);
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -110,6 +110,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //set Listener
         m_navigationView.setNavigationItemSelectedListener(this);
         m_fab_main.setOnClickListener(fabMainOnClickListener);
+        m_fab_newbill.setOnClickListener(fab1OnClickListener);
+        m_fab_print.setOnClickListener(fab2OnClickListener);
+        m_fab_pay.setOnClickListener(fab3OnClickListener);
 
         //open Drawer
         if(m_iSessionId == 1){
@@ -132,6 +135,25 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 hideFab();
                 m_Fab_Status = false;
             }
+        }
+    };
+
+    private View.OnClickListener fab1OnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+    private View.OnClickListener fab2OnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+    private View.OnClickListener fab3OnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
         }
     };
 
@@ -225,54 +247,54 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private void showFab(){
 
         //Floating Action Button 1
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) m_fab_1.getLayoutParams();
-        layoutParams.leftMargin += (int) (m_fab_1.getWidth() * 1.7);
-        layoutParams.bottomMargin += (int) (m_fab_1.getHeight() * 0.10);
-        m_fab_1.setLayoutParams(layoutParams);
-        m_fab_1.startAnimation(m_animShowFab1);
-        m_fab_1.setClickable(true);
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) m_fab_newbill.getLayoutParams();
+        layoutParams.leftMargin += (int) (m_fab_newbill.getWidth() * 1.7);
+        layoutParams.bottomMargin += (int) (m_fab_newbill.getHeight() * 0.10);
+        m_fab_newbill.setLayoutParams(layoutParams);
+        m_fab_newbill.startAnimation(m_animShowFabNewBill);
+        m_fab_newbill.setClickable(true);
 
         //Floating Action Button 2
-        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) m_fab_2.getLayoutParams();
-        layoutParams2.leftMargin += (int) (m_fab_2.getWidth() * 1.5);
-        layoutParams2.bottomMargin += (int) (m_fab_2.getHeight() * 1.5);
-        m_fab_2.setLayoutParams(layoutParams2);
-        m_fab_2.startAnimation(m_animShowFab2);
-        m_fab_2.setClickable(true);
+        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) m_fab_print.getLayoutParams();
+        layoutParams2.leftMargin += (int) (m_fab_print.getWidth() * 1.5);
+        layoutParams2.bottomMargin += (int) (m_fab_print.getHeight() * 1.5);
+        m_fab_print.setLayoutParams(layoutParams2);
+        m_fab_print.startAnimation(m_animShowFabPrint);
+        m_fab_print.setClickable(true);
 
         //Floating Action Button 3
-        FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) m_fab_3.getLayoutParams();
-        layoutParams3.leftMargin += (int) (m_fab_3.getWidth() * 0.1);
-        layoutParams3.bottomMargin += (int) (m_fab_3.getHeight() * 1.7);
-        m_fab_3.setLayoutParams(layoutParams3);
-        m_fab_3.startAnimation(m_animShowFab3);
-        m_fab_3.setClickable(true);
+        FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) m_fab_pay.getLayoutParams();
+        layoutParams3.leftMargin += (int) (m_fab_pay.getWidth() * 0.1);
+        layoutParams3.bottomMargin += (int) (m_fab_pay.getHeight() * 1.7);
+        m_fab_pay.setLayoutParams(layoutParams3);
+        m_fab_pay.startAnimation(m_animShowFabPay);
+        m_fab_pay.setClickable(true);
     }
 
     private void hideFab(){
 
         //Floating Action Button 1
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) m_fab_1.getLayoutParams();
-        layoutParams.leftMargin -= (int) (m_fab_1.getWidth() * 1.7);
-        layoutParams.bottomMargin -= (int) (m_fab_1.getHeight() * 0.10);
-        m_fab_1.setLayoutParams(layoutParams);
-        m_fab_1.startAnimation(m_animHideFab1);
-        m_fab_1.setClickable(false);
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) m_fab_newbill.getLayoutParams();
+        layoutParams.leftMargin -= (int) (m_fab_newbill.getWidth() * 1.7);
+        layoutParams.bottomMargin -= (int) (m_fab_newbill.getHeight() * 0.10);
+        m_fab_newbill.setLayoutParams(layoutParams);
+        m_fab_newbill.startAnimation(m_animHideFabNewBill);
+        m_fab_newbill.setClickable(false);
 
         //Floating Action Button 2
-        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) m_fab_2.getLayoutParams();
-        layoutParams2.leftMargin -= (int) (m_fab_2.getWidth() * 1.5);
-        layoutParams2.bottomMargin -= (int) (m_fab_2.getHeight() * 1.5);
-        m_fab_2.setLayoutParams(layoutParams2);
-        m_fab_2.startAnimation(m_animHideFab2);
-        m_fab_2.setClickable(false);
+        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) m_fab_print.getLayoutParams();
+        layoutParams2.leftMargin -= (int) (m_fab_print.getWidth() * 1.5);
+        layoutParams2.bottomMargin -= (int) (m_fab_print.getHeight() * 1.5);
+        m_fab_print.setLayoutParams(layoutParams2);
+        m_fab_print.startAnimation(m_animHideFabPrint);
+        m_fab_print.setClickable(false);
 
         //Floating Action Button 3
-        FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) m_fab_3.getLayoutParams();
-        layoutParams3.leftMargin -= (int) (m_fab_3.getWidth() * 0.1);
-        layoutParams3.bottomMargin -= (int) (m_fab_3.getHeight() * 1.7);
-        m_fab_3.setLayoutParams(layoutParams3);
-        m_fab_3.startAnimation(m_animHideFab3);
-        m_fab_3.setClickable(false);
+        FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) m_fab_pay.getLayoutParams();
+        layoutParams3.leftMargin -= (int) (m_fab_pay.getWidth() * 0.1);
+        layoutParams3.bottomMargin -= (int) (m_fab_pay.getHeight() * 1.7);
+        m_fab_pay.setLayoutParams(layoutParams3);
+        m_fab_pay.startAnimation(m_animHideFabPay);
+        m_fab_pay.setClickable(false);
     }
 }

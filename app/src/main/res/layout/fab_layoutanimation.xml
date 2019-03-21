@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_layoutanimation_1"
+        android:id="@+id/fab_layoutanimation_newbill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
@@ -16,7 +16,7 @@
         app:fabSize="mini" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_layoutanimation_2"
+        android:id="@+id/fab_layoutanimation_print"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
@@ -27,7 +27,7 @@
         app:fabSize="mini" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_layoutanimation_3"
+        android:id="@+id/fab_layoutanimation_pay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
