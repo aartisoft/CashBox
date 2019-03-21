@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <GridView
+        android:id="@+id/activity_main_showtables_gv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="2"
+        android:verticalSpacing="4dp"
+        android:horizontalSpacing="4dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:verticalScrollbarPosition="right"
+        android:scrollbars="vertical"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:columnWidth="80dp"
+        android:textAlignment="gravity"
+        android:layout_centerHorizontal="true" />
+</LinearLayout>

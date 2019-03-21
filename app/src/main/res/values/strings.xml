@@ -71,6 +71,7 @@
     <string name="src_Pfand">Pfand</string>
     <string name="src_Pfandpreis">Pfandpreis</string>
     <string name="src_KeinPfand">Kein Pfand</string>
+    <string name="src_Tisch">Tisch</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
