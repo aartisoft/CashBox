@@ -83,4 +83,27 @@
     <!-- Drawer Menu -->
     <include layout="@layout/activity_main_menu"/>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/activity_main_bill_fb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_gravity="bottom"
+            app:layout_anchorGravity="bottom"
+            app:fabSize="normal"
+            app:backgroundTint="@color/colorPrimary3"
+            android:src="@drawable/ic_layers_white_24dp"
+            android:scaleType="center"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:alpha="0.25"
+            android:visibility="visible"/>
+
+        <include layout="@layout/fab_layoutanimation" />
+    </FrameLayout>
+
 </androidx.drawerlayout.widget.DrawerLayout>
