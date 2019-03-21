@@ -3,40 +3,31 @@ package com.example.dd.cashbox;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-import fragments.ChooseColorDialogFragment;
 import global.GlobVar;
 import objects.ObjCategory;
-import objects.ObjPrinter;
 import objects.ObjProduct;
 
 public class EditProduct_Add extends AppCompatActivity {
@@ -134,7 +125,7 @@ public class EditProduct_Add extends AppCompatActivity {
 
                 if (!b_ProductExists) {
                     int indexcounter = 0;
-                    for(ObjCategory objcategory : GlobVar.m_lstCategory){
+                    for(ObjCategory objcategory : GlobVar.g_lstCategory){
                         if(objcategory.getName().equals(m_SessionCategory)){
                             ObjCategory category = objcategory;
                             List<ObjProduct> lstProduct = category.getListProduct();
@@ -159,7 +150,7 @@ public class EditProduct_Add extends AppCompatActivity {
                             category.setProductList(lstProduct);
 
                             //save category to global and sql
-                            GlobVar.m_lstCategory.set(indexcounter, category);
+                            GlobVar.g_lstCategory.set(indexcounter, category);
                             SQLiteDatabaseHandler_Product db = new SQLiteDatabaseHandler_Product(m_Context);
                             db.addProduct(product);
 
@@ -225,7 +216,7 @@ public class EditProduct_Add extends AppCompatActivity {
     }
 
     private void getCurrentProductList(){
-        for(ObjCategory objcategory : GlobVar.m_lstCategory) {
+        for(ObjCategory objcategory : GlobVar.g_lstCategory) {
             if (objcategory.getName().equals(m_SessionCategory)) {
                 m_lstProduct = objcategory.getListProduct();
                 break;

@@ -63,7 +63,7 @@ public class SQLiteDatabaseHandler_Category extends SQLiteOpenHelper {
                 //set printer
                 ObjPrinter printer = new ObjPrinter();
                 printer = null;
-                for(ObjPrinter objprinter : GlobVar.m_lstPrinter){
+                for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
                     if(objprinter.getMacAddress().equals(cursor.getString(3))){
                         printer = objprinter;
                         break;

@@ -84,15 +84,15 @@ public class MS_AddPrinter extends AppCompatActivity {
     private void writeSQLiteDB(){
         SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
 
-        for(ObjPrinter printer : GlobVar.m_lstPrinter){
+        for(ObjPrinter printer : GlobVar.g_lstPrinter){
             db.addPrinter(printer);
         }
     }
 
     private void setListView(){
-        if(GlobVar.m_lstPrinter.size() != 0){
+        if(GlobVar.g_lstPrinter.size() != 0){
             findViewById(R.id.ms_addprinter_noprinter).setVisibility(View.INVISIBLE);
-            m_adapter = new ListViewPrinterAdapter(this, GlobVar.m_lstPrinter);
+            m_adapter = new ListViewPrinterAdapter(this, GlobVar.g_lstPrinter);
             m_listView.setAdapter(m_adapter);
         }
         else{

@@ -108,7 +108,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
             else {
                 //does category already exists?
                 boolean b_CategoryExists = false;
-                for (ObjCategory objcategory : GlobVar.m_lstCategory) {
+                for (ObjCategory objcategory : GlobVar.g_lstCategory) {
                     if (objcategory.getName().equals(m_EditTextName.getText().toString())) {
                         if (!objcategory.getName().equals(m_SessionCategory)) {
                             b_CategoryExists = true;
@@ -117,7 +117,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                     }
                 }
                 int indexcounter = 0;
-                for (ObjCategory objcategory : GlobVar.m_lstCategory) {
+                for (ObjCategory objcategory : GlobVar.g_lstCategory) {
                     if (objcategory.getName().equals(m_SessionCategory)) {
                         if (!b_CategoryExists) {
                             ObjCategory category = new ObjCategory();
@@ -137,7 +137,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                             foundPrinter = null;
                             String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
                             String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") + 1);
-                            for (ObjPrinter printer : GlobVar.m_lstPrinter) {
+                            for (ObjPrinter printer : GlobVar.g_lstPrinter) {
                                 if (printer.getMacAddress().equals(macadress)) {
                                     foundPrinter = printer;
                                     break;
@@ -149,7 +149,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                             category.setProductList(objcategory.getListProduct());
 
                             //update global and in database
-                            GlobVar.m_lstCategory.set(indexcounter, category);
+                            GlobVar.g_lstCategory.set(indexcounter, category);
                             SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
                             db.updateCategory(m_strCategoryName, category);
 
@@ -242,11 +242,11 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         m_Spinner_Printer.setPrompt(getResources().getString(R.string.src_DruckerAuswaehlen));
         int printer_position = 0;
 
-        if(!GlobVar.m_lstPrinter.isEmpty()){
+        if(!GlobVar.g_lstPrinter.isEmpty()){
             List<String> categories = new ArrayList<>();
 
             int counter = 0;
-            for(ObjPrinter printer : GlobVar.m_lstPrinter){
+            for(ObjPrinter printer : GlobVar.g_lstPrinter){
                 //get position of choosen printer
                 if(p_printer != null){
                     if(printer.getMacAddress().equals(p_printer.getMacAddress())){
@@ -279,7 +279,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     }
 
     private void setData(){
-        for(ObjCategory category : GlobVar.m_lstCategory){
+        for(ObjCategory category : GlobVar.g_lstCategory){
             if(category.getName().equals(m_SessionCategory)){
                 m_EditTextName.setText(category.getName());
                 m_strCategoryName = category.getName();

@@ -32,7 +32,6 @@ import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_Printer;
 import androidx.viewpager.widget.ViewPager;
-import fragments.ViewPagerRegisterFragment;
 import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjProduct;
@@ -179,23 +178,23 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void readSQLiteDB(){
         try{
-            if(GlobVar.m_bReadSQL){
+            if(GlobVar.g_bReadSQL){
                 //read printers
                 SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
-                if(GlobVar.m_lstPrinter.isEmpty()){
-                    GlobVar.m_lstPrinter = db_printer.allPrinters();
+                if(GlobVar.g_lstPrinter.isEmpty()){
+                    GlobVar.g_lstPrinter = db_printer.allPrinters();
                 }
 
                 //read categories
                 SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
-                if(GlobVar.m_lstCategory.isEmpty()) {
-                    GlobVar.m_lstCategory = db_category.allCategories();
+                if(GlobVar.g_lstCategory.isEmpty()) {
+                    GlobVar.g_lstCategory = db_category.allCategories();
                 }
 
                 //read products and add to specific category
                 SQLiteDatabaseHandler_Product db_products = new SQLiteDatabaseHandler_Product(m_Context);
                 int indexcounter = 0;
-                for(ObjCategory objcategory : GlobVar.m_lstCategory){
+                for(ObjCategory objcategory : GlobVar.g_lstCategory){
                     List<ObjProduct> lstProduct = new ArrayList<ObjProduct>();
                     ObjCategory category = new ObjCategory();
                     category = objcategory;
@@ -203,12 +202,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     lstProduct = db_products.allCategoryProducts(objcategory.getName());
                     category.setProductList(lstProduct);
 
-                    GlobVar.m_lstCategory.set(indexcounter, category);
+                    GlobVar.g_lstCategory.set(indexcounter, category);
                     indexcounter++;
                 }
 
                 //database read only at start of app
-                GlobVar.m_bReadSQL = false;
+                GlobVar.g_bReadSQL = false;
             }
         }
         catch(SQLiteException se){
@@ -217,7 +216,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void setTabulator(){
-        m_ViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), GlobVar.m_lstCategory);
+        m_ViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), GlobVar.g_lstCategory);
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
         m_TabLayout.setupWithViewPager(m_ViewPager);
         m_TabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);

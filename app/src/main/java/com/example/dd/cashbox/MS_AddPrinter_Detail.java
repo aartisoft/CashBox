@@ -114,19 +114,19 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
 
                     //delete printer
                     SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
-                    GlobVar.m_lstPrinter.remove(m_ObjPrinter);
+                    GlobVar.g_lstPrinter.remove(m_ObjPrinter);
                     db.deletePrinter(m_ObjPrinter);
 
                     //delete printer in categories
                     int indexcounter = 0;
                     SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
 
-                    for(ObjCategory category : GlobVar.m_lstCategory){
+                    for(ObjCategory category : GlobVar.g_lstCategory){
                         ObjPrinter printer = category.getPrinter();
                         if(printer.getMacAddress().equals(m_ObjPrinter.getMacAddress())){
-                            ObjCategory tempcategory = GlobVar.m_lstCategory.get(indexcounter);
+                            ObjCategory tempcategory = GlobVar.g_lstCategory.get(indexcounter);
                             tempcategory.setPrinter(null);
-                            GlobVar.m_lstCategory.set(indexcounter, tempcategory);
+                            GlobVar.g_lstCategory.set(indexcounter, tempcategory);
                             db_category.updateCategory(category.getName(), tempcategory);
                         }
                         indexcounter++;
@@ -221,7 +221,7 @@ public class MS_AddPrinter_Detail extends AppCompatActivity implements OnClickLi
     }
 
     private void setListView(){
-        for(ObjPrinter printer : GlobVar.m_lstPrinter){
+        for(ObjPrinter printer : GlobVar.g_lstPrinter){
             if(m_strSessionTarget.equals(printer.getMacAddress())){
 
                 //build data for listview

@@ -52,7 +52,7 @@ public class EditTable extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //set EditText
-        m_tbTable.setText(String.valueOf(GlobVar.m_iTables), TextView.BufferType.EDITABLE);
+        m_tbTable.setText(String.valueOf(GlobVar.g_iTables), TextView.BufferType.EDITABLE);
         m_tbTable.setCursorVisible(true);
 
         //set Listener
@@ -65,9 +65,9 @@ public class EditTable extends AppCompatActivity {
     private View.OnClickListener fabMinusOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(GlobVar.m_iTables > 0) {
-                GlobVar.m_iTables--;
-                m_tbTable.setText(String.valueOf(GlobVar.m_iTables), TextView.BufferType.EDITABLE);
+            if(GlobVar.g_iTables > 0) {
+                GlobVar.g_iTables--;
+                m_tbTable.setText(String.valueOf(GlobVar.g_iTables), TextView.BufferType.EDITABLE);
             }
         }
     };
@@ -75,8 +75,8 @@ public class EditTable extends AppCompatActivity {
     private View.OnClickListener fabPlusOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            GlobVar.m_iTables++;
-            m_tbTable.setText(String.valueOf(GlobVar.m_iTables), TextView.BufferType.EDITABLE);
+            GlobVar.g_iTables++;
+            m_tbTable.setText(String.valueOf(GlobVar.g_iTables), TextView.BufferType.EDITABLE);
         }
     };
 
@@ -85,7 +85,7 @@ public class EditTable extends AppCompatActivity {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                GlobVar.m_iTables = Integer.parseInt(m_tbTable.getText().toString());
+                GlobVar.g_iTables = Integer.parseInt(m_tbTable.getText().toString());
             }
             return false;
         }

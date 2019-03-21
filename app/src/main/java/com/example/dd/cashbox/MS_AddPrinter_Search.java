@@ -114,7 +114,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
 
                     //check if printer already existing
                     boolean bIsExisting = false;
-                    for(ObjPrinter printer : GlobVar.m_lstPrinter){
+                    for(ObjPrinter printer : GlobVar.g_lstPrinter){
                         if(printerAdapter.getTarget().equals(printer.getTarget())){
                             bIsExisting = true;
                             break;
@@ -128,7 +128,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
 
 
                         //save printer
-                        GlobVar.m_lstPrinter.add(printer);
+                        GlobVar.g_lstPrinter.add(printer);
                         db.addPrinter(printer);
 
                         Toast.makeText(MS_AddPrinter_Search.this, getResources().getString(R.string.src_DruckerHinzugefuegt), Toast.LENGTH_SHORT).show();

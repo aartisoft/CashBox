@@ -193,7 +193,7 @@ public class EditProduct extends AppCompatActivity{
     }
 
     private void getCurrentProductList(){
-        for(ObjCategory objcategory : GlobVar.m_lstCategory) {
+        for(ObjCategory objcategory : GlobVar.g_lstCategory) {
             if (objcategory.getName().equals(m_SessionCategory)) {
                 m_lstProduct = objcategory.getListProduct();
                 break;

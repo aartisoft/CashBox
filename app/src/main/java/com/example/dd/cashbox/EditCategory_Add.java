@@ -102,7 +102,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
             else {
                 //does category already exists?
                 boolean b_CategoryExists = false;
-                for(ObjCategory category : GlobVar.m_lstCategory){
+                for(ObjCategory category : GlobVar.g_lstCategory){
                     if(category.getName().equals(m_EditTextName.getText().toString())){
                         b_CategoryExists = true;
                         break;
@@ -127,7 +127,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
                     foundPrinter = null;
                     String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
                     String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") +1);
-                    for(ObjPrinter printer : GlobVar.m_lstPrinter){
+                    for(ObjPrinter printer : GlobVar.g_lstPrinter){
                         if(printer.getMacAddress().equals(macadress)){
                             foundPrinter = printer;
                             break;
@@ -138,7 +138,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
                     category.setEnabled(m_Switch.isChecked());
 
                     //save category to global and sql
-                    GlobVar.m_lstCategory.add(category);
+                    GlobVar.g_lstCategory.add(category);
                     SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
                     db.addCategory(category);
 
@@ -233,9 +233,9 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
     private void setSpinnerPrinter(){
         m_Spinner_Printer.setPrompt(getResources().getString(R.string.src_DruckerAuswaehlen));
 
-        if(!GlobVar.m_lstPrinter.isEmpty()){
+        if(!GlobVar.g_lstPrinter.isEmpty()){
             List<String> categories = new ArrayList<>();
-            for(ObjPrinter printer : GlobVar.m_lstPrinter){
+            for(ObjPrinter printer : GlobVar.g_lstPrinter){
                 categories.add(printer.getDeviceName() + " - MAC:" + printer.getMacAddress());
             }
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categories);

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
 
@@ -48,7 +47,7 @@ public class ViewPagerRegisterFragment extends Fragment {
         m_GridView = view.findViewById(R.id.fragment_tagregister_gridview);
 
         m_gridViewProductAdapter = new GridViewProductAdapter(getActivity().getApplicationContext(),
-                                    GlobVar.m_lstCategory.get(position).getListProduct(), GlobVar.m_lstCategory.get(position).getProdColor());
+                                    GlobVar.g_lstCategory.get(position).getListProduct(), GlobVar.g_lstCategory.get(position).getProdColor());
         m_GridView.setAdapter(m_gridViewProductAdapter);
     }
 }

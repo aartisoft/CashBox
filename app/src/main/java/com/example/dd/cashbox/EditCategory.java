@@ -123,7 +123,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
     @Override
     public void onItemClick(int position) {
 
-        ObjCategory category = GlobVar.m_lstCategory.get(position);
+        ObjCategory category = GlobVar.g_lstCategory.get(position);
 
         Intent intent = new Intent(EditCategory.this, EditProduct.class);
         intent.putExtra("CATEGORY", category.getName());
@@ -132,7 +132,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
 
 
     private void setupRecyclerView(){
-        m_adapter = new RecyclerViewCategoryAdapter(this, GlobVar.m_lstCategory, this);
+        m_adapter = new RecyclerViewCategoryAdapter(this, GlobVar.g_lstCategory, this);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         m_recyclerview.setLayoutManager(mLayoutManager);
@@ -141,10 +141,10 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
             @Override
             public void onRightClicked(int position) {
                 //get current category
-                final ObjCategory category = GlobVar.m_lstCategory.get(position);
+                final ObjCategory category = GlobVar.g_lstCategory.get(position);
 
                 // backup of removed item for undo purpose
-                final ObjCategory deletedItem = GlobVar.m_lstCategory.get(position);
+                final ObjCategory deletedItem = GlobVar.g_lstCategory.get(position);
                 final int deletedIndex = position;
 
                 m_adapter.removeItem(position);
@@ -182,7 +182,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
             }
             @Override
             public void onLeftClicked(int position) {
-                ObjCategory obj_category = GlobVar.m_lstCategory.get(position);
+                ObjCategory obj_category = GlobVar.g_lstCategory.get(position);
                 String category = obj_category.getName();
 
                 Intent intent = new Intent(EditCategory.this, EditCategory_Edit.class);
@@ -207,7 +207,7 @@ public class EditCategory extends AppCompatActivity implements RecyclerViewCateg
 
     private void setTextNoCategory(){
         //set text if no category available
-        if(!GlobVar.m_lstCategory.isEmpty()){
+        if(!GlobVar.g_lstCategory.isEmpty()){
             findViewById(R.id.editcategory_tv_nocategory).setVisibility(View.INVISIBLE);
         }else{
             findViewById(R.id.editcategory_tv_nocategory).setVisibility(View.VISIBLE);
