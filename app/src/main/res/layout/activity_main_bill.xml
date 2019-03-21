@@ -69,5 +69,6 @@
             android:visibility="visible"/>
 
         <include layout="@layout/fab_layoutanimation" />
+
     </FrameLayout>
 </LinearLayout>
