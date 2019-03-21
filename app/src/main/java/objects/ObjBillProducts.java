@@ -3,6 +3,8 @@ package objects;
 public class ObjBillProducts {
     private ObjProduct m_objProduct;
     private int m_iQuantity;
+    private String m_strCategory;
+    private ObjPrinter m_objPrinter;
     private boolean m_bPrinted;
     private boolean m_bCanceled;
     private boolean m_bPaid;
@@ -13,6 +15,12 @@ public class ObjBillProducts {
     }
     public int getQuantity(){
         return this.m_iQuantity;
+    }
+    public String getCategory(){
+        return this.m_strCategory;
+    }
+    public ObjPrinter getPrinter(){
+        return this.m_objPrinter;
     }
     public boolean getPrinted(){
         return this.m_bPrinted;
@@ -30,6 +38,12 @@ public class ObjBillProducts {
     }
     public void setQuantity(int p_iQuantity){
         this.m_iQuantity = p_iQuantity;
+    }
+    public void setCategory(String p_strCategory){
+        this.m_strCategory = p_strCategory;
+    }
+    public void setPrinter(ObjPrinter p_objPrinter){
+        this.m_objPrinter = p_objPrinter;
     }
     public void setPrinted(boolean p_bPrinted){
         this.m_bPrinted = p_bPrinted;
