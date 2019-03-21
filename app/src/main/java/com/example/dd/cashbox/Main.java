@@ -148,7 +148,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener tvTableOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            startActivity(new Intent(m_Context, MainShowTables.class));
         }
     };
     private View.OnClickListener tvBillOnClickListener = new View.OnClickListener() {

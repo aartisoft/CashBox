@@ -4,14 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.GridView;
 
+import adapter.GridViewProductAdapter;
+import adapter.GridViewTableAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import global.GlobVar;
 
 public class MainShowTables extends AppCompatActivity {
 
     private Context m_Context;
     private View m_decorView;
+    private GridView m_GridView;
+    private GridViewTableAdapter m_gridViewTableAdapter;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -29,6 +35,7 @@ public class MainShowTables extends AppCompatActivity {
         //init variables
         m_Context = this;
         m_decorView = getWindow().getDecorView();
+        m_GridView = findViewById(R.id.activity_main_showtables_gv);
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -63,7 +70,8 @@ public class MainShowTables extends AppCompatActivity {
         }
     }
 
-    private static void setTables(){
-
+    private  void setTables(){
+        m_gridViewTableAdapter = new GridViewTableAdapter(m_Context, GlobVar.g_iTables);
+        m_GridView.setAdapter(m_gridViewTableAdapter);
     }
 }
