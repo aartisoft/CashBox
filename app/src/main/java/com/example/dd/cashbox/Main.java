@@ -26,6 +26,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private TabLayout m_TabLayout;
     private ViewPager m_ViewPager;
     private ViewPagerAdapter m_ViewPagerAdapter;
+    private TextView m_TextViewTable;
+    private TextView m_TextViewBill;
 
     //fab buttons
     private FloatingActionButton m_fab_newbill;
@@ -82,6 +85,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_navigationView = findViewById(R.id.am_menu_nav_view);
         m_TabLayout = findViewById(R.id.am_register_tab);
         m_ViewPager = findViewById(R.id.am_register_viewpager);
+        m_TextViewTable = findViewById(R.id.activity_main_bill_tvtable);
+        m_TextViewBill = findViewById(R.id.activity_main_bill_tvbill);
 
         //init fab buttons
         m_fab_newbill  = findViewById(R.id.fab_layoutanimation_newbill);
@@ -110,9 +115,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //set Listener
         m_navigationView.setNavigationItemSelectedListener(this);
         m_fab_main.setOnClickListener(fabMainOnClickListener);
-        m_fab_newbill.setOnClickListener(fab1OnClickListener);
-        m_fab_print.setOnClickListener(fab2OnClickListener);
-        m_fab_pay.setOnClickListener(fab3OnClickListener);
+        m_fab_newbill.setOnClickListener(fabNewBillOnClickListener);
+        m_fab_print.setOnClickListener(fabPrintOnClickListener);
+        m_fab_pay.setOnClickListener(fabPayOnClickListener);
+        m_TextViewTable.setOnClickListener(tvTableOnClickListener);
+        m_TextViewBill.setOnClickListener(tvBillOnClickListener);
 
         //open Drawer
         if(m_iSessionId == 1){
@@ -138,19 +145,31 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
     };
 
-    private View.OnClickListener fab1OnClickListener = new View.OnClickListener() {
+    private View.OnClickListener tvTableOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
         }
     };
-    private View.OnClickListener fab2OnClickListener = new View.OnClickListener() {
+    private View.OnClickListener tvBillOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
         }
     };
-    private View.OnClickListener fab3OnClickListener = new View.OnClickListener() {
+    private View.OnClickListener fabNewBillOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+    private View.OnClickListener fabPrintOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+    private View.OnClickListener fabPayOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
