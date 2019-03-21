@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/editproduct_rv_items_name"
+                android:id="@+id/am_bill_rv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/editproduct_rv_items_vk"
+                    android:id="@+id/am_bill_rv_prize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
