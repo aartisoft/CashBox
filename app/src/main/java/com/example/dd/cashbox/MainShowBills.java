@@ -90,12 +90,8 @@ public class MainShowBills extends AppCompatActivity {
 
     private void setBills(){
         if(GlobVar.g_lstTableBills.size() != 0){
-            findViewById(R.id.activity_main_showbills_nobills).setVisibility(View.INVISIBLE);
             m_listViewBillAdapter = new ListViewBillAdapter(this, GlobVar.g_lstTableBills.get(m_iSessionTable));
             m_ListView.setAdapter(m_listViewBillAdapter);
-        }
-        else{
-            findViewById(R.id.ms_addprinter_noprinter).setVisibility(View.VISIBLE);
         }
     }
 }

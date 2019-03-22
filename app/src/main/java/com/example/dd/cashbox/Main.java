@@ -27,6 +27,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,7 +163,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener tvBillOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            if(GlobVar.g_lstTableBills.get(m_iSessionTable).size() > 0)
+            {
+                startActivity(new Intent(m_Context, MainShowBills.class));
+            }
+            else{
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KeineBelegeVorhanden), Toast.LENGTH_SHORT).show();
+            }
         }
     };
     private View.OnClickListener fabNewBillOnClickListener = new View.OnClickListener() {
