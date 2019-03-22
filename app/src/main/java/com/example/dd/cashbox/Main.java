@@ -42,6 +42,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private Context m_Context;
     private int m_iSessionId = 0;
     private int m_iSessionTable = 0;
+    private int m_iSessionBill = 0;
     private View m_decorView;
     private NavigationView m_navigationView;
     private DrawerLayout m_DrawerLayout;
@@ -79,6 +80,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //activity variables
         m_iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
         m_iSessionTable = getIntent().getIntExtra("TABLE", 0);
+        m_iSessionTable = getIntent().getIntExtra("BILL", 0);
 
         //init variables
         m_Context = this;
@@ -113,14 +115,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_navigationView.bringToFront();
 
         //set Table/Bill Header
-        String strTableHeader = "";
-        if(m_iSessionTable != 0){
-            strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable);
-        }
-        else{
-            strTableHeader = getResources().getString(R.string.src_Tisch_emtpy);
-        }
-        m_TextViewTable.setText(strTableHeader);
+        setHeaderTableBill();
 
         //read database
         readSQLiteDB();
@@ -328,5 +323,25 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_fab_pay.setLayoutParams(layoutParams3);
         m_fab_pay.startAnimation(m_animHideFabPay);
         m_fab_pay.setClickable(false);
+    }
+
+    private void setHeaderTableBill(){
+        String strTableHeader = "";
+        if(m_iSessionTable != 0){
+            strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable);
+        }
+        else{
+            strTableHeader = getResources().getString(R.string.src_Tisch_emtpy);
+        }
+        m_TextViewTable.setText(strTableHeader);
+
+        String strBillHeader = "";
+        if(m_iSessionBill != 0){
+            strTableHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
+        }
+        else{
+            strTableHeader = getResources().getString(R.string.src_Beleg_empty);
+        }
+        m_TextViewBill.setText(strTableHeader);
     }
 }
