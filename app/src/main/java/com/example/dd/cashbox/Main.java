@@ -80,7 +80,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //activity variables
         m_iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
         m_iSessionTable = getIntent().getIntExtra("TABLE", 0);
-        m_iSessionTable = getIntent().getIntExtra("BILL", 0);
+        m_iSessionBill = getIntent().getIntExtra("BILL", 0);
 
         //init variables
         m_Context = this;
