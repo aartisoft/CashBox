@@ -108,6 +108,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        m_navigationView.bringToFront();
 
         //read database
         readSQLiteDB();
