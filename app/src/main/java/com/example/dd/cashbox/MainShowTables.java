@@ -53,7 +53,10 @@ public class MainShowTables extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
             Intent intent = new Intent(MainShowTables.this, Main.class);
+            intent.putExtra("TABLE", position+1);
             startActivity(intent);
         }
     };

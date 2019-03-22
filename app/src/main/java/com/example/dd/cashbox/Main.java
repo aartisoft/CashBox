@@ -41,6 +41,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private Context m_Context;
     private int m_iSessionId = 0;
+    private int m_iSessionTable = 0;
     private View m_decorView;
     private NavigationView m_navigationView;
     private DrawerLayout m_DrawerLayout;
@@ -77,6 +78,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //activity variables
         m_iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
+        m_iSessionTable = getIntent().getIntExtra("TABLE", 0);
 
         //init variables
         m_Context = this;
@@ -109,6 +111,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         m_navigationView.bringToFront();
+
+        //set Table/Bill Header
+        String strTableHeader = "";
+        if(m_iSessionTable != 0){
+            strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable);
+        }
+        else{
+            strTableHeader = getResources().getString(R.string.src_Tisch_emtpy);
+        }
+        m_TextViewTable.setText(strTableHeader);
 
         //read database
         readSQLiteDB();
