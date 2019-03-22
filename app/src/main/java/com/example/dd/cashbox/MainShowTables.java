@@ -1,9 +1,11 @@
 package com.example.dd.cashbox;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import adapter.GridViewProductAdapter;
@@ -30,7 +32,7 @@ public class MainShowTables extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editcategory);
+        setContentView(R.layout.activity_main_showtables);
 
         //init variables
         m_Context = this;
@@ -39,14 +41,22 @@ public class MainShowTables extends AppCompatActivity {
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
-        Toolbar toolbar = findViewById(R.id.toolbar_editcategory);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //set tables
+        setTables();
 
         //set Listener
+        m_GridView.setOnItemClickListener(gvTableOnItemClickListener);
     }
+
+    private AdapterView.OnItemClickListener gvTableOnItemClickListener = new AdapterView.OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(MainShowTables.this, Main.class);
+            startActivity(intent);
+        }
+    };
 
 
     public void hideSystemUI(Window window) {

@@ -7,12 +7,18 @@
         android:id="@+id/activity_main_showtables_layout_tv"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:textSize="16sp"
         android:text="Tisch X"
+        android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:paddingTop="4dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:background="@color/colorPrimary3"/>
 
 </LinearLayout>

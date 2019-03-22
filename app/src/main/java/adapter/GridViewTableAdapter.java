@@ -54,7 +54,8 @@ public class GridViewTableAdapter extends BaseAdapter {
 
         //title
         TextView titleTextView = convertView.findViewById(R.id.activity_main_showtables_layout_tv);
-        titleTextView.setText(m_Context.getResources().getString(R.string.src_Tisch) + position);
+        position++;
+        titleTextView.setText(m_Context.getResources().getString(R.string.src_Tisch) + " " + position);
 
         return convertView;
     }
