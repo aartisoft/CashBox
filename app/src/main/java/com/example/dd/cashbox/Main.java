@@ -157,18 +157,28 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener tvTableOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(m_Context, MainShowTables.class));
+            if(GlobVar.g_iTables > 0) {
+                startActivity(new Intent(m_Context, MainShowTables.class));
+            }
+            else{
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KeineTischeVorhanden), Toast.LENGTH_SHORT).show();
+            }
         }
     };
     private View.OnClickListener tvBillOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(GlobVar.g_lstTableBills.get(m_iSessionTable).size() > 0)
-            {
-                startActivity(new Intent(m_Context, MainShowBills.class));
+            if(m_iSessionTable != 0){
+                if(GlobVar.g_lstTableBills.get(m_iSessionTable-1).size() > 0)
+                {
+                    startActivity(new Intent(m_Context, MainShowBills.class));
+                }
+                else{
+                    Toast.makeText(Main.this, getResources().getString(R.string.src_KeineBelegeVorhanden), Toast.LENGTH_SHORT).show();
+                }
             }
             else{
-                Toast.makeText(Main.this, getResources().getString(R.string.src_KeineBelegeVorhanden), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KeinTischAusgewaehlt), Toast.LENGTH_SHORT).show();
             }
         }
     };

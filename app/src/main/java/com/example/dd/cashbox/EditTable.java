@@ -15,8 +15,13 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import global.GlobVar;
+import objects.ObjBill;
 
 public class EditTable extends AppCompatActivity {
 
@@ -65,9 +70,14 @@ public class EditTable extends AppCompatActivity {
     private View.OnClickListener fabMinusOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(GlobVar.g_iTables > 0) {
-                GlobVar.g_iTables--;
-                m_tbTable.setText(String.valueOf(GlobVar.g_iTables), TextView.BufferType.EDITABLE);
+            if(GlobVar.g_lstTableBills.size() > 0){
+                if(GlobVar.g_iTables > 0) {
+                    GlobVar.g_iTables--;
+                    m_tbTable.setText(String.valueOf(GlobVar.g_iTables), TextView.BufferType.EDITABLE);
+                }
+            }
+            else{
+                Toast.makeText(EditTable.this, getResources().getString(R.string.src_TischeSindInBenutzungUndKoennenNichtReduziertWerden), Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -140,6 +150,10 @@ public class EditTable extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+
+                //set global list tablebills
+                setListTableBills();
+
                 Intent intent = new Intent(EditTable.this, Main.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("EXTRA_SESSION_ID", 1);
@@ -149,6 +163,14 @@ public class EditTable extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setListTableBills(){
+        //init global list
+        for (int iTables = 0; iTables < GlobVar.g_iTables; iTables++){
+            List<ObjBill> lstBill = new ArrayList<ObjBill>();
+            GlobVar.g_lstTableBills.add(lstBill);
         }
     }
 }

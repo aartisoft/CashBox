@@ -76,6 +76,9 @@
     <string name="src_Tisch_emtpy">Tisch -</string>
     <string name="src_Beleg_empty">Beleg -</string>
     <string name="src_KeineBelegeVorhanden">Keine Belege vorhanden</string>
+    <string name="src_KeineTischeVorhanden">Keine Tische vorhanden</string>
+    <string name="src_TischeSindInBenutzungUndKoennenNichtReduziertWerden">Tische sind in Benutzung und können nicht reduziert werden</string>
+    <string name="src_KeinTischAusgewaehlt">Kein Tisch ausgewählt</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
