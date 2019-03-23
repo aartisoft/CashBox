@@ -18,12 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="80.5dp"
             android:layout_above ="@+id/am_register_viewpager"
-            android:background="@drawable/textview_border">
+            android:background="@drawable/textview_border"
+            app:tabTextColor="@color/colorWhite"
+            app:tabIndicatorColor="@color/colorPrimary3">
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/am_register_viewpager"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2.5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </androidx.viewpager.widget.ViewPager>

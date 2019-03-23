@@ -20,12 +20,14 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,7 @@ import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_Printer;
 import androidx.viewpager.widget.ViewPager;
+import fragments.ViewPagerRegisterFragment;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjCategory;
@@ -287,10 +290,29 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void setTabulator(){
-        m_ViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), GlobVar.g_lstCategory);
+        //setup viewpager
+        m_ViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        int position = 0;
+        for(ObjCategory objCategory : GlobVar.g_lstCategory){
+            if(objCategory.getEnabled()){
+                m_ViewPagerAdapter.addFragment(new ViewPagerRegisterFragment().getInstance(position), objCategory.getName(), m_Context);
+                position++;
+            }
+        }
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
+
+        //setup custom view
         m_TabLayout.setupWithViewPager(m_ViewPager);
         m_TabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+        View headerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.am_register_tablayout, null, false);
+
+        //set for all tabs
+        for(int tabs = 0; tabs < m_TabLayout.getTabCount(); tabs++){
+            m_TabLayout.getTabAt(tabs).setCustomView(m_ViewPagerAdapter.getTabView(tabs));
+        }
+
     }
 
     private void showFab(){

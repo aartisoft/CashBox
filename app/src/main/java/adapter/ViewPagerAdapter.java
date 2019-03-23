@@ -1,5 +1,13 @@
 package adapter;
 
+import android.app.Application;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+
+import com.example.dd.cashbox.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,33 +20,40 @@ import objects.ObjCategory;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private List<String> m_lstTitle = new ArrayList<String>();
+    private final List<Fragment> m_FragmentList = new ArrayList<>();
+    private Context m_Context;
 
-    public ViewPagerAdapter(FragmentManager manager, List<ObjCategory> p_listCategory) {
+    public ViewPagerAdapter(FragmentManager manager) {
         super(manager);
-        setTitle(p_listCategory);
-    }
-
-    public void setTitle(List<ObjCategory> p_listCategory){
-        for(ObjCategory objcategory : p_listCategory){
-            //set tab only if category is active
-            if(objcategory.getEnabled()){
-                m_lstTitle.add(objcategory.getName());
-            }
-        }
     }
 
     @Override
     public Fragment getItem(int position) {
-        return ViewPagerRegisterFragment.getInstance(position);
+        //return ViewPagerRegisterFragment.getInstance(position);
+        return m_FragmentList.get(position);
     }
 
     @Override
     public int getCount() {
-        return m_lstTitle.size();
+        return m_FragmentList.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         return m_lstTitle.get(position);
+    }
+
+    public void addFragment(Fragment fragment, String title, Context context) {
+        m_FragmentList.add(fragment);
+        m_lstTitle.add(title);
+        m_Context = context;
+    }
+
+    public View getTabView(int position) {
+        // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
+        View v = LayoutInflater.from(m_Context).inflate(R.layout.am_register_tablayout, null);
+        TextView tv = (TextView) v.findViewById(R.id.am_register_tablayout_tv);
+        tv.setText(m_lstTitle.get(position));
+        return v;
     }
 }
