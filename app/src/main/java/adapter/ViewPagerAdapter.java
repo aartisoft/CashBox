@@ -55,7 +55,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         View v = LayoutInflater.from(m_Context).inflate(R.layout.am_register_tablayout, null);
         TextView tv = (TextView) v.findViewById(R.id.am_register_tablayout_tv);
         tv.setText(m_lstTitle.get(position));
-        tv.setBackgroundColor(m_lstColor.get(position));
+        //tv.setBackgroundColor(m_lstColor.get(position));
+        tv.setBackgroundColor(m_Context.getResources().getColor(R.color.colorGrey));
         return v;
     }
 }

@@ -38,4 +38,5 @@
         <item name="colorControlActivated">@color/colorPrimary3</item>
         <item name="android:textSize">15dp</item>
     </style>
+
 </resources>

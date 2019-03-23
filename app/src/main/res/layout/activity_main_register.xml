@@ -16,11 +16,14 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/am_register_tab"
             android:layout_width="match_parent"
-            android:layout_height="80.5dp"
-            android:layout_above ="@+id/am_register_viewpager"
-            android:background="@drawable/textview_border"
-            app:tabTextColor="@color/colorWhite"
-            app:tabIndicatorColor="@color/colorPrimary3">
+            android:layout_height="81dp"
+            app:tabPaddingStart="0dp"
+            app:tabPaddingEnd="2dp"
+            app:tabPaddingTop="0dp"
+            app:tabPaddingBottom="2dp"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorColor="@color/colorPrimary3"
+            android:layout_above ="@+id/am_register_viewpager">
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager.widget.ViewPager
