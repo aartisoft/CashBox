@@ -449,6 +449,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             strBillHeader = getResources().getString(R.string.src_Beleg_empty);
         }
         m_TextViewBill.setText(strBillHeader);
+
+        //set recyclerview
+        //setupRecyclerView();
     }
     private void setupRecyclerView(){
 

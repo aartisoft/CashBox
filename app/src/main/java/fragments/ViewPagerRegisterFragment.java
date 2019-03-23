@@ -1,7 +1,6 @@
 package fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -9,17 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.example.dd.cashbox.Main;
-import com.example.dd.cashbox.MainShowTables;
 import com.example.dd.cashbox.R;
 
 import java.util.ArrayList;
 
 import adapter.GridViewProductAdapter;
-import adapter.GridViewTableAdapter;
-import adapter.RecyclerViewCategoryAdapter;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import global.GlobVar;
@@ -30,7 +25,7 @@ import objects.ObjProduct;
 
 public class ViewPagerRegisterFragment extends Fragment {
 
-    int position;
+    int m_position;
     private GridView m_GridView;
     private GridViewProductAdapter m_gridViewProductAdapter;
 
@@ -45,7 +40,7 @@ public class ViewPagerRegisterFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt("pos");
+        m_position = getArguments().getInt("pos");
     }
 
     @Override
@@ -60,7 +55,7 @@ public class ViewPagerRegisterFragment extends Fragment {
         m_GridView = view.findViewById(R.id.fragment_tagregister_gridview);
 
         m_gridViewProductAdapter = new GridViewProductAdapter(getActivity().getApplicationContext(),
-                                    GlobVar.g_lstCategory.get(position).getListProduct(), GlobVar.g_lstCategory.get(position).getProdColor());
+                                    GlobVar.g_lstCategory.get(m_position).getListProduct(), GlobVar.g_lstCategory.get(m_position).getProdColor());
         m_GridView.setAdapter(m_gridViewProductAdapter);
 
         //set Listener
@@ -71,14 +66,14 @@ public class ViewPagerRegisterFragment extends Fragment {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            writeTableBillsList();
+            writeTableBillsList(position);
 
             //tel main activity there is a new product available
             ((Main) getActivity()).raiseNewProduct();
         }
     };
 
-    private void writeTableBillsList(){
+    private void writeTableBillsList(int p_iPosition){
         int iTable = ((Main) getActivity()).getVarTable();
         int iBillNr = ((Main) getActivity()).getVarBill();
 
@@ -92,7 +87,7 @@ public class ViewPagerRegisterFragment extends Fragment {
         }
 
 
-        ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
+        ObjProduct objproduct = m_gridViewProductAdapter.getItem(p_iPosition);
 
         boolean bProductExists = false;
         int iProductPos = 0;
