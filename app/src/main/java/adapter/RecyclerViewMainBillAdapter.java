@@ -13,13 +13,11 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import objects.ObjBill;
-import objects.ObjBillProducts;
-import objects.ObjProduct;
+import objects.ObjBillProduct;
 
 public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerViewMainBillAdapter.MyViewHolder>{
     private Context context;
-    private List<ObjBillProducts> billproductList;
+    private List<ObjBillProduct> billproductList;
 
 
 
@@ -35,7 +33,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    public RecyclerViewMainBillAdapter(Context context, List<ObjBillProducts> billproductList) {
+    public RecyclerViewMainBillAdapter(Context context, List<ObjBillProduct> billproductList) {
         this.context = context;
         this.billproductList = billproductList;
     }
@@ -51,7 +49,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         DecimalFormat df = new DecimalFormat("#.00");
-        final ObjBillProducts item = billproductList.get(position);
+        final ObjBillProduct item = billproductList.get(position);
 
         //set name
         String strName = item.getQuantity() + item.getProduct().getName();
@@ -77,7 +75,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         notifyItemRemoved(position);
     }
 
-    public void restoreItem(ObjBillProducts item, int position) {
+    public void restoreItem(ObjBillProduct item, int position) {
         billproductList.add(position, item);
         // notify item added by position
         notifyItemInserted(position);

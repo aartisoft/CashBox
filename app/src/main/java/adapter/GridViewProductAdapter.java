@@ -34,8 +34,8 @@ public class GridViewProductAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public ObjProduct getItem(int position) {
+        return m_lstProducts.get(position);
     }
 
     @Override

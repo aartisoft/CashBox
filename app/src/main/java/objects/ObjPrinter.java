@@ -8,7 +8,6 @@ public class ObjPrinter {
     private String m_strIpAddress;
     private String m_strMacAddress;
     private String m_strBdAddress;
-
     private String m_strCategory;
 
     public ObjPrinter(){

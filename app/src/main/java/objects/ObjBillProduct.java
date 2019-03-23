@@ -1,6 +1,6 @@
 package objects;
 
-public class ObjBillProducts {
+public class ObjBillProduct {
     private ObjProduct m_objProduct;
     private int m_iQuantity;
     private String m_strCategory;
@@ -33,7 +33,7 @@ public class ObjBillProducts {
     }
 
     //setter
-    public void setProductName(ObjProduct p_objProduct){
+    public void setProduct(ObjProduct p_objProduct){
         this.m_objProduct = p_objProduct;
     }
     public void setQuantity(int p_iQuantity){

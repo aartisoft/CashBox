@@ -1,19 +1,32 @@
 package fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
+import com.example.dd.cashbox.Main;
+import com.example.dd.cashbox.MainShowTables;
 import com.example.dd.cashbox.R;
 
+import java.util.ArrayList;
+
 import adapter.GridViewProductAdapter;
+import adapter.GridViewTableAdapter;
+import adapter.RecyclerViewCategoryAdapter;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import global.GlobVar;
+import objects.ObjBill;
+import objects.ObjBillProduct;
+import objects.ObjPrinter;
+import objects.ObjProduct;
 
 public class ViewPagerRegisterFragment extends Fragment {
 
@@ -49,5 +62,74 @@ public class ViewPagerRegisterFragment extends Fragment {
         m_gridViewProductAdapter = new GridViewProductAdapter(getActivity().getApplicationContext(),
                                     GlobVar.g_lstCategory.get(position).getListProduct(), GlobVar.g_lstCategory.get(position).getProdColor());
         m_GridView.setAdapter(m_gridViewProductAdapter);
+
+        //set Listener
+        m_GridView.setOnItemClickListener(gvTableOnItemClickListener);
+    }
+
+    private AdapterView.OnItemClickListener gvTableOnItemClickListener = new AdapterView.OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            writeTableBillsList();
+
+            //tel main activity there is a new product available
+            ((Main) getActivity()).raiseNewProduct();
+        }
+    };
+
+    private void writeTableBillsList(){
+        int iTable = ((Main) getActivity()).getVarTable();
+        int iBillNr = ((Main) getActivity()).getVarBill();
+
+        //get bill
+        int iBill = 0;
+        for(ObjBill objBill : GlobVar.g_lstTableBills.get(iTable)){
+            if(objBill.getBillNr() == iBillNr){
+                break;
+            }
+            iBill++;
+        }
+
+
+        ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
+
+        boolean bProductExists = false;
+        int iProductPos = 0;
+        if(GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts != null){
+            for(ObjBillProduct objbillproduct : GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts){
+                if(objbillproduct.getProduct().getName().equals(objproduct.getName())){
+                    bProductExists = true;
+                    break;
+                }
+                iProductPos++;
+            }
+        }
+        else{
+            GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts = new ArrayList<ObjBillProduct>();
+        }
+
+
+        //if product is already in list
+        if(!bProductExists){
+            ObjBillProduct objbillproduct = new ObjBillProduct();
+            objbillproduct.setProduct(objproduct);
+            objbillproduct.setQuantity(1);
+            objbillproduct.setCategory(objproduct.getCategory());
+
+            //get printer
+            for (ObjPrinter objPrinter : GlobVar.g_lstPrinter){
+                if(objPrinter.getCategory().equals(objproduct.getCategory())){
+                    objbillproduct.setPrinter(objPrinter);
+                }
+            }
+
+            GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
+        }
+        //if product is not in list
+        else{
+            int iQuantity = GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).getQuantity();
+            GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).setQuantity(iQuantity);
+        }
     }
 }

@@ -27,6 +27,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -148,6 +149,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //set Tabulator
         setTabulator();
+    }
+
+    public int getVarTable(){
+        return m_iSessionTable;
+    }
+    public int getVarBill(){
+       return m_iSessionBill;
+    }
+
+    public void raiseNewProduct(){
+
     }
 
     private View.OnClickListener fabMainOnClickListener = new View.OnClickListener() {

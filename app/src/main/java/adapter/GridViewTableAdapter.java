@@ -10,12 +10,6 @@ import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
-import objects.ObjBillProducts;
-import objects.ObjProduct;
-
 public class GridViewTableAdapter extends BaseAdapter {
 
     private int m_iTables;

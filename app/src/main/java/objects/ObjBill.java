@@ -7,7 +7,7 @@ public class ObjBill {
     private int m_iBillNr;
     private String m_strCashierName;
     private Date m_BillingDate;
-    private List<ObjBillProducts> m_lstProducts;
+    public List<ObjBillProduct> m_lstProducts;
 
     //getter
     public int getBillNr(){
@@ -18,9 +18,6 @@ public class ObjBill {
     }
     public Date getBillingDate(){
         return this.m_BillingDate;
-    }
-    public List<ObjBillProducts> getLstProducts(){
-        return this.m_lstProducts;
     }
 
 
@@ -33,8 +30,5 @@ public class ObjBill {
     }
     public void setBillingDate(Date p_BillingDate){
         this.m_BillingDate = p_BillingDate;
-    }
-    public void setLstProducts(List<ObjBillProducts> p_lstProducts){
-        this.m_lstProducts = p_lstProducts;
     }
 }
