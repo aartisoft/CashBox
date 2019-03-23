@@ -19,5 +19,6 @@ public abstract class GlobVar extends Application {
     public static List<ObjCategory> g_lstCategory = new ArrayList<ObjCategory>();
     public static List<ObjProduct> g_lstProduct = new ArrayList<ObjProduct>();
     public static List<List<ObjBill>> g_lstTableBills = new ArrayList<List<ObjBill>>();
+    public static int g_iBillNr = 0;
 
 }

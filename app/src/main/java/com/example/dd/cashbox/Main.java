@@ -31,7 +31,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_Printer;
@@ -123,7 +126,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         readSQLiteDB();
 
         //set Table/Bill Header
-        setHeaderTableBill();
+        setHeaderTable();
+        setHeaderBill();
 
         //set main register
         setRegister();
@@ -192,8 +196,27 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabNewBillOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ObjBill objBill = new ObjBill();
-            GlobVar.g_lstTableBills.get(m_iSessionTable-1).add(objBill);
+            if(m_iSessionTable != 0) {
+                //set new bill
+                ObjBill objBill = new ObjBill();
+                objBill.setBillNr(GlobVar.g_iBillNr + 1);
+                objBill.setCashierName(GlobVar.g_strBedienername);
+
+                Date date = new Date();
+                objBill.setBillingDate(date);
+
+                GlobVar.g_lstTableBills.get(m_iSessionTable - 1).add(objBill); //-1 because table numbers starting at 1 --> list not
+
+                //set bill header
+                GlobVar.g_iBillNr++;
+                m_iSessionBill = GlobVar.g_iBillNr;
+                setHeaderBill();
+
+                Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegHinzugefuegt), Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KeinTischAusgewaehlt), Toast.LENGTH_SHORT).show();
+            }
         }
     };
     private View.OnClickListener fabPrintOnClickListener = new View.OnClickListener() {
@@ -378,7 +401,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
     }
 
-    private void setHeaderTableBill(){
+    private void setHeaderTable(){
         String strTableHeader = "";
         if(m_iSessionTable != 0){
             strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable);
@@ -387,14 +410,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             strTableHeader = getResources().getString(R.string.src_Tisch_emtpy);
         }
         m_TextViewTable.setText(strTableHeader);
+    }
 
+    private void setHeaderBill(){
         String strBillHeader = "";
         if(m_iSessionBill != 0){
-            strTableHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
+            strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
         }
         else{
-            strTableHeader = getResources().getString(R.string.src_Beleg_empty);
+            strBillHeader = getResources().getString(R.string.src_Beleg_empty);
         }
-        m_TextViewBill.setText(strTableHeader);
+        m_TextViewBill.setText(strBillHeader);
     }
 }
