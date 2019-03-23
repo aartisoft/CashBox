@@ -35,6 +35,7 @@ import java.util.List;
 import SQLite.SQLiteDatabaseHandler_Printer;
 import androidx.viewpager.widget.ViewPager;
 import global.GlobVar;
+import objects.ObjBill;
 import objects.ObjCategory;
 import objects.ObjProduct;
 
@@ -115,11 +116,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         m_navigationView.bringToFront();
 
+        //read database
+        readSQLiteDB();
+
         //set Table/Bill Header
         setHeaderTableBill();
 
-        //read database
-        readSQLiteDB();
+        //set main register
+        setRegister();
 
         //set Listener
         m_navigationView.setNavigationItemSelectedListener(this);
@@ -185,7 +189,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabNewBillOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            ObjBill objBill = new ObjBill();
+            GlobVar.g_lstTableBills.get(m_iSessionTable-1).add(objBill);
         }
     };
     private View.OnClickListener fabPrintOnClickListener = new View.OnClickListener() {
@@ -340,6 +345,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_fab_pay.setLayoutParams(layoutParams3);
         m_fab_pay.startAnimation(m_animHideFabPay);
         m_fab_pay.setClickable(false);
+    }
+
+    private void setRegister(){
+        if(GlobVar.g_lstCategory.isEmpty()){
+            findViewById(R.id.am_register_noarticle).setVisibility(View.VISIBLE);
+        }
+        else{
+            findViewById(R.id.am_register_noarticle).setVisibility(View.INVISIBLE);
+        }
     }
 
     private void setHeaderTableBill(){

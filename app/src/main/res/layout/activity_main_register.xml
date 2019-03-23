@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/am_register_tab"
-        android:layout_width="match_parent"
-        android:layout_height="78dp">
-    </com.google.android.material.tabs.TabLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/am_register_viewpager"
-        android:layout_marginTop="5dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </androidx.viewpager.widget.ViewPager>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/am_register_tab"
+            android:layout_width="match_parent"
+            android:layout_height="80.5dp"
+            android:layout_above ="@+id/am_register_viewpager"
+            android:background="@drawable/textview_border">
+        </com.google.android.material.tabs.TabLayout>
 
-</LinearLayout>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/am_register_viewpager"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </androidx.viewpager.widget.ViewPager>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/am_register_noarticle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/src_KeineArtikelVorhanden"
+            android:textColor="@color/colorGrey"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>
