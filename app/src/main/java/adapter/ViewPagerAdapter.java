@@ -20,6 +20,7 @@ import objects.ObjCategory;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private List<String> m_lstTitle = new ArrayList<String>();
+    private List<Integer> m_lstColor = new ArrayList<Integer>();
     private final List<Fragment> m_FragmentList = new ArrayList<>();
     private Context m_Context;
 
@@ -29,7 +30,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        //return ViewPagerRegisterFragment.getInstance(position);
         return m_FragmentList.get(position);
     }
 
@@ -43,9 +43,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return m_lstTitle.get(position);
     }
 
-    public void addFragment(Fragment fragment, String title, Context context) {
+    public void addFragment(Fragment fragment, String title, int color,  Context context) {
         m_FragmentList.add(fragment);
         m_lstTitle.add(title);
+        m_lstColor.add(color);
         m_Context = context;
     }
 
@@ -54,6 +55,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         View v = LayoutInflater.from(m_Context).inflate(R.layout.am_register_tablayout, null);
         TextView tv = (TextView) v.findViewById(R.id.am_register_tablayout_tv);
         tv.setText(m_lstTitle.get(position));
+        tv.setBackgroundColor(m_lstColor.get(position));
         return v;
     }
 }

@@ -295,7 +295,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         int position = 0;
         for(ObjCategory objCategory : GlobVar.g_lstCategory){
             if(objCategory.getEnabled()){
-                m_ViewPagerAdapter.addFragment(new ViewPagerRegisterFragment().getInstance(position), objCategory.getName(), m_Context);
+                m_ViewPagerAdapter.addFragment(new ViewPagerRegisterFragment().getInstance(position), objCategory.getName(), objCategory.getProdColor(), m_Context);
                 position++;
             }
         }
