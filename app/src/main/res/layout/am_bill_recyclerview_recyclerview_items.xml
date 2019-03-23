@@ -25,8 +25,8 @@
                 android:id="@+id/am_bill_rv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:textSize="12sp"
+                android:textStyle="normal"
                 tools:text="2x Produktnname" />
 
             <RelativeLayout
@@ -38,8 +38,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:textAlignment="textEnd"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
                     tools:text="VK" />
             </RelativeLayout>
 

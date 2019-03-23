@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
@@ -24,12 +25,14 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textview_itemname;
         public TextView textview_prize;
+        public ImageView imageview_printer;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
 
-            textview_itemname = view.findViewById(R.id.am_bill_rv_prize);
-            textview_prize = view.findViewById(R.id.am_bill_rv_name);
+            textview_itemname = view.findViewById(R.id.am_bill_rv_name);
+            textview_prize = view.findViewById(R.id.am_bill_rv_prize);
+            imageview_printer = view.findViewById(R.id.am_bill_rv_image);
         }
     }
 
@@ -60,6 +63,14 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         String strVK = df.format(prize);
         strVK = strVK + "€";
         holder.textview_prize.setText(strVK);
+
+        //set image printer
+        if(item.getPrinted()){
+             holder.imageview_printer.setVisibility(View.VISIBLE);
+        }
+        else{
+            holder.imageview_printer.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
