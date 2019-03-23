@@ -41,7 +41,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.editproduct_recyclerview_items, parent, false);
+                .inflate(R.layout.am_bill_recyclerview_recyclerview_items, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -52,7 +52,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         final ObjBillProduct item = billproductList.get(position);
 
         //set name
-        String strName = item.getQuantity() + item.getProduct().getName();
+        String strName = item.getQuantity() + "x " + item.getProduct().getName();
         holder.textview_itemname.setText(strName);
 
         //set prize

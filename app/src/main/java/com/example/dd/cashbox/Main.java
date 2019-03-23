@@ -5,10 +5,13 @@ import android.content.Intent;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
+import adapter.RecyclerViewCategoryAdapter;
+import adapter.RecyclerViewMainBillAdapter;
 import adapter.ViewPagerAdapter;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -16,6 +19,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.sqlite.SQLiteException;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
@@ -39,12 +44,17 @@ import java.util.Date;
 import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_Printer;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import fragments.ViewPagerRegisterFragment;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjCategory;
 import objects.ObjProduct;
+import recyclerview.RecyclerItemTouchHelper;
+import recyclerview.RecyclerItemTouchHelperActions;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -60,6 +70,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private ViewPagerAdapter m_ViewPagerAdapter;
     private TextView m_TextViewTable;
     private TextView m_TextViewBill;
+    private RecyclerViewMainBillAdapter m_rv_adapter;
+    private RecyclerItemTouchHelper m_RecyclerItemTouchHelper;
+    private RecyclerView m_recyclerview;
 
     //fab buttons
     private FloatingActionButton m_fab_newbill;
@@ -100,6 +113,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_ViewPager = findViewById(R.id.am_register_viewpager);
         m_TextViewTable = findViewById(R.id.activity_main_bill_tvtable);
         m_TextViewBill = findViewById(R.id.activity_main_bill_tvbill);
+        m_recyclerview = findViewById(R.id.activity_main_bill_rv);
 
         //init fab buttons
         m_fab_newbill  = findViewById(R.id.fab_layoutanimation_newbill);
@@ -159,7 +173,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     public void raiseNewProduct(){
-
+        setupRecyclerView();
     }
 
     private View.OnClickListener fabMainOnClickListener = new View.OnClickListener() {
@@ -435,5 +449,59 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             strBillHeader = getResources().getString(R.string.src_Beleg_empty);
         }
         m_TextViewBill.setText(strBillHeader);
+    }
+    private void setupRecyclerView(){
+
+        //get bill
+        int iBill = 0;
+        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+            if(objBill.getBillNr() == m_iSessionBill){
+                break;
+            }
+            iBill++;
+        }
+
+        m_rv_adapter = new RecyclerViewMainBillAdapter(this, GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        m_recyclerview.setLayoutManager(mLayoutManager);
+
+        m_RecyclerItemTouchHelper = new RecyclerItemTouchHelper(new RecyclerItemTouchHelperActions() {
+            @Override
+            public void onRightClicked(int position) {
+                //get current category
+                final ObjCategory category = GlobVar.g_lstCategory.get(position);
+
+                // backup of removed item for undo purpose
+                final ObjCategory deletedItem = GlobVar.g_lstCategory.get(position);
+                final int deletedIndex = position;
+
+                m_rv_adapter.removeItem(position);
+                m_rv_adapter.notifyItemRemoved(position);
+                m_rv_adapter.notifyItemRangeChanged(position, m_rv_adapter.getItemCount());
+
+                //delete category in database
+                final SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
+                db.deleteCategory(category);
+
+                //delete all products of category
+                final SQLiteDatabaseHandler_Product db_products = new SQLiteDatabaseHandler_Product(m_Context);
+                db_products.deleteProductsCategory(category.getName());
+
+            }
+        });
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(m_RecyclerItemTouchHelper);
+        itemTouchhelper.attachToRecyclerView(m_recyclerview);
+
+        m_recyclerview.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                m_RecyclerItemTouchHelper.onDraw(c);
+            }
+        });
+
+        m_recyclerview.setAdapter(m_rv_adapter);
+        m_rv_adapter.notifyDataSetChanged();
     }
 }

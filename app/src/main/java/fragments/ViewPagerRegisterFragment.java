@@ -129,6 +129,7 @@ public class ViewPagerRegisterFragment extends Fragment {
         //if product is not in list
         else{
             int iQuantity = GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).getQuantity();
+            iQuantity++;
             GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).setQuantity(iQuantity);
         }
     }
