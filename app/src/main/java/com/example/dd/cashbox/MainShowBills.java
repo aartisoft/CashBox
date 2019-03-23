@@ -37,7 +37,7 @@ public class MainShowBills extends AppCompatActivity {
         setContentView(R.layout.activity_main_showbills);
 
         //get intent variables
-        m_iSessionTable = getIntent().getIntExtra("TABLE", 0);
+        m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
 
         //init variables
         m_Context = this;
@@ -62,6 +62,7 @@ public class MainShowBills extends AppCompatActivity {
 
             Intent intent = new Intent(MainShowBills.this, Main.class);
             intent.putExtra("BILL", objBill.getBillNr());
+            intent.putExtra("TABLE", m_iSessionTable);
             startActivity(intent);
         }
     };

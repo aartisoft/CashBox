@@ -87,7 +87,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //activity variables
         m_iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
-        m_iSessionTable = getIntent().getIntExtra("TABLE", 0);
+        m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
         m_iSessionBill = getIntent().getIntExtra("BILL", 0);
 
         //init variables
@@ -179,10 +179,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener tvBillOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(m_iSessionTable != 0){
-                if(GlobVar.g_lstTableBills.get(m_iSessionTable-1).size() > 0)
+            if(m_iSessionTable != -1){
+                if(GlobVar.g_lstTableBills.get(m_iSessionTable).size() > 0)
                 {
-                    startActivity(new Intent(m_Context, MainShowBills.class));
+                    Intent intent = new Intent(Main.this, MainShowBills.class);
+                    intent.putExtra("TABLE", m_iSessionTable);
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(Main.this, getResources().getString(R.string.src_KeineBelegeVorhanden), Toast.LENGTH_SHORT).show();
@@ -196,7 +198,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabNewBillOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(m_iSessionTable != 0) {
+            if(m_iSessionTable != -1) {
                 //set new bill
                 ObjBill objBill = new ObjBill();
                 objBill.setBillNr(GlobVar.g_iBillNr + 1);
@@ -205,7 +207,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 Date date = new Date();
                 objBill.setBillingDate(date);
 
-                GlobVar.g_lstTableBills.get(m_iSessionTable - 1).add(objBill); //-1 because table numbers starting at 1 --> list not
+                GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
 
                 //set bill header
                 GlobVar.g_iBillNr++;
@@ -403,8 +405,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void setHeaderTable(){
         String strTableHeader = "";
-        if(m_iSessionTable != 0){
-            strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable);
+        if(m_iSessionTable != -1){
+            strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable+1);
         }
         else{
             strTableHeader = getResources().getString(R.string.src_Tisch_emtpy);

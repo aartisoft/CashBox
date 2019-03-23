@@ -69,7 +69,8 @@ public class ListViewBillAdapter extends BaseAdapter {
         }
 
         // Populate the data into the template view using the data object
-        view.txtBill.setText(m_List.get(position).getBillNr());
+        String strBillName = m_Context.getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_List.get(position).getBillNr());
+        view.txtBill.setText(strBillName);
         //view.txtArticles.setText(m_List.get(position).getDeviceBrand() + " " +  m_List.get(position).getDeviceName());
 
         // Return the completed view to render on screen

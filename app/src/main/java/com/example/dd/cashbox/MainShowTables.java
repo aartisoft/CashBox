@@ -56,7 +56,7 @@ public class MainShowTables extends AppCompatActivity {
 
 
             Intent intent = new Intent(MainShowTables.this, Main.class);
-            intent.putExtra("TABLE", position+1);
+            intent.putExtra("TABLE", position);
             startActivity(intent);
         }
     };
