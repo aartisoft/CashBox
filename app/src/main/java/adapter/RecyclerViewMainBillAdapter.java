@@ -65,7 +65,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.textview_prize.setText(strVK);
 
         //set image printer
-        if(item.getPrinted()){
+        if(item.getPrinted() == item.getQuantity()){
              holder.imageview_printer.setVisibility(View.VISIBLE);
         }
         else{

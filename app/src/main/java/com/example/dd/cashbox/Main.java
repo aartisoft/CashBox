@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
+import SQLite.SQLiteDatabaseHandler_TableBills;
 import adapter.RecyclerViewCategoryAdapter;
 import adapter.RecyclerViewMainBillAdapter;
 import adapter.ViewPagerAdapter;
@@ -250,6 +251,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabPrintOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            //write tablebills
+            SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+            db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
 
         }
     };
@@ -306,13 +310,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             if(GlobVar.g_bReadSQL){
                 //read printers
                 SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
-                if(GlobVar.g_lstPrinter.isEmpty()){
+                if(GlobVar.g_lstPrinter != null){
                     GlobVar.g_lstPrinter = db_printer.allPrinters();
                 }
 
                 //read categories
                 SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
-                if(GlobVar.g_lstCategory.isEmpty()) {
+                if(GlobVar.g_lstCategory != null) {
                     GlobVar.g_lstCategory = db_category.allCategories();
                 }
 
@@ -334,6 +338,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 //database read only at start of app
                 GlobVar.g_bReadSQL = false;
             }
+
+            //read tablebills
+            SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+            if(GlobVar.g_lstTableBills != null) {
+                db_tablebills.readAllTableBills();
+            }
+
+            //set global count tables
+            GlobVar.g_iTables = GlobVar.g_lstTableBills.size() + 1;
         }
         catch(SQLiteException se){
             Log.e(getClass().getSimpleName(), "Could not create or open the database");

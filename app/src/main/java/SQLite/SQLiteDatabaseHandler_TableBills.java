@@ -152,17 +152,28 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_PRINTED, objproduct.getPrinted());
                 values.put(KEY_CANCELED, objproduct.getCanceled());
                 values.put(KEY_PAID, objproduct.getPaid());
+
+                //set sql variables
+                objproduct.setSqlSaved(true);
+                objproduct.setSqlChanged(false);
             }
 
-            //only if quantity has changed
+            //only product has changed
             if(objproduct.getqlChanged()){
 
                 values.put(KEY_QUANTITY, objproduct.getQuantity());
+                values.put(KEY_PRINTED, objproduct.getPrinted());
+                values.put(KEY_CANCELED, objproduct.getCanceled());
+                values.put(KEY_PAID, objproduct.getPaid());
 
                 int i = db.update(TABLE_NAME, // table
                         values, // column/value
                         "billnr = ?", // selections
                         new String[] { String.valueOf(p_iBill) });
+
+                //set sql variables
+                objproduct.setSqlSaved(true);
+                objproduct.setSqlChanged(false);
             }
 
             // insert
@@ -199,6 +210,10 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
         //set paid
         objBillProduct.setPaid(Integer.parseInt(cursor.getString(11)));
+
+        //set sql variables
+        objBillProduct.setSqlSaved(true);
+        objBillProduct.setSqlChanged(false);
 
         return objBillProduct;
     }
