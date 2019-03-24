@@ -65,57 +65,46 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
+        //init global list
+        for (int iTables = 0; iTables <= GlobVar.g_iTables; iTables++){
+            List<ObjBill> lstBill = new ArrayList<ObjBill>();
+            GlobVar.g_lstTableBills.add(lstBill);
+        }
+
         //write tables
         if (cursor.moveToFirst()) {
             do {
                 int iTableCounter = 0;
                 if (cursor.getString(1).equals(iTableCounter)) {
                     if (GlobVar.g_lstTableBills != null) {
-                        //if table exists yet
-                        if (GlobVar.g_lstTableBills.size() > iTableCounter) {
-                            //search for bill in list
-                            int iBillCounter = 0;
-                            boolean bBillFound = false;
-                            for (ObjBill objBillSearch : GlobVar.g_lstTableBills.get(iTableCounter)) {
-                                if (objBillSearch.getBillNr() == Integer.parseInt(cursor.getString(2))) {
-                                    bBillFound = true;
-                                    break;
-                                }
-                                iBillCounter++;
+                        //search for bill in list
+                        int iBillCounter = 0;
+                        boolean bBillFound = false;
+                        for (ObjBill objBillSearch : GlobVar.g_lstTableBills.get(iTableCounter)) {
+                            if (objBillSearch.getBillNr() == Integer.parseInt(cursor.getString(2))) {
+                                bBillFound = true;
+                                break;
                             }
-
-                            //if bill already exists in table
-                            ObjBillProduct objBillProduct = writeProductList(cursor, iTableCounter);
-                            if (bBillFound) {
-                                GlobVar.g_lstTableBills.get(iTableCounter).get(iBillCounter).m_lstProducts.add(objBillProduct);
-                            }
-                            //if bill doesn't exists in table
-                            else {
-                                ObjBill objBill = new ObjBill();
-                                objBill.setBillNr(Integer.parseInt(cursor.getString(2)));
-                                objBill.setCashierName(cursor.getString(3));
-                                //objBill.setBillingDate();
-
-                                objBill.m_lstProducts = new ArrayList<ObjBillProduct>();
-                                objBill.m_lstProducts.add(objBillProduct);
-                                GlobVar.g_lstTableBills.get(iTableCounter).add(objBill);
-                            }
+                            iBillCounter++;
                         }
-                        //if table doesn't exists yet
-                        else if (GlobVar.g_lstTableBills.size() < iTableCounter) {
+
+                        //get object billproduct
+                        ObjBillProduct objBillProduct = writeProductList(cursor, iTableCounter);
+
+                        //if bill already exists in table
+                        if (bBillFound) {
+                            GlobVar.g_lstTableBills.get(iTableCounter).get(iBillCounter).m_lstProducts.add(objBillProduct);
+                        }
+                        //if bill doesn't exists in table
+                        else {
                             ObjBill objBill = new ObjBill();
                             objBill.setBillNr(Integer.parseInt(cursor.getString(2)));
                             objBill.setCashierName(cursor.getString(3));
                             //objBill.setBillingDate();
 
-                            ObjBillProduct objBillProduct = writeProductList(cursor, iTableCounter);
                             objBill.m_lstProducts = new ArrayList<ObjBillProduct>();
                             objBill.m_lstProducts.add(objBillProduct);
-
-                            List<ObjBill> lstObjBill = new ArrayList<ObjBill>();
-                            lstObjBill.add(objBill);
-
-                            GlobVar.g_lstTableBills.add(lstObjBill);
+                            GlobVar.g_lstTableBills.get(iTableCounter).add(objBill);
                         }
                     }
                 }
@@ -144,7 +133,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_BILLNR, p_iBill);
                 values.put(KEY_CASHIERNAME, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getCashierName());
                 //values.put(KEY_BILLINGDATE, GlobVar.g_lstTableBills.get(p_iTable).get(p_iBill).getBillingDate());
-                values.put(KEY_BILLINGDATE, "mac");
+                values.put(KEY_BILLINGDATE, "date");
                 values.put(KEY_CATEGORY, objproduct.getCategory());
                 values.put(KEY_PRODUCT, objproduct.getProduct().getName());
                 values.put(KEY_CATEGORY, objproduct.getCategory());
