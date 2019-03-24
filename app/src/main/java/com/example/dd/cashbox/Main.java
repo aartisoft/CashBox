@@ -257,7 +257,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         public void onClick(View v) {
             //set products as printed
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                  objBillProduct.setPrinted(objBillProduct.getQuantity());
+                  objBillProduct.setPrinted(objBillProduct.getQuantity() - objBillProduct.getCanceled());
                   objBillProduct.setSqlChanged(true);
             }
 
