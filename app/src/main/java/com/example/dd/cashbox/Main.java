@@ -302,9 +302,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 return true;
 
             case R.id.nav_hilfe:
-                this.deleteDatabase("ProductsDB");
+                /*this.deleteDatabase("ProductsDB");
                 this.deleteDatabase("CategoriesDB");
-                this.deleteDatabase("PrintersDB");
+                this.deleteDatabase("PrintersDB");*/
                 this.deleteDatabase("TableBillsDB");
                 return true;
 
@@ -358,10 +358,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
                 if(GlobVar.g_lstTableBills.isEmpty()) {
                     db_tablebills.readAllTableBills();
+                    //set global count tables
+                    GlobVar.g_iTables = GlobVar.g_lstTableBills.size();
                 }
-
-                //set global count tables
-                GlobVar.g_iTables = GlobVar.g_lstTableBills.size();
 
                 //database read only at start of app
                 GlobVar.g_bReadSQL = false;

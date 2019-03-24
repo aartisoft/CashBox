@@ -43,7 +43,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATION_TABLE = "CREATE TABLE Products ( "
+        String CREATION_TABLE = "CREATE TABLE TableBills ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "tablename TEXT, "
                 + "billnr INTEGER, " + "cashiername TEXT, "
                 + "billingdate TEXT, " + "category TEXT, " + "product TEXT, "
@@ -144,6 +144,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_BILLNR, p_iBill);
                 values.put(KEY_CASHIERNAME, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getCashierName());
                 //values.put(KEY_BILLINGDATE, GlobVar.g_lstTableBills.get(p_iTable).get(p_iBill).getBillingDate());
+                values.put(KEY_BILLINGDATE, "mac");
                 values.put(KEY_CATEGORY, objproduct.getCategory());
                 values.put(KEY_PRODUCT, objproduct.getProduct().getName());
                 values.put(KEY_CATEGORY, objproduct.getCategory());
@@ -156,6 +157,9 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 //set sql variables
                 objproduct.setSqlSaved(true);
                 objproduct.setSqlChanged(false);
+
+                // insert
+                db.insert(TABLE_NAME,null, values);
             }
 
             //only product has changed
@@ -176,8 +180,6 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 objproduct.setSqlChanged(false);
             }
 
-            // insert
-            db.insert(TABLE_NAME,null, values);
             db.close();
         }
     }
