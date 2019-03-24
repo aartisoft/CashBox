@@ -255,7 +255,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabPrintOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //write tablebills
+            //set products as printed
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+                  objBillProduct.setPrinted(objBillProduct.getQuantity());
+            }
+
+            //set print symbols
+            setupRecyclerView();
+
+            //write tablebills to database
             SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
             db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
 
