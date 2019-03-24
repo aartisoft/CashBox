@@ -479,14 +479,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         String strBillHeader = "";
         if(m_iSessionBill != 0){
             strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
+
+            //set recyclerview
+            setupRecyclerView();
         }
         else{
             strBillHeader = getResources().getString(R.string.src_Beleg_empty);
         }
         m_TextViewBill.setText(strBillHeader);
-
-        //set recyclerview
-        //setupRecyclerView();
     }
     private void setupRecyclerView(){
 
