@@ -79,6 +79,7 @@
     <string name="src_KeineTischeVorhanden">Keine Tische vorhanden</string>
     <string name="src_TischeSindInBenutzungUndKoennenNichtReduziertWerden">Tische sind in Benutzung und können nicht reduziert werden</string>
     <string name="src_KeinTischAusgewaehlt">Kein Tisch ausgewählt</string>
+    <string name="src_KeinBelegAusgewaehlt">Kein Beleg ausgewählt</string>
     <string name="src_KeineArtikelVorhanden">Keine Artikel vorhanden</string>
     <string name="src_NeuerBelegHinzugefuegt">Neuer Beleg hinzugefügt</string>
 

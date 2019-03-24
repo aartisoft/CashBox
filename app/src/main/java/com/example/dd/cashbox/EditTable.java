@@ -82,7 +82,7 @@ public class EditTable extends AppCompatActivity {
     private View.OnClickListener fabMinusOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(GlobVar.g_lstTableBills.size() > 0){
+            if(GlobVar.g_lstTableBills == null){
                 if(m_iTables > 0) {
                     m_iTables--;
                     m_tbTable.setText(String.valueOf(m_iTables), TextView.BufferType.EDITABLE);

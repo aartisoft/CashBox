@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
@@ -67,16 +68,24 @@ public class ViewPagerRegisterFragment extends Fragment {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            writeTableBillsList(position);
 
-            //tel main activity there is a new product available
-            ((Main) getActivity()).raiseNewProduct();
+            int iTable = ((Main) getActivity()).getVarTable();
+            int iBillNr = ((Main) getActivity()).getVarBill();
+
+            // fragment only available if bill has been choosen
+            if(iBillNr != 0){
+                writeTableBillsList(position, iTable, iBillNr);
+                //tel main activity there is a new product available
+                ((Main) getActivity()).raiseNewProduct();
+            }
+            else
+            {
+                Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
-    private void writeTableBillsList(int p_iPosition){
-        int iTable = ((Main) getActivity()).getVarTable();
-        int iBillNr = ((Main) getActivity()).getVarBill();
+    private void writeTableBillsList(int p_iPosition, int iTable, int iBillNr){
 
         //get bill
         int iBill = 0;

@@ -75,7 +75,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         //write tables
         if (cursor.moveToFirst()) {
             do {
-                for(int iTableCounter = 0; iTableCounter < GlobVar.g_iTables; iTableCounter++){
+                for(int iTableCounter = 0; iTableCounter <= GlobVar.g_iTables; iTableCounter++){
                     int iSqlTable = Integer.parseInt(cursor.getString(1));
                     if (iSqlTable == iTableCounter) {
                         if (GlobVar.g_lstTableBills != null) {
