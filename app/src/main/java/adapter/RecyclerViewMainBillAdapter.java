@@ -25,6 +25,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textview_itemname;
         public TextView textview_prize;
+        public TextView textview_printerQ;
         public ImageView imageview_printer;
 
         public MyViewHolder(@NonNull View view) {
@@ -32,7 +33,8 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
             textview_itemname = view.findViewById(R.id.am_bill_rv_name);
             textview_prize = view.findViewById(R.id.am_bill_rv_prize);
-            imageview_printer = view.findViewById(R.id.am_bill_rv_image);
+            textview_printerQ = view.findViewById(R.id.am_bill_rv_printer_tv);
+            imageview_printer = view.findViewById(R.id.am_bill_rv_printerimage);
         }
     }
 
@@ -65,8 +67,10 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.textview_prize.setText(strVK);
 
         //set image printer
-        if(item.getPrinted() == item.getQuantity()){
-             holder.imageview_printer.setVisibility(View.VISIBLE);
+        if(item.getPrinted() > 0){
+            String strPrinted = item.getPrinted() + "x";
+            holder.textview_printerQ.setText(strPrinted);
+            holder.imageview_printer.setVisibility(View.VISIBLE);
         }
         else{
             holder.imageview_printer.setVisibility(View.INVISIBLE);
