@@ -53,6 +53,7 @@ import androidx.viewpager.widget.ViewPager;
 import fragments.ViewPagerRegisterFragment;
 import global.GlobVar;
 import objects.ObjBill;
+import objects.ObjBillProduct;
 import objects.ObjCategory;
 import objects.ObjPrinter;
 import objects.ObjProduct;
@@ -230,7 +231,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             if(m_iSessionTable != -1) {
                 //set new bill
                 ObjBill objBill = new ObjBill();
-                objBill.setBillNr(GlobVar.g_iBillNr + 1);
+                objBill.setBillNr(GlobVar.g_iBillNr +1);
                 objBill.setCashierName(GlobVar.g_strBedienername);
 
                 Date date = new Date();
@@ -355,6 +356,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     db_tablebills.readAllTableBills();
                 }
 
+                //get highest bill nr
+                int iBillNr = 0;
+                for(List<ObjBill> lstObjBill : GlobVar.g_lstTableBills){
+                    for(ObjBill objBill : lstObjBill){
+                        if(objBill.getBillNr() > iBillNr){
+                            iBillNr = objBill.getBillNr();
+                        }
+                    }
+                }
+                GlobVar.g_iBillNr = iBillNr;
+
                 //database read only at start of app
                 GlobVar.g_bReadSQL = false;
             }
@@ -470,10 +482,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
 
             //only set recyclerview when bill product list not empty
-            if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts != null){
-                //set recyclerview
-                setupRecyclerView();
+            if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts == null){
+                GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts = new ArrayList<ObjBillProduct>();
             }
+            //set recyclerview
+            setupRecyclerView();
         }
         else{
             strBillHeader = getResources().getString(R.string.src_Beleg_empty);
