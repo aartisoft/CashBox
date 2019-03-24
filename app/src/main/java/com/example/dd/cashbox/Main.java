@@ -258,6 +258,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             //set products as printed
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
                   objBillProduct.setPrinted(objBillProduct.getQuantity());
+                  objBillProduct.setSqlChanged(true);
             }
 
             //set print symbols
@@ -515,24 +516,20 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_RecyclerItemTouchHelper = new RecyclerItemTouchHelperBill(new RecyclerItemTouchHelperActions() {
             @Override
             public void onRightClicked(int position) {
-                //get current category
-                //final ObjBillProduct objbillproduct = GlobVar.g_lstCategory.get(position);
+                //get current product and set canceled
+                final ObjBillProduct objbillproduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(position);
+                objbillproduct.setCanceled(objbillproduct.getQuantity() - objbillproduct.getPrinted());
+                objbillproduct.setSqlChanged(true);
 
-                // backup of removed item for undo purpose
-                final ObjCategory deletedItem = GlobVar.g_lstCategory.get(position);
-                final int deletedIndex = position;
+                setupRecyclerView();
 
-                m_rv_adapter.removeItem(position);
+                /*m_rv_adapter.removeItem(position);
                 m_rv_adapter.notifyItemRemoved(position);
-                m_rv_adapter.notifyItemRangeChanged(position, m_rv_adapter.getItemCount());
+                m_rv_adapter.notifyItemRangeChanged(position, m_rv_adapter.getItemCount());*/
 
-                //delete category in database
-                final SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
-                //db.deleteCategory(category);
-
-                //delete all products of category
-                final SQLiteDatabaseHandler_Product db_products = new SQLiteDatabaseHandler_Product(m_Context);
-                //db_products.deleteProductsCategory(category.getName());
+                //set product in database
+                SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+                db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
 
             }
         });

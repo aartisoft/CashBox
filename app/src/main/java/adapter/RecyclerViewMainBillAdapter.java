@@ -57,11 +57,11 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         final ObjBillProduct item = billproductList.get(position);
 
         //set name
-        String strName = item.getQuantity() + "x " + item.getProduct().getName();
+        String strName = (item.getQuantity() - item.getCanceled() - item.getPaid()) + "x " + item.getProduct().getName();
         holder.textview_itemname.setText(strName);
 
         //set prize
-        double prize = item.getQuantity() * item.getProduct().getVK();
+        double prize = (item.getQuantity() - item.getCanceled() - item.getPaid()) * item.getProduct().getVK();
         String strVK = df.format(prize);
         strVK = strVK + "€";
         holder.textview_prize.setText(strVK);
