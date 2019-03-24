@@ -197,7 +197,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener tvTableOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(GlobVar.g_iTables > 0) {
+            if(GlobVar.g_iTables != -1) {
                 startActivity(new Intent(m_Context, MainShowTables.class));
             }
             else{
@@ -307,6 +307,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 this.deleteDatabase("CategoriesDB");
                 this.deleteDatabase("PrintersDB");*/
                 this.deleteDatabase("TableBillsDB");
+                this.deleteDatabase("TablesDB");
                 return true;
 
             default:
@@ -357,7 +358,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
                 //read tables
                 SQLiteDatabaseHandler_Tables db_tables = new SQLiteDatabaseHandler_Tables(m_Context);
-                    GlobVar.g_iTables = db_tables.getTables();
+                GlobVar.g_iTables = db_tables.getTables();
 
                 //read tablebills
                 SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);

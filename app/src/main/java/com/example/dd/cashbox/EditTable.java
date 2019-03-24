@@ -53,14 +53,13 @@ public class EditTable extends AppCompatActivity {
         m_tbTable = findViewById(R.id.edittable_edtxt);
         m_decorView = getWindow().getDecorView();
 
-        //get globaly saved tables
-        if(GlobVar.g_iTables > 0){
-            m_iTables = GlobVar.g_iTables +1;
-        }
-        else{
+        //get globally saved tables
+        if(GlobVar.g_iTables == -1){
             m_iTables = 0;
         }
-
+        else{
+            m_iTables = GlobVar.g_iTables +1; //global tables starts at zero
+        }
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -70,7 +69,7 @@ public class EditTable extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //set EditText
-        m_tbTable.setText(String.valueOf(GlobVar.g_iTables), TextView.BufferType.EDITABLE);
+        m_tbTable.setText(String.valueOf(m_iTables), TextView.BufferType.EDITABLE);
         m_tbTable.setCursorVisible(true);
 
         //set Listener
@@ -164,7 +163,9 @@ public class EditTable extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
 
-                GlobVar.g_iTables = m_iTables -1; //starts at zero
+                if(m_iTables != -1){
+                    GlobVar.g_iTables = m_iTables -1; //starts at zero
+                }
 
                 //set global list tablebills
                 setListTableBills();

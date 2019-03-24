@@ -14,7 +14,7 @@ import objects.ObjPrinter;
 public class SQLiteDatabaseHandler_Tables extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "PrintersDB";
+    private static final String DATABASE_NAME = "TablesDB";
     private static final String TABLE_NAME = "Tables";
     private static final String KEY_ID = "id";
     private static final String KEY_TABLES = "tables";
@@ -43,7 +43,7 @@ public class SQLiteDatabaseHandler_Tables extends SQLiteOpenHelper {
         String query = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-       int iTables = 0;
+       int iTables = -1;
 
         if (cursor.moveToFirst()) {
             do {

@@ -17,7 +17,7 @@ public class GridViewTableAdapter extends BaseAdapter {
 
     public GridViewTableAdapter(Context context, int p_iTables){
         this.m_Context = context;
-        this.m_iTables = p_iTables;
+        this.m_iTables = p_iTables +1;
     }
 
     @Override
