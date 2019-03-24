@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import SQLite.SQLiteDatabaseHandler_TableBills;
+import SQLite.SQLiteDatabaseHandler_Tables;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.KeyEvent;
@@ -165,6 +168,16 @@ public class EditTable extends AppCompatActivity {
 
                 //set global list tablebills
                 setListTableBills();
+
+                //set tables in sql database
+                SQLiteDatabaseHandler_Tables db_tables = new SQLiteDatabaseHandler_Tables(this);
+                if(db_tables.isDatabaseEmpty()){
+                    db_tables.setTables(GlobVar.g_iTables);
+                }
+                else{
+                    db_tables.updateTables(GlobVar.g_iTables);
+                }
+
 
                 Intent intent = new Intent(EditTable.this, Main.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

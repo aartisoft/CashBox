@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayout;
 import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
 import SQLite.SQLiteDatabaseHandler_TableBills;
+import SQLite.SQLiteDatabaseHandler_Tables;
 import adapter.RecyclerViewCategoryAdapter;
 import adapter.RecyclerViewMainBillAdapter;
 import adapter.ViewPagerAdapter;
@@ -354,12 +355,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     indexcounter++;
                 }
 
+                //read tables
+                SQLiteDatabaseHandler_Tables db_tables = new SQLiteDatabaseHandler_Tables(m_Context);
+                    GlobVar.g_iTables = db_tables.getTables();
+
                 //read tablebills
                 SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
                 if(GlobVar.g_lstTableBills.isEmpty()) {
                     db_tablebills.readAllTableBills();
-                    //set global count tables
-                    GlobVar.g_iTables = GlobVar.g_lstTableBills.size();
                 }
 
                 //database read only at start of app
