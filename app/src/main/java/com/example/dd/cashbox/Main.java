@@ -53,6 +53,7 @@ import fragments.ViewPagerRegisterFragment;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjCategory;
+import objects.ObjPrinter;
 import objects.ObjProduct;
 import recyclerview.RecyclerItemTouchHelper;
 import recyclerview.RecyclerItemTouchHelperActions;
@@ -61,8 +62,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private Context m_Context;
     private int m_iSessionId = 0;
-    private int m_iSessionTable = 0;
-    private int m_iSessionBill = 0;
+    private int m_iSessionTable = -1;
+    private int m_iSessionBill = -1;
     private View m_decorView;
     private NavigationView m_navigationView;
     private DrawerLayout m_DrawerLayout;
@@ -300,6 +301,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 startActivity(new Intent(this, EditCategory.class));
                 return true;
 
+            case R.id.nav_hilfe:
+                this.deleteDatabase("ProductsDB");
+                this.deleteDatabase("CategoriesDB");
+                this.deleteDatabase("PrintersDB");
+                this.deleteDatabase("TableBillsDB");
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -310,14 +318,25 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             if(GlobVar.g_bReadSQL){
                 //read printers
                 SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
-                if(GlobVar.g_lstPrinter != null){
+                if(GlobVar.g_lstPrinter.isEmpty()){
                     GlobVar.g_lstPrinter = db_printer.allPrinters();
                 }
 
                 //read categories
                 SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
-                if(GlobVar.g_lstCategory != null) {
+                if(GlobVar.g_lstCategory.isEmpty()) {
                     GlobVar.g_lstCategory = db_category.allCategories();
+                }
+
+                //set categories of printers
+                for(ObjCategory objcategory : GlobVar.g_lstCategory){
+                    for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
+                        if(objcategory.getPrinter() != null){
+                            if(objcategory.getPrinter().getMacAddress().equals(objprinter.getMacAddress())){
+                                objprinter.setCategory(objcategory.getName());
+                            }
+                        }
+                    }
                 }
 
                 //read products and add to specific category
@@ -335,18 +354,18 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     indexcounter++;
                 }
 
+                //read tablebills
+                SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+                if(GlobVar.g_lstTableBills.isEmpty()) {
+                    db_tablebills.readAllTableBills();
+                }
+
+                //set global count tables
+                GlobVar.g_iTables = GlobVar.g_lstTableBills.size();
+
                 //database read only at start of app
                 GlobVar.g_bReadSQL = false;
             }
-
-            //read tablebills
-            SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-            if(GlobVar.g_lstTableBills != null) {
-                db_tablebills.readAllTableBills();
-            }
-
-            //set global count tables
-            GlobVar.g_iTables = GlobVar.g_lstTableBills.size() + 1;
         }
         catch(SQLiteException se){
             Log.e(getClass().getSimpleName(), "Could not create or open the database");

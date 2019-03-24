@@ -142,6 +142,11 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
                     SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
                     db.addCategory(category);
 
+                    //set printer category globally
+                    if(foundPrinter != null){
+                        foundPrinter.setCategory(category.getName());
+                    }
+
                     Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_KategorieAngelegt), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(EditCategory_Add.this, EditCategory.class);

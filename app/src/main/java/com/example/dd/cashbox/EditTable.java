@@ -29,6 +29,7 @@ public class EditTable extends AppCompatActivity {
     private FloatingActionButton m_fab_plus;
     private EditText m_tbTable;
     private View m_decorView;
+    private int m_iTables;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -48,6 +49,15 @@ public class EditTable extends AppCompatActivity {
         m_fab_plus = findViewById(R.id.edittable_flb_plus);
         m_tbTable = findViewById(R.id.edittable_edtxt);
         m_decorView = getWindow().getDecorView();
+
+        //get globaly saved tables
+        if(GlobVar.g_iTables > 0){
+            m_iTables = GlobVar.g_iTables +1;
+        }
+        else{
+            m_iTables = 0;
+        }
+
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -71,9 +81,9 @@ public class EditTable extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if(GlobVar.g_lstTableBills.size() > 0){
-                if(GlobVar.g_iTables > 0) {
-                    GlobVar.g_iTables--;
-                    m_tbTable.setText(String.valueOf(GlobVar.g_iTables), TextView.BufferType.EDITABLE);
+                if(m_iTables > 0) {
+                    m_iTables--;
+                    m_tbTable.setText(String.valueOf(m_iTables), TextView.BufferType.EDITABLE);
                 }
             }
             else{
@@ -85,8 +95,8 @@ public class EditTable extends AppCompatActivity {
     private View.OnClickListener fabPlusOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            GlobVar.g_iTables++;
-            m_tbTable.setText(String.valueOf(GlobVar.g_iTables), TextView.BufferType.EDITABLE);
+            m_iTables++;
+            m_tbTable.setText(String.valueOf(m_iTables), TextView.BufferType.EDITABLE);
         }
     };
 
@@ -151,6 +161,8 @@ public class EditTable extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
 
+                GlobVar.g_iTables = m_iTables -1; //starts at zero
+
                 //set global list tablebills
                 setListTableBills();
 
@@ -168,7 +180,7 @@ public class EditTable extends AppCompatActivity {
 
     private void setListTableBills(){
         //init global list
-        for (int iTables = 0; iTables < GlobVar.g_iTables; iTables++){
+        for (int iTables = 0; iTables <= GlobVar.g_iTables; iTables++){
             List<ObjBill> lstBill = new ArrayList<ObjBill>();
             GlobVar.g_lstTableBills.add(lstBill);
         }

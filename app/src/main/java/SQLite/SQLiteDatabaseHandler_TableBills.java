@@ -18,7 +18,7 @@ import objects.ObjProduct;
 public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "ProductsDB";
+    private static final String DATABASE_NAME = "TableBillsDB";
     private static final String TABLE_NAME = "TableBills";
     private static final String KEY_ID = "id";
     private static final String KEY_TABLENAME = "tablename";
@@ -142,7 +142,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
             if(!objproduct.getSqlSaved()){
                 values.put(KEY_TABLENAME, p_iTable);
                 values.put(KEY_BILLNR, p_iBill);
-                values.put(KEY_CASHIERNAME, GlobVar.g_lstTableBills.get(p_iTable).get(p_iBill).getCashierName());
+                values.put(KEY_CASHIERNAME, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getCashierName());
                 //values.put(KEY_BILLINGDATE, GlobVar.g_lstTableBills.get(p_iTable).get(p_iBill).getBillingDate());
                 values.put(KEY_CATEGORY, objproduct.getCategory());
                 values.put(KEY_PRODUCT, objproduct.getProduct().getName());

@@ -105,7 +105,7 @@ public class ViewPagerRegisterFragment extends Fragment {
         }
 
 
-        //if product is already in list
+        //if product is not in list
         if(!bProductExists){
             ObjBillProduct objbillproduct = new ObjBillProduct();
             objbillproduct.setProduct(objproduct);
@@ -121,7 +121,7 @@ public class ViewPagerRegisterFragment extends Fragment {
 
             GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
         }
-        //if product is not in list
+        //if product is already in list
         else{
             int iQuantity = GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).getQuantity();
             iQuantity++;
