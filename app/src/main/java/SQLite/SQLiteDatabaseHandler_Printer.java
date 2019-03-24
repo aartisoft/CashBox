@@ -24,10 +24,9 @@ public class SQLiteDatabaseHandler_Printer extends SQLiteOpenHelper {
     private static final String KEY_IPADRESS = "ipadress";
     private static final String KEY_MACADRESS = "macadress";
     private static final String KEY_BDADRESS= "bdadress";
-    private static final String KEY_CATEGORY = "category";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_DEVICEBRAND, KEY_DEVICENAME, KEY_DEVICETYPE,
-            KEY_TARGET, KEY_IPADRESS, KEY_MACADRESS, KEY_BDADRESS, KEY_CATEGORY };
+            KEY_TARGET, KEY_IPADRESS, KEY_MACADRESS, KEY_BDADRESS };
 
     public SQLiteDatabaseHandler_Printer(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,8 +37,7 @@ public class SQLiteDatabaseHandler_Printer extends SQLiteOpenHelper {
         String CREATION_TABLE = "CREATE TABLE Printers ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "devicebrand TEXT, "
                 + "devicename TEXT, " + "devicetype INTEGER, " + "target TEXT, "
-                + "ipadress TEXT, " + "macadress TEXT, " + "bdadress TEXT, "
-                + "category TEXT)";
+                + "ipadress TEXT, " + "macadress TEXT, " + "bdadress TEXT)";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -68,7 +66,6 @@ public class SQLiteDatabaseHandler_Printer extends SQLiteOpenHelper {
                 printer.setIpAdress(cursor.getString(5));
                 printer.setMacAddress(cursor.getString(6));
                 printer.setBdAddress(cursor.getString(7));
-                printer.setCategory(cursor.getString(8));
                 printers.add(printer);
             } while (cursor.moveToNext());
         }
@@ -98,7 +95,6 @@ public class SQLiteDatabaseHandler_Printer extends SQLiteOpenHelper {
         printer.setIpAdress(cursor.getString(5));
         printer.setMacAddress(cursor.getString(6));
         printer.setBdAddress(cursor.getString(7));
-        printer.setCategory(cursor.getString(8));
 
         return printer;
     }
@@ -113,7 +109,6 @@ public class SQLiteDatabaseHandler_Printer extends SQLiteOpenHelper {
         values.put(KEY_IPADRESS, printer.getIpAddress());
         values.put(KEY_MACADRESS, printer.getMacAddress());
         values.put(KEY_BDADRESS, printer.getBdAddress());
-        values.put(KEY_CATEGORY, printer.getCategory());
 
         // insert
         db.insert(TABLE_NAME,null, values);
@@ -130,7 +125,6 @@ public class SQLiteDatabaseHandler_Printer extends SQLiteOpenHelper {
         values.put(KEY_IPADRESS, printer.getIpAddress());
         values.put(KEY_MACADRESS, printer.getMacAddress());
         values.put(KEY_BDADRESS, printer.getBdAddress());
-        values.put(KEY_CATEGORY, printer.getCategory());
 
         int i = db.update(TABLE_NAME, // table
                 values, // column/value

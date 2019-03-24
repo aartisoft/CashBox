@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
+import objects.ObjCategory;
 import objects.ObjPrinter;
 import objects.ObjProduct;
 
@@ -113,11 +114,14 @@ public class ViewPagerRegisterFragment extends Fragment {
             objbillproduct.setCategory(objproduct.getCategory());
 
             //get printer
-            for (ObjPrinter objPrinter : GlobVar.g_lstPrinter){
-                if(objPrinter.getCategory().equals(objproduct.getCategory())){
-                    objbillproduct.setPrinter(objPrinter);
+            for(ObjCategory objCategory : GlobVar.g_lstCategory){
+                for (ObjPrinter objPrinter : GlobVar.g_lstPrinter) {
+                    if(objCategory.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
+                        objbillproduct.setPrinter(objPrinter);
+                    }
                 }
             }
+
 
             GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
         }
@@ -126,6 +130,9 @@ public class ViewPagerRegisterFragment extends Fragment {
             int iQuantity = GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).getQuantity();
             iQuantity++;
             GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).setQuantity(iQuantity);
+
+            //sql database has to update
+            GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).setSqlChanged(true);
         }
     }
 }

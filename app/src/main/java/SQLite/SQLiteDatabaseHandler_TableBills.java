@@ -171,7 +171,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 objproduct.setSqlChanged(false);
             }
 
-            db.close();
+            //db.close();
         }
     }
 

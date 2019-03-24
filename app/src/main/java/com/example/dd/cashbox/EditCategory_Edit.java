@@ -153,11 +153,6 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                             SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
                             db.updateCategory(m_strCategoryName, category);
 
-                            //set printer category globally
-                            if(foundPrinter != null){
-                                foundPrinter.setCategory(category.getName());
-                            }
-
                             //if categoryname has changed --> update global and in database
                             if(!m_SessionCategory.equals(m_EditTextName.getText().toString())){
                                 for(ObjProduct objproduct : objcategory.getListProduct()){

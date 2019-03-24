@@ -124,7 +124,7 @@ public class MS_AddPrinter_Search extends AppCompatActivity {
                     if(!bIsExisting){
                         SQLiteDatabaseHandler_Printer db = new SQLiteDatabaseHandler_Printer(m_Context);
                         ObjPrinter printer = new ObjPrinter(printerAdapter.getDeviceBrand(), printerAdapter.getDeviceName(), printerAdapter.getDeviceType(), printerAdapter.getTarget(),
-                                printerAdapter.getIpAddress(), printerAdapter.getMacAddress(), printerAdapter.getBdAddress(), "");
+                                printerAdapter.getIpAddress(), printerAdapter.getMacAddress(), printerAdapter.getBdAddress());
 
 
                         //save printer

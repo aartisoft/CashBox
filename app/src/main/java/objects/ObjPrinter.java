@@ -8,14 +8,13 @@ public class ObjPrinter {
     private String m_strIpAddress;
     private String m_strMacAddress;
     private String m_strBdAddress;
-    private String m_strCategory;
 
     public ObjPrinter(){
     }
 
 
     public ObjPrinter(String p_strDeviceBrand, String p_strDeviceName, int p_iDeviceType, String p_strTarget, String p_strIpAddress
-            , String p_strMacAddress, String p_strBdAddress, String p_strCategory){
+            , String p_strMacAddress, String p_strBdAddress){
 
         this.m_strDeviceBrand = p_strDeviceBrand;
         this.m_strDeviceName = p_strDeviceName;
@@ -24,7 +23,6 @@ public class ObjPrinter {
         this.m_strIpAddress = p_strIpAddress;
         this.m_strMacAddress = p_strMacAddress;
         this.m_strBdAddress = p_strBdAddress;
-        m_strCategory = p_strCategory;
     }
 
     public String getDeviceBrand(){
@@ -48,9 +46,6 @@ public class ObjPrinter {
     public String getBdAddress(){
         return this.m_strBdAddress;
     }
-    public String getCategory() {
-        return m_strCategory;
-    }
 
     public void setDeviceBrand(String p_strDeviceBrand){
         this.m_strDeviceBrand = p_strDeviceBrand;
@@ -72,8 +67,5 @@ public class ObjPrinter {
     }
     public void setBdAddress(String p_strBdAddresst){
         this.m_strBdAddress = p_strBdAddresst;
-    }
-    public void setCategory(String p_strCategory) {
-        this.m_strCategory = p_strCategory;
     }
 }

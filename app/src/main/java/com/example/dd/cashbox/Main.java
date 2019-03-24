@@ -330,17 +330,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     GlobVar.g_lstCategory = db_category.allCategories();
                 }
 
-                //set categories of printers
-                for(ObjCategory objcategory : GlobVar.g_lstCategory){
-                    for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
-                        if(objcategory.getPrinter() != null){
-                            if(objcategory.getPrinter().getMacAddress().equals(objprinter.getMacAddress())){
-                                objprinter.setCategory(objcategory.getName());
-                            }
-                        }
-                    }
-                }
-
                 //read products and add to specific category
                 SQLiteDatabaseHandler_Product db_products = new SQLiteDatabaseHandler_Product(m_Context);
                 int indexcounter = 0;
@@ -480,8 +469,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(m_iSessionBill != 0){
             strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
 
-            //set recyclerview
-            setupRecyclerView();
+            //only set recyclerview when bill product list not empty
+            if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts != null){
+                //set recyclerview
+                setupRecyclerView();
+            }
         }
         else{
             strBillHeader = getResources().getString(R.string.src_Beleg_empty);
@@ -490,14 +482,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
     private void setupRecyclerView(){
 
-        //get bill
-        int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
-            if(objBill.getBillNr() == m_iSessionBill){
-                break;
-            }
-            iBill++;
-        }
+        //get list bill pointer
+        int iBill = getBillListPointer();
 
         m_rv_adapter = new RecyclerViewMainBillAdapter(this, GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts);
 
@@ -541,5 +527,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         m_recyclerview.setAdapter(m_rv_adapter);
         m_rv_adapter.notifyDataSetChanged();
+    }
+
+    private int getBillListPointer(){
+        //get bill
+        int iBill = 0;
+        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+            if(objBill.getBillNr() == m_iSessionBill){
+                return iBill;
+            }
+            iBill++;
+        }
+        return 0;
     }
 }
