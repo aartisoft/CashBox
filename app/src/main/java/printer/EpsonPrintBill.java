@@ -360,58 +360,56 @@ public class EpsonPrintBill {
         //create message for printer
         StringBuilder textData = new StringBuilder();
         try {
-            m_Printer.addTextAlign(Printer.ALIGN_LEFT);
-            m_Printer.addFeedLine(0);
 
-            ////// LEFT SIDE /////////////////////////
-            //date + bill nr
+            //date + party info 1
+            m_Printer.addTextAlign(Printer.ALIGN_LEFT);
             m_Printer.addTextSize(1, 1);
             textData.append(p_arrBillText[0] + "\n");
-            textData.append(p_arrBillText[1] + "\n");
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
-            m_Printer.addFeedLine(1);
-
-            //cashiername + table
-            m_Printer.addTextSize(1, 1);
-            textData.append(p_arrBillText[2] + "\n");
-            textData.append(p_arrBillText[3] + "\n");
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
-            m_Printer.addFeedLine(1);
-
-            //website adresses
-            m_Printer.addTextSize(1, 1);
-            textData.append(p_arrBillText[4] + "\n");
-            textData.append(p_arrBillText[5] + "\n");
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
-
-            ////// RIGHT SIDE /////////////////////////
-
             m_Printer.addTextAlign(Printer.ALIGN_RIGHT);
-            m_Printer.addFeedLine(0);
-
-            //information about party
             m_Printer.addTextSize(1, 1);
             textData.append(p_arrBillText[6] + "\n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
+            m_Printer.addFeedLine(1);
+
+            //bill + party info 2
+            m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+            m_Printer.addTextSize(1, 1);
+            textData.append(p_arrBillText[1] + "\n");
+            m_Printer.addTextAlign(Printer.ALIGN_RIGHT);
+            m_Printer.addTextSize(1, 1);
             textData.append(p_arrBillText[7] + "\n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
+            m_Printer.addFeedLine(1);
+
+            //party info 3
+            m_Printer.addTextAlign(Printer.ALIGN_RIGHT);
+            m_Printer.addTextSize(1, 1);
             textData.append(p_arrBillText[8] + "\n");
             m_Printer.addText(textData.toString());
             textData.delete(0, textData.length());
-            m_Printer.addFeedLine(1);
 
-            //product
-            m_Printer.addTextSize(1, 2);
-            textData.append(p_arrBillText[9] + "\n");
+            //cashier name
+            m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+            m_Printer.addTextSize(1, 1);
+            textData.append(p_arrBillText[2] + "\n");
             m_Printer.addText(textData.toString());
             textData.delete(0, textData.length());
 
-            //product additional info
+            //websites + product
+            m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+            m_Printer.addTextSize(1, 1);
+            textData.append(p_arrBillText[3] + "\n");
+            textData.append(p_arrBillText[4] + "\n");
+            m_Printer.addTextAlign(Printer.ALIGN_RIGHT);
+            m_Printer.addTextSize(1, 2);
+            textData.append(p_arrBillText[9] + "\n");
             m_Printer.addTextSize(1, 1);
             textData.append(p_arrBillText[10] + "\n");
             m_Printer.addText(textData.toString());
             textData.delete(0, textData.length());
+
 
             m_Printer.addCut(Printer.CUT_FEED);
         }

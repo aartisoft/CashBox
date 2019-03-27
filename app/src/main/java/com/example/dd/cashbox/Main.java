@@ -173,7 +173,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         setTabulator();
 
         //start printer queue
-        PrintJobQueue.startPrintJobQueue();
+        if(!GlobVar.g_bPrintQueueStarted){
+            PrintJobQueue.startPrintJobQueue();
+            GlobVar.g_bPrintQueueStarted = true;
+        }
+
     }
 
     public int getVarTable(){
@@ -261,6 +265,34 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabPrintOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            //write bill to printqueue
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+                if(objBillProduct.getQuantity() > objBillProduct.getPrinted()){
+                    ObjPrintJob objPrintJob = new ObjPrintJob();
+                    objPrintJob.setContext(m_Context);
+                    objPrintJob.setPrinter(objBillProduct.getPrinter());
+
+                    //set bill text
+                    String[] arrBillText = new String[11];
+                    arrBillText[0] = "27.03.19, 17:52";
+                    arrBillText[1] = "Beleg " + String.valueOf(m_iSessionBill);
+                    arrBillText[2] = GlobVar.g_strBedienername;
+                    arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable+1);
+                    arrBillText[4] = "www.cashbox-mietkassen.com";
+                    arrBillText[5] = "www.musikverein-illingen.de";
+                    arrBillText[6] = "Musikverein Illingen e.V.";
+                    arrBillText[7] = "1.Maifest Illingen 2019";
+                    arrBillText[8] = "01.05.2019";
+                    arrBillText[9] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
+                    arrBillText[10] = "Zusätzliche Info";
+                    objPrintJob.setBillText(arrBillText);
+
+                    GlobVar.g_lstPrintJob.add(objPrintJob);
+                    PrintJobQueue.addPrintJob(objPrintJob);
+                }
+            }
+
             //set products as printed
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
                   objBillProduct.setPrinted(objBillProduct.getQuantity() - objBillProduct.getCanceled());
@@ -273,18 +305,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             //write tablebills to database
             SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
             db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
-
-            //write bill to printqueue
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                ObjPrintJob objPrintJob = new ObjPrintJob();
-                objPrintJob.setContext(m_Context);
-                objPrintJob.setPrinter(objBillProduct.getPrinter());
-
-                //set bill text
-                objPrintJob.setContext(m_Context);
-            }
-
-
         }
     };
     private View.OnClickListener fabPayOnClickListener = new View.OnClickListener() {
