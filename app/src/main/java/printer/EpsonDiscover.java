@@ -1,4 +1,4 @@
-package epson;
+package printer;
 
 import android.content.Context;
 import android.util.Log;

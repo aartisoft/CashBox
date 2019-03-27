@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 import SQLite.SQLiteDatabaseHandler_Printer;
 import adapter.ListViewPrinterDetailAdapter;
-import epson.EpsonPrintTestMsg;
+import printer.EpsonPrintTestMsg;
 import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjPrinter;

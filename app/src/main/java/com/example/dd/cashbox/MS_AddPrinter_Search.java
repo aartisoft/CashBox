@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import SQLite.SQLiteDatabaseHandler_Printer;
 import adapter.ListViewPrinterSearchAdapter;
-import epson.EpsonDiscover;
+import printer.EpsonDiscover;
 import global.GlobVar;
 import objects.ObjPrinter;
 import objects.ObjPrinterSearch;

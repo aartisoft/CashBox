@@ -1,10 +1,9 @@
-package epson;
+package printer;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.epson.epos2.ConnectionListener;
-import com.epson.epos2.Epos2CallbackCode;
 import com.epson.epos2.Epos2Exception;
 import com.epson.epos2.printer.Printer;
 import com.epson.epos2.printer.PrinterStatusInfo;
@@ -15,7 +14,7 @@ import com.example.dd.cashbox.R;
 import objects.ObjPrinter;
 
 
-public class EpsonPrintTestMsg {
+public class EpsonPrintBill {
 
     private Context m_Context = null;
     private Printer m_Printer = null;
@@ -28,56 +27,56 @@ public class EpsonPrintTestMsg {
     private StatusChangeListener m_StatusChangeListener = new StatusChangeListener() {
         @Override
         public void onPtrStatusChange(Printer printer, final int eventType) {
-                    switch (eventType) {
-                        case Printer.EVENT_DISCONNECT:
-                            m_PrinterStatus = "Offline";
+            switch (eventType) {
+                case Printer.EVENT_DISCONNECT:
+                    m_PrinterStatus = "Offline";
 
-                            //disconnect Printer
-                            try {
-                                m_Printer.disconnect();
-                            }
-                            catch (Exception e){
-                                Log.e("init mPrinter", e.toString());
-                            }
-                            break;
-                        case Printer.EVENT_ONLINE:
-                            m_PrinterStatus = "Online";
-                            break;
-                        case Printer.EVENT_OFFLINE:
-                            m_PrinterStatus = "Offline";
-
-                            //disconnect Printer
-                            try {
-                                m_Printer.disconnect();
-                            }
-                            catch (Exception e){
-                                Log.e("init mPrinter", e.toString());
-                            }
-                            break;
-                        case Printer.EVENT_COVER_CLOSE:
-                            m_PrinterStatus = "Online";
-                            break;
-                        case Printer.EVENT_COVER_OPEN:
-                            m_PrinterStatus = "Online - Abdeckung geöffnet";
-                            break;
-                        case Printer.EVENT_PAPER_OK:
-                            m_PrinterStatus = "Online";
-                            break;
-                        case Printer.EVENT_PAPER_NEAR_END:
-                            m_PrinterStatus = "Online - Papier fast leer";
-                            break;
-                        case Printer.EVENT_PAPER_EMPTY:
-                            m_PrinterStatus = "Online - Papier leer";
-                            break;
-                        case Printer.EVENT_DRAWER_HIGH:
-                            //Displays notification messages
-                            break;
-                        case Printer.EVENT_DRAWER_LOW:
-                            break;
-                        default:
-                            break;
+                    //disconnect Printer
+                    try {
+                        m_Printer.disconnect();
                     }
-                }
+                    catch (Exception e){
+                        Log.e("init mPrinter", e.toString());
+                    }
+                    break;
+                case Printer.EVENT_ONLINE:
+                    m_PrinterStatus = "Online";
+                    break;
+                case Printer.EVENT_OFFLINE:
+                    m_PrinterStatus = "Offline";
+
+                    //disconnect Printer
+                    try {
+                        m_Printer.disconnect();
+                    }
+                    catch (Exception e){
+                        Log.e("init mPrinter", e.toString());
+                    }
+                    break;
+                case Printer.EVENT_COVER_CLOSE:
+                    m_PrinterStatus = "Online";
+                    break;
+                case Printer.EVENT_COVER_OPEN:
+                    m_PrinterStatus = "Online - Abdeckung geöffnet";
+                    break;
+                case Printer.EVENT_PAPER_OK:
+                    m_PrinterStatus = "Online";
+                    break;
+                case Printer.EVENT_PAPER_NEAR_END:
+                    m_PrinterStatus = "Online - Papier fast leer";
+                    break;
+                case Printer.EVENT_PAPER_EMPTY:
+                    m_PrinterStatus = "Online - Papier leer";
+                    break;
+                case Printer.EVENT_DRAWER_HIGH:
+                    //Displays notification messages
+                    break;
+                case Printer.EVENT_DRAWER_LOW:
+                    break;
+                default:
+                    break;
+            }
+        }
     };
 
     private ConnectionListener m_ConnectionListener = new ConnectionListener() {
@@ -115,18 +114,18 @@ public class EpsonPrintTestMsg {
 
 
     //Constructor
-    public EpsonPrintTestMsg(Context p_Context, ObjPrinter p_objPrinter){
+    public EpsonPrintBill(Context p_Context, ObjPrinter p_objPrinter){
         m_Context = p_Context;
         m_objPrinter = p_objPrinter;
     }
 
 
-    public boolean runPrintTestMsgSequence() {
+    public boolean runPrintBillSequence(String[] p_arrBillText) {
         if (!initalizePrinter()) {
             return false;
         }
 
-        if (!createTestMsg()) {
+        if (!createBillJob(p_arrBillText)) {
             finalizePrinter();
             return false;
         }
@@ -352,7 +351,7 @@ public class EpsonPrintTestMsg {
         m_PrinterWarning = warningsMsg;
     }
 
-    public boolean createTestMsg(){
+    public boolean createBillJob(String[] p_arrBillText){
 
         if (m_Printer == null) {
             return false;
@@ -361,40 +360,63 @@ public class EpsonPrintTestMsg {
         //create message for printer
         StringBuilder textData = new StringBuilder();
         try {
-            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+            m_Printer.addTextAlign(Printer.ALIGN_LEFT);
             m_Printer.addFeedLine(0);
 
-            m_Printer.addTextSize(1, 2);
-            textData.append("Druckerinformationen: \n");
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
-            m_Printer.addFeedLine(1);
-
+            ////// LEFT SIDE /////////////////////////
+            //date + bill nr
             m_Printer.addTextSize(1, 1);
-            textData.append("Hersteller: " + m_objPrinter.getDeviceBrand() + "\n");
-            textData.append("Druckername: " + m_objPrinter.getDeviceName() + "\n");
-            textData.append("IP-Adresse: " + m_objPrinter.getIpAddress() + "\n");
-            textData.append("MAC-Adresse: " + m_objPrinter.getMacAddress() + "\n");
-
+            textData.append(p_arrBillText[0] + "\n");
+            textData.append(p_arrBillText[1] + "\n");
             m_Printer.addText(textData.toString());
             textData.delete(0, textData.length());
             m_Printer.addFeedLine(1);
 
-            /*Bitmap icon = BitmapFactory.decodeResource(m_Context.getResources(), R.drawable.loginlogo);
+            //cashiername + table
+            m_Printer.addTextSize(1, 1);
+            textData.append(p_arrBillText[2] + "\n");
+            textData.append(p_arrBillText[3] + "\n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
+            m_Printer.addFeedLine(1);
 
-            m_Printer.addImage(icon, 50, 50,
-                    300,
-                    150,
-                    Printer.COLOR_1,
-                    Printer.MODE_MONO,
-                    Printer.HALFTONE_DITHER,
-                    Printer.PARAM_DEFAULT,
-                    Printer.COMPRESS_NONE);*/
+            //website adresses
+            m_Printer.addTextSize(1, 1);
+            textData.append(p_arrBillText[4] + "\n");
+            textData.append(p_arrBillText[5] + "\n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
+
+            ////// RIGHT SIDE /////////////////////////
+
+            m_Printer.addTextAlign(Printer.ALIGN_RIGHT);
+            m_Printer.addFeedLine(0);
+
+            //information about party
+            m_Printer.addTextSize(1, 1);
+            textData.append(p_arrBillText[6] + "\n");
+            textData.append(p_arrBillText[7] + "\n");
+            textData.append(p_arrBillText[8] + "\n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
+            m_Printer.addFeedLine(1);
+
+            //product
+            m_Printer.addTextSize(1, 2);
+            textData.append(p_arrBillText[9] + "\n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
+
+            //product additional info
+            m_Printer.addTextSize(1, 1);
+            textData.append(p_arrBillText[10] + "\n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
 
             m_Printer.addCut(Printer.CUT_FEED);
         }
         catch (Exception e){
-            Log.e("createTestMsg failed", e.toString());
+            Log.e("createBillJOb failed", e.toString());
             return false;
         }
 

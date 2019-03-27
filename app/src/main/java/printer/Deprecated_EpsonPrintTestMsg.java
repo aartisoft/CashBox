@@ -1,4 +1,4 @@
-package epson;
+package printer;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,7 +10,6 @@ import com.epson.epos2.printer.ReceiveListener;
 import com.epson.epos2.printer.StatusChangeListener;
 import com.epson.epos2.printer.Printer;
 
-import global.GlobVar;
 import objects.ObjPrinter;
 
 

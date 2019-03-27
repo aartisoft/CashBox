@@ -55,8 +55,11 @@ import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
 import objects.ObjCategory;
+import objects.ObjPrintJob;
 import objects.ObjPrinter;
 import objects.ObjProduct;
+import printer.EpsonPrintBill;
+import printer.PrintJobQueue;
 import recyclerview.RecyclerItemTouchHelper;
 import recyclerview.RecyclerItemTouchHelperActions;
 import recyclerview.RecyclerItemTouchHelperBill;
@@ -168,6 +171,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //set Tabulator
         setTabulator();
+
+        //start printer queue
+        PrintJobQueue.startPrintJobQueue();
     }
 
     public int getVarTable(){
@@ -267,6 +273,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             //write tablebills to database
             SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
             db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
+
+            //write bill to printqueue
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+                ObjPrintJob objPrintJob = new ObjPrintJob();
+                objPrintJob.setContext(m_Context);
+                objPrintJob.setPrinter(objBillProduct.getPrinter());
+
+                //set bill text
+                objPrintJob.setContext(m_Context);
+            }
+
 
         }
     };
