@@ -124,9 +124,11 @@ public class ViewPagerRegisterFragment extends Fragment {
 
             //get printer
             for(ObjCategory objCategory : GlobVar.g_lstCategory){
-                for (ObjPrinter objPrinter : GlobVar.g_lstPrinter) {
-                    if(objCategory.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
-                        objbillproduct.setPrinter(objPrinter);
+                if(objproduct.getCategory().equals(objCategory.getName())){
+                    for (ObjPrinter objPrinter : GlobVar.g_lstPrinter) {
+                        if(objCategory.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
+                            objbillproduct.setPrinter(objPrinter);
+                        }
                     }
                 }
             }
