@@ -38,6 +38,7 @@ public class PrintJobQueue{
         private  String[] m_arrBillText = new String[11];
         private boolean m_bPrintStatus = false;
         public static List<ObjPrintJob> m_lstPrinterJob = new ArrayList<>();
+        public int m_iPrintJobCounter = 0;
 
         public PrintJob(List<ObjPrintJob> p_lstPrinterJobs){
             this.m_lstPrinterJob = p_lstPrinterJobs;
@@ -60,6 +61,7 @@ public class PrintJobQueue{
 
         private void print() throws InterruptedException
         {
+
             synchronized (m_lstPrinterJob)
             {
                 //m_lstPrinterJob
@@ -71,10 +73,14 @@ public class PrintJobQueue{
                 }
                 Thread.sleep(100);
 
+                if(m_iPrintJobCounter >= m_lstPrinterJob.size()){
+                    m_iPrintJobCounter = 0;
+                }
+
                 //print job available
-                m_Context = m_lstPrinterJob.get(0).getContext();
-                m_ObjPrinter = m_lstPrinterJob.get(0).getPrinter();
-                m_arrBillText = m_lstPrinterJob.get(0).getBillText();
+                m_Context = m_lstPrinterJob.get(m_iPrintJobCounter).getContext();
+                m_ObjPrinter = m_lstPrinterJob.get(m_iPrintJobCounter).getPrinter();
+                m_arrBillText = m_lstPrinterJob.get(m_iPrintJobCounter).getBillText();
                 m_EpsonPrintBill = new EpsonPrintBill(m_Context, m_ObjPrinter);
 
                 //print bill
@@ -88,9 +94,14 @@ public class PrintJobQueue{
                     }while(!m_EpsonPrintBill.getPrintJobDone());
 
                     if (m_EpsonPrintBill.getPrintSuccess()) {
-                        ObjPrintJob objPrintJob = (ObjPrintJob) m_lstPrinterJob.remove(0);
+                        ObjPrintJob objPrintJob = (ObjPrintJob) m_lstPrinterJob.remove(m_iPrintJobCounter);
                         Log.e("Printer ","Printed: " + m_EpsonPrintBill);
+
+                        m_iPrintJobCounter = 0;
                     }
+                }
+                else{
+                    m_iPrintJobCounter++;
                 }
 
                 m_lstPrinterJob.notify();
