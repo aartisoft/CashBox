@@ -288,8 +288,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     arrBillText[10] = "Zusätzliche Info";
                     objPrintJob.setBillText(arrBillText);
 
+                    //PrintJobQueue.addPrintJob(objPrintJob);
                     GlobVar.g_lstPrintJob.add(objPrintJob);
-                    PrintJobQueue.addPrintJob(objPrintJob);
                 }
             }
 

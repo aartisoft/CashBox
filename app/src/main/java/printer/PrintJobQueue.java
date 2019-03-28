@@ -17,8 +17,10 @@ public class PrintJobQueue{
     public static List<ObjPrintJob> m_lstPrinterJobs = new ArrayList<>();
 
     public static void startPrintJobQueue() {
-        Thread tPrintJobs = new Thread(new PrintJob(m_lstPrinterJobs), "Printer");
+        Thread tPrintJobs = new Thread(new PrintJob(m_lstPrinterJobs), "PrintJob");
+        Thread tGetPrintJobs = new Thread(new GetPrintJob(), "GetPrintJob");
         tPrintJobs.start();
+        tGetPrintJobs.start();
     }
 
     public static void addPrintJob(ObjPrintJob p_objPrintJob){
@@ -60,6 +62,7 @@ public class PrintJobQueue{
         {
             synchronized (m_lstPrinterJob)
             {
+                //m_lstPrinterJob
                 while (m_lstPrinterJob.isEmpty())
                 {
                     Log.e("Printer ", "Queue is empty " + Thread.currentThread().getName() + " is waiting , size: " + m_lstPrinterJob.size());
@@ -91,6 +94,38 @@ public class PrintJobQueue{
                 }
 
                 m_lstPrinterJob.notify();
+            }
+        }
+    }
+    static public class GetPrintJob implements Runnable {
+
+        public static List<ObjPrintJob> m_lstPrinterJob = new ArrayList<>();
+
+
+        @Override
+        public void run()
+        {
+            while (true)
+            {
+                try
+                {
+                    get();
+                } catch (InterruptedException ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        private void get() throws InterruptedException
+        {
+            synchronized (m_lstPrinterJobs)
+            {
+                if(GlobVar.g_lstPrintJob != null && GlobVar.g_lstPrintJob.size() > 0){
+                    m_lstPrinterJobs.add(GlobVar.g_lstPrintJob.get(0));
+                    GlobVar.g_lstPrintJob.remove(0);
+                }
+                m_lstPrinterJobs.notify();
             }
         }
     }
