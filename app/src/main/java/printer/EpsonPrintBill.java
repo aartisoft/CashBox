@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.epson.epos2.ConnectionListener;
+import com.epson.epos2.Epos2CallbackCode;
 import com.epson.epos2.Epos2Exception;
 import com.epson.epos2.printer.Printer;
 import com.epson.epos2.printer.PrinterStatusInfo;
@@ -23,6 +24,9 @@ public class EpsonPrintBill {
     private String m_PrintStatus = "";
     private String m_PrinterError = "";
     private String m_PrinterWarning = "";
+    private String m_PrintJobStatus = "";
+    private boolean m_bPrintJobDone = false;
+    private boolean m_bPrintSuccess = false;
 
     private StatusChangeListener m_StatusChangeListener = new StatusChangeListener() {
         @Override
@@ -107,6 +111,23 @@ public class EpsonPrintBill {
 
             dispPrinterWarnings(printerStatusInfo);
             m_PrinterError = makeErrorMessage(printerStatusInfo);
+            m_bPrintJobDone = true;
+
+            if(eventType == Epos2CallbackCode.CODE_SUCCESS){
+                m_bPrintSuccess = true;
+            }
+            else{
+                m_bPrintSuccess = false;
+            }
+
+            //works only with intelligent epson printer
+            /*try{
+                m_bReceived = true;
+                printer.requestPrintJobStatus(s);
+            }
+            catch (Epos2Exception e){
+                m_bReceived = false;
+            }*/
 
             threadDisconnectPrinter();
         }
@@ -459,8 +480,16 @@ public class EpsonPrintBill {
     public String getPrinterError(){
         return m_PrinterError;
     }
-
+    public String getPrintJobStatus(){
+        return m_PrintJobStatus;
+    }
     public String getPrinterWarning(){
         return m_PrinterWarning;
+    }
+    public boolean getPrintJobDone(){
+        return m_bPrintJobDone;
+    }
+    public boolean getPrintSuccess(){
+        return m_bPrintSuccess;
     }
 }
