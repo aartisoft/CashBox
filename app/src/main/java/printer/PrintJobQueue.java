@@ -35,6 +35,7 @@ public class PrintJobQueue{
         private  EpsonPrintBill m_EpsonPrintBill;
         private  Context m_Context;
         private  ObjPrinter m_ObjPrinter;
+        private List<String[]> g_lstBillText = new ArrayList<>();
         private  String[] m_arrBillText = new String[10];
         private boolean m_bPrintStatus = false;
         public static List<ObjPrintJob> m_lstPrinterJob = new ArrayList<>();
@@ -81,10 +82,11 @@ public class PrintJobQueue{
                 m_Context = m_lstPrinterJob.get(m_iPrintJobCounter).getContext();
                 m_ObjPrinter = m_lstPrinterJob.get(m_iPrintJobCounter).getPrinter();
                 m_arrBillText = m_lstPrinterJob.get(m_iPrintJobCounter).getBillText();
+                g_lstBillText = m_lstPrinterJob.get(m_iPrintJobCounter).g_lstBillText;
                 m_EpsonPrintBill = new EpsonPrintBill(m_Context, m_ObjPrinter);
 
                 //print bill
-                m_bPrintStatus = m_EpsonPrintBill.runPrintBillSequence(m_arrBillText);
+                m_bPrintStatus = m_EpsonPrintBill.runPrintBillSequence(g_lstBillText);
 
                 //if printing process was successfull
                 if(m_bPrintStatus){

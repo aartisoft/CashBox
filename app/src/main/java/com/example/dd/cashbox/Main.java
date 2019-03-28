@@ -267,28 +267,36 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         public void onClick(View v) {
 
             //write bill to printqueue
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                if(objBillProduct.getQuantity() > objBillProduct.getPrinted()){
-                    ObjPrintJob objPrintJob = new ObjPrintJob();
-                    objPrintJob.setContext(m_Context);
-                    objPrintJob.setPrinter(objBillProduct.getPrinter());
+            for(ObjBillProduct objBillProductMain : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+                for (ObjCategory objCategory : GlobVar.g_lstCategory) {
+                    if (objCategory.getName().equals(objBillProductMain.getCategory())) {
+                        if (objBillProductMain.getQuantity() > objBillProductMain.getPrinted()) {
+                            ObjPrintJob objPrintJob = new ObjPrintJob();
+                            objPrintJob.setContext(m_Context);
+                            objPrintJob.setPrinter(objBillProductMain.getPrinter());
+                            objPrintJob.g_lstBillText = new ArrayList<>();
 
-                    //set bill text
-                    String[] arrBillText = new String[10];
-                    arrBillText[0] = "Musikverein Illingen e.V.";
-                    arrBillText[1] = "1.Maifest Illingen 2019";
-                    arrBillText[2] = "01.05.2019";
-                    arrBillText[3] = "www.musikverein-illingen.de";
-                    arrBillText[4] = "27.03.19, 17:52";
-                    arrBillText[5] = "Tisch " + String.valueOf(m_iSessionTable+1);
-                    arrBillText[6] = "Beleg " + String.valueOf(m_iSessionBill);
-                    arrBillText[7] = GlobVar.g_strBedienername;
-                    arrBillText[8] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
-                    arrBillText[9] = "Zusätzliche Info";
-                    objPrintJob.setBillText(arrBillText);
+                            for (ObjBillProduct objBillProductSub : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
 
-                    //PrintJobQueue.addPrintJob(objPrintJob);
-                    GlobVar.g_lstPrintJob.add(objPrintJob);
+                                //set bill text
+                                String[] arrBillText = new String[10];
+                                arrBillText[0] = "Musikverein Illingen e.V.";
+                                arrBillText[1] = "1.Maifest Illingen 2019";
+                                arrBillText[2] = "01.05.2019";
+                                arrBillText[3] = "www.musikverein-illingen.de";
+                                arrBillText[4] = "27.03.19, 17:52";
+                                arrBillText[5] = "Tisch " + String.valueOf(m_iSessionTable + 1);
+                                arrBillText[6] = "Beleg " + String.valueOf(m_iSessionBill);
+                                arrBillText[7] = GlobVar.g_strBedienername;
+                                arrBillText[8] = ((objBillProductSub.getQuantity() - objBillProductSub.getCanceled()) - objBillProductSub.getPrinted()) + "x " + objBillProductSub.getProduct().getName();
+                                arrBillText[9] = "Zusätzliche Info";
+
+                                objPrintJob.g_lstBillText.add(arrBillText);
+                            }
+                            //add printjobs globally
+                            GlobVar.g_lstPrintJob.add(objPrintJob);
+                        }
+                    }
                 }
             }
 

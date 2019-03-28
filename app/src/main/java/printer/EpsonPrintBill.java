@@ -12,6 +12,8 @@ import com.epson.epos2.printer.ReceiveListener;
 import com.epson.epos2.printer.StatusChangeListener;
 import com.example.dd.cashbox.R;
 
+import java.util.List;
+
 import objects.ObjPrinter;
 
 
@@ -141,12 +143,12 @@ public class EpsonPrintBill {
     }
 
 
-    public boolean runPrintBillSequence(String[] p_arrBillText) {
+    public boolean runPrintBillSequence(List<String[]> p_lstBillText) {
         if (!initalizePrinter()) {
             return false;
         }
 
-        if (!createBillJob(p_arrBillText)) {
+        if (!createBillJob(p_lstBillText)) {
             finalizePrinter();
             return false;
         }
@@ -372,7 +374,7 @@ public class EpsonPrintBill {
         m_PrinterWarning = warningsMsg;
     }
 
-    public boolean createBillJob(String[] p_arrBillText){
+    public boolean createBillJob(List<String[]> p_lstBillText){
 
         if (m_Printer == null) {
             return false;
@@ -382,38 +384,40 @@ public class EpsonPrintBill {
         StringBuilder textData = new StringBuilder();
         try {
 
-            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
-            m_Printer.addTextSize(1, 1);
-            textData.append(p_arrBillText[0] + "\n");
-            textData.append(p_arrBillText[1] + "\n");
-            textData.append(p_arrBillText[2] + "\n");
-            textData.append(p_arrBillText[3] + "\n");
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
-            m_Printer.addFeedLine(1);
+            for(String[] arrBillText : p_lstBillText){
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append(arrBillText[0] + "\n");
+                textData.append(arrBillText[1] + "\n");
+                textData.append(arrBillText[2] + "\n");
+                textData.append(arrBillText[3] + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
 
-            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
-            m_Printer.addTextSize(1, 1);
-            textData.append(p_arrBillText[4] + "\n");
-            textData.append(p_arrBillText[5] + " - " + p_arrBillText[6] + "\n");
-            textData.append(p_arrBillText[7] + "\n");
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
-            m_Printer.addFeedLine(1);
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append(arrBillText[4] + "\n");
+                textData.append(arrBillText[5] + " - " + arrBillText[6] + "\n");
+                textData.append(arrBillText[7] + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
 
-            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
-            m_Printer.addTextSize(1, 2);
-            textData.append(p_arrBillText[8] + "\n");
-            m_Printer.addTextSize(1, 1);
-            textData.append(p_arrBillText[9] + "\n");
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
-            m_Printer.addFeedLine(1);
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 2);
+                textData.append(arrBillText[8] + "\n");
+                m_Printer.addTextSize(1, 1);
+                textData.append(arrBillText[9] + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
 
-            m_Printer.addCut(Printer.CUT_FEED);
+                m_Printer.addCut(Printer.CUT_FEED);
+            }
         }
         catch (Exception e){
-            Log.e("createBillJOb failed", e.toString());
+            Log.e("createBillJob failed", e.toString());
             return false;
         }
 
