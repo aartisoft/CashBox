@@ -2,11 +2,15 @@ package objects;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ObjPrintJob {
 
     private Context m_Context;
     private ObjPrinter m_printer;
     private String[] m_arrBillText = new String[10];
+    public List<String[]> g_lstBillText = new ArrayList<>();
 
     //constructor
     public ObjPrintJob(){}

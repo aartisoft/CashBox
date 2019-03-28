@@ -405,7 +405,7 @@ public class EpsonPrintBill {
             m_Printer.addTextSize(1, 2);
             textData.append(p_arrBillText[8] + "\n");
             m_Printer.addTextSize(1, 1);
-            textData.append(p_arrBillText[19] + "\n");
+            textData.append(p_arrBillText[9] + "\n");
             m_Printer.addText(textData.toString());
             textData.delete(0, textData.length());
             m_Printer.addFeedLine(1);
