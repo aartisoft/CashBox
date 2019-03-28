@@ -274,18 +274,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     objPrintJob.setPrinter(objBillProduct.getPrinter());
 
                     //set bill text
-                    String[] arrBillText = new String[11];
-                    arrBillText[0] = "27.03.19, 17:52";
-                    arrBillText[1] = "Beleg " + String.valueOf(m_iSessionBill);
-                    arrBillText[2] = GlobVar.g_strBedienername;
-                    arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable+1);
-                    arrBillText[4] = "www.cashbox-mietkassen.com";
-                    arrBillText[5] = "www.musikverein-illingen.de";
-                    arrBillText[6] = "Musikverein Illingen e.V.";
-                    arrBillText[7] = "1.Maifest Illingen 2019";
-                    arrBillText[8] = "01.05.2019";
-                    arrBillText[9] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
-                    arrBillText[10] = "Zusätzliche Info";
+                    String[] arrBillText = new String[10];
+                    arrBillText[0] = "Musikverein Illingen e.V.";
+                    arrBillText[1] = "1.Maifest Illingen 2019";
+                    arrBillText[2] = "01.05.2019";
+                    arrBillText[3] = "www.musikverein-illingen.de";
+                    arrBillText[4] = "27.03.19, 17:52";
+                    arrBillText[5] = "Tisch " + String.valueOf(m_iSessionTable+1);
+                    arrBillText[6] = "Beleg " + String.valueOf(m_iSessionBill);
+                    arrBillText[7] = GlobVar.g_strBedienername;
+                    arrBillText[8] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
+                    arrBillText[9] = "Zusätzliche Info";
                     objPrintJob.setBillText(arrBillText);
 
                     //PrintJobQueue.addPrintJob(objPrintJob);

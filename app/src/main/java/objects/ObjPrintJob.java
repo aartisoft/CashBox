@@ -6,7 +6,7 @@ public class ObjPrintJob {
 
     private Context m_Context;
     private ObjPrinter m_printer;
-    private String[] m_arrBillText = new String[11];
+    private String[] m_arrBillText = new String[10];
 
     //constructor
     public ObjPrintJob(){}

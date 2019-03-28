@@ -35,7 +35,7 @@ public class PrintJobQueue{
         private  EpsonPrintBill m_EpsonPrintBill;
         private  Context m_Context;
         private  ObjPrinter m_ObjPrinter;
-        private  String[] m_arrBillText = new String[11];
+        private  String[] m_arrBillText = new String[10];
         private boolean m_bPrintStatus = false;
         public static List<ObjPrintJob> m_lstPrinterJob = new ArrayList<>();
         public int m_iPrintJobCounter = 0;
