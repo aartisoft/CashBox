@@ -67,18 +67,28 @@ public class PrintJobQueue{
                 }
                 Thread.sleep(1000);
 
+                //print job available
                 m_Context = m_lstPrinterJob.get(0).getContext();
                 m_ObjPrinter = m_lstPrinterJob.get(0).getPrinter();
                 m_arrBillText = m_lstPrinterJob.get(0).getBillText();
                 m_EpsonPrintBill = new EpsonPrintBill(m_Context, m_ObjPrinter);
-                m_bPrintStatus = m_EpsonPrintBill.runPrintBillSequence(m_arrBillText);
 
-                ObjPrintJob objPrintJob = (ObjPrintJob) m_lstPrinterJob.remove(0);
-                System.out.println("Consumed: " + m_EpsonPrintBill);
-                m_lstPrinterJob.notifyAll();
+                //print bill
+                synchronized (m_EpsonPrintBill){
+                    m_bPrintStatus = m_EpsonPrintBill.runPrintBillSequence(m_arrBillText);
+                    m_EpsonPrintBill.notify();
+                }
+
+                //delete print job
+                String strPrinterError = m_EpsonPrintBill.getPrinterError();
+                String strPrinterWarning = m_EpsonPrintBill.getPrinterWarning();
+                //if no error delete printjob
+                if (strPrinterError.equals("") && strPrinterWarning.equals("")) {
+                    ObjPrintJob objPrintJob = (ObjPrintJob) m_lstPrinterJob.remove(0);
+                    System.out.println("Printed: " + m_EpsonPrintBill);
+                    m_lstPrinterJob.notifyAll();
+                }
             }
         }
     }
-
-
 }
