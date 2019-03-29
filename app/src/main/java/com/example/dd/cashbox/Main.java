@@ -250,7 +250,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
                 GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
 
-                //set bill header
+                //set bill number and header
+                //SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmm");
+                //int iDate = Integer.parseInt(dt.format(date));
                 GlobVar.g_iBillNr++;
                 m_iSessionBill = GlobVar.g_iBillNr;
                 setHeaderBill();

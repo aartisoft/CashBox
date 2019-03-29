@@ -28,7 +28,7 @@ public class SQLiteDatabaseHandler_Tables extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE Tables ( "
-                + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "tables INTEGER)";
+                + "id INTEGER PRIMARY KEY, " + "tables INTEGER)";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -58,6 +58,7 @@ public class SQLiteDatabaseHandler_Tables extends SQLiteOpenHelper {
     public void setTables(int p_iTables) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KEY_ID, 1);
         values.put(KEY_TABLES, p_iTables);
 
         // insert
@@ -72,8 +73,8 @@ public class SQLiteDatabaseHandler_Tables extends SQLiteOpenHelper {
 
         int i = db.update(TABLE_NAME, // table
                 values, // column/value
-                "tables = ?", // selections
-                new String[] { String.valueOf(p_iTables) });
+                "id = ?", // selections
+                new String[] { String.valueOf(1) });
 
         db.close();
 
