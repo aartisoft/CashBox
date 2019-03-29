@@ -3,6 +3,7 @@ package com.example.dd.cashbox;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import adapter.GridViewTableAdapter;
 import adapter.ListViewBillAdapter;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import global.GlobVar;
 import objects.ObjBill;
 
@@ -22,6 +24,7 @@ public class MainShowBills extends AppCompatActivity {
     private int m_iSessionTable;
     private ListView m_ListView;
     private ListViewBillAdapter m_listViewBillAdapter;
+    private int m_iSessionBill = -1;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -38,6 +41,7 @@ public class MainShowBills extends AppCompatActivity {
 
         //get intent variables
         m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
+        m_iSessionBill = getIntent().getIntExtra("BILL", 0);
 
         //init variables
         m_Context = this;
@@ -45,6 +49,12 @@ public class MainShowBills extends AppCompatActivity {
         m_ListView = findViewById(R.id.activity_main_showbills_lv);
 
         //set UI
+        m_decorView.setSystemUiVisibility(m_uiOptions);
+        Toolbar toolbar = findViewById(R.id.activity_main_showbills_toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         m_decorView.setSystemUiVisibility(m_uiOptions);
 
         //set bills
@@ -67,6 +77,22 @@ public class MainShowBills extends AppCompatActivity {
         }
     };
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                Intent intent = new Intent(MainShowBills.this, Main.class);
+                intent.putExtra("BILL", m_iSessionBill);
+                intent.putExtra("TABLE", m_iSessionTable);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public void hideSystemUI(Window window) {
         m_decorView = window.getDecorView();

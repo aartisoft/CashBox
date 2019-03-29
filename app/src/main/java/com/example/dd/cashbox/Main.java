@@ -210,7 +210,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         @Override
         public void onClick(View v) {
             if(GlobVar.g_iTables != -1) {
-                startActivity(new Intent(m_Context, MainShowTables.class));
+                Intent intent = new Intent(Main.this, MainShowTables.class);
+                intent.putExtra("TABLE", m_iSessionTable);
+                startActivity(intent);
             }
             else{
                 Toast.makeText(Main.this, getResources().getString(R.string.src_KeineTischeVorhanden), Toast.LENGTH_SHORT).show();
@@ -225,6 +227,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 {
                     Intent intent = new Intent(Main.this, MainShowBills.class);
                     intent.putExtra("TABLE", m_iSessionTable);
+                    intent.putExtra("BILL", m_iSessionBill);
                     startActivity(intent);
                 }
                 else{
