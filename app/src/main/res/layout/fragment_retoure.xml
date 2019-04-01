@@ -27,8 +27,7 @@
         android:id="@+id/edittable_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/tablayout_border">
+        android:layout_marginTop="10dp">
 
         <Button
             android:id="@+id/fragment_retoure_buttonminus"
@@ -36,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="0dp"
             android:scaleType="center"
             android:textColor="@color/colorBlack"
@@ -66,6 +66,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="0dp"
+            android:layout_marginRight="10dp"
             android:scaleType="center"
             android:textColor="@color/colorBlack"
             android:text="+"
@@ -79,6 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
         android:textColorHint="@color/colorGrey"
         app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
         <EditText
@@ -104,7 +106,7 @@
         android:id="@+id/fragment_retoure_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
         android:textColor="@color/colorBlack"
         android:text="@string/src_Retoure"
         android:textAllCaps="false"/>
