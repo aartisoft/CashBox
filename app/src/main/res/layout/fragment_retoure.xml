@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_retoure_ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/fragment_retoure_tb"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary3"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Artikel X"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/edittable_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/tablayout_border">
+
+        <Button
+            android:id="@+id/fragment_retoure_buttonminus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="0dp"
+            android:scaleType="center"
+            android:textColor="@color/colorBlack"
+            android:text="-"
+            android:textAllCaps="false"/>
+
+        <EditText
+            android:id="@+id/fragment_retoure_edttext"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorBlack"
+            android:textStyle="normal"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:backgroundTint="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:background="@null"
+            android:inputType="numberSigned"/>
+
+        <Button
+            android:id="@+id/fragment_retoure_buttonplus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="0dp"
+            android:scaleType="center"
+            android:textColor="@color/colorBlack"
+            android:text="+"
+            android:textAllCaps="false"/>
+
+    </RelativeLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editcategory_add_tiname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColorHint="@color/colorGrey"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+        <EditText
+            android:id="@+id/fragment_retoure_edttextcomment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="normal"
+            android:textAlignment="textStart"
+            android:hint="@string/src_Bemerkung"
+            android:backgroundTint="@color/colorGrey"
+            android:textColorHint="@color/colorGrey"
+            android:textSize="15dp"
+            android:textCursorDrawable="@drawable/colorcursor_black"
+            android:inputType="text"
+            android:singleLine="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/fragment_retoure_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorBlack"
+        android:text="@string/src_Retoure"
+        android:textAllCaps="false"/>
+</LinearLayout>

@@ -68,7 +68,7 @@ public class PrintJobQueue{
                 //m_lstPrinterJob
                 while (m_lstPrinterJob.isEmpty())
                 {
-                    Log.e("Printer ", "Queue is empty " + Thread.currentThread().getName() + " is waiting , size: " + m_lstPrinterJob.size());
+                    //Log.e("Printer ", "Queue is empty " + Thread.currentThread().getName() + " is waiting , size: " + m_lstPrinterJob.size());
                     m_lstPrinterJob.wait();
 
                 }
@@ -90,6 +90,7 @@ public class PrintJobQueue{
 
                 //if printing process was successfull
                 if(m_bPrintStatus){
+                    Log.e("Printer ","PrintJob Successfull");
                     //delete print job if printjob has been reveived from printer
                     do{
                         //wait till print job is done

@@ -84,6 +84,8 @@
     <string name="src_NeuerBelegHinzugefuegt">Neuer Beleg hinzugefügt</string>
     <string name="src_BelegAuswaehlen">Beleg auswählen</string>
     <string name="src_TischAuswaehlen">Tisch auswählen</string>
+    <string name="src_Retoure">Retoure</string>
+    <string name="src_Bemerkung">Bemerkung</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
