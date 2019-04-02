@@ -46,10 +46,13 @@ import java.util.Date;
 import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_Printer;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import fragments.ChooseColorDialogFragment;
+import fragments.RetoureDialogFragment;
 import fragments.ViewPagerRegisterFragment;
 import global.GlobVar;
 import objects.ObjBill;
@@ -563,21 +566,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_RecyclerItemTouchHelper = new RecyclerItemTouchHelperBill(new RecyclerItemTouchHelperActions() {
             @Override
             public void onRightClicked(int position) {
-                //get current product and set canceled
-                final ObjBillProduct objbillproduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(position);
-                objbillproduct.setCanceled(objbillproduct.getQuantity() - objbillproduct.getPrinted());
-                objbillproduct.setSqlChanged(true);
 
-                setupRecyclerView();
-
-                /*m_rv_adapter.removeItem(position);
-                m_rv_adapter.notifyItemRemoved(position);
-                m_rv_adapter.notifyItemRangeChanged(position, m_rv_adapter.getItemCount());*/
-
-                //set product in database
-                SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-                db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
-
+                //open dialog fragment
+                showRetoureDialog(position);
             }
         });
 
@@ -605,5 +596,19 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             iBill++;
         }
         return 0;
+    }
+
+    private void showRetoureDialog(int position) {
+        FragmentManager fm = getSupportFragmentManager();
+        RetoureDialogFragment retoureDialogFragment = RetoureDialogFragment.newInstance("Some Title", 11022900);
+
+        // pass table, bill to fragment
+        Bundle args = new Bundle();
+        args.putInt("POSITION", position);
+        args.putInt("TABLE", m_iSessionTable);
+        args.putInt("BILL", m_iSessionBill);
+
+        retoureDialogFragment.setArguments(args);
+        retoureDialogFragment.show(fm, "fragment_retoure");
     }
 }

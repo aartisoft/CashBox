@@ -32,11 +32,13 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     private static final String KEY_PRINTERMAC = "printermac";
     private static final String KEY_PRINTED = "printed";
     private static final String KEY_CANCELED = "canceled";
+    private static final String KEY_RETURNED = "returned";
     private static final String KEY_PAID = "paid";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_TABLENAME, KEY_BILLNR,
             KEY_CASHIERNAME, KEY_BILLINGDATE, KEY_CATEGORY, KEY_PRODUCT,
-            KEY_QUANTITY, KEY_PRINTERMAC, KEY_PRINTED, KEY_CANCELED, KEY_PAID};
+            KEY_QUANTITY, KEY_PRINTERMAC, KEY_PRINTED, KEY_CANCELED,
+            KEY_RETURNED, KEY_PAID};
 
     public SQLiteDatabaseHandler_TableBills(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,7 +51,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 + "billnr INTEGER, " + "cashiername TEXT, "
                 + "billingdate TEXT, " + "category TEXT, " + "product TEXT, "
                 + "quantity INTEGER, " + "printermac TEXT, " + "printed INTEGER, "
-                + "canceled INTEGER, " + "paid INTEGER)";
+                + "canceled INTEGER, " + "returned INTEGER, " + "paid INTEGER)";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -144,6 +146,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_PRINTED, objproduct.getPrinted());
                 values.put(KEY_CANCELED, objproduct.getCanceled());
                 values.put(KEY_PAID, objproduct.getPaid());
+                values.put(KEY_RETURNED, objproduct.getReturned());
 
                 //set sql variables
                 objproduct.setSqlSaved(true);
@@ -160,6 +163,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_PRINTED, objproduct.getPrinted());
                 values.put(KEY_CANCELED, objproduct.getCanceled());
                 values.put(KEY_PAID, objproduct.getPaid());
+                values.put(KEY_RETURNED, objproduct.getReturned());
 
                 int i = db.update(TABLE_NAME, // table
                         values, // column/value
@@ -207,6 +211,9 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
         //set paid
         objBillProduct.setPaid(Integer.parseInt(cursor.getString(11)));
+
+        //set returned
+        objBillProduct.setReturned(Integer.parseInt(cursor.getString(12)));
 
         //set sql variables
         objBillProduct.setSqlSaved(true);

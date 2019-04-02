@@ -8,6 +8,7 @@ public class ObjBillProduct {
     private int m_iPrinted;
     private int m_iCanceled;
     private int m_iPaid;
+    private int m_iReturned;
     private boolean m_bSqlSaved;
     private boolean m_bSqlChanged;
 
@@ -32,6 +33,9 @@ public class ObjBillProduct {
     }
     public int getPaid(){
         return this.m_iPaid;
+    }
+    public int getReturned(){
+        return this.m_iReturned;
     }
     public boolean getSqlSaved() {
         return m_bSqlSaved;
@@ -61,6 +65,9 @@ public class ObjBillProduct {
     }
     public void setPaid(int p_bPaid){
         this.m_iPaid = p_bPaid;
+    }
+    public void setReturned(int p_iReturned){
+        this.m_iReturned = p_iReturned;
     }
     public void setSqlSaved(boolean m_bSqlSaved) {
         this.m_bSqlSaved = m_bSqlSaved;
