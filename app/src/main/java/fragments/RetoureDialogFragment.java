@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.dd.cashbox.R;
 import com.jaredrummler.android.colorpicker.ColorPickerView;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import global.GlobVar;
 import objects.ObjBill;
@@ -22,6 +24,7 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
     private Button m_button;
     private Button m_button_min;
     private Button m_button_pl;
+    private EditText m_edttCount;
     private int m_iSessionLVPos = -1;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
@@ -47,6 +50,10 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
 
         View view = inflater.inflate(R.layout.fragment_retoure, container, false);
 
+        //set UI
+        Toolbar toolbar = view.findViewById(R.id.fragment_retoure_tb);
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+
         //activity variables
         m_iSessionLVPos = getArguments().getInt("POSITION", -1);
         m_iSessionTable = getArguments().getInt("TABLE", -1);
@@ -56,12 +63,17 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
         m_button = view.findViewById(R.id.fragment_retoure_button);
         m_button_min = view.findViewById(R.id.fragment_retoure_buttonminus);
         m_button_pl = view.findViewById(R.id.fragment_retoure_buttonplus);
+        m_edttCount = view.findViewById(R.id.fragment_retoure_edttext);
         m_Context = getContext();
 
         //set Listener
         m_button.setOnClickListener(this);
         m_button_min.setOnClickListener(this);
         m_button_pl.setOnClickListener(this);
+
+        //set edittext
+        m_edttCount.setText(String.valueOf(m_iReturned));
+        m_edttCount.setCursorVisible(false);
 
         return view;
     }
@@ -104,10 +116,21 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
         if(m_iReturned > 0){
             m_iReturned--;
         }
+
+        //set edittext
+        m_edttCount.setText(String.valueOf(m_iReturned));
     }
 
     private void button_plus(){
-        m_iReturned++;
+        ObjBillProduct objBillProduct = getObjBillProduct();
+        int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned();
+
+        if(m_iReturned <= iQuantitiy){
+            m_iReturned++;
+        }
+
+        //set edittext
+        m_edttCount.setText(String.valueOf(m_iReturned));
     }
 
     private int getBillListPointer(){
@@ -120,5 +143,9 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
             iBill++;
         }
         return 0;
+    }
+
+    private ObjBillProduct getObjBillProduct(){
+        return GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
     }
 }
