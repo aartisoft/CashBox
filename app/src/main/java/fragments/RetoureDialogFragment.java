@@ -44,6 +44,10 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
     public RetoureDialogFragment() {
     }
 
+    public interface RetoureDialogListener {
+        void onFinishRetoureDialog();
+    }
+
     public static RetoureDialogFragment newInstance(String title, int color) {
         m_frag = new RetoureDialogFragment();
         Bundle args = new Bundle();
@@ -158,7 +162,7 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
         ObjBillProduct objBillProduct = getObjBillProduct();
         int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned();
 
-        if(m_iReturned <= iQuantitiy){
+        if(m_iReturned < iQuantitiy){
             m_iReturned++;
         }
 

@@ -38,7 +38,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     private static final String[] COLUMNS = { KEY_ID, KEY_TABLENAME, KEY_BILLNR,
             KEY_CASHIERNAME, KEY_BILLINGDATE, KEY_CATEGORY, KEY_PRODUCT,
             KEY_QUANTITY, KEY_PRINTERMAC, KEY_PRINTED, KEY_CANCELED,
-            KEY_RETURNED, KEY_PAID};
+            KEY_PAID, KEY_RETURNED };
 
     public SQLiteDatabaseHandler_TableBills(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -51,7 +51,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 + "billnr INTEGER, " + "cashiername TEXT, "
                 + "billingdate TEXT, " + "category TEXT, " + "product TEXT, "
                 + "quantity INTEGER, " + "printermac TEXT, " + "printed INTEGER, "
-                + "canceled INTEGER, " + "returned INTEGER, " + "paid INTEGER)";
+                + "canceled INTEGER, " + "paid INTEGER, " + "returned INTEGER)";
 
         db.execSQL(CREATION_TABLE);
     }

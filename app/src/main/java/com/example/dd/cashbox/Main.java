@@ -67,7 +67,7 @@ import recyclerview.RecyclerItemTouchHelper;
 import recyclerview.RecyclerItemTouchHelperActions;
 import recyclerview.RecyclerItemTouchHelperBill;
 
-public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RetoureDialogFragment.RetoureDialogListener {
 
     private Context m_Context;
     private int m_iSessionId = 0;
@@ -610,5 +610,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         retoureDialogFragment.setArguments(args);
         retoureDialogFragment.show(fm, "fragment_retoure");
+    }
+
+    @Override
+    public void onFinishRetoureDialog() {
+        setupRecyclerView();
     }
 }
