@@ -34,6 +34,7 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
     private Button m_button_pl;
     private EditText m_edttCount;
     private TextView m_tvTitle;
+    private RetoureDialogListener m_listener;
     private int m_iSessionLVPos = -1;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
@@ -110,6 +111,11 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
         switch(v.getId()){
             case R.id.fragment_retoure_button:
                 button_returned();
+
+                //set listener for main
+                m_listener = (RetoureDialogListener)getActivity();
+                m_listener.onFinishRetoureDialog();
+
                 m_frag.dismiss();
                 break;
 
