@@ -5,14 +5,12 @@ import android.content.Intent;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import SQLite.SQLiteDatabaseHandler_Tables;
-import adapter.RecyclerViewCategoryAdapter;
 import adapter.RecyclerViewMainBillAdapter;
 import adapter.ViewPagerAdapter;
 import androidx.core.view.GravityCompat;
@@ -22,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.sqlite.SQLiteException;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
@@ -34,13 +31,9 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,24 +44,19 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import fragments.ChooseColorDialogFragment;
-import fragments.PopUpWindowOkFragment;
-import fragments.RetoureDialogFragment;
+import fragments.RetoureStornoDialogFragment;
 import fragments.ViewPagerRegisterFragment;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
 import objects.ObjCategory;
 import objects.ObjPrintJob;
-import objects.ObjPrinter;
 import objects.ObjProduct;
-import printer.EpsonPrintBill;
 import printer.PrintJobQueue;
-import recyclerview.RecyclerItemTouchHelper;
 import recyclerview.RecyclerItemTouchHelperActions;
 import recyclerview.RecyclerItemTouchHelperBill;
 
-public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RetoureDialogFragment.RetoureDialogListener {
+public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RetoureStornoDialogFragment.RetoureStornoDialogListener {
 
     private Context m_Context;
     private int m_iSessionId = 0;
@@ -569,7 +557,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             public void onRightClicked(int position) {
 
                 //open dialog fragment
-                showRetoureDialog(position);
+                showRetoureStornoDialog(position);
             }
         });
 
@@ -599,9 +587,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         return 0;
     }
 
-    private void showRetoureDialog(int position) {
+    private void showRetoureStornoDialog(int position) {
         FragmentManager fm = getSupportFragmentManager();
-        RetoureDialogFragment retoureDialogFragment = RetoureDialogFragment.newInstance("Some Title", 11022900);
+        RetoureStornoDialogFragment retoureStornoDialogFragment = RetoureStornoDialogFragment.newInstance("Some Title", 11022900);
 
         // pass table, bill to fragment
         Bundle args = new Bundle();
@@ -609,12 +597,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         args.putInt("TABLE", m_iSessionTable);
         args.putInt("BILL", m_iSessionBill);
 
-        retoureDialogFragment.setArguments(args);
-        retoureDialogFragment.show(fm, "fragment_retoure");
+        retoureStornoDialogFragment.setArguments(args);
+        retoureStornoDialogFragment.show(fm, "fragment_retourestorno");
     }
 
     @Override
-    public void onFinishRetoureDialog() {
+    public void onFinishRetoureStornoDialog() {
 
         setupRecyclerView();
     }

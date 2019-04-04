@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_retourestorno_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/fragment_retourestorno_tb"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary3"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+
+        <TextView
+            android:id="@+id/fragment_retourestorno_tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/src_RetoureStorno"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/fragment_retourestorno_tab"
+            android:layout_width="match_parent"
+            android:layout_height="81dp"
+            android:layout_marginLeft="-2.5dp"
+            app:tabPaddingStart="2dp"
+            app:tabPaddingEnd="2dp"
+            app:tabPaddingTop="0dp"
+            app:tabPaddingBottom="2dp"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorColor="@color/colorPrimary3"
+            android:layout_above ="@+id/am_register_viewpager">
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/am_register_viewpager"
+            android:layout_marginTop="2.5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </androidx.viewpager.widget.ViewPager>
+    </LinearLayout>
+</LinearLayout>

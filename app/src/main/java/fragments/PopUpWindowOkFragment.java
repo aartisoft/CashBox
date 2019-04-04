@@ -78,12 +78,13 @@ public class PopUpWindowOkFragment extends DialogFragment implements View.OnClic
     private void setText(){
         //product has been canceled
         if(m_iCash == 0){
-            String strText = getResources().getString(R.string.src_KundeHatArtikelNochNichtBezahlt);
+            String strText = getResources().getString(R.string.src_KundeHatArtikelNochNichtBezahltArtikelWurdeStorniert);
             m_tvText.setText(strText);
         }
         //product has been returned
         else{
-            String strText = getResources().getString(R.string.src_KundeHatArtikelNochNichtBezahlt);
+            String strText = getResources().getString(R.string.src_KundeBekommtSummeXZurueck);
+            strText = strText.format("1");
             m_tvText.setText(strText);
         }
     }

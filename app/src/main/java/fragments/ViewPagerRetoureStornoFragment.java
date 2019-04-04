@@ -1,81 +1,96 @@
 package fragments;
 
+
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
+import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
+import adapter.GridViewProductAdapter;
+import adapter.ViewPagerRetoureStornoAdapter;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
+import objects.ObjCategory;
+import objects.ObjPrinter;
+import objects.ObjProduct;
 
-public class RetoureDialogFragment extends DialogFragment implements View.OnClickListener {
+public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnClickListener{
 
+    int m_position;
     private Button m_button;
     private Button m_button_min;
     private Button m_button_pl;
     private EditText m_edttCount;
     private TextView m_tvTitle;
-    private RetoureDialogListener m_listener;
+    private RetoureStornoDialogFragment.RetoureStornoDialogListener m_listener;
+    private ViewPagerRetoureStornoAdapter m_ViewPagerAdapter;
+    private TabLayout m_TabLayout;
+    private ViewPager m_ViewPager;
+    Context m_Context;
     private int m_iSessionLVPos = -1;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private int m_iReturned = 0;
-    private Context m_Context;
-    private static RetoureDialogFragment m_frag;
+    private GridView m_GridView;
+    private GridViewProductAdapter m_gridViewProductAdapter;
 
-    public RetoureDialogFragment() {
+    public static Fragment getInstance(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("pos", position);
+        ViewPagerRetoureStornoFragment tabFragment = new ViewPagerRetoureStornoFragment();
+        tabFragment.setArguments(bundle);
+        return tabFragment;
     }
 
-    public interface RetoureDialogListener {
-        void onFinishRetoureDialog();
-    }
-
-    public static RetoureDialogFragment newInstance(String title, int color) {
-        m_frag = new RetoureDialogFragment();
-        Bundle args = new Bundle();
-        args.putString("title", title);
-        args.putInt("color", color);
-        m_frag.setArguments(args);
-        return m_frag;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        m_position = getArguments().getInt("pos");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_tabregister, container, false);
+    }
 
-        View view = inflater.inflate(R.layout.fragment_retoure, container, false);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         //activity variables
         m_iSessionLVPos = getArguments().getInt("POSITION", -1);
         m_iSessionTable = getArguments().getInt("TABLE", -1);
         m_iSessionBill = getArguments().getInt("BILL", 0);
 
-        //set UI
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        Toolbar toolbar = view.findViewById(R.id.fragment_retoure_tb);
-        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
-        toolbar.setNavigationOnClickListener(tbOnClickListener);
 
         //set variables
-        m_button = view.findViewById(R.id.fragment_retoure_button);
-        m_button_min = view.findViewById(R.id.fragment_retoure_buttonminus);
-        m_button_pl = view.findViewById(R.id.fragment_retoure_buttonplus);
-        m_edttCount = view.findViewById(R.id.fragment_retoure_edttext);
-        m_tvTitle = view.findViewById(R.id.fragment_retoure_tvTitle);
+        m_button = getActivity().findViewById(R.id.fragment_retoure_button);
+        m_button_min = getActivity().findViewById(R.id.fragment_retoure_buttonminus);
+        m_button_pl = getActivity().findViewById(R.id.fragment_retoure_buttonplus);
+        m_edttCount = getActivity().findViewById(R.id.fragment_retoure_edttext);
+        m_tvTitle = getActivity().findViewById(R.id.fragment_retoure_tvTitle);
         m_Context = getContext();
 
         //set Listener
@@ -87,18 +102,8 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
         m_edttCount.setText(String.valueOf(m_iReturned));
         m_edttCount.setCursorVisible(false);
 
-        //set Title
-        ObjBillProduct objBillProduct = getObjBillProduct();
-        int iQuantity = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned();
-        String strTitle =  iQuantity + "x " + getObjBillProduct().getProduct().getName();
-        m_tvTitle.setText(strTitle);
+        //set Listener;
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -108,10 +113,9 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
                 button_returned();
 
                 //set listener for main
-                m_listener = (RetoureDialogListener)getActivity();
-                m_listener.onFinishRetoureDialog();
+                m_listener = (RetoureStornoDialogFragment.RetoureStornoDialogListener)getActivity();
+                m_listener.onFinishRetoureStornoDialog();
 
-                m_frag.dismiss();
                 break;
 
             case R.id.fragment_retoure_buttonminus:
@@ -126,15 +130,6 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
 
         }
     }
-
-    View.OnClickListener tbOnClickListener = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            m_frag.dismiss();
-        }
-    };
-
 
     private void button_returned(){
 
