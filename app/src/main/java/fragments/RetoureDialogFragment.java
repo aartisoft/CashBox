@@ -146,7 +146,9 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
         if(m_iReturned != 0){
             //get current product and set returned
             final ObjBillProduct objbillproduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
-            objbillproduct.setReturned(m_iReturned);
+
+            int iReturned = objbillproduct.getReturned() + m_iReturned;
+            objbillproduct.setReturned(iReturned);
             objbillproduct.setSqlChanged(true);
 
             //set product in database
