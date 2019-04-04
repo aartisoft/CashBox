@@ -52,6 +52,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import fragments.ChooseColorDialogFragment;
+import fragments.PopUpWindowOkFragment;
 import fragments.RetoureDialogFragment;
 import fragments.ViewPagerRegisterFragment;
 import global.GlobVar;
@@ -614,6 +615,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     @Override
     public void onFinishRetoureDialog() {
+
         setupRecyclerView();
     }
 }

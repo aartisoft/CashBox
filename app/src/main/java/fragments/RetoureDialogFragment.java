@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -12,17 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.dd.cashbox.EditCategory;
-import com.example.dd.cashbox.EditCategory_Edit;
 import com.example.dd.cashbox.R;
-import com.jaredrummler.android.colorpicker.ColorPickerView;
-
-import org.w3c.dom.Text;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
@@ -140,10 +135,11 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
         }
     };
 
+
     private void button_returned(){
 
         //if value has changed
-        if(m_iReturned != 0){
+        if(m_iReturned != 0) {
             //get current product and set returned
             final ObjBillProduct objbillproduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
 
@@ -154,7 +150,9 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
             //set product in database
             SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
             db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
+            showPopUpWIndowOk();
         }
+
     }
 
     private void button_minus(){
@@ -192,5 +190,17 @@ public class RetoureDialogFragment extends DialogFragment implements View.OnClic
 
     private ObjBillProduct getObjBillProduct(){
         return GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
+    }
+
+    public void showPopUpWIndowOk() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        PopUpWindowOkFragment popUpWindowOkFragment = PopUpWindowOkFragment.newInstance();
+
+        // pass table, bill to fragment
+        Bundle args = new Bundle();
+        //args.putInt("POSITION", position);
+
+        popUpWindowOkFragment.setArguments(args);
+        popUpWindowOkFragment.show(fm, "fragment_popupwindowok");
     }
 }
