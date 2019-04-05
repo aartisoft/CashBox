@@ -49,11 +49,11 @@ public class ViewPagerRetoureStornoAdapter extends FragmentPagerAdapter {
 
     public View getTabView(int position) {
         // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
-        View v = LayoutInflater.from(m_Context).inflate(R.layout.fragment_retourestorno, null);
+        View v = LayoutInflater.from(m_Context).inflate(R.layout.fragment_retourestorno_tablayout, null);
         TextView tv = (TextView) v.findViewById(R.id.fragment_retourestorno_tablayout_tv);
         tv.setText(m_lstTitle.get(position));
         //tv.setBackgroundColor(m_lstColor.get(position));
-        tv.setBackgroundColor(m_Context.getResources().getColor(R.color.colorGrey));
+        //tv.setBackgroundColor(m_Context.getResources().getColor(R.color.colorGrey));
         return v;
     }
 }

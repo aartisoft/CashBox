@@ -55,9 +55,11 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
     private GridView m_GridView;
     private GridViewProductAdapter m_gridViewProductAdapter;
 
-    public static Fragment getInstance(int position) {
+    public static Fragment getInstance(int position, int iSessionTable, int iSessionBill) {
         Bundle bundle = new Bundle();
-        bundle.putInt("pos", position);
+        bundle.putInt("POSITION", position);
+        bundle.putInt("TABLE", iSessionTable);
+        bundle.putInt("BILL", iSessionBill);
         ViewPagerRetoureStornoFragment tabFragment = new ViewPagerRetoureStornoFragment();
         tabFragment.setArguments(bundle);
         return tabFragment;
@@ -66,31 +68,29 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        m_position = getArguments().getInt("pos");
+
+        //activity variables
+        m_iSessionLVPos = getArguments().getInt("POSITION", -1);
+        m_iSessionTable = getArguments().getInt("TABLE", -1);
+        m_iSessionBill = getArguments().getInt("BILL", 0);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_tabregister, container, false);
+        return inflater.inflate(R.layout.fragment_retoure, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //activity variables
-        m_iSessionLVPos = getArguments().getInt("POSITION", -1);
-        m_iSessionTable = getArguments().getInt("TABLE", -1);
-        m_iSessionBill = getArguments().getInt("BILL", 0);
-
-
         //set variables
-        m_button = getActivity().findViewById(R.id.fragment_retoure_button);
-        m_button_min = getActivity().findViewById(R.id.fragment_retoure_buttonminus);
-        m_button_pl = getActivity().findViewById(R.id.fragment_retoure_buttonplus);
-        m_edttCount = getActivity().findViewById(R.id.fragment_retoure_edttext);
-        m_tvTitle = getActivity().findViewById(R.id.fragment_retoure_tvTitle);
+        m_button = view.findViewById(R.id.fragment_retoure_button);
+        m_button_min = view.findViewById(R.id.fragment_retoure_buttonminus);
+        m_button_pl = view.findViewById(R.id.fragment_retoure_buttonplus);
+        m_edttCount = view.findViewById(R.id.fragment_retoure_edttext);
+        m_tvTitle = view.findViewById(R.id.fragment_retoure_tvTitle);
         m_Context = getContext();
 
         //set Listener

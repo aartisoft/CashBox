@@ -19,6 +19,7 @@ import adapter.ViewPagerRetoureStornoAdapter;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 import global.GlobVar;
@@ -28,11 +29,6 @@ import objects.ObjCategory;
 
 public class RetoureStornoDialogFragment extends DialogFragment {
 
-    private Button m_button;
-    private Button m_button_min;
-    private Button m_button_pl;
-    private EditText m_edttCount;
-    private TextView m_tvTitle;
     private RetoureStornoDialogListener m_listener;
     private ViewPagerRetoureStornoAdapter m_ViewPagerAdapter;
     private TabLayout m_TabLayout;
@@ -41,7 +37,7 @@ public class RetoureStornoDialogFragment extends DialogFragment {
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private int m_iReturned = 0;
-    private Context m_Context;
+    private FragmentActivity m_Context;
     private static RetoureStornoDialogFragment m_frag;
 
     public RetoureStornoDialogFragment() {
@@ -64,7 +60,7 @@ public class RetoureStornoDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_retoure, container, false);
+        View view = inflater.inflate(R.layout.fragment_retourestorno, container, false);
 
         //activity variables
         m_iSessionLVPos = getArguments().getInt("POSITION", -1);
@@ -73,12 +69,14 @@ public class RetoureStornoDialogFragment extends DialogFragment {
 
         //set UI
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        Toolbar toolbar = view.findViewById(R.id.fragment_retoure_tb);
+        Toolbar toolbar = view.findViewById(R.id.fragment_retourestorno_tb);
         toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         toolbar.setNavigationOnClickListener(tbOnClickListener);
 
         //set variables
-        m_Context = getContext();
+        m_Context = getActivity();
+        m_TabLayout = view.findViewById(R.id.fragment_retourestorno_tab);
+        m_ViewPager = view.findViewById(R.id.fragment_retourestorno_viewpager);
 
         //set Tab
         setTabulator();
@@ -102,9 +100,9 @@ public class RetoureStornoDialogFragment extends DialogFragment {
 
     private void setTabulator(){
         //setup viewpager
-        m_ViewPagerAdapter = new ViewPagerRetoureStornoAdapter(getActivity().getSupportFragmentManager());
-        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(0), getResources().getString(R.string.src_Retoure), 1, m_Context);
-        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(1), getResources().getString(R.string.src_Storno), 1, m_Context);
+        m_ViewPagerAdapter = new ViewPagerRetoureStornoAdapter(getChildFragmentManager());
+        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_iSessionLVPos, m_iSessionTable, m_iSessionBill), getResources().getString(R.string.src_Retoure), 1, getContext());
+        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_iSessionLVPos, m_iSessionTable, m_iSessionBill), getResources().getString(R.string.src_Storno), 1, getContext());
 
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
 
