@@ -16,7 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 
-public class PopUpWindowOkFragment extends DialogFragment implements View.OnClickListener {
+public class PopUpWindowOkRetoureStornoFragment extends DialogFragment implements View.OnClickListener {
 
     private Button m_button;
     private Button m_button_min;
@@ -24,19 +24,19 @@ public class PopUpWindowOkFragment extends DialogFragment implements View.OnClic
     private EditText m_edttCount;
     private TextView m_tvText;
     private PopUpWIndowOkListener m_listener;
-    private int m_iCash = 0;
+    private double m_dCash = 0;
     private Context m_Context;
-    private static PopUpWindowOkFragment m_frag;
+    private static PopUpWindowOkRetoureStornoFragment m_frag;
 
-    public PopUpWindowOkFragment() {
+    public PopUpWindowOkRetoureStornoFragment() {
     }
 
     public interface PopUpWIndowOkListener {
         void onFinishRetoureDialog();
     }
 
-    public static PopUpWindowOkFragment newInstance() {
-        m_frag = new PopUpWindowOkFragment();
+    public static PopUpWindowOkRetoureStornoFragment newInstance() {
+        m_frag = new PopUpWindowOkRetoureStornoFragment();
         return m_frag;
     }
 
@@ -47,7 +47,7 @@ public class PopUpWindowOkFragment extends DialogFragment implements View.OnClic
         View view = inflater.inflate(R.layout.fragment_popupwindowok, container, false);
 
         //activity variables
-        m_iCash = getArguments().getInt("CASH", 0);
+        m_dCash = getArguments().getDouble("CASH");
 
         //set UI
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -80,7 +80,7 @@ public class PopUpWindowOkFragment extends DialogFragment implements View.OnClic
 
     private void setText(){
         //product has been canceled
-        if(m_iCash == 0){
+        if(m_dCash == 0){
             String strText = getResources().getString(R.string.src_KundeHatArtikelNochNichtBezahltArtikelWurdeStorniert);
             m_tvText.setText(strText);
         }

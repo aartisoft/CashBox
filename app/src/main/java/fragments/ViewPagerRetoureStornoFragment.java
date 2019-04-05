@@ -227,11 +227,14 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
 
     public void showPopUpWIndowOk() {
         FragmentManager fm = getChildFragmentManager();
-        PopUpWindowOkFragment popUpWindowOkFragment = PopUpWindowOkFragment.newInstance();
+        PopUpWindowOkRetoureStornoFragment popUpWindowOkFragment = PopUpWindowOkRetoureStornoFragment.newInstance();
 
         // pass table, bill to fragment
         Bundle args = new Bundle();
-        //args.putInt("POSITION", position);
+
+        //calculate return prize
+        double prize = getObjBillProduct().getProduct().getVK() * m_iItems;
+        args.putDouble("CASH", prize);
 
         popUpWindowOkFragment.setArguments(args);
         popUpWindowOkFragment.show(fm, "fragment_popupwindowok");
