@@ -142,7 +142,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
                 objbillproduct.setReturned(iReturned);
 
                 //set printed minus one
-                int iPrinted = objbillproduct.getPrinted() -1;
+                int iPrinted = objbillproduct.getPrinted() -m_iItems;
                 objbillproduct.setPrinted(iPrinted);
 
                 objbillproduct.setSqlChanged(true);
@@ -220,7 +220,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         }
         //canceled
         else{
-            int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned();
+            int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getPrinted() - objBillProduct.getReturned();
             return iQuantitiy;
         }
     }
