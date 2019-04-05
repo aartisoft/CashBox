@@ -97,12 +97,16 @@ public class RetoureStornoDialogFragment extends DialogFragment {
         }
     };
 
+    public void raiseCloseDialog(){
+        m_frag.dismiss();
+    }
+
 
     private void setTabulator(){
         //setup viewpager
         m_ViewPagerAdapter = new ViewPagerRetoureStornoAdapter(getChildFragmentManager());
-        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_iSessionLVPos, m_iSessionTable, m_iSessionBill), getResources().getString(R.string.src_Retoure), 1, getContext());
-        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_iSessionLVPos, m_iSessionTable, m_iSessionBill), getResources().getString(R.string.src_Storno), 1, getContext());
+        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_iSessionLVPos, m_iSessionTable, m_iSessionBill, "returned"), getResources().getString(R.string.src_Retoure), 1, getContext());
+        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_iSessionLVPos, m_iSessionTable, m_iSessionBill, "canceled"), getResources().getString(R.string.src_Storno), 1, getContext());
 
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
 

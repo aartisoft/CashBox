@@ -6,34 +6,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
-
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import adapter.GridViewProductAdapter;
 import adapter.ViewPagerRetoureStornoAdapter;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
-import objects.ObjCategory;
-import objects.ObjPrinter;
-import objects.ObjProduct;
 
 public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnClickListener{
 
@@ -51,15 +42,17 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
     private int m_iSessionLVPos = -1;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
-    private int m_iReturned = 0;
+    private String m_strTask = "";
+    private int m_iItems = 0;
     private GridView m_GridView;
     private GridViewProductAdapter m_gridViewProductAdapter;
 
-    public static Fragment getInstance(int position, int iSessionTable, int iSessionBill) {
+    public static Fragment getInstance(int position, int iSessionTable, int iSessionBill, String strTask) {
         Bundle bundle = new Bundle();
         bundle.putInt("POSITION", position);
         bundle.putInt("TABLE", iSessionTable);
         bundle.putInt("BILL", iSessionBill);
+        bundle.putString("TASK", strTask);
         ViewPagerRetoureStornoFragment tabFragment = new ViewPagerRetoureStornoFragment();
         tabFragment.setArguments(bundle);
         return tabFragment;
@@ -73,12 +66,13 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         m_iSessionLVPos = getArguments().getInt("POSITION", -1);
         m_iSessionTable = getArguments().getInt("TABLE", -1);
         m_iSessionBill = getArguments().getInt("BILL", 0);
+        m_strTask = getArguments().getString("TASK");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_retoure, container, false);
+        return inflater.inflate(R.layout.childfragment_retourestorno, container, false);
     }
 
     @Override
@@ -90,7 +84,6 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         m_button_min = view.findViewById(R.id.fragment_retoure_buttonminus);
         m_button_pl = view.findViewById(R.id.fragment_retoure_buttonplus);
         m_edttCount = view.findViewById(R.id.fragment_retoure_edttext);
-        m_tvTitle = view.findViewById(R.id.fragment_retoure_tvTitle);
         m_Context = getContext();
 
         //set Listener
@@ -99,10 +92,11 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         m_button_pl.setOnClickListener(this);
 
         //set edittext
-        m_edttCount.setText(String.valueOf(m_iReturned));
+        m_edttCount.setText(String.valueOf(m_iItems));
         m_edttCount.setCursorVisible(false);
 
-        //set Listener;
+        //set button
+        setButton();
 
     }
 
@@ -113,8 +107,9 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
                 button_returned();
 
                 //set listener for main
-                m_listener = (RetoureStornoDialogFragment.RetoureStornoDialogListener)getActivity();
-                m_listener.onFinishRetoureStornoDialog();
+                //m_listener = (RetoureStornoDialogFragment.RetoureStornoDialogListener)getActivity();
+                //m_listener.onFinishRetoureStornoDialog();
+                ((Main) getActivity()).raiseNewProduct();
 
                 break;
 
@@ -134,13 +129,22 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
     private void button_returned(){
 
         //if value has changed
-        if(m_iReturned != 0) {
+        if(m_iItems != 0) {
             //get current product and set returned
             final ObjBillProduct objbillproduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
 
-            int iReturned = objbillproduct.getReturned() + m_iReturned;
-            objbillproduct.setReturned(iReturned);
-            objbillproduct.setSqlChanged(true);
+            //returned
+            if(m_strTask.equals("returned")){
+                int iReturned = objbillproduct.getReturned() + m_iItems;
+                objbillproduct.setReturned(iReturned);
+                objbillproduct.setSqlChanged(true);
+            }
+            //canceled
+            else{
+                int iCanceled = objbillproduct.getCanceled() + m_iItems;
+                objbillproduct.setCanceled(iCanceled);
+                objbillproduct.setSqlChanged(true);
+            }
 
             //set product in database
             SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
@@ -151,24 +155,24 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
     }
 
     private void button_minus(){
-        if(m_iReturned > 0){
-            m_iReturned--;
+        if(m_iItems > 0){
+            m_iItems--;
         }
 
         //set edittext
-        m_edttCount.setText(String.valueOf(m_iReturned), TextView.BufferType.EDITABLE);
+        m_edttCount.setText(String.valueOf(m_iItems), TextView.BufferType.EDITABLE);
     }
 
     private void button_plus(){
-        ObjBillProduct objBillProduct = getObjBillProduct();
-        int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned();
+        //get task quantitiy
+        int iQuantitiy = getQuantitiy();
 
-        if(m_iReturned < iQuantitiy){
-            m_iReturned++;
+        if(m_iItems < iQuantitiy){
+            m_iItems++;
         }
 
         //set edittext
-        m_edttCount.setText(String.valueOf(m_iReturned), TextView.BufferType.EDITABLE);
+        m_edttCount.setText(String.valueOf(m_iItems), TextView.BufferType.EDITABLE);
     }
 
     private int getBillListPointer(){
@@ -187,8 +191,34 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         return GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
     }
 
+    private void setButton(){
+        //returned
+        if(m_strTask.equals("returned")){
+            m_button.setText(getResources().getString(R.string.src_Retoure));
+        }
+        //canceled
+        else{
+            m_button.setText(getResources().getString(R.string.src_Storno));
+        }
+    }
+
+    private int getQuantitiy(){
+        ObjBillProduct objBillProduct = getObjBillProduct();
+
+        //returned
+        if(m_strTask.equals("returned")){
+            int iQuantitiy = objBillProduct.getPrinted();
+            return iQuantitiy;
+        }
+        //canceled
+        else{
+            int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned();
+            return iQuantitiy;
+        }
+    }
+
     public void showPopUpWIndowOk() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = getChildFragmentManager();
         PopUpWindowOkFragment popUpWindowOkFragment = PopUpWindowOkFragment.newInstance();
 
         // pass table, bill to fragment
@@ -197,5 +227,9 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
 
         popUpWindowOkFragment.setArguments(args);
         popUpWindowOkFragment.show(fm, "fragment_popupwindowok");
+
+        //close dialog
+        //RetoureStornoDialogFragment fragment = (RetoureStornoDialogFragment) getFragmentManager().findFragmentByTag("RetoureStornoDialogFragment");
+        //fragment.raiseCloseDialog();
     }
 }

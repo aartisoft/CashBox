@@ -3,26 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_retoure_ll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/fragment_retoure_tb"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary3"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-
-        <TextView
-            android:id="@+id/fragment_retoure_tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Artikel X"
-            android:textColor="@color/colorWhite"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
-
-    </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
         android:id="@+id/edittable_relativelayout"
@@ -105,7 +88,7 @@
         android:id="@+id/fragment_retoure_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:textColor="@color/colorBlack"
         android:text="@string/src_Retoure"
         android:textAllCaps="false"/>
