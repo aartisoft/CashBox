@@ -56,7 +56,7 @@ import printer.PrintJobQueue;
 import recyclerview.RecyclerItemTouchHelperActions;
 import recyclerview.RecyclerItemTouchHelperBill;
 
-public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RetoureStornoDialogFragment.RetoureStornoDialogListener {
+public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Context m_Context;
     private int m_iSessionId = 0;
@@ -599,11 +599,5 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         retoureStornoDialogFragment.setArguments(args);
         retoureStornoDialogFragment.show(fm, "fragment_retourestorno");
-    }
-
-    @Override
-    public void onFinishRetoureStornoDialog() {
-
-        setupRecyclerView();
     }
 }

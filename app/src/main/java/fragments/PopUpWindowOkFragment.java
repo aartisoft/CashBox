@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.dd.cashbox.R;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 
 public class PopUpWindowOkFragment extends DialogFragment implements View.OnClickListener {
@@ -72,6 +73,8 @@ public class PopUpWindowOkFragment extends DialogFragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        Fragment mParentFragment = (ViewPagerRetoureStornoFragment) getParentFragment();
+        ((ViewPagerRetoureStornoFragment) mParentFragment).raiseCloseDialog();
         m_frag.dismiss();
     }
 

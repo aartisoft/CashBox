@@ -105,12 +105,6 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         switch(v.getId()){
             case R.id.fragment_retoure_button:
                 button_returned();
-
-                //set listener for main
-                //m_listener = (RetoureStornoDialogFragment.RetoureStornoDialogListener)getActivity();
-                //m_listener.onFinishRetoureStornoDialog();
-                ((Main) getActivity()).raiseNewProduct();
-
                 break;
 
             case R.id.fragment_retoure_buttonminus:
@@ -126,6 +120,15 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         }
     }
 
+    public void raiseCloseDialog(){
+        //update listview bill
+        ((Main) getActivity()).raiseNewProduct();
+
+        //close dialog
+        Fragment mParentFragment = (RetoureStornoDialogFragment) getParentFragment();
+        ((RetoureStornoDialogFragment) mParentFragment).raiseCloseDialog();
+    }
+
     private void button_returned(){
 
         //if value has changed
@@ -137,6 +140,11 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
             if(m_strTask.equals("returned")){
                 int iReturned = objbillproduct.getReturned() + m_iItems;
                 objbillproduct.setReturned(iReturned);
+
+                //set printed minus one
+                int iPrinted = objbillproduct.getPrinted() -1;
+                objbillproduct.setPrinted(iPrinted);
+
                 objbillproduct.setSqlChanged(true);
             }
             //canceled
@@ -227,9 +235,5 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
 
         popUpWindowOkFragment.setArguments(args);
         popUpWindowOkFragment.show(fm, "fragment_popupwindowok");
-
-        //close dialog
-        //RetoureStornoDialogFragment fragment = (RetoureStornoDialogFragment) getFragmentManager().findFragmentByTag("RetoureStornoDialogFragment");
-        //fragment.raiseCloseDialog();
     }
 }
