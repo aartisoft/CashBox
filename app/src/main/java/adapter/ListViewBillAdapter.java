@@ -16,6 +16,7 @@ import com.example.dd.cashbox.R;
 import java.util.List;
 
 import objects.ObjBill;
+import objects.ObjBillProduct;
 import objects.ObjPrinter;
 
 public class ListViewBillAdapter extends BaseAdapter {
@@ -61,7 +62,7 @@ public class ListViewBillAdapter extends BaseAdapter {
             convertView = inflator.inflate(R.layout.activity_main_showbills_itemlistrow,  parent, false);
 
             // Lookup view for data population
-            view. txtBill= (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_billnr);
+            view.txtBill= (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_billnr);
             view.txtArticles = (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_articles);
 
             convertView.setTag(view);
@@ -72,7 +73,15 @@ public class ListViewBillAdapter extends BaseAdapter {
         // Populate the data into the template view using the data object
         String strBillName = m_Context.getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_List.get(position).getBillNr());
         view.txtBill.setText(strBillName);
-        //view.txtArticles.setText(m_List.get(position).getDeviceBrand() + " " +  m_List.get(position).getDeviceName());
+
+        //populate articles
+        String strAllArticles = "";
+        for(ObjBillProduct objBillProduct : m_List.get(position).m_lstProducts){
+            int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getReturned() - objBillProduct.getCanceled();
+            String strArticle = objBillProduct.getProduct().getName();
+            strAllArticles += iQuantitiy + "x " + strArticle + "\n";
+        }
+        view.txtArticles.setText(strAllArticles);
 
         // Return the completed view to render on screen
         return convertView;

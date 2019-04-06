@@ -19,11 +19,7 @@ import androidx.fragment.app.Fragment;
 public class PopUpWindowOkRetoureStornoFragment extends DialogFragment implements View.OnClickListener {
 
     private Button m_button;
-    private Button m_button_min;
-    private Button m_button_pl;
-    private EditText m_edttCount;
     private TextView m_tvText;
-    private PopUpWIndowOkListener m_listener;
     private double m_dCash = 0;
     private Context m_Context;
     private static PopUpWindowOkRetoureStornoFragment m_frag;
@@ -31,9 +27,6 @@ public class PopUpWindowOkRetoureStornoFragment extends DialogFragment implement
     public PopUpWindowOkRetoureStornoFragment() {
     }
 
-    public interface PopUpWIndowOkListener {
-        void onFinishRetoureDialog();
-    }
 
     public static PopUpWindowOkRetoureStornoFragment newInstance() {
         m_frag = new PopUpWindowOkRetoureStornoFragment();

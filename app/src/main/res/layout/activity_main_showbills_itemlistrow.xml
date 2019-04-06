@@ -1,29 +1,22 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="wrap_content"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
-    android:padding="6dip">
+    android:padding="6dip"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/activity_main_showbills_ilr_billnr"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:gravity="center_vertical"
+        android:text="Belegnummer"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/activity_main_showbills_ilr_articles"
         android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/ms_ap_ilr_icon"
-        android:singleLine="true"
+        android:layout_height="wrap_content"
         android:text="Alle Artikel"
         android:textSize="12sp"/>
-    <TextView
-        android:id="@+id/activity_main_showbills_ilr_billnr"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/activity_main_showbills_ilr_articles"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/ms_ap_ilr_icon"
-        android:gravity="center_vertical"
-        android:text="Belegnummer"
-        android:textSize="16sp"/>
-</RelativeLayout>
+</LinearLayout>
