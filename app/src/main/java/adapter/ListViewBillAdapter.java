@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import objects.ObjBill;
@@ -28,6 +29,17 @@ public class ListViewBillAdapter extends BaseAdapter {
         super();
         this.m_Context = context;
         this.m_List = bills;
+
+        this.m_List = new ArrayList<>();
+        for(ObjBill objBill : bills){
+            for(ObjBillProduct objBillProduct : objBill.m_lstProducts) {
+                //if more than one open product available
+                int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() - objBillProduct.getPaid();
+                if (iItemCount > 0) {
+                    this.m_List.add(objBill);
+                }
+            }
+        }
     }
 
     @Override
