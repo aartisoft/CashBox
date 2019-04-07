@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.dd.cashbox.R;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -40,7 +41,15 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public RecyclerViewMainBillAdapter(Context context, List<ObjBillProduct> billproductList) {
         this.context = context;
-        this.billproductList = billproductList;
+
+        this.billproductList = new ArrayList<>();
+        for(ObjBillProduct objBillProduct : billproductList){
+            //if more than one open product available
+            int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() - objBillProduct.getPaid();
+            if(iItemCount > 0) {
+                this.billproductList.add(objBillProduct);
+            }
+        }
     }
 
     @Override
@@ -53,15 +62,16 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("0.00");
         final ObjBillProduct item = billproductList.get(position);
 
+        int iItemCount = item.getQuantity() - item.getCanceled() - item.getReturned() - item.getPaid();
         //set name
         String strName = (item.getQuantity() - item.getCanceled() - item.getReturned() - item.getPaid()) + "x " + item.getProduct().getName();
         holder.textview_itemname.setText(strName);
 
         //set prize
-        double prize = (item.getQuantity() - item.getCanceled() - item.getReturned() - item.getPaid()) * item.getProduct().getVK();
+        double prize =  iItemCount * item.getProduct().getVK();
         String strVK = df.format(prize);
         strVK = strVK + "€";
         holder.textview_prize.setText(strVK);

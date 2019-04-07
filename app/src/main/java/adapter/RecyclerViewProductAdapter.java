@@ -54,7 +54,7 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("0.00");
         final ObjProduct item = productList.get(position);
         holder.textview_itemname.setText((item).getName());
         holder.textview_category.setText((item).getCategory());

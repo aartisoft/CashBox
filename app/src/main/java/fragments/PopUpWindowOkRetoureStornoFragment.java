@@ -74,13 +74,13 @@ public class PopUpWindowOkRetoureStornoFragment extends DialogFragment implement
     private void setText(){
         //product has been canceled
         if(m_dCash == 0){
-            String strText = getResources().getString(R.string.src_KundeHatArtikelNochNichtBezahltArtikelWurdeStorniert);
+            String strText = getResources().getString(R.string.src_ArtikelWurdeStorniert);
             m_tvText.setText(strText);
         }
         //product has been returned
         else{
             String strText = getResources().getString(R.string.src_KundeBekommtSummeXZurueck);
-            strText = strText.format("1");
+            strText = strText.replace("{0}", String.valueOf(m_dCash));
             m_tvText.setText(strText);
         }
     }

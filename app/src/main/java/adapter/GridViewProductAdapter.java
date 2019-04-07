@@ -62,7 +62,7 @@ public class GridViewProductAdapter extends BaseAdapter {
         //subtitle
         TextView subtitleTextView = convertView.findViewById(R.id.fragm_tabregister_layout_tvsubtitle);
         subtitleTextView.setBackgroundColor(m_iProdColor);
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("0.00");
         String strVK = df.format(m_lstProducts.get(position).getVK());
         strVK = strVK + "€";
         subtitleTextView.setText(strVK);
