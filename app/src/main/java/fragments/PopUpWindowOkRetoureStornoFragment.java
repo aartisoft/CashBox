@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
+
+import java.text.DecimalFormat;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -79,8 +82,10 @@ public class PopUpWindowOkRetoureStornoFragment extends DialogFragment implement
         }
         //product has been returned
         else{
+            DecimalFormat df = new DecimalFormat("0.00");
             String strText = getResources().getString(R.string.src_KundeBekommtSummeXZurueck);
-            strText = strText.replace("{0}", String.valueOf(m_dCash));
+            String strVK = df.format(m_dCash);
+            strText = strText.replace("{0}", strVK);
             m_tvText.setText(strText);
         }
     }

@@ -78,8 +78,10 @@ public class ListViewBillAdapter extends BaseAdapter {
         String strAllArticles = "";
         for(ObjBillProduct objBillProduct : m_List.get(position).m_lstProducts){
             int iQuantity = objBillProduct.getQuantity() - objBillProduct.getReturned() - objBillProduct.getCanceled();
-            String strArticle = objBillProduct.getProduct().getName();
-            strAllArticles += iQuantity + "x " + strArticle + "\n";
+            if(iQuantity > 0){
+                String strArticle = objBillProduct.getProduct().getName();
+                strAllArticles += iQuantity + "x " + strArticle + "\n";
+            }
         }
         view.txtArticles.setText(strAllArticles);
 
