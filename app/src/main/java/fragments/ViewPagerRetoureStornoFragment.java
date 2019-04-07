@@ -220,7 +220,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         }
         //canceled
         else{
-            int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getPrinted() - objBillProduct.getReturned();
+            int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getPrinted() - objBillProduct.getReturned() -objBillProduct.getCanceled();
             return iQuantitiy;
         }
     }
@@ -233,8 +233,14 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         Bundle args = new Bundle();
 
         //calculate return prize
-        double prize = getObjBillProduct().getProduct().getVK() * m_iItems;
-        args.putDouble("CASH", prize);
+        //returned
+        if(m_strTask.equals("returned")) {
+            double prize = getObjBillProduct().getProduct().getVK() * m_iItems;
+            args.putDouble("CASH", prize);
+        }
+        else{
+            args.putDouble("CASH", 0.00);
+        }
 
         popUpWindowOkFragment.setArguments(args);
         popUpWindowOkFragment.show(fm, "fragment_popupwindowok");

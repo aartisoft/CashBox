@@ -20,7 +20,7 @@ import objects.ObjBillProduct;
 public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerViewMainBillAdapter.MyViewHolder>{
     private Context context;
     private List<ObjBillProduct> billproductList;
-
+    private ArrayList<Integer> m_lstHiddenPositions = new ArrayList<>();
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -41,14 +41,16 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public RecyclerViewMainBillAdapter(Context context, List<ObjBillProduct> billproductList) {
         this.context = context;
+        this.billproductList = billproductList;
 
-        this.billproductList = new ArrayList<>();
+        int iProductCounter = 0;
         for(ObjBillProduct objBillProduct : billproductList){
             //if more than one open product available
             int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() - objBillProduct.getPaid();
-            if(iItemCount > 0) {
-                this.billproductList.add(objBillProduct);
+            if(iItemCount == 0) {
+                this.m_lstHiddenPositions.add(iProductCounter);
             }
+            iProductCounter++;
         }
     }
 
@@ -61,7 +63,15 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        //code snippet for hidden items
+        for(Integer hiddenIndex : m_lstHiddenPositions) {
+            if(hiddenIndex <= position) {
+                position = position + 1;
+            }
+        }
+
         DecimalFormat df = new DecimalFormat("0.00");
         final ObjBillProduct item = billproductList.get(position);
 
@@ -84,20 +94,6 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemCount() {
-        return billproductList.size();
-    }
-
-    public void removeItem(int position) {
-        billproductList.remove(position);
-        // notify the item removed by position
-        // to perform recycler view delete animations
-        // NOTE: don't call notifyDataSetChanged()
-        notifyItemRemoved(position);
-    }
-
-    public void restoreItem(ObjBillProduct item, int position) {
-        billproductList.add(position, item);
-        // notify item added by position
-        notifyItemInserted(position);
+        return billproductList.size() - m_lstHiddenPositions.size();
     }
 }

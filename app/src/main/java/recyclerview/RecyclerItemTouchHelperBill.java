@@ -11,8 +11,12 @@ import android.widget.ImageView;
 
 import com.example.dd.cashbox.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import objects.ObjBillProduct;
 
 import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE;
 

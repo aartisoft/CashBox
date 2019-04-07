@@ -23,28 +23,36 @@ import objects.ObjPrinter;
 public class ListViewBillAdapter extends BaseAdapter {
 
     private Context m_Context;
-    List<ObjBill> m_List;
+    private List<ObjBill> m_List;
+    private ArrayList<Integer> m_lstHiddenPositions = new ArrayList<>();
 
     public ListViewBillAdapter(Context context, List<ObjBill> bills) {
         super();
         this.m_Context = context;
         this.m_List = bills;
 
-        this.m_List = new ArrayList<>();
+        int iBillCounter = 0;
         for(ObjBill objBill : bills){
+            boolean bProdFound = false;
             for(ObjBillProduct objBillProduct : objBill.m_lstProducts) {
                 //if more than one open product available
                 int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() - objBillProduct.getPaid();
                 if (iItemCount > 0) {
-                    this.m_List.add(objBill);
+                    bProdFound = true;
+                    break;
                 }
             }
+            //if no product found then add to hidden list
+            if(!bProdFound){
+                this.m_lstHiddenPositions.add(iBillCounter);
+            }
+            iBillCounter++;
         }
     }
 
     @Override
     public int getCount() {
-        return m_List.size();
+        return m_List.size() - m_lstHiddenPositions.size();
     }
 
     @Override
@@ -64,9 +72,17 @@ public class ListViewBillAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder view = null;
         LayoutInflater inflator = ((Activity) m_Context).getLayoutInflater();
+
+        //code snippet for hidden items
+        for(Integer hiddenIndex : m_lstHiddenPositions) {
+            if(hiddenIndex <= position) {
+                position = position + 1;
+            }
+        }
+
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
