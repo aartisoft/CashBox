@@ -142,7 +142,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
                 objbillproduct.setReturned(iReturned);
 
                 //set printed minus one
-                int iPrinted = objbillproduct.getPrinted() -m_iItems;
+                int iPrinted = objbillproduct.getPrinted() - m_iItems;
                 objbillproduct.setPrinted(iPrinted);
 
                 objbillproduct.setSqlChanged(true);

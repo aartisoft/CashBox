@@ -263,6 +263,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         @Override
         public void onClick(View v) {
 
+            boolean bPrinted = false;
+
             //write bill to printqueue
             for (ObjCategory objCategory : GlobVar.g_lstCategory) {
                 ObjPrintJob objPrintJob = new ObjPrintJob();
@@ -271,7 +273,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 objPrintJob.g_lstBillText = new ArrayList<>();
 
                 for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                    if (objBillProduct.getQuantity() > objBillProduct.getPrinted()) {
+                    if (objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() > objBillProduct.getPrinted()) {
                         if (objCategory.getName().equals(objBillProduct.getCategory())) {
 
                             //set bill text
@@ -284,10 +286,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                             arrBillText[5] = "Tisch " + String.valueOf(m_iSessionTable + 1);
                             arrBillText[6] = "Beleg " + String.valueOf(m_iSessionBill);
                             arrBillText[7] = GlobVar.g_strBedienername;
-                            arrBillText[8] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
+                            arrBillText[8] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
                             arrBillText[9] = "Zusätzliche Info";
 
                             objPrintJob.g_lstBillText.add(arrBillText);
+                            bPrinted = true;
                         }
                     }
                 }
@@ -295,18 +298,25 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 GlobVar.g_lstPrintJob.add(objPrintJob);
             }
 
-            //set products as printed
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                  objBillProduct.setPrinted(objBillProduct.getQuantity() - objBillProduct.getCanceled());
-                  objBillProduct.setSqlChanged(true);
+            //only change database and global list if items are printable
+            if(bPrinted){
+                //set products as printed
+                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+                    objBillProduct.setPrinted(objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned());
+                    objBillProduct.setSqlChanged(true);
+                }
+
+                //set print symbols
+                setupRecyclerView();
+
+                //write tablebills to database
+                SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+                db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
+            }
+            else{
+                Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdeBereitsAlleArtikelGedruckt), Toast.LENGTH_SHORT).show();
             }
 
-            //set print symbols
-            setupRecyclerView();
-
-            //write tablebills to database
-            SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-            db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
         }
     };
     private View.OnClickListener fabPayOnClickListener = new View.OnClickListener() {

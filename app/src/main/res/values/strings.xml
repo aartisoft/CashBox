@@ -91,6 +91,7 @@
     <string name="src_RetoureStorno">Retoure/Storno</string>
     <string name="src_Retoure">Retoure</string>
     <string name="src_Storno">Storno</string>
+    <string name="src_EsWurdeBereitsAlleArtikelGedruckt">Es wurden bereits alle Artikel gedruckt.</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
