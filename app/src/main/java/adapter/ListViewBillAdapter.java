@@ -57,17 +57,36 @@ public class ListViewBillAdapter extends BaseAdapter {
 
     @Override
     public String getItem(int position) {
+        //code snippet for hidden items
+        for(Integer hiddenIndex : m_lstHiddenPositions) {
+            if(hiddenIndex <= position) {
+                position = position + 1;
+            }
+        }
+
         return m_List.get(position).toString();
     }
 
     @Override
     public long getItemId(int position) {
+        //code snippet for hidden items
+        for(Integer hiddenIndex : m_lstHiddenPositions) {
+            if(hiddenIndex <= position) {
+                position = position + 1;
+            }
+        }
+
         return position;
-    }
-    public void onItemSelected(int position) {
     }
 
     public ObjBill getObjBill(int position){
+        //code snippet for hidden items
+        for(Integer hiddenIndex : m_lstHiddenPositions) {
+            if(hiddenIndex <= position) {
+                position = position + 1;
+            }
+        }
+
         return m_List.get(position);
     }
 
