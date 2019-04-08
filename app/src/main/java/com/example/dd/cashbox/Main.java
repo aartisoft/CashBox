@@ -34,7 +34,10 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -240,8 +243,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 objBill.setBillNr(GlobVar.g_iBillNr +1);
                 objBill.setCashierName(GlobVar.g_strBedienername);
 
-                Date date = new Date();
-                objBill.setBillingDate(date);
+                String pattern = "MM/dd/yyyy HH:mm:ss";
+                DateFormat df = new SimpleDateFormat(pattern);
+
+                Date date = Calendar.getInstance().getTime();
+                String todayAsString = df.format(date);
+                objBill.setBillingDate(todayAsString);
 
                 GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
 

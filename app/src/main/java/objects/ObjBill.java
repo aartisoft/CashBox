@@ -1,12 +1,11 @@
 package objects;
 
-import java.util.Date;
 import java.util.List;
 
 public class ObjBill {
     private int m_iBillNr;
     private String m_strCashierName;
-    private Date m_BillingDate;
+    private String m_strBillingDate;
     public List<ObjBillProduct> m_lstProducts;
 
     //getter
@@ -16,8 +15,8 @@ public class ObjBill {
     public String getCashierName(){
         return this.m_strCashierName;
     }
-    public Date getBillingDate(){
-        return this.m_BillingDate;
+    public String getBillingDate(){
+        return this.m_strBillingDate;
     }
 
 
@@ -28,7 +27,7 @@ public class ObjBill {
     public void setCashierName(String p_strCashierName){
         this.m_strCashierName = p_strCashierName;
     }
-    public void setBillingDate(Date p_BillingDate){
-        this.m_BillingDate = p_BillingDate;
+    public void setBillingDate(String p_strBillingDate){
+        this.m_strBillingDate = p_strBillingDate;
     }
 }

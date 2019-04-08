@@ -104,7 +104,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                                 ObjBill objBill = new ObjBill();
                                 objBill.setBillNr(Integer.parseInt(cursor.getString(2)));
                                 objBill.setCashierName(cursor.getString(3));
-                                //objBill.setBillingDate();
+                                objBill.setBillingDate(cursor.getString(4));
 
                                 objBill.m_lstProducts = new ArrayList<ObjBillProduct>();
                                 objBill.m_lstProducts.add(objBillProduct);
@@ -137,8 +137,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_TABLENAME, p_iTable);
                 values.put(KEY_BILLNR, p_iBill);
                 values.put(KEY_CASHIERNAME, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getCashierName());
-                //values.put(KEY_BILLINGDATE, GlobVar.g_lstTableBills.get(p_iTable).get(p_iBill).getBillingDate());
-                values.put(KEY_BILLINGDATE, "date");
+                values.put(KEY_BILLINGDATE, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getBillingDate());
                 values.put(KEY_CATEGORY, objproduct.getCategory());
                 values.put(KEY_PRODUCT, objproduct.getProduct().getName());
                 values.put(KEY_QUANTITY, objproduct.getQuantity());
