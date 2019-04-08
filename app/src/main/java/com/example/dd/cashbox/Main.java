@@ -243,7 +243,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 objBill.setBillNr(GlobVar.g_iBillNr +1);
                 objBill.setCashierName(GlobVar.g_strBedienername);
 
-                String pattern = "MM/dd/yyyy HH:mm:ss";
+                String pattern = "dd/MM/yyyy HH:mm:ss";
                 DateFormat df = new SimpleDateFormat(pattern);
 
                 Date date = Calendar.getInstance().getTime();

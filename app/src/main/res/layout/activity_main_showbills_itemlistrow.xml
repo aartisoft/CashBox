@@ -14,6 +14,14 @@
         android:textSize="16sp"/>
 
     <TextView
+        android:id="@+id/activity_main_showbills_ilr_billdate"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:gravity="center_vertical"
+        android:text="Datum"
+        android:textSize="14sp"/>
+
+    <TextView
         android:id="@+id/activity_main_showbills_ilr_articles"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

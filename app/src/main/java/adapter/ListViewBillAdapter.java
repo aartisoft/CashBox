@@ -110,6 +110,7 @@ public class ListViewBillAdapter extends BaseAdapter {
 
             // Lookup view for data population
             view.txtBill= (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_billnr);
+            view.txtBillDate= (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_billdate);
             view.txtArticles = (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_articles);
 
             convertView.setTag(view);
@@ -120,6 +121,7 @@ public class ListViewBillAdapter extends BaseAdapter {
         // Populate the data into the template view using the data object
         String strBillName = m_Context.getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_List.get(position).getBillNr());
         view.txtBill.setText(strBillName);
+        view.txtBillDate.setText(m_List.get(position).getBillingDate());
 
         //populate articles
         String strAllArticles = "";
@@ -138,6 +140,7 @@ public class ListViewBillAdapter extends BaseAdapter {
 
     public class ViewHolder {
         public TextView txtBill;
+        public TextView txtBillDate;
         public TextView txtArticles;
     }
 }
