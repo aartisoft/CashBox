@@ -166,8 +166,8 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
                 int i = db.update(TABLE_NAME, // table
                         values, // column/value
-                        "billnr = ?", // selections
-                        new String[] { String.valueOf(p_iBill) });
+                        "billnr = ? AND product = ?", // selections
+                        new String[] { String.valueOf(p_iBill), String.valueOf(objproduct.getProduct().getName()) });
 
                 //set sql variables
                 objproduct.setSqlSaved(true);

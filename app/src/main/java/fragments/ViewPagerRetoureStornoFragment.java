@@ -157,6 +157,8 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
             //set product in database
             SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
             db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
+
+            //show popupwindow
             showPopUpWIndowOk();
         }
 
