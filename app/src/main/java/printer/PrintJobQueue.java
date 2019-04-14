@@ -86,6 +86,7 @@ public class PrintJobQueue{
                 m_EpsonPrintBill = new EpsonPrintBill(m_Context, m_ObjPrinter);
 
                 //print bill
+                Log.e("Printer ",String.valueOf(m_iPrintJobCounter));
                 m_bPrintStatus = m_EpsonPrintBill.runPrintBillSequence(g_lstBillText);
 
                 //if printing process was successfull
@@ -102,8 +103,13 @@ public class PrintJobQueue{
 
                         m_iPrintJobCounter = 0;
                    }
+                   else{
+                        Log.e("Printer ","PrintJob Unsuccessfull");
+                        m_iPrintJobCounter++;
+                    }
                 }
                 else{
+                    Log.e("Printer ","PrintJob could not been sent");
                     m_iPrintJobCounter++;
                 }
 

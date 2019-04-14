@@ -13,6 +13,8 @@ import com.epson.epos2.printer.StatusChangeListener;
 import com.example.dd.cashbox.R;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import objects.ObjPrinter;
 
@@ -29,6 +31,7 @@ public class EpsonPrintBill {
     private String m_PrintJobStatus = "";
     private boolean m_bPrintJobDone = false;
     private boolean m_bPrintSuccess = false;
+    boolean m_bConnect = false;
 
     private StatusChangeListener m_StatusChangeListener = new StatusChangeListener() {
         @Override
@@ -154,11 +157,13 @@ public class EpsonPrintBill {
             finalizePrinter();
             return false;
         }
+        Log.e("createBillJob", "ok");
 
         if (!printData()) {
             finalizePrinter();
             return false;
         }
+        Log.e("printdata", "ok");
 
         return true;
     }
@@ -195,11 +200,35 @@ public class EpsonPrintBill {
             return false;
         }
 
-        try {
-            m_Printer.connect(m_objPrinter.getTarget(), Printer.PARAM_DEFAULT);
+        /*try {
+            m_Printer.connect(m_objPrinter.getTarget(), 1000);
         }
         catch (Exception e) {
             Log.e("Connect Printer", e.toString());
+        }*/
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    m_Printer.connect(m_objPrinter.getTarget(), 1000);
+                    m_bConnect = true;
+                }
+                catch (Exception e) {
+                    Log.e("Connect Printer", e.toString());
+                    m_bConnect = false;
+                }
+            }
+        });
+        thread.start();
+        long endTimeMillis = System.currentTimeMillis() + 50000;
+        while (thread.isAlive()) {
+            if (System.currentTimeMillis() > endTimeMillis) {
+                thread.interrupt();
+                return false;
+            }
+        }
+        if(!m_bConnect){
             return false;
         }
 
@@ -251,9 +280,26 @@ public class EpsonPrintBill {
             return false;
         }
 
+
+        /*Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                connectPrinter();
+            }
+        });
+        thread.start();
+        long endTimeMillis = System.currentTimeMillis() + 5000;
+        while (thread.isAlive()) {
+            if (System.currentTimeMillis() > endTimeMillis) {
+                thread.interrupt();
+                return false;
+            }
+        }*/
+
         if (!connectPrinter()) {
             return false;
         }
+
 
         PrinterStatusInfo status = m_Printer.getStatus();
 
@@ -271,7 +317,7 @@ public class EpsonPrintBill {
         }
 
         try {
-            m_Printer.sendData(Printer.PARAM_DEFAULT);
+            m_Printer.sendData(5000);
         }
         catch (Exception e) {
             //ShowMsg.showException(e, "sendData", mContext);
