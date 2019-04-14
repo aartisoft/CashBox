@@ -302,7 +302,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     }
                 }
                 //add printjobs globally
-                GlobVar.g_lstPrintJob.add(objPrintJob);
+                if(objPrintJob.g_lstBillText.size() > 0){
+                    GlobVar.g_lstPrintJob.add(objPrintJob);
+                }
             }
 
             //only change database and global list if items are printable

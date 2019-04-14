@@ -100,6 +100,7 @@ public class EpsonPrintBill {
                     break;
                 case Printer.EVENT_RECONNECTING:
                     //m_status = "Online";
+                    connectPrinter();
                     break;
                 default:
                     break;
@@ -147,6 +148,7 @@ public class EpsonPrintBill {
         if (!initalizePrinter()) {
             return false;
         }
+        Log.e("Init Printer", "ok");
 
         if (!createBillJob(p_lstBillText)) {
             finalizePrinter();
@@ -172,6 +174,7 @@ public class EpsonPrintBill {
         }
 
         m_Printer.setReceiveEventListener(m_ReceiveListener);
+        //m_Printer.setConnectionEventListener(m_ConnectionListener);
         return true;
     }
 
@@ -431,32 +434,6 @@ public class EpsonPrintBill {
                 disconnectPrinter();
             }
         }).start();
-    }
-
-    public String getPrinterStatus(){
-
-        if (!initalizePrinter()) {
-            String msg = "";
-            threadDisconnectPrinter();
-            return msg;
-        }
-
-        if (m_Printer == null) {
-            String msg = "";
-            threadDisconnectPrinter();
-            return msg;
-        }
-
-        if (!connectPrinter()) {
-            String msg = "";
-            threadDisconnectPrinter();
-            return msg;
-        }
-
-        PrinterStatusInfo status = m_Printer.getStatus();
-        String errmsg = makeErrorMessage(status);
-        threadDisconnectPrinter();
-        return errmsg;
     }
 
     public String getPrinterError(){

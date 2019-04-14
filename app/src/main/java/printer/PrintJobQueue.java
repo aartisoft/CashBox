@@ -68,7 +68,7 @@ public class PrintJobQueue{
                 //m_lstPrinterJob
                 while (m_lstPrinterJob.isEmpty())
                 {
-                    //Log.e("Printer ", "Queue is empty " + Thread.currentThread().getName() + " is waiting , size: " + m_lstPrinterJob.size());
+                    Log.e("Printer ", "Queue is empty " + Thread.currentThread().getName() + " is waiting , size: " + m_lstPrinterJob.size());
                     m_lstPrinterJob.wait();
 
                 }
@@ -101,7 +101,7 @@ public class PrintJobQueue{
                         Log.e("Printer ","Printed: " + m_EpsonPrintBill);
 
                         m_iPrintJobCounter = 0;
-                    }
+                   }
                 }
                 else{
                     m_iPrintJobCounter++;
