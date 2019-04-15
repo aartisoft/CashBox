@@ -269,43 +269,35 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabPrintOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             boolean bPrinted = false;
+            GlobVar.g_bPrintQueueFilling = true;
 
             //write bill to printqueue
-            for (ObjCategory objCategory : GlobVar.g_lstCategory) {
-                ObjPrintJob objPrintJob = new ObjPrintJob();
-                objPrintJob.setContext(m_Context);
-                objPrintJob.setPrinter(objCategory.getPrinter());
-                objPrintJob.g_lstBillText = new ArrayList<>();
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                if (objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() > objBillProduct.getPrinted()) {
+                    ObjPrintJob objPrintJob = new ObjPrintJob();
+                    objPrintJob.setContext(m_Context);
+                    objPrintJob.setPrinter(objBillProduct.getPrinter());
 
-                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                    if (objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() > objBillProduct.getPrinted()) {
-                        if (objCategory.getName().equals(objBillProduct.getCategory())) {
+                    //set bill text
+                    String[] arrBillText = new String[10];
+                    arrBillText[0] = "Musikverein Illingen e.V.";
+                    arrBillText[1] = "1.Maifest Illingen 2019";
+                    arrBillText[2] = "01.05.2019";
+                    arrBillText[3] = "www.musikverein-illingen.de";
+                    arrBillText[4] = "27.03.19, 17:52";
+                    arrBillText[5] = "Tisch " + String.valueOf(m_iSessionTable + 1);
+                    arrBillText[6] = "Beleg " + String.valueOf(m_iSessionBill);
+                    arrBillText[7] = GlobVar.g_strBedienername;
+                    arrBillText[8] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
+                    arrBillText[9] = "Zusätzliche Info";
+                    objPrintJob.setBillText(arrBillText);
 
-                            //set bill text
-                            String[] arrBillText = new String[10];
-                            arrBillText[0] = "Musikverein Illingen e.V.";
-                            arrBillText[1] = "1.Maifest Illingen 2019";
-                            arrBillText[2] = "01.05.2019";
-                            arrBillText[3] = "www.musikverein-illingen.de";
-                            arrBillText[4] = "27.03.19, 17:52";
-                            arrBillText[5] = "Tisch " + String.valueOf(m_iSessionTable + 1);
-                            arrBillText[6] = "Beleg " + String.valueOf(m_iSessionBill);
-                            arrBillText[7] = GlobVar.g_strBedienername;
-                            arrBillText[8] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
-                            arrBillText[9] = "Zusätzliche Info";
-
-                            objPrintJob.g_lstBillText.add(arrBillText);
-                            bPrinted = true;
-                        }
-                    }
-                }
-                //add printjobs globally
-                if(objPrintJob.g_lstBillText.size() > 0){
                     GlobVar.g_lstPrintJob.add(objPrintJob);
+                    bPrinted = true;
                 }
             }
+
 
             //only change database and global list if items are printable
             if(bPrinted){
@@ -325,6 +317,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             else{
                 Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdeBereitsAlleArtikelGedruckt), Toast.LENGTH_SHORT).show();
             }
+
+            GlobVar.g_bPrintQueueFilling = false;
 
         }
     };

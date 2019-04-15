@@ -135,7 +135,7 @@ public class EpsonPrintBill {
                 m_bReceived = false;
             }*/
 
-            threadDisconnectPrinter();
+            //threadDisconnectPrinter();
         }
     };
 
@@ -146,14 +146,24 @@ public class EpsonPrintBill {
         m_objPrinter = p_objPrinter;
     }
 
-
-    public boolean runPrintBillSequence(List<String[]> p_lstBillText) {
+    public boolean runInitPrinterSequence(){
         if (!initalizePrinter()) {
             return false;
         }
         Log.e("Init Printer", "ok");
 
-        if (!createBillJob(p_lstBillText)) {
+        if (!connectPrinter()) {
+            return false;
+        }
+        Log.e("Connect Printer", "ok");
+
+        return true;
+    }
+
+
+    public boolean runPrintBillSequence(String[] p_arrBillText) {
+
+        if (!createBillJob(p_arrBillText)) {
             finalizePrinter();
             return false;
         }
@@ -214,25 +224,6 @@ public class EpsonPrintBill {
         catch (Exception e) {
             Log.e("Connect Printer", e.toString());
         }
-
-        try {
-            m_Printer.beginTransaction();
-            isBeginTransaction = true;
-        }
-        catch (Exception e) {
-            Log.e("BeginTrans Printer", e.toString());
-        }
-
-        if (isBeginTransaction == false) {
-            try {
-                m_Printer.disconnect();
-            }
-            catch (Epos2Exception e) {
-                // Do nothing
-                return false;
-            }
-        }
-
         return true;
     }
 
@@ -269,7 +260,7 @@ public class EpsonPrintBill {
         return m_bConnect;
     }
 
-    private void disconnectPrinter() {
+    public void disconnectPrinter() {
         if (m_Printer == null) {
             return;
         }
@@ -292,12 +283,18 @@ public class EpsonPrintBill {
     }
 
     private boolean printData() {
+        boolean isBeginTransaction = false;
+
         if (m_Printer == null) {
             return false;
         }
 
-        if (!connectPrinter()) {
-            return false;
+        try {
+            m_Printer.beginTransaction();
+            isBeginTransaction = true;
+        }
+        catch (Exception e) {
+            Log.e("BeginTrans Printer", e.toString());
         }
 
 
@@ -318,6 +315,7 @@ public class EpsonPrintBill {
 
         try {
             m_Printer.sendData(5000);
+            m_Printer.clearCommandBuffer();
         }
         catch (Exception e) {
             //ShowMsg.showException(e, "sendData", mContext);
@@ -328,6 +326,23 @@ public class EpsonPrintBill {
                 // Do nothing
             }
             return false;
+        }
+
+        if (isBeginTransaction == false) {
+            try {
+                m_Printer.disconnect();
+            }
+            catch (Epos2Exception e) {
+                // Do nothing
+                return false;
+            }
+        }
+
+        try {
+            m_Printer.endTransaction();
+        }
+        catch (final Exception e) {
+            Log.e("EndTrans Printer", e.toString());
         }
 
         return true;
@@ -403,8 +418,6 @@ public class EpsonPrintBill {
         return msg;
     }
 
-
-
     private void dispPrinterWarnings(PrinterStatusInfo status) {
         String warningsMsg = "";
 
@@ -423,7 +436,7 @@ public class EpsonPrintBill {
         m_PrinterWarning = warningsMsg;
     }
 
-    public boolean createBillJob(List<String[]> p_lstBillText){
+    public boolean createBillJob(String[] arrBillText){
 
         if (m_Printer == null) {
             return false;
@@ -432,38 +445,35 @@ public class EpsonPrintBill {
         //create message for printer
         StringBuilder textData = new StringBuilder();
         try {
+            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+            m_Printer.addTextSize(1, 1);
+            textData.append(arrBillText[0] + "\n");
+            textData.append(arrBillText[1] + "\n");
+            textData.append(arrBillText[2] + "\n");
+            textData.append(arrBillText[3] + "\n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
+            m_Printer.addFeedLine(1);
 
-            for(String[] arrBillText : p_lstBillText){
-                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
-                m_Printer.addTextSize(1, 1);
-                textData.append(arrBillText[0] + "\n");
-                textData.append(arrBillText[1] + "\n");
-                textData.append(arrBillText[2] + "\n");
-                textData.append(arrBillText[3] + "\n");
-                m_Printer.addText(textData.toString());
-                textData.delete(0, textData.length());
-                m_Printer.addFeedLine(1);
+            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+            m_Printer.addTextSize(1, 1);
+            textData.append(arrBillText[4] + "\n");
+            textData.append(arrBillText[5] + " - " + arrBillText[6] + "\n");
+            textData.append(arrBillText[7] + "\n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
+            m_Printer.addFeedLine(1);
 
-                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
-                m_Printer.addTextSize(1, 1);
-                textData.append(arrBillText[4] + "\n");
-                textData.append(arrBillText[5] + " - " + arrBillText[6] + "\n");
-                textData.append(arrBillText[7] + "\n");
-                m_Printer.addText(textData.toString());
-                textData.delete(0, textData.length());
-                m_Printer.addFeedLine(1);
+            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+            m_Printer.addTextSize(1, 2);
+            textData.append(arrBillText[8] + "\n");
+            m_Printer.addTextSize(1, 1);
+            textData.append(arrBillText[9] + "\n");
+            m_Printer.addText(textData.toString());
+            textData.delete(0, textData.length());
+            m_Printer.addFeedLine(1);
 
-                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
-                m_Printer.addTextSize(1, 2);
-                textData.append(arrBillText[8] + "\n");
-                m_Printer.addTextSize(1, 1);
-                textData.append(arrBillText[9] + "\n");
-                m_Printer.addText(textData.toString());
-                textData.delete(0, textData.length());
-                m_Printer.addFeedLine(1);
-
-                m_Printer.addCut(Printer.CUT_FEED);
-            }
+            m_Printer.addCut(Printer.CUT_FEED);
         }
         catch (Exception e){
             Log.e("createBillJob failed", e.toString());

@@ -10,6 +10,7 @@ public class ObjPrintJob {
     private Context m_Context;
     private ObjPrinter m_printer;
     private String[] m_arrBillText = new String[10];
+    private boolean m_bPrinted = false;
     public List<String[]> g_lstBillText = new ArrayList<>();
 
     //constructor
@@ -25,6 +26,9 @@ public class ObjPrintJob {
     public String[] getBillText() {
         return m_arrBillText;
     }
+    public boolean getPrinted() {
+        return m_bPrinted;
+    }
 
     //setter
     public void setContext(Context m_Context) {
@@ -35,5 +39,8 @@ public class ObjPrintJob {
     }
     public void setBillText(String[] m_arrBillText) {
         this.m_arrBillText = m_arrBillText;
+    }
+    public void setPrinted(boolean m_bPrinted) {
+        this.m_bPrinted = m_bPrinted;
     }
 }
