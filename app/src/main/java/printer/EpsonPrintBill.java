@@ -266,13 +266,6 @@ public class EpsonPrintBill {
         }
 
         try {
-            m_Printer.endTransaction();
-        }
-        catch (final Exception e) {
-            Log.e("BeginTrans Printer", e.toString());
-        }
-
-        try {
             m_Printer.disconnect();
         }
         catch (final Exception e) {
