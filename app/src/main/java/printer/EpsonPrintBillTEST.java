@@ -13,13 +13,11 @@ import com.epson.epos2.printer.StatusChangeListener;
 import com.example.dd.cashbox.R;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import objects.ObjPrinter;
 
 
-public class EpsonPrintBill {
+public class EpsonPrintBillTEST {
 
     private Context m_Context = null;
     private Printer m_Printer = null;
@@ -31,117 +29,9 @@ public class EpsonPrintBill {
     private String m_PrintJobStatus = "";
     private boolean m_bPrintJobDone = false;
     private boolean m_bPrintSuccess = false;
-    boolean m_bConnect = false;
-
-    private StatusChangeListener m_StatusChangeListener = new StatusChangeListener() {
-        @Override
-        public void onPtrStatusChange(Printer printer, final int eventType) {
-            switch (eventType) {
-                case Printer.EVENT_DISCONNECT:
-                    m_PrinterStatus = "Offline";
-
-                    //disconnect Printer
-                    try {
-                        m_Printer.disconnect();
-                    }
-                    catch (Exception e){
-                        Log.e("init mPrinter", e.toString());
-                    }
-                    break;
-                case Printer.EVENT_ONLINE:
-                    m_PrinterStatus = "Online";
-                    break;
-                case Printer.EVENT_OFFLINE:
-                    m_PrinterStatus = "Offline";
-
-                    //disconnect Printer
-                    try {
-                        m_Printer.disconnect();
-                    }
-                    catch (Exception e){
-                        Log.e("init mPrinter", e.toString());
-                    }
-                    break;
-                case Printer.EVENT_COVER_CLOSE:
-                    m_PrinterStatus = "Online";
-                    break;
-                case Printer.EVENT_COVER_OPEN:
-                    m_PrinterStatus = "Online - Abdeckung geöffnet";
-                    break;
-                case Printer.EVENT_PAPER_OK:
-                    m_PrinterStatus = "Online";
-                    break;
-                case Printer.EVENT_PAPER_NEAR_END:
-                    m_PrinterStatus = "Online - Papier fast leer";
-                    break;
-                case Printer.EVENT_PAPER_EMPTY:
-                    m_PrinterStatus = "Online - Papier leer";
-                    break;
-                case Printer.EVENT_DRAWER_HIGH:
-                    //Displays notification messages
-                    break;
-                case Printer.EVENT_DRAWER_LOW:
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    private ConnectionListener m_ConnectionListener = new ConnectionListener() {
-        @Override
-        public void onConnection(Object o, int eventType) {
-            switch (eventType) {
-                case Printer.EVENT_DISCONNECT:
-                    //disconnect Printer
-                    try {
-                        m_Printer.disconnect();
-                    }
-                    catch (Exception e){
-                        Log.e("init mPrinter", e.toString());
-                    }
-                    break;
-                case Printer.EVENT_RECONNECTING:
-                    //m_status = "Online";
-                    connectPrinter();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    private ReceiveListener m_ReceiveListener = new ReceiveListener(){
-        @Override
-        public void onPtrReceive(Printer printer, int eventType, PrinterStatusInfo printerStatusInfo, String s) {
-
-            dispPrinterWarnings(printerStatusInfo);
-            m_PrinterError = makeErrorMessage(printerStatusInfo);
-            m_bPrintJobDone = true;
-
-            if(eventType == Epos2CallbackCode.CODE_SUCCESS){
-                m_bPrintSuccess = true;
-            }
-            else{
-                m_bPrintSuccess = false;
-            }
-
-            //works only with intelligent epson printer
-            /*try{
-                m_bReceived = true;
-                printer.requestPrintJobStatus(s);
-            }
-            catch (Epos2Exception e){
-                m_bReceived = false;
-            }*/
-
-            threadDisconnectPrinter();
-        }
-    };
-
 
     //Constructor
-    public EpsonPrintBill(Context p_Context, ObjPrinter p_objPrinter){
+    public EpsonPrintBillTEST(Context p_Context, ObjPrinter p_objPrinter){
         m_Context = p_Context;
         m_objPrinter = p_objPrinter;
     }
@@ -151,19 +41,17 @@ public class EpsonPrintBill {
         if (!initalizePrinter()) {
             return false;
         }
-        Log.e("Init Printer", "ok");
+
 
         if (!createBillJob(p_lstBillText)) {
             finalizePrinter();
             return false;
         }
-        Log.e("createBillJob", "ok");
 
         if (!printData()) {
             finalizePrinter();
             return false;
         }
-        Log.e("printdata", "ok");
 
         return true;
     }
@@ -178,8 +66,7 @@ public class EpsonPrintBill {
             return false;
         }
 
-        m_Printer.setReceiveEventListener(m_ReceiveListener);
-        //m_Printer.setConnectionEventListener(m_ConnectionListener);
+        //m_Printer.setReceiveEventListener(m_ReceiveListener);
         return true;
     }
 
@@ -200,19 +87,12 @@ public class EpsonPrintBill {
             return false;
         }
 
-        //new connect
-        //Log.e("Connect Printer", "New Connect");
-        /*if(!connectPrinterThread()){
-            return false;
-        }*/
-
-        // old connect
-        Log.e("Connect Printer", "Old Connect");
         try {
-            m_Printer.connect(m_objPrinter.getTarget(), 1000);
+            m_Printer.connect(m_objPrinter.getTarget(), Printer.PARAM_DEFAULT);
         }
         catch (Exception e) {
             Log.e("Connect Printer", e.toString());
+            return false;
         }
 
         try {
@@ -234,39 +114,6 @@ public class EpsonPrintBill {
         }
 
         return true;
-    }
-
-    private boolean connectPrinterThread(){
-        m_bConnect = false;
-        Thread rt = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    m_Printer.connect(m_objPrinter.getTarget(), 1000);
-                    m_bConnect = true;
-                }
-                catch (Exception e) {
-                    Log.e("Connect Printer", e.toString());
-                    m_bConnect = false;
-                }
-            }
-        };
-
-        rt.start();
-
-        try {
-            rt.join(6 * 1000);
-            if(rt.isAlive()){
-                rt.interrupt();
-                m_bConnect = false;
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // standard result is false
-        return m_bConnect;
     }
 
     private void disconnectPrinter() {
@@ -300,7 +147,6 @@ public class EpsonPrintBill {
             return false;
         }
 
-
         PrinterStatusInfo status = m_Printer.getStatus();
 
         dispPrinterWarnings(status);
@@ -317,7 +163,7 @@ public class EpsonPrintBill {
         }
 
         try {
-            m_Printer.sendData(5000);
+            m_Printer.sendData(Printer.PARAM_DEFAULT);
         }
         catch (Exception e) {
             //ShowMsg.showException(e, "sendData", mContext);
@@ -480,6 +326,32 @@ public class EpsonPrintBill {
                 disconnectPrinter();
             }
         }).start();
+    }
+
+    public String getPrinterStatus(){
+
+        if (!initalizePrinter()) {
+            String msg = "";
+            threadDisconnectPrinter();
+            return msg;
+        }
+
+        if (m_Printer == null) {
+            String msg = "";
+            threadDisconnectPrinter();
+            return msg;
+        }
+
+        if (!connectPrinter()) {
+            String msg = "";
+            threadDisconnectPrinter();
+            return msg;
+        }
+
+        PrinterStatusInfo status = m_Printer.getStatus();
+        String errmsg = makeErrorMessage(status);
+        threadDisconnectPrinter();
+        return errmsg;
     }
 
     public String getPrinterError(){

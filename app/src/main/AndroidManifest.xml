@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <activity android:name=".Main"></activity>
         <activity
             android:name=".Login"
             android:windowSoftInputMode="adjustPan">
@@ -22,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Main"></activity>
         <activity android:name=".MenuSettings"></activity>
         <activity android:name=".MS_AddPrinter"></activity>
         <activity android:name=".MS_AddPrinter_Search"></activity>

@@ -93,6 +93,20 @@ public class PrintJobQueue{
                 if(m_bPrintStatus){
                     Log.e("Printer ","PrintJob Successfull");
                     //delete print job if printjob has been reveived from printer
+
+                    ObjPrintJob objPrintJob = (ObjPrintJob) m_lstPrinterJob.remove(m_iPrintJobCounter);
+                    Log.e("Printer ","Printed: " + m_EpsonPrintBill);
+
+                    m_iPrintJobCounter = 0;
+                }
+                else{
+                    m_iPrintJobCounter++;
+                }
+
+                //if printing process was successfull
+                /*if(m_bPrintStatus){
+                    Log.e("Printer ","PrintJob Successfull");
+                    //delete print job if printjob has been reveived from printer
                     do{
                         //wait till print job is done
                     }while(!m_EpsonPrintBill.getPrintJobDone());
@@ -111,7 +125,7 @@ public class PrintJobQueue{
                 else{
                     Log.e("Printer ","PrintJob could not been sent");
                     m_iPrintJobCounter++;
-                }
+                }*/
 
                 m_lstPrinterJob.notify();
             }
