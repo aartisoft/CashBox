@@ -138,13 +138,13 @@ public class EpsonPrintBill {
 
     public boolean runInitPrinterSequence(){
         if (!initalizePrinter()) {
-            finalizePrinter();
+        	finalizePrinter();
             return false;
         }
         Log.e("Init Printer", "ok");
 
         if (!connectPrinter()) {
-            finalizePrinter();
+        	finalizePrinter();
             return false;
         }
         Log.e("Connect Printer", "ok");
@@ -252,9 +252,9 @@ public class EpsonPrintBill {
         return m_bConnect;
     }
 
-    public void disconnectPrinter() {
+    public boolean disconnectPrinter() {
         if (m_Printer == null) {
-            return;
+            return false;
         }
 
         try {
@@ -262,9 +262,11 @@ public class EpsonPrintBill {
         }
         catch (final Exception e) {
             Log.e("Disconnect Printer", e.toString());
+            return false;
         }
 
         finalizePrinter();
+        return true;
     }
 
     private boolean printData() {
