@@ -120,10 +120,13 @@ public class PrintJobQueue{
                                         //if printing process was successfull
                                         if(m_bPrintStatus){
                                             Log.e("Printer ","PrintJob Send Successfull");
+                                            
                                             //delete print job if printjob has been reveived from printer
+                                            long start = System.currentTimeMillis();
+                                            long end = start + 5*1000; // 5 seconds * 1000 ms/sec
                                             do{
-                                                //wait till print job is done
-                                            }while(!m_EpsonPrintBill.getPrintJobDone());
+                                                //wait till print job is done or time has run out
+                                            }while(!m_EpsonPrintBill.getPrintJobDone() || System.currentTimeMillis() < end);
 
                                             if (m_EpsonPrintBill.getPrintSuccess()) {
                                                 m_lstPrinterJob.get(iPrintJobCounter).setPrinted(true);
@@ -151,8 +154,12 @@ public class PrintJobQueue{
                             }
 
                             //disconnect with printer
-                            //m_EpsonPrintBill.disconnectPrinter();
-                            m_EpsonPrintBill.threadDisconnectPrinter();
+                            boolean bPrinterDisconnectOK = false;
+                            int iDisconnectTry = 0;
+                            do{
+                            	bPrinterDisconnectOK = m_EpsonPrintBill.disconnectPrinter();
+                            	iDisconnectTry++;
+                            }while(!bPrinterDisconnectOK || iDisconnectTry < 10);      
                         }                    
                     }
                 }
