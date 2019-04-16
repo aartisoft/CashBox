@@ -138,11 +138,13 @@ public class EpsonPrintBill {
 
     public boolean runInitPrinterSequence(){
         if (!initalizePrinter()) {
+            finalizePrinter();
             return false;
         }
         Log.e("Init Printer", "ok");
 
         if (!connectPrinter()) {
+            finalizePrinter();
             return false;
         }
         Log.e("Connect Printer", "ok");
