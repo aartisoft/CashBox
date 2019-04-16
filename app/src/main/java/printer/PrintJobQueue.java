@@ -70,12 +70,18 @@ public class PrintJobQueue{
                 //m_lstPrinterJob
                 while (m_lstPrinterJob.isEmpty() || GlobVar.g_bPrintQueueFilling)
                 {
-                    Log.e("Printer ", "Queue is empty " + Thread.currentThread().getName() + " is waiting , size: " + m_lstPrinterJob.size());
+                    //Log.e("Printer ", "Queue is empty " + Thread.currentThread().getName() + " is waiting , size: " + m_lstPrinterJob.size());
                     m_lstPrinterJob.wait();
                 }
                 Thread.sleep(100);
 
                 for(ObjPrinter objPrinter : GlobVar.g_lstPrinter){
+                    //init variables
+                    m_Context = null;
+                    m_ObjPrinter = null;
+                    m_arrBillText = null;
+                    m_EpsonPrintBill = null;
+
                 	//search available printjob for printer
                     boolean bPrinterJobAvailable = false;
                     for(ObjPrintJob objPrintJob : m_lstPrinterJob) {
@@ -88,9 +94,10 @@ public class PrintJobQueue{
                     //if printjob is available start print process
                     if(bPrinterJobAvailable){
                         //init printer
-                        m_Context = m_lstPrinterJob.get(m_iPrintJobCounter).getContext();
-                        m_ObjPrinter = m_lstPrinterJob.get(m_iPrintJobCounter).getPrinter();
-                        m_arrBillText = m_lstPrinterJob.get(m_iPrintJobCounter).getBillText();
+                        m_Context = m_lstPrinterJob.get(0).getContext(); //get context from one of the printjobs (not really important)
+                        m_ObjPrinter = objPrinter;
+
+                        //init printer
                         m_EpsonPrintBill = new EpsonPrintBill(m_Context, m_ObjPrinter);
                        
                        //connect to printer
@@ -126,7 +133,7 @@ public class PrintJobQueue{
                                             long end = start + 5*1000; // 5 seconds * 1000 ms/sec
                                             do{
                                                 //wait till print job is done or time has run out
-                                            }while(!m_EpsonPrintBill.getPrintJobDone() || System.currentTimeMillis() < end);
+                                            }while(!m_EpsonPrintBill.getPrintJobDone() && System.currentTimeMillis() < end);
 
                                             if (m_EpsonPrintBill.getPrintSuccess()) {
                                                 m_lstPrinterJob.get(iPrintJobCounter).setPrinted(true);
@@ -159,7 +166,9 @@ public class PrintJobQueue{
                             do{
                             	bPrinterDisconnectOK = m_EpsonPrintBill.disconnectPrinter();
                             	iDisconnectTry++;
-                            }while(!bPrinterDisconnectOK || iDisconnectTry < 10);      
+                                Log.e("Printer ","Printer Disconnect Unsuccessfull");
+                            }while(!bPrinterDisconnectOK && iDisconnectTry < 10);
+                            Log.e("Printer ","Printer Disconnect Successfull");
                         }                    
                     }
                 }
