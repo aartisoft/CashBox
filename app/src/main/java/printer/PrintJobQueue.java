@@ -122,6 +122,7 @@ public class PrintJobQueue{
                                     boolean bPrintedOK = false;
                                     //try 10 times to print data
                                     do{
+                                        Log.e("Printer ",m_lstPrinterJob.get(iPrintJobCounter).getBillText()[8]);
                                         m_bPrintStatus = m_EpsonPrintBill.runPrintBillSequence(m_lstPrinterJob.get(iPrintJobCounter).getBillText());
 
                                         //if printing process was successfull
