@@ -1,3 +1,4 @@
+
 package printer;
 
 import android.content.Context;
@@ -71,11 +72,11 @@ public class PrintJobQueue{
                 {
                     Log.e("Printer ", "Queue is empty " + Thread.currentThread().getName() + " is waiting , size: " + m_lstPrinterJob.size());
                     m_lstPrinterJob.wait();
-
                 }
                 Thread.sleep(100);
 
                 for(ObjPrinter objPrinter : GlobVar.g_lstPrinter){
+                	//search available printjob for printer
                     boolean bPrinterJobAvailable = false;
                     for(ObjPrintJob objPrintJob : m_lstPrinterJob) {
                         if (objPrintJob.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())) {
@@ -84,65 +85,75 @@ public class PrintJobQueue{
                         }
                     }
 
+                    //if printjob is available start print process
                     if(bPrinterJobAvailable){
-                        //print job for printer available
+                        //init printer
                         m_Context = m_lstPrinterJob.get(m_iPrintJobCounter).getContext();
                         m_ObjPrinter = m_lstPrinterJob.get(m_iPrintJobCounter).getPrinter();
                         m_arrBillText = m_lstPrinterJob.get(m_iPrintJobCounter).getBillText();
-
                         m_EpsonPrintBill = new EpsonPrintBill(m_Context, m_ObjPrinter);
+                       
+                       //connect to printer
                         m_bPrintConnect = m_EpsonPrintBill.runInitPrinterSequence();
-
+                        
+                        boolean bPrinterConnected = false;
                         if(!m_bPrintConnect){
                             Log.e("Printer ","PrinterConnect Unsuccessfull");
-                            break;
+                            bPrinterConnected = false;
                         }
-                        Log.e("Printer ","PrinterConnect Successfull");
+                        else{
+                        	Log.e("Printer ","PrinterConnect Successfull");
+                        	bPrinterConnected = true;
+                        }
+                        
+                        //print data
+                        if(bPrinterConnected){
+                        	int iPrintJobCounter = 0;
+                            for(ObjPrintJob objPrintJob : m_lstPrinterJob){
+                                if(objPrintJob.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
+                                    int iPrintTry = 0;
+                                    boolean bPrintedOK = false;
+                                    //try 10 times to print data
+                                    do{
+                                        m_bPrintStatus = m_EpsonPrintBill.runPrintBillSequence(m_lstPrinterJob.get(iPrintJobCounter).getBillText());
 
-                        int iPrintJobCounter = 0;
-                        for(ObjPrintJob objPrintJob : m_lstPrinterJob){
-                            if(objPrintJob.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
+                                        //if printing process was successfull
+                                        if(m_bPrintStatus){
+                                            Log.e("Printer ","PrintJob Send Successfull");
+                                            //delete print job if printjob has been reveived from printer
+                                            do{
+                                                //wait till print job is done
+                                            }while(!m_EpsonPrintBill.getPrintJobDone());
 
-                                //print bon
-                                int iTry = 0;
-                                boolean bPrintetOK = false;
-                                do{
-                                    m_bPrintStatus = m_EpsonPrintBill.runPrintBillSequence(m_lstPrinterJob.get(iPrintJobCounter).getBillText());
-
-                                    //if printing process was successfull
-                                    if(m_bPrintStatus){
-                                        Log.e("Printer ","PrintJob Successfull");
-                                        //delete print job if printjob has been reveived from printer
-                                        do{
-                                            //wait till print job is done
-                                        }while(!m_EpsonPrintBill.getPrintJobDone());
-
-                                        if (m_EpsonPrintBill.getPrintSuccess()) {
-                                            m_lstPrinterJob.get(iPrintJobCounter).setPrinted(true);
-                                            Log.e("Printer ","Printed: " + m_EpsonPrintBill);
-                                            bPrintetOK = true;
-                                            break;
+                                            if (m_EpsonPrintBill.getPrintSuccess()) {
+                                                m_lstPrinterJob.get(iPrintJobCounter).setPrinted(true);
+                                                Log.e("Printer ","PrintJob Successfull: " + m_EpsonPrintBill);
+                                                bPrintedOK = true;
+                                                break;
+                                            }
+                                            else{
+                                                Log.e("Printer ","PrintJob Unsuccessfull");
+                                                iPrintTry++;
+                                            }
                                         }
                                         else{
-                                            Log.e("Printer ","PrintJob Unsuccessfull");
-                                            break;
+                                            Log.e("Printer ","PrintJob could not been sent");
+                                            iPrintTry++;
                                         }
-                                    }
-                                    else{
-                                        Log.e("Printer ","PrintJob could not been sent");
-                                        iTry++;
-                                    }
-                                }while(iTry < 10);
+                                    }while(iPrintTry < 10);
 
-                                if(!bPrintetOK){
-                                   break;
+                                    //if printjob not successfully printed --> try next printer
+                                    if(!bPrintedOK){
+                                       break;
+                                    }
                                 }
+                                iPrintJobCounter++;
                             }
-                            iPrintJobCounter++;
-                        }
 
-                        //m_EpsonPrintBill.disconnectPrinter();
-                        m_EpsonPrintBill.threadDisconnectPrinter();
+                            //disconnect with printer
+                            //m_EpsonPrintBill.disconnectPrinter();
+                            m_EpsonPrintBill.threadDisconnectPrinter();
+                        }                    
                     }
                 }
 
@@ -152,8 +163,7 @@ public class PrintJobQueue{
                         m_lstPrinterJob.remove(i);
                     }
                 }
-
-
+                
                 m_lstPrinterJob.notify();
             }
         }
