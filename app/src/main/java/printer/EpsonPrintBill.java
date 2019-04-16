@@ -1,3 +1,4 @@
+
 package printer;
 
 import android.content.Context;
@@ -125,17 +126,6 @@ public class EpsonPrintBill {
             else{
                 m_bPrintSuccess = false;
             }
-
-            //works only with intelligent epson printer
-            /*try{
-                m_bReceived = true;
-                printer.requestPrintJobStatus(s);
-            }
-            catch (Epos2Exception e){
-                m_bReceived = false;
-            }*/
-
-            //threadDisconnectPrinter();
         }
     };
 
@@ -163,14 +153,16 @@ public class EpsonPrintBill {
 
     public boolean runPrintBillSequence(String[] p_arrBillText) {
 
+    	//init member variables
+    	m_bPrintSuccess = false;
+    	m_bPrintJobDone = false;
+    	
         if (!createBillJob(p_arrBillText)) {
-            finalizePrinter();
             return false;
         }
         Log.e("createBillJob", "ok");
 
         if (!printData()) {
-            finalizePrinter();
             return false;
         }
         Log.e("printdata", "ok");
@@ -189,7 +181,6 @@ public class EpsonPrintBill {
         }
 
         m_Printer.setReceiveEventListener(m_ReceiveListener);
-        //m_Printer.setConnectionEventListener(m_ConnectionListener);
         return true;
     }
 
@@ -204,7 +195,6 @@ public class EpsonPrintBill {
     }
 
     private boolean connectPrinter() {
-        boolean isBeginTransaction = false;
 
         if (m_Printer == null) {
             return false;
@@ -217,12 +207,12 @@ public class EpsonPrintBill {
         }*/
 
         // old connect
-        Log.e("Connect Printer", "Old Connect");
         try {
             m_Printer.connect(m_objPrinter.getTarget(), 1000);
         }
         catch (Exception e) {
             Log.e("Connect Printer", e.toString());
+            return false;
         }
         return true;
     }
@@ -276,20 +266,18 @@ public class EpsonPrintBill {
     }
 
     private boolean printData() {
-        boolean isBeginTransaction = false;
-
+    	
         if (m_Printer == null) {
             return false;
         }
 
         try {
             m_Printer.beginTransaction();
-            isBeginTransaction = true;
         }
         catch (Exception e) {
             Log.e("BeginTrans Printer", e.toString());
+            return false;
         }
-
 
         PrinterStatusInfo status = m_Printer.getStatus();
 
@@ -297,12 +285,6 @@ public class EpsonPrintBill {
 
         if (!isPrintable(status)) {
             m_PrinterError = makeErrorMessage(status);
-            try {
-                m_Printer.disconnect();
-            }
-            catch (Exception ex) {
-                // Do nothing
-            }
             return false;
         }
 
@@ -311,24 +293,8 @@ public class EpsonPrintBill {
             m_Printer.clearCommandBuffer();
         }
         catch (Exception e) {
-            //ShowMsg.showException(e, "sendData", mContext);
-            try {
-                m_Printer.disconnect();
-            }
-            catch (Exception ex) {
-                // Do nothing
-            }
+        	Log.e("Send PrintJob", e.toString()); 
             return false;
-        }
-
-        if (isBeginTransaction == false) {
-            try {
-                m_Printer.disconnect();
-            }
-            catch (Epos2Exception e) {
-                // Do nothing
-                return false;
-            }
         }
 
         try {
