@@ -283,7 +283,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     String[] arrBillText = new String[10];
                     arrBillText[0] = "Musikverein Illingen e.V.";
                     arrBillText[1] = "1.Maifest Illingen 2019";
-                    arrBillText[2] = "01.05.2019";
+                    arrBillText[2] = "01.05.2020";
                     arrBillText[3] = "www.musikverein-illingen.de";
                     arrBillText[4] = "27.03.19, 17:52";
                     arrBillText[5] = "Tisch " + String.valueOf(m_iSessionTable + 1);
