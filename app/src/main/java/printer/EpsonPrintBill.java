@@ -419,7 +419,7 @@ public class EpsonPrintBill {
             m_Printer.addTextAlign(Printer.ALIGN_CENTER);
             m_Printer.addTextSize(1, 1);
             textData.append(arrBillText[2] + "\n");
-            textData.append(arrBillText[3] + " - " + arrBillText[6] + "\n");
+            textData.append(arrBillText[3] + "\n");
             m_Printer.addText(textData.toString());
             textData.delete(0, textData.length());
             m_Printer.addFeedLine(1);
