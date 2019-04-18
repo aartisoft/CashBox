@@ -412,29 +412,25 @@ public class EpsonPrintBill {
             m_Printer.addTextSize(1, 1);
             textData.append(arrBillText[0] + "\n");
             textData.append(arrBillText[1] + "\n");
-            textData.append(arrBillText[2] + "\n");
-            textData.append(arrBillText[3] + "\n");
             m_Printer.addText(textData.toString());
             textData.delete(0, textData.length());
             m_Printer.addFeedLine(1);
 
             m_Printer.addTextAlign(Printer.ALIGN_CENTER);
             m_Printer.addTextSize(1, 1);
-            textData.append(arrBillText[4] + "\n");
-            textData.append(arrBillText[5] + " - " + arrBillText[6] + "\n");
-            textData.append(arrBillText[7] + "\n");
+            textData.append(arrBillText[2] + "\n");
+            textData.append(arrBillText[3] + " - " + arrBillText[6] + "\n");
             m_Printer.addText(textData.toString());
             textData.delete(0, textData.length());
             m_Printer.addFeedLine(1);
 
             m_Printer.addTextAlign(Printer.ALIGN_CENTER);
             m_Printer.addTextSize(1, 2);
-            textData.append(arrBillText[8] + "\n");
+            textData.append(arrBillText[4] + "\n");
             m_Printer.addTextSize(1, 1);
-            textData.append(arrBillText[9] + "\n");
+            textData.append(arrBillText[5] + "\n");
             m_Printer.addText(textData.toString());
             textData.delete(0, textData.length());
-            m_Printer.addFeedLine(1);
 
             m_Printer.addCut(Printer.CUT_FEED);
         }
