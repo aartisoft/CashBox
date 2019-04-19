@@ -632,43 +632,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         m_recyclerview.setLayoutManager(mLayoutManager);
 
-        m_RecyclerItemTouchHelper = new RecyclerItemTouchHelperBill(new RecyclerItemTouchHelperActions() {
-            @Override
-            public void onRightClicked(int position) {
-
-                //code snippet for hidden items
-                ArrayList<Integer> lstHiddenPositions = new ArrayList<>();
-                int iProductCounter = 0;
-                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                    //if more than one open product available
-                    int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() - objBillProduct.getPaid();
-                    if(iItemCount == 0) {
-                        lstHiddenPositions.add(iProductCounter);
-                    }
-                    iProductCounter++;
-                }
-                //code snippet for hidden items
-                for(Integer hiddenIndex : lstHiddenPositions) {
-                    if(hiddenIndex <= position) {
-                        position = position + 1;
-                    }
-                }
-
-                //open dialog fragment
-                showRetoureStornoDialog(position);
-            }
-        });
-
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(m_RecyclerItemTouchHelper);
-        itemTouchhelper.attachToRecyclerView(m_recyclerview);
-
-        m_recyclerview.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                m_RecyclerItemTouchHelper.onDraw(c);
-            }
-        });
-
         m_recyclerview.setAdapter(m_rv_adapter);
         m_rv_adapter.notifyDataSetChanged();
     }
@@ -685,7 +648,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         return 0;
     }
 
-    private void showRetoureStornoDialog(int position) {
+    public void showRetoureStornoDialog(int position) {
         FragmentManager fm = getSupportFragmentManager();
         RetoureStornoDialogFragment retoureStornoDialogFragment = RetoureStornoDialogFragment.newInstance("Some Title", 11022900);
 

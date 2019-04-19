@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
 
 import java.text.DecimalFormat;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import objects.ObjBillProduct;
 
@@ -23,11 +26,12 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
     private ArrayList<Integer> m_lstHiddenPositions = new ArrayList<>();
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         public TextView textview_itemname;
         public TextView textview_prize;
         public TextView textview_printerQ;
         public ImageView imageview_printer;
+        public View mCardView;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
@@ -36,6 +40,16 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
             textview_prize = view.findViewById(R.id.am_bill_rv_prize);
             textview_printerQ = view.findViewById(R.id.am_bill_rv_printer_tv);
             imageview_printer = view.findViewById(R.id.am_bill_rv_printerimage);
+
+            mCardView = view.findViewById(R.id.editproduct_recyclerview_items);
+            mCardView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            int position = (int) v.getTag();
+            ((Main)context).showRetoureStornoDialog(position); //implement interface instead if adapter is used in more than one activity!
+            return false;
         }
     }
 
@@ -71,6 +85,8 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
                 position = position + 1;
             }
         }
+
+        holder.mCardView.setTag(position);
 
         DecimalFormat df = new DecimalFormat("0.00");
         final ObjBillProduct item = billproductList.get(position);
