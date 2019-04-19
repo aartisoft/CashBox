@@ -11,9 +11,11 @@ import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
 
@@ -176,7 +178,25 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
                 strAllArticles += iQuantity + "x " + strArticle + "\n";
             }
         }
-        view.txtArticles.setText(strAllArticles);
+
+        //populate open sum
+        String strOpenSum;
+        double prize = 0.00;
+        for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
+            int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled()
+                    - objBillProduct.getReturned() - objBillProduct.getPaid();
+
+            prize += iItemCount * objBillProduct.getProduct().getVK();
+        }
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        strOpenSum = df.format(prize);
+        strOpenSum = strOpenSum + "€";
+
+        //concat articles and sum
+        String strChild = strAllArticles + "\n" + m_Context.getString(R.string.src_OffeneSumme) + " "+ strOpenSum;
+
+        view.txtArticles.setText(strChild);
 
         // Return the completed view to render on screen
         return convertView;
@@ -184,7 +204,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
 
     public class ViewHolderParent {
