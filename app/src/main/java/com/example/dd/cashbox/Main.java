@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,7 +60,7 @@ import printer.PrintJobQueue;
 import recyclerview.RecyclerItemTouchHelperActions;
 import recyclerview.RecyclerItemTouchHelperBill;
 
-public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private Context m_Context;
     private int m_iSessionId = 0;
@@ -73,6 +74,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private ViewPagerAdapter m_ViewPagerAdapter;
     private TextView m_TextViewTable;
     private TextView m_TextViewBill;
+    private Button m_btnRegisterDel;
     private RecyclerViewMainBillAdapter m_rv_adapter;
     private RecyclerItemTouchHelperBill m_RecyclerItemTouchHelper;
     private RecyclerView m_recyclerview;
@@ -117,6 +119,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_TextViewTable = findViewById(R.id.activity_main_bill_tvtable);
         m_TextViewBill = findViewById(R.id.activity_main_bill_tvbill);
         m_recyclerview = findViewById(R.id.activity_main_bill_rv);
+        m_btnRegisterDel = findViewById(R.id.am_menu_btnCashBoxDelete);
 
         //init fab buttons
         m_fab_newbill  = findViewById(R.id.fab_layoutanimation_newbill);
@@ -158,11 +161,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_fab_pay.setOnClickListener(fabPayOnClickListener);
         m_TextViewTable.setOnClickListener(tvTableOnClickListener);
         m_TextViewBill.setOnClickListener(tvBillOnClickListener);
+        m_btnRegisterDel.setOnClickListener(this);
 
         //open Drawer
         if(m_iSessionId == 1){
             m_DrawerLayout.openDrawer(GravityCompat.START);
         }
+
+        //set drawermenu header
+        setDrawerMenuHeader();
 
         //set Tabulator
         setTabulator();
@@ -173,6 +180,23 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             GlobVar.g_bPrintQueueStarted = true;
         }
 
+    }
+
+    @Override
+    public void onClick(View v){
+        switch (v.getId()) {
+            case R.id.am_menu_btnCashBoxDelete:
+                /*this.deleteDatabase("ProductsDB");
+                this.deleteDatabase("CategoriesDB");
+                this.deleteDatabase("PrintersDB");*/
+                this.deleteDatabase("TableBillsDB");
+                this.deleteDatabase("TablesDB");
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KasseWurdeVollstaendigGeloescht), Toast.LENGTH_SHORT).show();
+                break;
+
+            default:
+                break;
+        }
     }
 
     public int getVarTable(){
@@ -241,7 +265,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 //set new bill
                 ObjBill objBill = new ObjBill();
                 objBill.setBillNr(GlobVar.g_iBillNr +1);
-                objBill.setCashierName(GlobVar.g_strBedienername);
+                objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
 
                 String pattern = "dd/MM/yyyy HH:mm:ss";
                 DateFormat df = new SimpleDateFormat(pattern);
@@ -279,12 +303,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     objPrintJob.setContext(m_Context);
                     objPrintJob.setPrinter(objBillProduct.getPrinter());
 
+                    String pattern = "dd/MM/yyyy HH:mm:ss";
+                    DateFormat df = new SimpleDateFormat(pattern);
+                    Date date = Calendar.getInstance().getTime();
+                    String todayAsString = df.format(date);
+
                     //set bill text
                     String[] arrBillText = new String[6];
-                    arrBillText[0] = "Musikverein Illingen e.V.";
-                    arrBillText[1] = "1.Maifest Illingen 2019" + " / " + "01.05.2019";
-                    arrBillText[2] = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getBillingDate();
-                    arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_strBedienername;
+                    arrBillText[0] = GlobVar.g_ObjSession.getHostName();
+                    arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
+                    arrBillText[2] = todayAsString;
+                    arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
                     arrBillText[4] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
                     arrBillText[5] = "Zusätzliche Info";
                     objPrintJob.setBillText(arrBillText);
@@ -362,11 +391,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 return true;
 
             case R.id.nav_hilfe:
-                /*this.deleteDatabase("ProductsDB");
-                this.deleteDatabase("CategoriesDB");
-                this.deleteDatabase("PrintersDB");*/
-                this.deleteDatabase("TableBillsDB");
-                this.deleteDatabase("TablesDB");
                 return true;
 
             default:
@@ -377,6 +401,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private void readSQLiteDB(){
         try{
             if(GlobVar.g_bReadSQL){
+                //read session
+                GlobVar.g_ObjSession.setCashierName("Dominik Diedrich");
+                GlobVar.g_ObjSession.setHostName("Musikverein Illingen e.V.");
+                GlobVar.g_ObjSession.setPartyName("Scheunenfest");
+                GlobVar.g_ObjSession.setPartyDate("24.05.2019");
+
                 //read printers
                 SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
                 if(GlobVar.g_lstPrinter.isEmpty()){
@@ -521,6 +551,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         else{
             findViewById(R.id.am_register_noarticle).setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void setDrawerMenuHeader(){
+        View headerView = m_navigationView.getHeaderView(0);
+        TextView tv_cashiername = headerView.findViewById(R.id.drawerheadercashiername);
+        TextView tv_hostname = headerView.findViewById(R.id.drawerheaderhostname);
+        TextView tv_partyname = headerView.findViewById(R.id.drawerheaderpartyname);
+
+        tv_cashiername.setText(GlobVar.g_ObjSession.getCashierName());
+        tv_hostname.setText(GlobVar.g_ObjSession.getHostName());
+        tv_partyname.setText(GlobVar.g_ObjSession.getPartyName() + " - " + GlobVar.g_ObjSession.getPartyDate());
     }
 
     private void setHeaderTable(){
