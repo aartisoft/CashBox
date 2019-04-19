@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -22,7 +23,7 @@ public class MainShowBills extends AppCompatActivity {
     private Context m_Context;
     private View m_decorView;
     private int m_iSessionTable;
-    private ListView m_ListView;
+    private ExpandableListView m_ListView;
     private ListViewBillAdapter m_listViewBillAdapter;
     private int m_iSessionBill = -1;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -61,19 +62,25 @@ public class MainShowBills extends AppCompatActivity {
         setBills();
 
         //set Listener
-        m_ListView.setOnItemClickListener(listviewOnItemListener);
+        m_ListView.setOnItemLongClickListener(listviewOnItemListener);
     }
 
-    private AdapterView.OnItemClickListener listviewOnItemListener = new AdapterView.OnItemClickListener(){
+    private ExpandableListView.OnItemLongClickListener listviewOnItemListener = new ExpandableListView.OnItemLongClickListener(){
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // Get the selected item text from ListView
-            ObjBill objBill = m_listViewBillAdapter.getObjBill(position);
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                int groupPosition = ExpandableListView.getPackedPositionGroup(id);
 
-            Intent intent = new Intent(MainShowBills.this, Main.class);
-            intent.putExtra("BILL", objBill.getBillNr());
-            intent.putExtra("TABLE", m_iSessionTable);
-            startActivity(intent);
+                // Get the selected item text from ListView
+                ObjBill objBill = m_listViewBillAdapter.getObjBill(groupPosition);
+
+                Intent intent = new Intent(MainShowBills.this, Main.class);
+                intent.putExtra("BILL", objBill.getBillNr());
+                intent.putExtra("TABLE", m_iSessionTable);
+                startActivity(intent);
+                return true;
+            }
+            return false;
         }
     };
 
