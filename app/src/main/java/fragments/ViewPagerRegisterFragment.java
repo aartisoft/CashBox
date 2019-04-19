@@ -96,54 +96,24 @@ public class ViewPagerRegisterFragment extends Fragment {
             iBill++;
         }
 
-
         ObjProduct objproduct = m_gridViewProductAdapter.getItem(p_iPosition);
 
-        boolean bProductExists = false;
-        int iProductPos = 0;
-        if(GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts != null){
-            for(ObjBillProduct objbillproduct : GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts){
-                if(objbillproduct.getProduct().getName().equals(objproduct.getName())){
-                    bProductExists = true;
-                    break;
-                }
-                iProductPos++;
-            }
-        }
-        else{
-            GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts = new ArrayList<ObjBillProduct>();
-        }
+        ObjBillProduct objbillproduct = new ObjBillProduct();
+        objbillproduct.setProduct(objproduct);
+        objbillproduct.setVK(objproduct.getVK());
+        objbillproduct.setCategory(objproduct.getCategory());
 
-
-        //if product is not in list
-        if(!bProductExists){
-            ObjBillProduct objbillproduct = new ObjBillProduct();
-            objbillproduct.setProduct(objproduct);
-            objbillproduct.setQuantity(1);
-            objbillproduct.setCategory(objproduct.getCategory());
-
-            //get printer
-            for(ObjCategory objCategory : GlobVar.g_lstCategory){
-                if(objproduct.getCategory().equals(objCategory.getName())){
-                    for (ObjPrinter objPrinter : GlobVar.g_lstPrinter) {
-                        if(objCategory.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
-                            objbillproduct.setPrinter(objPrinter);
-                        }
+        //get printer
+        for(ObjCategory objCategory : GlobVar.g_lstCategory){
+            if(objproduct.getCategory().equals(objCategory.getName())){
+                for (ObjPrinter objPrinter : GlobVar.g_lstPrinter) {
+                    if(objCategory.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
+                        objbillproduct.setPrinter(objPrinter);
                     }
                 }
             }
-
-
-            GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
         }
-        //if product is already in list
-        else{
-            int iQuantity = GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).getQuantity();
-            iQuantity++;
-            GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).setQuantity(iQuantity);
-
-            //sql database has to update
-            GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.get(iProductPos).setSqlChanged(true);
-        }
+        //add globally
+        GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
     }
 }

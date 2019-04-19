@@ -28,7 +28,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     private static final String KEY_BILLINGDATE = "billingdate";
     private static final String KEY_CATEGORY = "category";
     private static final String KEY_PRODUCT = "product";
-    private static final String KEY_QUANTITY = "quantity";
+    private static final String KEY_ADDINFO = "addinfo";
     private static final String KEY_PRINTERMAC = "printermac";
     private static final String KEY_PRINTED = "printed";
     private static final String KEY_CANCELED = "canceled";
@@ -37,8 +37,8 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
     private static final String[] COLUMNS = { KEY_ID, KEY_TABLENAME, KEY_BILLNR,
             KEY_CASHIERNAME, KEY_BILLINGDATE, KEY_CATEGORY, KEY_PRODUCT,
-            KEY_QUANTITY, KEY_PRINTERMAC, KEY_PRINTED, KEY_CANCELED,
-            KEY_PAID, KEY_RETURNED };
+            KEY_ADDINFO, KEY_PRINTERMAC, KEY_PRINTED, KEY_CANCELED, KEY_PAID,
+            KEY_RETURNED };
 
     public SQLiteDatabaseHandler_TableBills(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,7 +50,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "tablename TEXT, "
                 + "billnr INTEGER, " + "cashiername TEXT, "
                 + "billingdate TEXT, " + "category TEXT, " + "product TEXT, "
-                + "quantity INTEGER, " + "printermac TEXT, " + "printed INTEGER, "
+                + "addinfo TEXT, " + "printermac TEXT, " + "printed INTEGER, "
                 + "canceled INTEGER, " + "paid INTEGER, " + "returned INTEGER)";
 
         db.execSQL(CREATION_TABLE);
@@ -140,12 +140,20 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_BILLINGDATE, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getBillingDate());
                 values.put(KEY_CATEGORY, objproduct.getCategory());
                 values.put(KEY_PRODUCT, objproduct.getProduct().getName());
-                values.put(KEY_QUANTITY, objproduct.getQuantity());
+                values.put(KEY_ADDINFO, objproduct.getAddInfo());
                 values.put(KEY_PRINTERMAC, objproduct.getPrinter().getMacAddress());
-                values.put(KEY_PRINTED, objproduct.getPrinted());
-                values.put(KEY_CANCELED, objproduct.getCanceled());
-                values.put(KEY_PAID, objproduct.getPaid());
-                values.put(KEY_RETURNED, objproduct.getReturned());
+
+                int key_printed = objproduct.getPrinted() ? 1 : 0;
+                values.put(KEY_PRINTED, key_printed);
+
+                int key_canceled = objproduct.getCanceled() ? 1 : 0;
+                values.put(KEY_CANCELED, key_canceled);
+
+                int key_paid = objproduct.getPaid() ? 1 : 0;
+                values.put(KEY_PAID, key_paid);
+
+                int key_returned = objproduct.getReturned() ? 1 : 0;
+                values.put(KEY_RETURNED, key_returned);
 
                 //set sql variables
                 objproduct.setSqlSaved(true);
@@ -158,10 +166,16 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
             //only product has changed
             if(objproduct.getqlChanged()){
 
-                values.put(KEY_QUANTITY, objproduct.getQuantity());
-                values.put(KEY_PRINTED, objproduct.getPrinted());
-                values.put(KEY_CANCELED, objproduct.getCanceled());
+                int key_printed = objproduct.getPrinted() ? 1 : 0;
+                values.put(KEY_PRINTED, key_printed);
+
+                int key_canceled = objproduct.getCanceled() ? 1 : 0;
+                values.put(KEY_CANCELED, key_canceled);
+
+                int key_paid = objproduct.getPaid() ? 1 : 0;
                 values.put(KEY_PAID, objproduct.getPaid());
+
+                int key_returned = objproduct.getReturned() ? 1 : 0;
                 values.put(KEY_RETURNED, objproduct.getReturned());
 
                 int i = db.update(TABLE_NAME, // table
@@ -193,7 +207,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         }
 
         objBillProduct.setCategory(cursor.getString(5));
-        objBillProduct.setQuantity(Integer.parseInt(cursor.getString(7)));
+        objBillProduct.setAddInfo(cursor.getString(7));
 
         //set printer
         for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
@@ -203,16 +217,32 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         }
 
         //set printed
-        objBillProduct.setPrinted(Integer.parseInt(cursor.getString(9)));
+        boolean b_Printed = true;
+        if(cursor.getString(9).equals("0")){
+            b_Printed = false;
+        }
+        objBillProduct.setPrinted(b_Printed);
 
         //set canceled
-        objBillProduct.setCanceled(Integer.parseInt(cursor.getString(10)));
+        boolean b_Canceled = true;
+        if(cursor.getString(10).equals("0")){
+            b_Canceled = false;
+        }
+        objBillProduct.setCanceled(b_Canceled);
 
         //set paid
-        objBillProduct.setPaid(Integer.parseInt(cursor.getString(11)));
+        boolean b_Paid = true;
+        if(cursor.getString(11).equals("0")){
+            b_Paid = false;
+        }
+        objBillProduct.setPaid(b_Paid);
 
         //set returned
-        objBillProduct.setReturned(Integer.parseInt(cursor.getString(12)));
+        boolean b_Returned = true;
+        if(cursor.getString(12).equals("0")){
+            b_Returned = false;
+        }
+        objBillProduct.setReturned(b_Returned);
 
         //set sql variables
         objBillProduct.setSqlSaved(true);

@@ -132,7 +132,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
     private void button_returned(){
 
         //if value has changed
-        if(m_iItems != 0) {
+        /*if(m_iItems != 0) {
             //get current product and set returned
             final ObjBillProduct objbillproduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
 
@@ -160,7 +160,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
 
             //show popupwindow
             showPopUpWIndowOk();
-        }
+        }*/
 
     }
 
@@ -217,13 +217,15 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
 
         //returned
         if(m_strTask.equals("returned")){
-            int iQuantitiy = objBillProduct.getPrinted();
-            return iQuantitiy;
+            //int iQuantitiy = objBillProduct.getPrinted();
+            //return iQuantitiy;
+            return 0;
         }
         //canceled
         else{
-            int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getPrinted() - objBillProduct.getReturned() -objBillProduct.getCanceled();
-            return iQuantitiy;
+            //int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getPrinted() - objBillProduct.getReturned() -objBillProduct.getCanceled();
+            //return iQuantitiy;
+            return 0;
         }
     }
 

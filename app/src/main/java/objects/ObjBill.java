@@ -1,12 +1,13 @@
 package objects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ObjBill {
     private int m_iBillNr;
     private String m_strCashierName;
     private String m_strBillingDate;
-    public List<ObjBillProduct> m_lstProducts;
+    public List<ObjBillProduct> m_lstProducts = new ArrayList<ObjBillProduct>();
 
     //getter
     public int getBillNr(){

@@ -18,7 +18,12 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import global.GlobVar;
 import objects.ObjBillProduct;
+import objects.ObjCategory;
+import objects.ObjPrinter;
+import objects.ObjProduct;
 
 public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerViewMainBillAdapter.MyViewHolder>{
     private Context context;
@@ -59,9 +64,8 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
         int iProductCounter = 0;
         for(ObjBillProduct objBillProduct : billproductList){
-            //if more than one open product available
-            int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() - objBillProduct.getPaid();
-            if(iItemCount == 0) {
+            //if product is still open
+            if(objBillProduct.getPaid() || objBillProduct.getCanceled() || objBillProduct.getReturned()) {
                 this.m_lstHiddenPositions.add(iProductCounter);
             }
             iProductCounter++;
@@ -91,14 +95,26 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         DecimalFormat df = new DecimalFormat("0.00");
         final ObjBillProduct item = billproductList.get(position);
 
-        int iItemCount = item.getQuantity() - item.getCanceled() - item.getReturned() - item.getPaid();
+        //get item quantitiy
+        int iQuantity = 0;
+        double dPrize = 0.00;
+        for(ObjCategory objCategory : GlobVar.g_lstCategory) {
+            for (ObjProduct objProduct : objCategory.getListProduct()) {
+                if (objProduct == item.getProduct()) {
+                    if (!item.getPaid() || !item.getCanceled() || !item.getReturned()) {
+                        dPrize =+ item.getVK();
+                        iQuantity++;
+                    }
+                }
+            }
+        }
+
         //set name
-        String strName = (item.getQuantity() - item.getCanceled() - item.getReturned() - item.getPaid()) + "x " + item.getProduct().getName();
+        String strName = iQuantity + "x " + item.getProduct().getName();
         holder.textview_itemname.setText(strName);
 
         //set prize
-        double prize =  iItemCount * item.getProduct().getVK();
-        String strVK = df.format(prize);
+        String strVK = df.format(dPrize);
         strVK = strVK + "€";
         holder.textview_prize.setText(strVK);
 

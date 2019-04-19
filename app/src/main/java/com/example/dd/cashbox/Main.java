@@ -19,7 +19,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.sqlite.SQLiteException;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
@@ -45,7 +44,6 @@ import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_Printer;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -56,9 +54,9 @@ import objects.ObjBill;
 import objects.ObjBillProduct;
 import objects.ObjCategory;
 import objects.ObjPrintJob;
+import objects.ObjPrinter;
 import objects.ObjProduct;
 import printer.PrintJobQueue;
-import recyclerview.RecyclerItemTouchHelperActions;
 import recyclerview.RecyclerItemTouchHelperBill;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -306,38 +304,74 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 GlobVar.g_bPrintQueueFilling = true;
 
                 //write bill to printqueue
-                for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                    if (objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() > objBillProduct.getPrinted()) {
-                        ObjPrintJob objPrintJob = new ObjPrintJob();
-                        objPrintJob.setContext(m_Context);
-                        objPrintJob.setPrinter(objBillProduct.getPrinter());
+                for(ObjCategory objCategory : GlobVar.g_lstCategory){
+                    ObjPrinter objPrinter = objCategory.getPrinter();
+                    for(ObjProduct objProduct : objCategory.getListProduct()){
+                        int iQuantity = 0;
+                        for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+                            if(objProduct == objBillProduct.getProduct()){
+                                if(!objBillProduct.getPrinted() && !objBillProduct.getAddInfo().equals("")){
+                                    iQuantity++;
+                                }
+                                else{
+                                    objBillProduct.setPrinted(true);
 
-                        String pattern = "dd/MM/yyyy HH:mm:ss";
-                        DateFormat df = new SimpleDateFormat(pattern);
-                        Date date = Calendar.getInstance().getTime();
-                        String todayAsString = df.format(date);
+                                    ObjPrintJob objPrintJob = new ObjPrintJob();
+                                    objPrintJob.setContext(m_Context);
+                                    objPrintJob.setPrinter(objPrinter);
 
-                        //set bill text
-                        String[] arrBillText = new String[6];
-                        arrBillText[0] = GlobVar.g_ObjSession.getHostName();
-                        arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
-                        arrBillText[2] = todayAsString;
-                        arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
-                        arrBillText[4] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
-                        arrBillText[5] = "Zusätzliche Info";
-                        objPrintJob.setBillText(arrBillText);
+                                    String pattern = "dd/MM/yyyy HH:mm:ss";
+                                    DateFormat df = new SimpleDateFormat(pattern);
+                                    Date date = Calendar.getInstance().getTime();
+                                    String todayAsString = df.format(date);
 
-                        GlobVar.g_lstPrintJob.add(objPrintJob);
-                        bPrinted = true;
+                                    //set bill text
+                                    String[] arrBillText = new String[6];
+                                    arrBillText[0] = GlobVar.g_ObjSession.getHostName();
+                                    arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
+                                    arrBillText[2] = todayAsString;
+                                    arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
+                                    arrBillText[4] = "1x " + objBillProduct.getProduct().getName();
+                                    arrBillText[5] = objBillProduct.getAddInfo();
+                                    objPrintJob.setBillText(arrBillText);
+
+                                    GlobVar.g_lstPrintJob.add(objPrintJob);
+                                }
+                                //set printed
+                                objBillProduct.setPrinted(true);
+                                bPrinted = true;
+                            }
+                        }
+                        if(iQuantity != 0){
+                            ObjPrintJob objPrintJob = new ObjPrintJob();
+                            objPrintJob.setContext(m_Context);
+                            objPrintJob.setPrinter(objPrinter);
+
+                            String pattern = "dd/MM/yyyy HH:mm:ss";
+                            DateFormat df = new SimpleDateFormat(pattern);
+                            Date date = Calendar.getInstance().getTime();
+                            String todayAsString = df.format(date);
+
+                            //set bill text
+                            String[] arrBillText = new String[6];
+                            arrBillText[0] = GlobVar.g_ObjSession.getHostName();
+                            arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
+                            arrBillText[2] = todayAsString;
+                            arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
+                            arrBillText[4] = iQuantity + "x " + objProduct.getName();
+                            arrBillText[5] = "";
+                            objPrintJob.setBillText(arrBillText);
+
+                            GlobVar.g_lstPrintJob.add(objPrintJob);
+                        }
                     }
                 }
-
 
                 //only change database and global list if items are printable
                 if (bPrinted) {
                     //set products as printed
                     for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                        objBillProduct.setPrinted(objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned());
+                        objBillProduct.setPrinted(true);
                         objBillProduct.setSqlChanged(true);
                     }
 
@@ -606,10 +640,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
             double prize = 0.00;
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled()
-                        - objBillProduct.getReturned() - objBillProduct.getPaid();
-
-                prize += iItemCount * objBillProduct.getProduct().getVK();
+                prize += objBillProduct.getProduct().getVK();
             }
 
             DecimalFormat df = new DecimalFormat("0.00");
