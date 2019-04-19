@@ -73,7 +73,7 @@ public class ViewPagerRegisterFragment extends Fragment {
             int iBillNr = ((Main) getActivity()).getVarBill();
 
             // fragment only available if bill has been choosen
-            if(iBillNr != 0){
+            if(iBillNr != -1){
                 writeTableBillsList(position, iTable, iBillNr);
                 //tel main activity there is a new product available
                 ((Main) getActivity()).raiseNewProduct();
