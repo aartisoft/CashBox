@@ -301,58 +301,58 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabPrintOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            boolean bPrinted = false;
-            GlobVar.g_bPrintQueueFilling = true;
+            if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+                boolean bPrinted = false;
+                GlobVar.g_bPrintQueueFilling = true;
 
-            //write bill to printqueue
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                if (objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() > objBillProduct.getPrinted()) {
-                    ObjPrintJob objPrintJob = new ObjPrintJob();
-                    objPrintJob.setContext(m_Context);
-                    objPrintJob.setPrinter(objBillProduct.getPrinter());
+                //write bill to printqueue
+                for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                    if (objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() > objBillProduct.getPrinted()) {
+                        ObjPrintJob objPrintJob = new ObjPrintJob();
+                        objPrintJob.setContext(m_Context);
+                        objPrintJob.setPrinter(objBillProduct.getPrinter());
 
-                    String pattern = "dd/MM/yyyy HH:mm:ss";
-                    DateFormat df = new SimpleDateFormat(pattern);
-                    Date date = Calendar.getInstance().getTime();
-                    String todayAsString = df.format(date);
+                        String pattern = "dd/MM/yyyy HH:mm:ss";
+                        DateFormat df = new SimpleDateFormat(pattern);
+                        Date date = Calendar.getInstance().getTime();
+                        String todayAsString = df.format(date);
 
-                    //set bill text
-                    String[] arrBillText = new String[6];
-                    arrBillText[0] = GlobVar.g_ObjSession.getHostName();
-                    arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
-                    arrBillText[2] = todayAsString;
-                    arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
-                    arrBillText[4] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
-                    arrBillText[5] = "Zusätzliche Info";
-                    objPrintJob.setBillText(arrBillText);
+                        //set bill text
+                        String[] arrBillText = new String[6];
+                        arrBillText[0] = GlobVar.g_ObjSession.getHostName();
+                        arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
+                        arrBillText[2] = todayAsString;
+                        arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
+                        arrBillText[4] = ((objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned()) - objBillProduct.getPrinted()) + "x " + objBillProduct.getProduct().getName();
+                        arrBillText[5] = "Zusätzliche Info";
+                        objPrintJob.setBillText(arrBillText);
 
-                    GlobVar.g_lstPrintJob.add(objPrintJob);
-                    bPrinted = true;
-                }
-            }
-
-
-            //only change database and global list if items are printable
-            if(bPrinted){
-                //set products as printed
-                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                    objBillProduct.setPrinted(objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned());
-                    objBillProduct.setSqlChanged(true);
+                        GlobVar.g_lstPrintJob.add(objPrintJob);
+                        bPrinted = true;
+                    }
                 }
 
-                //set print symbols
-                setupRecyclerView();
 
-                //write tablebills to database
-                SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-                db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
+                //only change database and global list if items are printable
+                if (bPrinted) {
+                    //set products as printed
+                    for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                        objBillProduct.setPrinted(objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned());
+                        objBillProduct.setSqlChanged(true);
+                    }
+
+                    //set print symbols
+                    setupRecyclerView();
+
+                    //write tablebills to database
+                    SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+                    db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
+                } else {
+                    Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdeBereitsAlleArtikelGedruckt), Toast.LENGTH_SHORT).show();
+                }
+
+                GlobVar.g_bPrintQueueFilling = false;
             }
-            else{
-                Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdeBereitsAlleArtikelGedruckt), Toast.LENGTH_SHORT).show();
-            }
-
-            GlobVar.g_bPrintQueueFilling = false;
-
         }
     };
     private View.OnClickListener fabPayOnClickListener = new View.OnClickListener() {
