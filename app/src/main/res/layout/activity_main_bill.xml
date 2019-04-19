@@ -70,14 +70,36 @@
         </FrameLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/activity_main_bill_tvsum"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/listview_border"
-        android:gravity="center|left"
-        android:text=" Summe x,xx €"
-        android:textSize="14dp"
-        android:textColor="@color/colorBlack" />
+        android:gravity="left|center"
+        android:background="@drawable/listview_border">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:text="@string/src_Summe"
+            android:layout_marginLeft="5dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/activity_main_bill_tvbillsum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textAlignment="textEnd"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                android:text="0,00€"
+                android:layout_marginRight="5dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

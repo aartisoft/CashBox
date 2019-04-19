@@ -36,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -74,6 +75,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private ViewPagerAdapter m_ViewPagerAdapter;
     private TextView m_TextViewTable;
     private TextView m_TextViewBill;
+    private TextView m_TextViewOpenSum;
     private Button m_btnRegisterDel;
     private RecyclerViewMainBillAdapter m_rv_adapter;
     private RecyclerItemTouchHelperBill m_RecyclerItemTouchHelper;
@@ -107,7 +109,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //activity variables
         m_iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
         m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
-        m_iSessionBill = getIntent().getIntExtra("BILL", 0);
+        m_iSessionBill = getIntent().getIntExtra("BILL", -1);
 
         //init variables
         m_Context = this;
@@ -118,6 +120,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_ViewPager = findViewById(R.id.am_register_viewpager);
         m_TextViewTable = findViewById(R.id.activity_main_bill_tvtable);
         m_TextViewBill = findViewById(R.id.activity_main_bill_tvbill);
+        m_TextViewOpenSum = findViewById(R.id.activity_main_bill_tvbillsum);
         m_recyclerview = findViewById(R.id.activity_main_bill_rv);
         m_btnRegisterDel = findViewById(R.id.am_menu_btnCashBoxDelete);
 
@@ -174,6 +177,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //set Tabulator
         setTabulator();
 
+        //set open sum
+        setOpenSum();
+
         //start printer queue
         if(!GlobVar.g_bPrintQueueStarted){
             PrintJobQueue.startPrintJobQueue();
@@ -208,6 +214,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     public void raiseNewProduct(){
         setupRecyclerView();
+        setOpenSum();
     }
 
     private View.OnClickListener fabMainOnClickListener = new View.OnClickListener() {
@@ -282,6 +289,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 GlobVar.g_iBillNr++;
                 m_iSessionBill = GlobVar.g_iBillNr;
                 setHeaderBill();
+                setOpenSum();
 
                 Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegHinzugefuegt), Toast.LENGTH_SHORT).show();
             }
@@ -577,7 +585,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void setHeaderBill(){
         String strBillHeader = "";
-        if(m_iSessionBill != 0){
+        if(m_iSessionBill != -1){
             strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
 
             //only set recyclerview when bill product list not empty
@@ -592,6 +600,28 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
         m_TextViewBill.setText(strBillHeader);
     }
+
+    private void setOpenSum(){
+        String strOpenSum;
+        if(m_iSessionTable != -1 && m_iSessionBill != -1){
+            double prize = 0.00;
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled()
+                        - objBillProduct.getReturned() - objBillProduct.getPaid();
+
+                prize += iItemCount * objBillProduct.getProduct().getVK();
+            }
+
+            DecimalFormat df = new DecimalFormat("0.00");
+            strOpenSum = df.format(prize);
+            strOpenSum = strOpenSum + "€";
+        }
+        else{
+            strOpenSum = "0,00€";
+        }
+        m_TextViewOpenSum.setText(strOpenSum);
+    }
+
     private void setupRecyclerView(){
 
         //get list bill pointer
