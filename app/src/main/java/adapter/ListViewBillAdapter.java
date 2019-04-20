@@ -18,6 +18,8 @@ import java.util.List;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
+import objects.ObjCategory;
+import objects.ObjProduct;
 
 public class ListViewBillAdapter extends BaseExpandableListAdapter {
 
@@ -34,9 +36,8 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
         for(ObjBill objBill : bills){
             boolean bProdFound = false;
             for(ObjBillProduct objBillProduct : objBill.m_lstProducts) {
-                //if more than one open product available
-                int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled() - objBillProduct.getReturned() - objBillProduct.getPaid();
-                if (iItemCount > 0) {
+                //if product is still open
+                if (!objBillProduct.getPaid() || !objBillProduct.getCanceled() || !objBillProduct.getReturned()) {
                     bProdFound = true;
                     break;
                 }
@@ -170,27 +171,29 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
         }
 
         //populate articles
+        //get item quantitiy
+        int iQuantity = 0;
+        double dPrize = 0.00;
         String strAllArticles = "";
-        for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts){
-            int iQuantity = objBillProduct.getQuantity() - objBillProduct.getReturned() - objBillProduct.getCanceled();
-            if(iQuantity > 0){
-                String strArticle = objBillProduct.getProduct().getName();
+        for(ObjCategory objCategory : GlobVar.g_lstCategory) {
+            for (ObjProduct objProduct : objCategory.getListProduct()) {
+                String strArticle = objProduct.getName();
+                for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
+                    if (objProduct == objBillProduct.getProduct()) {
+                        if (!objBillProduct.getPaid() || !objBillProduct.getCanceled() || !objBillProduct.getReturned()) {
+                            dPrize = +objBillProduct.getVK();
+                            iQuantity++;
+                        }
+                    }
+                }
                 strAllArticles += iQuantity + "x " + strArticle + "\n";
             }
         }
 
         //populate open sum
         String strOpenSum;
-        double prize = 0.00;
-        for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
-            int iItemCount = objBillProduct.getQuantity() - objBillProduct.getCanceled()
-                    - objBillProduct.getReturned() - objBillProduct.getPaid();
-
-            prize += iItemCount * objBillProduct.getProduct().getVK();
-        }
-
         DecimalFormat df = new DecimalFormat("0.00");
-        strOpenSum = df.format(prize);
+        strOpenSum = df.format(dPrize);
         strOpenSum = strOpenSum + "€";
 
         //concat articles and sum
