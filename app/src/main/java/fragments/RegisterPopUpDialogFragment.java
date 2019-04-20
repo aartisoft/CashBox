@@ -87,8 +87,8 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         m_button_min = view.findViewById(R.id.fragment_registerpopup_page_btnminus);
         m_button_pl = view.findViewById(R.id.fragment_registerpopup_page_btnplus);
         m_edttCount = view.findViewById(R.id.fragment_registerpopup_page_edttxt);
-        m_edtInfo= view.findViewById(R.id.fragment_registerpopup_page_ticom);
-        m_edtVK = view.findViewById(R.id.fragment_registerpopup_page_tivk);
+        m_edtInfo = view.findViewById(R.id.fragment_registerpopup_page_edttxtaddinfo);
+        m_edtVK = view.findViewById(R.id.fragment_registerpopup_page_edttxtvk);
         m_fab = view.findViewById(R.id.fragment_registerpopup_page_fab);
         m_Switch = view.findViewById(R.id.fragment_registerpopup_page_switch);
 
