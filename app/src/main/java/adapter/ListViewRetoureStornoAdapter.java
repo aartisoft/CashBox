@@ -14,17 +14,23 @@ import com.example.dd.cashbox.R;
 
 import java.util.ArrayList;
 
+import objects.ObjBillProduct;
 import objects.ObjPrinterSearch;
 
 public class ListViewRetoureStornoAdapter extends BaseAdapter {
 
     private Context m_Context;
-    ArrayList<ObjPrinterSearch> m_List;
+    ArrayList<ObjBillProduct> m_List = new ArrayList<>();
 
-    public ListViewRetoureStornoAdapter(Context context, ArrayList<ObjPrinterSearch> printers) {
+    public ListViewRetoureStornoAdapter(Context context, ArrayList<ObjBillProduct> p_lstBillProducts) {
         super();
         this.m_Context = context;
-        this.m_List = printers;
+
+        for(ObjBillProduct objBillProduct : p_lstBillProducts){
+            if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
+                this.m_List.add(objBillProduct);
+            }
+        }
     }
 
     @Override
@@ -41,8 +47,7 @@ public class ListViewRetoureStornoAdapter extends BaseAdapter {
     }
     public void onItemSelected(int position) {
     }
-
-    public ObjPrinterSearch getObjPrinter(int position){
+    public ObjBillProduct getObjBillProduct(int position){
         return m_List.get(position);
     }
 
@@ -54,12 +59,13 @@ public class ListViewRetoureStornoAdapter extends BaseAdapter {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             view = new ViewHolder();
-            convertView = inflator.inflate(R.layout.ms_ap_search_itemlistrow,  parent, false);
+            convertView = inflator.inflate(R.layout.childfragment_retourestorno_lvitems,  parent, false);
 
             // Lookup view for data population
-            view.txtTarget = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_ip);
-            view.txtName = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_name);
-            view.cbAdd = (CheckBox)convertView.findViewById(R.id.ms_ap_search_ilr_cb);
+            view.txtName = (TextView) convertView.findViewById(R.id.cf_refourestorno_iv_name);
+            view.txtAddInfo = (TextView) convertView.findViewById(R.id.cf_refourestorno_iv_addinfo);
+            view.txtVK = (TextView) convertView.findViewById(R.id.cf_refourestorno_iv_vk);
+            view.cbAdd = (CheckBox)convertView.findViewById(R.id.cf_refourestorno_cb);
 
             view.cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -74,8 +80,9 @@ public class ListViewRetoureStornoAdapter extends BaseAdapter {
         }
 
         // Populate the data into the template view using the data object
-        view.txtName.setText(m_List.get(position).getDeviceBrand() + " " +  m_List.get(position).getDeviceName());
-        view.txtTarget.setText(m_List.get(position).getIpAddress());
+        view.txtName.setText(m_List.get(position).getProduct().getName());
+        view.txtAddInfo.setText(m_List.get(position).getAddInfo());
+        view.txtVK.setText(String.valueOf(m_List.get(position).getVK()));
         view.cbAdd.setChecked(m_List.get(position).isChecked());
 
         // Return the completed view to render on screen
@@ -84,7 +91,8 @@ public class ListViewRetoureStornoAdapter extends BaseAdapter {
 
     public class ViewHolder {
         public TextView txtName;
-        public TextView txtTarget;
+        public TextView txtAddInfo;
+        public TextView txtVK;
         public CheckBox cbAdd;
     }
 }

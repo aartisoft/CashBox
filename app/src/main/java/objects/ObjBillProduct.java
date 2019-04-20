@@ -13,6 +13,9 @@ public class ObjBillProduct {
     private boolean m_bSqlSaved;
     private boolean m_bSqlChanged;
 
+    //for retoure/storno
+    private boolean m_bChecked = false;
+
     //getter
     public ObjProduct getProduct(){
         return this.m_objProduct;
@@ -46,6 +49,9 @@ public class ObjBillProduct {
     }
     public boolean getqlChanged() {
         return m_bSqlChanged;
+    }
+    public boolean isChecked() {
+        return m_bChecked;
     }
 
     //setter
@@ -81,5 +87,8 @@ public class ObjBillProduct {
     }
     public void setSqlChanged(boolean m_bSqlChanged) {
         this.m_bSqlChanged = m_bSqlChanged;
+    }
+    public void setChecked(boolean p_bChecked) {
+        this.m_bChecked = p_bChecked;
     }
 }
