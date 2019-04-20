@@ -51,12 +51,6 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
     }
 
     public ObjBill getObjBill(int position){
-        //code snippet for hidden items
-        for(Integer hiddenIndex : m_lstHiddenPositions) {
-            if(hiddenIndex <= position) {
-                position = position + 1;
-            }
-        }
         return m_List.get(position);
     }
 
