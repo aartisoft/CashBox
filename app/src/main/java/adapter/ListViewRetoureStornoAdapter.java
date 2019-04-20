@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import objects.ObjBillProduct;
@@ -84,8 +85,19 @@ public class ListViewRetoureStornoAdapter extends BaseAdapter {
 
         // Populate the data into the template view using the data object
         view.txtName.setText(m_List.get(position).getProduct().getName());
-        view.txtAddInfo.setText(m_List.get(position).getAddInfo());
-        view.txtVK.setText(String.valueOf(m_List.get(position).getVK()));
+
+        if(m_List.get(position).getAddInfo().equals("")){
+            view.txtAddInfo.setText(m_Context.getString(R.string.src_KeineZusaetzlicheInfo));
+        }
+        else{
+            view.txtAddInfo.setText(m_List.get(position).getAddInfo());
+        }
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        String strVK = df.format(m_List.get(position).getVK());
+        strVK += "€";
+        view.txtVK.setText(strVK);
+
         view.cbAdd.setChecked(m_List.get(position).isChecked());
 
         // Return the completed view to render on screen

@@ -107,18 +107,26 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         public void onClick(View v) {
             ArrayList<ObjBillProduct> ObjBillProductList = m_adapter.getObjBillProductList();
 
-            for(ObjBillProduct objBillProduct : ObjBillProductList){
-                if(objBillProduct.isChecked()){
-                    if(m_strTask.equals("returned")){
-                        objBillProduct.setReturned(true);
-                        objBillProduct.setSqlChanged(true);
-                    }
-                    else{
-                        objBillProduct.setCanceled(true);
-                        objBillProduct.setSqlChanged(true);
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                if (objBillProduct.getCategory().equals(m_strCategory)) {
+                    if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
+                        for (ObjBillProduct objBillProductAdapter : ObjBillProductList) {
+                            if(objBillProduct == objBillProductAdapter){
+                                if (objBillProduct.isChecked()) {
+                                    if (m_strTask.equals("returned")) {
+                                        objBillProduct.setReturned(true);
+                                        objBillProduct.setSqlChanged(true);
+                                    } else {
+                                        objBillProduct.setCanceled(true);
+                                        objBillProduct.setSqlChanged(true);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
+
 
             //set product in database
             SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
