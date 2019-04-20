@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_registerpopup_page_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -84,7 +85,7 @@
                 android:textColor="@color/colorBlack"
                 android:textStyle="normal"
                 android:textAlignment="textStart"
-                android:hint="@string/src_Name"
+                android:hint="@string/src_Bemerkung"
                 android:backgroundTint="@color/colorGrey"
                 android:textColorHint="@color/colorGrey"
                 android:textSize="15dp"

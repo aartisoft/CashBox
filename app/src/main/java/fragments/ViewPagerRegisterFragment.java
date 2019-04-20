@@ -22,6 +22,8 @@ import java.util.Date;
 import adapter.GridViewProductAdapter;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
@@ -94,12 +96,21 @@ public class ViewPagerRegisterFragment extends Fragment {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            int iTable = ((Main) getActivity()).getVarTable();
             int iBillNr = ((Main) getActivity()).getVarBill();
 
             // fragment only available if bill has been choosen
             if(iBillNr != -1){
+                FragmentManager fm = getChildFragmentManager();
+                RegisterPopUpDialogFragment registerPopUpDialogFragment = RegisterPopUpDialogFragment.newInstance("Register PopUp");
 
+                // pass table, bill to fragment
+                ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
+                Bundle args = new Bundle();
+                args.putString("CATEGORY", objproduct.getCategory());
+                args.putString("PRODUCT", objproduct.getName());
+
+                registerPopUpDialogFragment.setArguments(args);
+                registerPopUpDialogFragment.show(fm, "fragment_registerpopup");
             }
             else
             {

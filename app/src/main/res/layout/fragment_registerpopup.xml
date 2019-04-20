@@ -26,6 +26,6 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <include layout="fragment_registerpopup_page"/>
+    <include layout="@layout/fragment_registerpopup_page"/>
 
 </LinearLayout>
