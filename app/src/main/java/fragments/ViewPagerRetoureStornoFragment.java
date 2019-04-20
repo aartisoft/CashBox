@@ -39,22 +39,16 @@ import objects.ObjProduct;
 
 public class ViewPagerRetoureStornoFragment extends Fragment{
 
-    int m_position;
+    Context m_Context;
     private FloatingActionButton m_fab;
-    private TextView m_tvTitle;
-    private RetoureStornoDialogFragment.RetoureStornoDialogListener m_listener;
-    private ViewPagerRetoureStornoAdapter m_ViewPagerAdapter;
-    private TabLayout m_TabLayout;
-    private ViewPager m_ViewPager;
     private ListView m_listView;
     private ListViewRetoureStornoAdapter m_adapter;
-    Context m_Context;
     private String m_strCategory = "";
     private String m_strProduct = "";
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private String m_strTask = "";
-    private int m_iItems = 0;
+    private double m_dPrize = 0.00;
 
     public static Fragment getInstance(String strCategory, String strProduct, int iSessionTable, int iSessionBill, String strTask) {
         Bundle bundle = new Bundle();
@@ -114,11 +108,14 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                             if(objBillProduct == objBillProductAdapter){
                                 if (objBillProduct.isChecked()) {
                                     if (m_strTask.equals("returned")) {
+                                        m_dPrize += objBillProduct.getVK();
                                         objBillProduct.setReturned(true);
                                         objBillProduct.setSqlChanged(true);
+                                        objBillProduct.setChecked(false);
                                     } else {
                                         objBillProduct.setCanceled(true);
                                         objBillProduct.setSqlChanged(true);
+                                        objBillProduct.setChecked(false);
                                     }
                                 }
                             }
@@ -126,7 +123,6 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                     }
                 }
             }
-
 
             //set product in database
             SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
@@ -204,20 +200,10 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         // pass table, bill to fragment
         Bundle args = new Bundle();
 
-        //calculate return prize
-        double dPrize = 0.00;
-        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-            if(objBillProduct.getCategory().equals(m_strCategory)) {
-                if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
-                    dPrize += objBillProduct.getProduct().getVK();
-                }
-            }
-        }
-
         //returned
         if(m_strTask.equals("returned")) {
 
-            args.putDouble("CASH", dPrize);
+            args.putDouble("CASH", m_dPrize);
         }
         else{
             args.putDouble("CASH", 0.00);
