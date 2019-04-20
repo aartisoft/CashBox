@@ -152,8 +152,15 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         ArrayList<ObjBillProduct> lstObjBillProducts = new ArrayList<>();
 
         for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-            if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
-                lstObjBillProducts.add(objBillProduct);
+            if(m_strTask.equals("returned")) {
+                if(!objBillProduct.getPaid() && !objBillProduct.getReturned()){
+                    lstObjBillProducts.add(objBillProduct);
+                }
+            }
+            else{
+                if(!objBillProduct.getPaid() && objBillProduct.getCanceled()){
+                    lstObjBillProducts.add(objBillProduct);
+                }
             }
         }
 
