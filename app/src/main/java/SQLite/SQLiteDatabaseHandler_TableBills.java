@@ -28,6 +28,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     private static final String KEY_BILLINGDATE = "billingdate";
     private static final String KEY_CATEGORY = "category";
     private static final String KEY_PRODUCT = "product";
+    private static final String KEY_VK = "vk";
     private static final String KEY_ADDINFO = "addinfo";
     private static final String KEY_PRINTERMAC = "printermac";
     private static final String KEY_PRINTED = "printed";
@@ -36,7 +37,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     private static final String KEY_PAID = "paid";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_TABLENAME, KEY_BILLNR,
-            KEY_CASHIERNAME, KEY_BILLINGDATE, KEY_CATEGORY, KEY_PRODUCT,
+            KEY_CASHIERNAME, KEY_BILLINGDATE, KEY_CATEGORY, KEY_PRODUCT, KEY_VK,
             KEY_ADDINFO, KEY_PRINTERMAC, KEY_PRINTED, KEY_CANCELED, KEY_PAID,
             KEY_RETURNED };
 
@@ -48,8 +49,8 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE TableBills ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "tablename TEXT, "
-                + "billnr INTEGER, " + "cashiername TEXT, "
-                + "billingdate TEXT, " + "category TEXT, " + "product TEXT, "
+                + "billnr INTEGER, " + "cashiername TEXT, " + "billingdate TEXT, "
+                + "category TEXT, " + "product TEXT, " + "vk TEXT, "
                 + "addinfo TEXT, " + "printermac TEXT, " + "printed INTEGER, "
                 + "canceled INTEGER, " + "paid INTEGER, " + "returned INTEGER)";
 
@@ -140,6 +141,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_BILLINGDATE, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getBillingDate());
                 values.put(KEY_CATEGORY, objproduct.getCategory());
                 values.put(KEY_PRODUCT, objproduct.getProduct().getName());
+                values.put(KEY_VK, objproduct.getVK());
                 values.put(KEY_ADDINFO, objproduct.getAddInfo());
                 values.put(KEY_PRINTERMAC, objproduct.getPrinter().getMacAddress());
 
@@ -207,39 +209,40 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         }
 
         objBillProduct.setCategory(cursor.getString(5));
-        objBillProduct.setAddInfo(cursor.getString(7));
+        objBillProduct.setVK(Double.parseDouble(cursor.getString(7)));
+        objBillProduct.setAddInfo(cursor.getString(8));
 
         //set printer
         for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
-            if(objprinter.getMacAddress().equals(cursor.getString(8))){
+            if(objprinter.getMacAddress().equals(cursor.getString(9))){
                 objBillProduct.setPrinter(objprinter);
             }
         }
 
         //set printed
         boolean b_Printed = true;
-        if(cursor.getString(9).equals("0")){
+        if(cursor.getString(10).equals("0")){
             b_Printed = false;
         }
         objBillProduct.setPrinted(b_Printed);
 
         //set canceled
         boolean b_Canceled = true;
-        if(cursor.getString(10).equals("0")){
+        if(cursor.getString(11).equals("0")){
             b_Canceled = false;
         }
         objBillProduct.setCanceled(b_Canceled);
 
         //set paid
         boolean b_Paid = true;
-        if(cursor.getString(11).equals("0")){
+        if(cursor.getString(12).equals("0")){
             b_Paid = false;
         }
         objBillProduct.setPaid(b_Paid);
 
         //set returned
         boolean b_Returned = true;
-        if(cursor.getString(12).equals("0")){
+        if(cursor.getString(13).equals("0")){
             b_Returned = false;
         }
         objBillProduct.setReturned(b_Returned);
