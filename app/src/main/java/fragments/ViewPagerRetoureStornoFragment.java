@@ -105,27 +105,19 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
     private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //if value has changed
-        /*if(m_iItems != 0) {
-            //get current product and set returned
-            final ObjBillProduct objbillproduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
+            ArrayList<ObjBillProduct> ObjBillProductList = m_adapter.getObjBillProductList();
 
-            //returned
-            if(m_strTask.equals("returned")){
-                int iReturned = objbillproduct.getReturned() + m_iItems;
-                objbillproduct.setReturned(iReturned);
-
-                //set printed minus one
-                int iPrinted = objbillproduct.getPrinted() - m_iItems;
-                objbillproduct.setPrinted(iPrinted);
-
-                objbillproduct.setSqlChanged(true);
-            }
-            //canceled
-            else{
-                int iCanceled = objbillproduct.getCanceled() + m_iItems;
-                objbillproduct.setCanceled(iCanceled);
-                objbillproduct.setSqlChanged(true);
+            for(ObjBillProduct objBillProduct : ObjBillProductList){
+                if(objBillProduct.isChecked()){
+                    if(m_strTask.equals("returned")){
+                        objBillProduct.setReturned(true);
+                        objBillProduct.setSqlChanged(true);
+                    }
+                    else{
+                        objBillProduct.setCanceled(true);
+                        objBillProduct.setSqlChanged(true);
+                    }
+                }
             }
 
             //set product in database
@@ -134,7 +126,6 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
 
             //show popupwindow
             showPopUpWIndowOk();
-        }*/
         }
     };
 
@@ -163,7 +154,6 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                 }
             }
         }
-
         m_adapter = new ListViewRetoureStornoAdapter(m_Context, lstObjBillProducts);
         m_listView.setAdapter(m_adapter);
     }

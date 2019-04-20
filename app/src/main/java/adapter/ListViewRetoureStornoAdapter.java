@@ -50,6 +50,9 @@ public class ListViewRetoureStornoAdapter extends BaseAdapter {
     public ObjBillProduct getObjBillProduct(int position){
         return m_List.get(position);
     }
+    public ArrayList<ObjBillProduct> getObjBillProductList(){
+        return m_List;
+    }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
