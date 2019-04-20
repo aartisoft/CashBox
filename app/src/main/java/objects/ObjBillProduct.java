@@ -16,6 +16,9 @@ public class ObjBillProduct {
     //for retoure/storno
     private boolean m_bChecked = false;
 
+    //for main bill
+    private boolean m_bShown = false;
+
     //getter
     public ObjProduct getProduct(){
         return this.m_objProduct;
@@ -52,6 +55,9 @@ public class ObjBillProduct {
     }
     public boolean isChecked() {
         return m_bChecked;
+    }
+    public boolean isShown() {
+        return m_bShown;
     }
 
     //setter
@@ -90,5 +96,8 @@ public class ObjBillProduct {
     }
     public void setChecked(boolean p_bChecked) {
         this.m_bChecked = p_bChecked;
+    }
+    public void setShown(boolean p_bShown) {
+        this.m_bShown = p_bShown;
     }
 }

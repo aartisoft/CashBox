@@ -640,7 +640,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
             double prize = 0.00;
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                prize += objBillProduct.getProduct().getVK();
+                if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
+                    prize += objBillProduct.getProduct().getVK();
+                }
             }
 
             DecimalFormat df = new DecimalFormat("0.00");

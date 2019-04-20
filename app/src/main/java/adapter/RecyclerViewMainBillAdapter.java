@@ -28,7 +28,7 @@ import objects.ObjProduct;
 
 public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerViewMainBillAdapter.MyViewHolder>{
     private Context context;
-    private List<ObjMainBillProduct> billproductList = new ArrayList<>();
+    private List<ObjMainBillProduct> m_billproductList = new ArrayList<>();
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
@@ -53,7 +53,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         @Override
         public boolean onLongClick(View v) {
             int position = (int) v.getTag();
-            ObjMainBillProduct objMainBillProduct = billproductList.get(position);
+            ObjMainBillProduct objMainBillProduct = m_billproductList.get(position);
             //implement interface instead if adapter is used in more than one activity!
             ((Main)context).showRetoureStornoDialog(objMainBillProduct.getProduct().getCategory(), objMainBillProduct.getProduct().getName());
             return false;
@@ -63,27 +63,37 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
     public RecyclerViewMainBillAdapter(Context context, List<ObjBillProduct> billproductList) {
         this.context = context;
 
-        //populate articles
-        //get item quantitiy
-        for(ObjCategory objCategory : GlobVar.g_lstCategory) {
-            for(ObjProduct objProduct : objCategory.getListProduct()) {
 
+        m_billproductList = new ArrayList<>();
+
+        //set shown false
+        for(ObjBillProduct objBillProduct : billproductList) {
+            objBillProduct.setShown(false);
+        }
+
+        //set list
+        for(ObjBillProduct objBillProductAdapter : billproductList){
+            if(!objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
+                    && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
                 //init variables
+                ObjBillProduct objBillProductSearch = objBillProductAdapter;
                 ObjMainBillProduct objMainBillProduct = new ObjMainBillProduct();
-                objMainBillProduct.setProduct(objProduct);
+                objMainBillProduct.setProduct(objBillProductSearch.getProduct());
                 int iQuantity = 0;
                 int iPrinted = 0;
                 double dPrize = 0.0;
                 boolean bFound = false;
 
-                for(ObjBillProduct objBillProduct : billproductList) {
-                    if (objProduct == objBillProduct.getProduct()) {
-                        if (!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                for(ObjBillProduct objBillProduct : billproductList){
+                    if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
+                        if(!objBillProduct.getPaid() && !objBillProduct.getCanceled()
+                                && !objBillProduct.getReturned() && !objBillProduct.isShown()){
                             iQuantity++;
                             dPrize += objBillProduct.getVK();
                             if(objBillProduct.getPrinted()){
                                 iPrinted++;
                             }
+                            objBillProduct.setShown(true);
                             bFound = true;
                         }
                     }
@@ -94,7 +104,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
                     objMainBillProduct.setVK(dPrize);
 
                     //add to adapter list
-                    this.billproductList.add(objMainBillProduct);
+                    this.m_billproductList.add(objMainBillProduct);
                 }
             }
         }
@@ -113,7 +123,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.mCardView.setTag(position);
 
         DecimalFormat df = new DecimalFormat("0.00");
-        final ObjMainBillProduct item = billproductList.get(position);
+        final ObjMainBillProduct item = m_billproductList.get(position);
 
         //set name
         String strName = item.getQuantity() + "x " + item.getProduct().getName();
@@ -132,6 +142,6 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemCount() {
-        return billproductList.size();
+        return m_billproductList.size();
     }
 }
