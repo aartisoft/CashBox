@@ -37,11 +37,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             app:tabPaddingStart="2dp"
             app:tabPaddingEnd="2dp"
             app:tabPaddingTop="0dp"
             app:tabPaddingBottom="2dp"
-            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorFullWidth="false"
             app:tabIndicatorColor="@color/colorPrimary3"
             android:layout_above ="@+id/am_register_viewpager">
         </com.google.android.material.tabs.TabLayout>

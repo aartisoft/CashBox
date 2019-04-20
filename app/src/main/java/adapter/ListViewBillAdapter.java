@@ -37,7 +37,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
             boolean bProdFound = false;
             for(ObjBillProduct objBillProduct : objBill.m_lstProducts) {
                 //if product is still open
-                if (!objBillProduct.getPaid() || !objBillProduct.getCanceled() || !objBillProduct.getReturned()) {
+                if (!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
                     bProdFound = true;
                     break;
                 }

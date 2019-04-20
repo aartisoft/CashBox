@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
@@ -40,6 +41,7 @@ import objects.ObjProduct;
 public class ViewPagerRetoureStornoFragment extends Fragment{
 
     Context m_Context;
+    private View m_View;
     private FloatingActionButton m_fab;
     private ListView m_listView;
     private ListViewRetoureStornoAdapter m_adapter;
@@ -86,6 +88,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
 
         //set variables
         m_Context = getContext();
+        m_View = view;
         m_fab = view.findViewById(R.id.fragment_retourestorno_fab);
         m_listView = view.findViewById(R.id.fragment_retourestorno_lv);
 
@@ -101,35 +104,50 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         public void onClick(View v) {
             ArrayList<ObjBillProduct> ObjBillProductList = m_adapter.getObjBillProductList();
 
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                if (objBillProduct.getCategory().equals(m_strCategory)) {
-                    if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
-                        for (ObjBillProduct objBillProductAdapter : ObjBillProductList) {
-                            if(objBillProduct == objBillProductAdapter){
-                                if (objBillProduct.isChecked()) {
-                                    if (m_strTask.equals("returned")) {
-                                        m_dPrize += objBillProduct.getVK();
-                                        objBillProduct.setReturned(true);
-                                        objBillProduct.setSqlChanged(true);
-                                        objBillProduct.setChecked(false);
-                                    } else {
-                                        objBillProduct.setCanceled(true);
-                                        objBillProduct.setSqlChanged(true);
-                                        objBillProduct.setChecked(false);
+            //search if at least one item is checked
+            boolean bChecked = false;
+            for(ObjBillProduct objBillProduct : ObjBillProductList){
+                if(objBillProduct.isChecked()){
+                    bChecked = true;
+                    break;
+                }
+            }
+
+            if(bChecked){
+                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                    if (objBillProduct.getCategory().equals(m_strCategory)) {
+                        if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
+                            for (ObjBillProduct objBillProductAdapter : ObjBillProductList) {
+                                if(objBillProduct == objBillProductAdapter){
+                                    if (objBillProduct.isChecked()) {
+                                        if (m_strTask.equals("returned")) {
+                                            m_dPrize += objBillProduct.getVK();
+                                            objBillProduct.setReturned(true);
+                                            objBillProduct.setSqlChanged(true);
+                                            objBillProduct.setChecked(false);
+                                        } else {
+                                            objBillProduct.setCanceled(true);
+                                            objBillProduct.setSqlChanged(true);
+                                            objBillProduct.setChecked(false);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+
+                //set product in database
+                SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+                db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
+
+                //show popupwindow
+                showPopUpWIndowOk();
+            }
+            else{
+                Toast.makeText(m_Context, getResources().getString(R.string.src_KeineProduktAusgewaehlt), Toast.LENGTH_SHORT).show();
             }
 
-            //set product in database
-            SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-            db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
-
-            //show popupwindow
-            showPopUpWIndowOk();
         }
     };
 
@@ -150,7 +168,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
             if(objBillProduct.getCategory().equals(m_strCategory)){
                 if(objBillProduct.getProduct().getName().equals(m_strProduct)){
                     if(m_strTask.equals("returned")) {
-                        if(!objBillProduct.getPaid() && !objBillProduct.getReturned()){
+                        if(!objBillProduct.getPaid() && objBillProduct.getPrinted() && !objBillProduct.getReturned()){
                             lstObjBillProducts.add(objBillProduct);
                         }
                     }
@@ -162,8 +180,15 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                 }
             }
         }
-        m_adapter = new ListViewRetoureStornoAdapter(m_Context, lstObjBillProducts);
-        m_listView.setAdapter(m_adapter);
+
+        if(lstObjBillProducts.size() > 0){
+            m_View.findViewById(R.id.fragment_retourestorno_lv_noitem).setVisibility(View.INVISIBLE);
+            m_adapter = new ListViewRetoureStornoAdapter(m_Context, lstObjBillProducts);
+            m_listView.setAdapter(m_adapter);
+        }
+        else{
+            m_View.findViewById(R.id.fragment_retourestorno_lv_noitem).setVisibility(View.VISIBLE);
+        }
     }
 
     private int getBillListPointer(){
@@ -176,21 +201,6 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
             iBill++;
         }
         return 0;
-    }
-
-    private ObjBillProduct getObjBillProduct(){
-        ObjBillProduct objBillProductReturn = new ObjBillProduct();
-        for(ObjCategory objCategory: GlobVar.g_lstCategory){
-            for(ObjProduct objProduct : objCategory.getListProduct()){
-                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                    if(objProduct == objBillProduct.getProduct()){
-                        objBillProductReturn = objBillProduct;
-                        break;
-                    }
-                }
-            }
-        }
-        return objBillProductReturn;
     }
 
     public void showPopUpWIndowOk() {

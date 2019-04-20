@@ -13,6 +13,20 @@
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp">
 
+        <RelativeLayout
+            android:id="@+id/fragment_retourestorno_lv_noitem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/src_KeineProdukteVorhanden"
+                android:textColor="@color/colorGrey"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        </RelativeLayout>
+
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/fragment_retourestorno_lv"
