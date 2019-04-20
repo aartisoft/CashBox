@@ -33,7 +33,8 @@ public class RetoureStornoDialogFragment extends DialogFragment {
     private ViewPagerRetoureStornoAdapter m_ViewPagerAdapter;
     private TabLayout m_TabLayout;
     private ViewPager m_ViewPager;
-    private int m_iSessionLVPos = -1;
+    private String m_strCategory = "";
+    private String m_strProduct = "";
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private int m_iReturned = 0;
@@ -63,9 +64,10 @@ public class RetoureStornoDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_retourestorno, container, false);
 
         //activity variables
-        m_iSessionLVPos = getArguments().getInt("POSITION", -1);
+        m_strCategory = getArguments().getString("CATEGORY");
+        m_strProduct = getArguments().getString("PRODUCT");
         m_iSessionTable = getArguments().getInt("TABLE", -1);
-        m_iSessionBill = getArguments().getInt("BILL", 0);
+        m_iSessionBill = getArguments().getInt("BILL", -1);
 
         //set UI
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -105,8 +107,8 @@ public class RetoureStornoDialogFragment extends DialogFragment {
     private void setTabulator(){
         //setup viewpager
         m_ViewPagerAdapter = new ViewPagerRetoureStornoAdapter(getChildFragmentManager());
-        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_iSessionLVPos, m_iSessionTable, m_iSessionBill, "returned"), getResources().getString(R.string.src_Retoure), 1, getContext());
-        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_iSessionLVPos, m_iSessionTable, m_iSessionBill, "canceled"), getResources().getString(R.string.src_Storno), 1, getContext());
+        //m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_iSessionLVPos, m_iSessionTable, m_iSessionBill, "returned"), getResources().getString(R.string.src_Retoure), 1, getContext());
+        //m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_iSessionLVPos, m_iSessionTable, m_iSessionBill, "canceled"), getResources().getString(R.string.src_Storno), 1, getContext());
 
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
 
@@ -137,6 +139,6 @@ public class RetoureStornoDialogFragment extends DialogFragment {
     }
 
     private ObjBillProduct getObjBillProduct(){
-        return GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
+        return GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(0);
     }
 }

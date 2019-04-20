@@ -679,13 +679,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         return 0;
     }
 
-    public void showRetoureStornoDialog(int position) {
+    public void showRetoureStornoDialog(String p_strCategory, String p_strProduct) {
         FragmentManager fm = getSupportFragmentManager();
         RetoureStornoDialogFragment retoureStornoDialogFragment = RetoureStornoDialogFragment.newInstance("Some Title", 11022900);
 
         // pass table, bill to fragment
         Bundle args = new Bundle();
-        args.putInt("POSITION", position);
+        args.putString("CATEGORY", p_strCategory);
+        args.putString("PRODUCT", p_strProduct);
         args.putInt("TABLE", m_iSessionTable);
         args.putInt("BILL", m_iSessionBill);
 

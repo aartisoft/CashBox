@@ -53,7 +53,9 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         @Override
         public boolean onLongClick(View v) {
             int position = (int) v.getTag();
-            ((Main)context).showRetoureStornoDialog(position); //implement interface instead if adapter is used in more than one activity!
+            ObjMainBillProduct objMainBillProduct = billproductList.get(position);
+            //implement interface instead if adapter is used in more than one activity!
+            ((Main)context).showRetoureStornoDialog(objMainBillProduct.getProduct().getCategory(), objMainBillProduct.getProduct().getName());
             return false;
         }
     }
