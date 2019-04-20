@@ -143,14 +143,18 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         ArrayList<ObjBillProduct> lstObjBillProducts = new ArrayList<>();
 
         for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-            if(m_strTask.equals("returned")) {
-                if(!objBillProduct.getPaid() && !objBillProduct.getReturned()){
-                    lstObjBillProducts.add(objBillProduct);
-                }
-            }
-            else{
-                if(!objBillProduct.getPaid() && objBillProduct.getCanceled()){
-                    lstObjBillProducts.add(objBillProduct);
+            if(objBillProduct.getCategory().equals(m_strCategory)){
+                if(objBillProduct.getProduct().getName().equals(m_strProduct)){
+                    if(m_strTask.equals("returned")) {
+                        if(!objBillProduct.getPaid() && !objBillProduct.getReturned()){
+                            lstObjBillProducts.add(objBillProduct);
+                        }
+                    }
+                    else{
+                        if(!objBillProduct.getPaid() && !objBillProduct.getPrinted() && !objBillProduct.getCanceled()){
+                            lstObjBillProducts.add(objBillProduct);
+                        }
+                    }
                 }
             }
         }
@@ -195,7 +199,11 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         //calculate return prize
         double dPrize = 0.00;
         for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-            dPrize += objBillProduct.getProduct().getVK();
+            if(objBillProduct.getCategory().equals(m_strCategory)) {
+                if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
+                    dPrize += objBillProduct.getProduct().getVK();
+                }
+            }
         }
 
         //returned
