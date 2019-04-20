@@ -22,13 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import global.GlobVar;
 import objects.ObjBillProduct;
 import objects.ObjCategory;
+import objects.ObjMainBillProduct;
 import objects.ObjPrinter;
 import objects.ObjProduct;
 
 public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerViewMainBillAdapter.MyViewHolder>{
     private Context context;
-    private List<ObjBillProduct> billproductList;
-    private ArrayList<Integer> m_lstHiddenPositions = new ArrayList<>();
+    private List<ObjMainBillProduct> billproductList = new ArrayList<>();
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
@@ -60,15 +60,41 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public RecyclerViewMainBillAdapter(Context context, List<ObjBillProduct> billproductList) {
         this.context = context;
-        this.billproductList = billproductList;
 
-        int iProductCounter = 0;
-        for(ObjBillProduct objBillProduct : billproductList){
-            //if product is still open
-            if(objBillProduct.getPaid() || objBillProduct.getCanceled() || objBillProduct.getReturned()) {
-                this.m_lstHiddenPositions.add(iProductCounter);
+        //populate articles
+        //get item quantitiy
+        for(ObjCategory objCategory : GlobVar.g_lstCategory) {
+            for(ObjProduct objProduct : objCategory.getListProduct()) {
+
+                //init variables
+                ObjMainBillProduct objMainBillProduct = new ObjMainBillProduct();
+                objMainBillProduct.setProduct(objProduct);
+                int iQuantity = 0;
+                int iPrinted = 0;
+                double dPrize = 0.0;
+                boolean bFound = false;
+
+                for(ObjBillProduct objBillProduct : billproductList) {
+                    if (objProduct == objBillProduct.getProduct()) {
+                        if (!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                            iQuantity++;
+                            dPrize += objBillProduct.getVK();
+                            if(objBillProduct.getPrinted()){
+                                iPrinted++;
+                            }
+                            bFound = true;
+                        }
+                    }
+                }
+                if(bFound){
+                    objMainBillProduct.setQuantity(iQuantity);
+                    objMainBillProduct.setPrinted(iPrinted);
+                    objMainBillProduct.setVK(dPrize);
+
+                    //add to adapter list
+                    this.billproductList.add(objMainBillProduct);
+                }
             }
-            iProductCounter++;
         }
     }
 
@@ -82,54 +108,28 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
-        //code snippet for hidden items
-        for(Integer hiddenIndex : m_lstHiddenPositions) {
-            if(hiddenIndex <= position) {
-                position = position + 1;
-            }
-        }
-
         holder.mCardView.setTag(position);
 
         DecimalFormat df = new DecimalFormat("0.00");
-        final ObjBillProduct item = billproductList.get(position);
-
-        //get item quantitiy
-        int iQuantity = 0;
-        int iPrinted = 0;
-        double dPrize = 0.00;
-        for(ObjCategory objCategory : GlobVar.g_lstCategory) {
-            for (ObjProduct objProduct : objCategory.getListProduct()) {
-                if (objProduct == item.getProduct()) {
-                    if (!item.getPaid() || !item.getCanceled() || !item.getReturned()) {
-                        dPrize =+ item.getVK();
-                        iQuantity++;
-                    }
-                    if(item.getPrinted()){
-                        iPrinted++;
-                    }
-                }
-            }
-        }
+        final ObjMainBillProduct item = billproductList.get(position);
 
         //set name
-        String strName = iQuantity + "x " + item.getProduct().getName();
+        String strName = item.getQuantity() + "x " + item.getProduct().getName();
         holder.textview_itemname.setText(strName);
 
         //set prize
-        String strVK = df.format(dPrize);
+        String strVK = df.format(item.getVK());
         strVK = strVK + "€";
         holder.textview_prize.setText(strVK);
 
         //set image printer
-        String strPrinted = iPrinted + "x";
+        String strPrinted = item.getPrinted() + "x";
         holder.textview_printerQ.setText(strPrinted);
         holder.imageview_printer.setVisibility(View.VISIBLE);
     }
 
     @Override
     public int getItemCount() {
-        return billproductList.size() - m_lstHiddenPositions.size();
+        return billproductList.size();
     }
 }

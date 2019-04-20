@@ -58,7 +58,6 @@ public class ObjBillProduct {
     public void setAddInfo(String m_strAddInfo) {
         this.m_strAddInfo = m_strAddInfo;
     }
-
     public void setCategory(String p_strCategory){
         this.m_strCategory = p_strCategory;
     }
