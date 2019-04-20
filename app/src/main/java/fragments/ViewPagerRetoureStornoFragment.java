@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
@@ -22,34 +23,36 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
+
+import java.text.DecimalFormat;
+
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
+import objects.ObjCategory;
+import objects.ObjProduct;
 
-public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnClickListener{
+public class ViewPagerRetoureStornoFragment extends Fragment{
 
     int m_position;
-    private Button m_button;
-    private Button m_button_min;
-    private Button m_button_pl;
-    private EditText m_edttCount;
+    private FloatingActionButton m_fab;
     private TextView m_tvTitle;
     private RetoureStornoDialogFragment.RetoureStornoDialogListener m_listener;
     private ViewPagerRetoureStornoAdapter m_ViewPagerAdapter;
     private TabLayout m_TabLayout;
     private ViewPager m_ViewPager;
     Context m_Context;
-    private int m_iSessionLVPos = -1;
+    private String m_strCategory = "";
+    private String m_strProduct = "";
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private String m_strTask = "";
     private int m_iItems = 0;
-    private GridView m_GridView;
-    private GridViewProductAdapter m_gridViewProductAdapter;
 
-    public static Fragment getInstance(int position, int iSessionTable, int iSessionBill, String strTask) {
+    public static Fragment getInstance(String strCategory, String strProduct, int iSessionTable, int iSessionBill, String strTask) {
         Bundle bundle = new Bundle();
-        bundle.putInt("POSITION", position);
+        bundle.putString("CATEGORY", strCategory);
+        bundle.putString("PRODUCT", strProduct);
         bundle.putInt("TABLE", iSessionTable);
         bundle.putInt("BILL", iSessionBill);
         bundle.putString("TASK", strTask);
@@ -63,9 +66,10 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         super.onCreate(savedInstanceState);
 
         //activity variables
-        m_iSessionLVPos = getArguments().getInt("POSITION", -1);
+        m_strCategory = getArguments().getString("CATEGORY");
+        m_strProduct = getArguments().getString("PRODUCT");
         m_iSessionTable = getArguments().getInt("TABLE", -1);
-        m_iSessionBill = getArguments().getInt("BILL", 0);
+        m_iSessionBill = getArguments().getInt("BILL", -1);
         m_strTask = getArguments().getString("TASK");
     }
 
@@ -80,45 +84,19 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         super.onViewCreated(view, savedInstanceState);
 
         //set variables
-        m_button = view.findViewById(R.id.fragment_retoure_button);
-        m_button_min = view.findViewById(R.id.fragment_retoure_buttonminus);
-        m_button_pl = view.findViewById(R.id.fragment_retoure_buttonplus);
-        m_edttCount = view.findViewById(R.id.fragment_retoure_edttext);
+        m_fab = view.findViewById(R.id.fragment_retourestorno_fab);
         m_Context = getContext();
 
         //set Listener
-        m_button.setOnClickListener(this);
-        m_button_min.setOnClickListener(this);
-        m_button_pl.setOnClickListener(this);
-
-        //set edittext
-        m_edttCount.setText(String.valueOf(m_iItems));
-        m_edttCount.setCursorVisible(false);
-
-        //set button
-        setButton();
-
+        m_fab.setOnClickListener(fabOnClickListener);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.fragment_retoure_button:
-                button_returned();
-                break;
-
-            case R.id.fragment_retoure_buttonminus:
-                button_minus();
-                break;
-
-            case R.id.fragment_retoure_buttonplus:
-                button_plus();
-                break;
-
-            default:
+    private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
         }
-    }
+    };
 
     public void raiseCloseDialog(){
         //update listview bill
@@ -164,27 +142,6 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
 
     }
 
-    private void button_minus(){
-        if(m_iItems > 0){
-            m_iItems--;
-        }
-
-        //set edittext
-        m_edttCount.setText(String.valueOf(m_iItems), TextView.BufferType.EDITABLE);
-    }
-
-    private void button_plus(){
-        //get task quantitiy
-        int iQuantitiy = getQuantitiy();
-
-        if(m_iItems < iQuantitiy){
-            m_iItems++;
-        }
-
-        //set edittext
-        m_edttCount.setText(String.valueOf(m_iItems), TextView.BufferType.EDITABLE);
-    }
-
     private int getBillListPointer(){
         //get bill
         int iBill = 0;
@@ -198,35 +155,18 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
     }
 
     private ObjBillProduct getObjBillProduct(){
-        return GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
-    }
-
-    private void setButton(){
-        //returned
-        if(m_strTask.equals("returned")){
-            m_button.setText(getResources().getString(R.string.src_Retoure));
+        ObjBillProduct objBillProductReturn = new ObjBillProduct();
+        for(ObjCategory objCategory: GlobVar.g_lstCategory){
+            for(ObjProduct objProduct : objCategory.getListProduct()){
+                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+                    if(objProduct == objBillProduct.getProduct()){
+                        objBillProductReturn = objBillProduct;
+                        break;
+                    }
+                }
+            }
         }
-        //canceled
-        else{
-            m_button.setText(getResources().getString(R.string.src_Storno));
-        }
-    }
-
-    private int getQuantitiy(){
-        ObjBillProduct objBillProduct = getObjBillProduct();
-
-        //returned
-        if(m_strTask.equals("returned")){
-            //int iQuantitiy = objBillProduct.getPrinted();
-            //return iQuantitiy;
-            return 0;
-        }
-        //canceled
-        else{
-            //int iQuantitiy = objBillProduct.getQuantity() - objBillProduct.getPrinted() - objBillProduct.getReturned() -objBillProduct.getCanceled();
-            //return iQuantitiy;
-            return 0;
-        }
+        return objBillProductReturn;
     }
 
     public void showPopUpWIndowOk() {
@@ -237,10 +177,15 @@ public class ViewPagerRetoureStornoFragment extends Fragment implements View.OnC
         Bundle args = new Bundle();
 
         //calculate return prize
+        double dPrize = 0.00;
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+            dPrize += objBillProduct.getProduct().getVK();
+        }
+
         //returned
         if(m_strTask.equals("returned")) {
-            double prize = getObjBillProduct().getProduct().getVK() * m_iItems;
-            args.putDouble("CASH", prize);
+
+            args.putDouble("CASH", dPrize);
         }
         else{
             args.putDouble("CASH", 0.00);
