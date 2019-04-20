@@ -98,6 +98,8 @@
     <string name="src_KeineZusaetzlicheInfo">Keine Zusätzliche Information</string>
     <string name="src_KeineProdukteVorhanden">Keine Produkte vorhanden</string>
     <string name="src_KeineProduktAusgewaehlt">Kein Produkt ausgewählt</string>
+    <string name="src_ArtikelExtraInfos">Artikel Extra Infomationen</string>
+    <string name="src_ToGo">To Go</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
