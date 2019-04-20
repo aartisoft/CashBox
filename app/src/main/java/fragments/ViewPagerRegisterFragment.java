@@ -13,7 +13,11 @@ import android.widget.Toast;
 import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import adapter.GridViewProductAdapter;
 import androidx.annotation.Nullable;
@@ -99,6 +103,16 @@ public class ViewPagerRegisterFragment extends Fragment {
         ObjProduct objproduct = m_gridViewProductAdapter.getItem(p_iPosition);
 
         ObjBillProduct objbillproduct = new ObjBillProduct();
+
+        //set id
+        String pattern = "ddMMyyyyHHmmss";
+        DateFormat df = new SimpleDateFormat(pattern);
+        Date date = Calendar.getInstance().getTime();
+        String todayAsString = df.format(date);
+        GlobVar.g_BillObjID++;
+        long lID = Long.parseLong(todayAsString) + GlobVar.g_BillObjID;
+        objbillproduct.setID(lID);
+
         objbillproduct.setProduct(objproduct);
         objbillproduct.setVK(objproduct.getVK());
         objbillproduct.setCategory(objproduct.getCategory());

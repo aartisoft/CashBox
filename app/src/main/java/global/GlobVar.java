@@ -24,4 +24,5 @@ public abstract class GlobVar extends Application {
     public static List<ObjPrintJob> g_lstPrintJob = new ArrayList<>();
     public static boolean g_bPrintQueueStarted = false;
     public static boolean g_bPrintQueueFilling = false;
+    public static long g_BillObjID = 0;
 }

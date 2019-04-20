@@ -28,6 +28,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     private static final String KEY_BILLINGDATE = "billingdate";
     private static final String KEY_CATEGORY = "category";
     private static final String KEY_PRODUCT = "product";
+    private static final String KEY_OBJID = "objid";
     private static final String KEY_VK = "vk";
     private static final String KEY_ADDINFO = "addinfo";
     private static final String KEY_PRINTERMAC = "printermac";
@@ -37,8 +38,8 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     private static final String KEY_PAID = "paid";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_TABLENAME, KEY_BILLNR,
-            KEY_CASHIERNAME, KEY_BILLINGDATE, KEY_CATEGORY, KEY_PRODUCT, KEY_VK,
-            KEY_ADDINFO, KEY_PRINTERMAC, KEY_PRINTED, KEY_CANCELED, KEY_PAID,
+            KEY_CASHIERNAME, KEY_BILLINGDATE, KEY_CATEGORY, KEY_PRODUCT, KEY_OBJID,
+            KEY_VK, KEY_ADDINFO, KEY_PRINTERMAC, KEY_PRINTED, KEY_CANCELED, KEY_PAID,
             KEY_RETURNED };
 
     public SQLiteDatabaseHandler_TableBills(Context context){
@@ -50,7 +51,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         String CREATION_TABLE = "CREATE TABLE TableBills ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "tablename TEXT, "
                 + "billnr INTEGER, " + "cashiername TEXT, " + "billingdate TEXT, "
-                + "category TEXT, " + "product TEXT, " + "vk TEXT, "
+                + "category TEXT, " + "product TEXT, " + "objid TEXT, " + "vk TEXT, "
                 + "addinfo TEXT, " + "printermac TEXT, " + "printed INTEGER, "
                 + "canceled INTEGER, " + "paid INTEGER, " + "returned INTEGER)";
 
@@ -118,6 +119,67 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         }
     }
 
+    private ObjBillProduct writeProductList(Cursor cursor){
+        ObjBillProduct objBillProduct = new ObjBillProduct();
+
+        //set product
+        for(ObjCategory objcategory : GlobVar.g_lstCategory){
+            if(objcategory.getName().equals(cursor.getString(5))){
+                for(ObjProduct objproduct : objcategory.getListProduct()){
+                    if(objproduct.getName().equals(cursor.getString(6))){
+                        objBillProduct.setProduct(objproduct);
+                    }
+                }
+            }
+        }
+
+        objBillProduct.setCategory(cursor.getString(5));
+        objBillProduct.setID(Long.parseLong(cursor.getString(7)));
+        objBillProduct.setVK(Double.parseDouble(cursor.getString(8)));
+        objBillProduct.setAddInfo(cursor.getString(9));
+
+        //set printer
+        for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
+            if(objprinter.getMacAddress().equals(cursor.getString(10))){
+                objBillProduct.setPrinter(objprinter);
+            }
+        }
+
+        //set printed
+        boolean b_Printed = true;
+        if(cursor.getString(11).equals("0")){
+            b_Printed = false;
+        }
+        objBillProduct.setPrinted(b_Printed);
+
+        //set canceled
+        boolean b_Canceled = true;
+        if(cursor.getString(12).equals("0")){
+            b_Canceled = false;
+        }
+        objBillProduct.setCanceled(b_Canceled);
+
+        //set paid
+        boolean b_Paid = true;
+        if(cursor.getString(13).equals("0")){
+            b_Paid = false;
+        }
+        objBillProduct.setPaid(b_Paid);
+
+        //set returned
+        boolean b_Returned = true;
+        if(cursor.getString(14).equals("0")){
+            b_Returned = false;
+        }
+        objBillProduct.setReturned(b_Returned);
+
+        //set sql variables
+        objBillProduct.setSqlSaved(true);
+        objBillProduct.setSqlChanged(false);
+
+        return objBillProduct;
+    }
+
     public void addTableBill(int p_iTable, int p_iBill) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -141,6 +203,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_BILLINGDATE, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getBillingDate());
                 values.put(KEY_CATEGORY, objproduct.getCategory());
                 values.put(KEY_PRODUCT, objproduct.getProduct().getName());
+                values.put(KEY_OBJID, objproduct.getID());
                 values.put(KEY_VK, objproduct.getVK());
                 values.put(KEY_ADDINFO, objproduct.getAddInfo());
                 values.put(KEY_PRINTERMAC, objproduct.getPrinter().getMacAddress());
@@ -182,8 +245,9 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
                 int i = db.update(TABLE_NAME, // table
                         values, // column/value
-                        "billnr = ? AND product = ?", // selections
-                        new String[] { String.valueOf(p_iBill), String.valueOf(objproduct.getProduct().getName()) });
+                        "billnr = ? AND product = ? AND objid = ?", // selections
+                        new String[] { String.valueOf(p_iBill), String.valueOf(objproduct.getProduct().getName())
+                                        , String.valueOf(objproduct.getID()) });
 
                 //set sql variables
                 objproduct.setSqlSaved(true);
@@ -192,65 +256,5 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
             //db.close();
         }
-    }
-
-    private ObjBillProduct writeProductList(Cursor cursor){
-        ObjBillProduct objBillProduct = new ObjBillProduct();
-
-        //set product
-        for(ObjCategory objcategory : GlobVar.g_lstCategory){
-            if(objcategory.getName().equals(cursor.getString(5))){
-                for(ObjProduct objproduct : objcategory.getListProduct()){
-                    if(objproduct.getName().equals(cursor.getString(6))){
-                        objBillProduct.setProduct(objproduct);
-                    }
-                }
-            }
-        }
-
-        objBillProduct.setCategory(cursor.getString(5));
-        objBillProduct.setVK(Double.parseDouble(cursor.getString(7)));
-        objBillProduct.setAddInfo(cursor.getString(8));
-
-        //set printer
-        for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
-            if(objprinter.getMacAddress().equals(cursor.getString(9))){
-                objBillProduct.setPrinter(objprinter);
-            }
-        }
-
-        //set printed
-        boolean b_Printed = true;
-        if(cursor.getString(10).equals("0")){
-            b_Printed = false;
-        }
-        objBillProduct.setPrinted(b_Printed);
-
-        //set canceled
-        boolean b_Canceled = true;
-        if(cursor.getString(11).equals("0")){
-            b_Canceled = false;
-        }
-        objBillProduct.setCanceled(b_Canceled);
-
-        //set paid
-        boolean b_Paid = true;
-        if(cursor.getString(12).equals("0")){
-            b_Paid = false;
-        }
-        objBillProduct.setPaid(b_Paid);
-
-        //set returned
-        boolean b_Returned = true;
-        if(cursor.getString(13).equals("0")){
-            b_Returned = false;
-        }
-        objBillProduct.setReturned(b_Returned);
-
-        //set sql variables
-        objBillProduct.setSqlSaved(true);
-        objBillProduct.setSqlChanged(false);
-
-        return objBillProduct;
     }
 }

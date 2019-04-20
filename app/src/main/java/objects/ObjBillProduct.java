@@ -1,6 +1,7 @@
 package objects;
 
 public class ObjBillProduct {
+    private long m_lID;
     private ObjProduct m_objProduct;
     private double m_dVK;
     private String m_strAddInfo = "";
@@ -20,6 +21,9 @@ public class ObjBillProduct {
     private boolean m_bShown = false;
 
     //getter
+    public long getID(){
+        return this.m_lID;
+    }
     public ObjProduct getProduct(){
         return this.m_objProduct;
     }
@@ -61,6 +65,9 @@ public class ObjBillProduct {
     }
 
     //setter
+    public void setID(long p_lID){
+        this.m_lID = p_lID;
+    }
     public void setProduct(ObjProduct p_objProduct){
         this.m_objProduct = p_objProduct;
     }
