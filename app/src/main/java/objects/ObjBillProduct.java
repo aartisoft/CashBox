@@ -3,7 +3,7 @@ package objects;
 public class ObjBillProduct {
     private ObjProduct m_objProduct;
     private double m_dVK;
-    private String m_strAddInfo;
+    private String m_strAddInfo = "";
     private String m_strCategory;
     private ObjPrinter m_objPrinter;
     private boolean m_bPrinted;

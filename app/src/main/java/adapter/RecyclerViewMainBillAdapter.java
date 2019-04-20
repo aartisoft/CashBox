@@ -97,6 +97,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
         //get item quantitiy
         int iQuantity = 0;
+        int iPrinted = 0;
         double dPrize = 0.00;
         for(ObjCategory objCategory : GlobVar.g_lstCategory) {
             for (ObjProduct objProduct : objCategory.getListProduct()) {
@@ -104,6 +105,9 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
                     if (!item.getPaid() || !item.getCanceled() || !item.getReturned()) {
                         dPrize =+ item.getVK();
                         iQuantity++;
+                    }
+                    if(item.getPrinted()){
+                        iPrinted++;
                     }
                 }
             }
@@ -119,7 +123,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.textview_prize.setText(strVK);
 
         //set image printer
-        String strPrinted = item.getPrinted() + "x";
+        String strPrinted = iPrinted + "x";
         holder.textview_printerQ.setText(strPrinted);
         holder.imageview_printer.setVisibility(View.VISIBLE);
     }

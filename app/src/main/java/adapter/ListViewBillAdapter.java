@@ -172,21 +172,25 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
 
         //populate articles
         //get item quantitiy
-        int iQuantity = 0;
         double dPrize = 0.00;
         String strAllArticles = "";
         for(ObjCategory objCategory : GlobVar.g_lstCategory) {
-            for (ObjProduct objProduct : objCategory.getListProduct()) {
+            for(ObjProduct objProduct : objCategory.getListProduct()) {
                 String strArticle = objProduct.getName();
+                int iQuantity = 0;
+                boolean bFound = false;
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
                     if (objProduct == objBillProduct.getProduct()) {
-                        if (!objBillProduct.getPaid() || !objBillProduct.getCanceled() || !objBillProduct.getReturned()) {
-                            dPrize = +objBillProduct.getVK();
+                        if (!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                            dPrize += objBillProduct.getVK();
                             iQuantity++;
+                            bFound = true;
                         }
                     }
                 }
-                strAllArticles += iQuantity + "x " + strArticle + "\n";
+                if(bFound){
+                    strAllArticles += iQuantity + "x " + strArticle + "\n";
+                }
             }
         }
 
