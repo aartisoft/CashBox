@@ -96,6 +96,7 @@ public class ViewPagerRegisterFragment extends Fragment {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            int iTable = ((Main) getActivity()).getVarTable();
             int iBillNr = ((Main) getActivity()).getVarBill();
 
             // fragment only available if bill has been choosen
@@ -106,6 +107,8 @@ public class ViewPagerRegisterFragment extends Fragment {
                 // pass table, bill to fragment
                 ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
                 Bundle args = new Bundle();
+                args.putInt("TABLE", iTable);
+                args.putInt("BILL", iBillNr);
                 args.putString("CATEGORY", objproduct.getCategory());
                 args.putString("PRODUCT", objproduct.getName());
 

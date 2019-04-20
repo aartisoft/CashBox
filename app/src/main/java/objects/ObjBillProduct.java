@@ -7,6 +7,7 @@ public class ObjBillProduct {
     private String m_strAddInfo = "";
     private String m_strCategory;
     private ObjPrinter m_objPrinter;
+    private boolean m_bToGo;
     private boolean m_bPrinted;
     private boolean m_bCanceled;
     private boolean m_bPaid;
@@ -38,6 +39,9 @@ public class ObjBillProduct {
     }
     public ObjPrinter getPrinter(){
         return this.m_objPrinter;
+    }
+    public boolean getToGo(){
+        return this.m_bToGo;
     }
     public boolean getPrinted(){
         return this.m_bPrinted;
@@ -82,6 +86,9 @@ public class ObjBillProduct {
     }
     public void setPrinter(ObjPrinter p_objPrinter){
         this.m_objPrinter = p_objPrinter;
+    }
+    public void setToGo(boolean p_bToGo){
+        this.m_bToGo = p_bToGo;
     }
     public void setPrinted(boolean p_bPrinted){
         this.m_bPrinted = p_bPrinted;

@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
@@ -21,13 +22,23 @@ import com.example.dd.cashbox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import adapter.ViewPagerRetoureStornoAdapter;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
+import objects.ObjCategory;
+import objects.ObjPrinter;
+import objects.ObjProduct;
 
 public class RegisterPopUpDialogFragment extends DialogFragment implements View.OnClickListener {
 
+    private int m_iTable = -1;
+    private int m_iBillNr = -1;
     private String m_strCategory = "";
     private String m_strProduct = "";
     private Button m_button_min;
@@ -60,6 +71,8 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         View view = inflater.inflate(R.layout.fragment_registerpopup, container, false);
 
         //activity variables
+        m_iTable = getArguments().getInt("TABLE");
+        m_iBillNr = getArguments().getInt("BILL");
         m_strCategory = getArguments().getString("CATEGORY");
         m_strProduct = getArguments().getString("PRODUCT");
 
@@ -123,6 +136,15 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
     private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            //check weather all field are filled
+            if(m_iItems > 0){
+                if(m_edtVK.getText().toString().equals("")){
+                    Toast.makeText(m_Context, getResources().getString(R.string.src_KeinVerkaufspreisAngegeben), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    writeTableBillsList(m_iTable, m_iBillNr);
+                }
+            }
         }
     };
 
@@ -140,5 +162,62 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
 
         //set edittext
         m_edttCount.setText(String.valueOf(m_iItems), TextView.BufferType.EDITABLE);
+    }
+
+    private void writeTableBillsList(int iTable, int iBillNr){
+
+        //get bill
+        int iBill = 0;
+        for(ObjBill objBill : GlobVar.g_lstTableBills.get(iTable)){
+            if(objBill.getBillNr() == iBillNr){
+                break;
+            }
+            iBill++;
+        }
+
+        //get object product
+        ObjProduct objproduct = new ObjProduct();
+        for(ObjCategory objCategory : GlobVar.g_lstCategory){
+            if(objCategory.getName().equals(m_strCategory)){
+                for(ObjProduct objProduct : objCategory.getListProduct()){
+                    if(objProduct.getName().equals(m_strProduct)){
+                        objproduct = objProduct;
+                    }
+                }
+            }
+        }
+
+        for(int i = 0; i <= m_iItems; i++){
+            ObjBillProduct objbillproduct = new ObjBillProduct();
+
+            //set id
+            String pattern = "ddMMyyyyHHmmss";
+            DateFormat df = new SimpleDateFormat(pattern);
+            Date date = Calendar.getInstance().getTime();
+            String todayAsString = df.format(date);
+            GlobVar.g_BillObjID++;
+            long lID = Long.parseLong(todayAsString) + GlobVar.g_BillObjID;
+            objbillproduct.setID(lID);
+
+            objbillproduct.setProduct(objproduct);
+            objbillproduct.setVK(Double.parseDouble(m_edtVK.getText().toString()));
+            objbillproduct.setCategory(objproduct.getCategory());
+            objbillproduct.setAddInfo(m_edtInfo.getText().toString());
+            objbillproduct.setToGo(m_Switch.isChecked());
+
+            //get printer
+            for(ObjCategory objCategory : GlobVar.g_lstCategory){
+                if(objproduct.getCategory().equals(objCategory.getName())){
+                    for (ObjPrinter objPrinter : GlobVar.g_lstPrinter) {
+                        if(objCategory.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
+                            objbillproduct.setPrinter(objPrinter);
+                        }
+                    }
+                }
+            }
+
+            //add globally
+            GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
+        }
     }
 }

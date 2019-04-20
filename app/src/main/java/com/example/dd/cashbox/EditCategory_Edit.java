@@ -98,8 +98,8 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     }
 
     private OnClickListener fabOnClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
             //check weather all field are filled
             if(m_EditTextName.getText().toString().equals("") //|| m_ColorPickerView.get
                     || m_Spinner_Printer.getSelectedItem().equals("")){
