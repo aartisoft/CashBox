@@ -66,6 +66,7 @@ public class ViewPagerRegisterFragment extends Fragment {
 
         //set Listener
         m_GridView.setOnItemClickListener(gvTableOnItemClickListener);
+        m_GridView.setOnItemLongClickListener(gvTableOnItemLongClickListener);
     }
 
     private AdapterView.OnItemClickListener gvTableOnItemClickListener = new AdapterView.OnItemClickListener() {
@@ -86,6 +87,25 @@ public class ViewPagerRegisterFragment extends Fragment {
             {
                 Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
             }
+        }
+    };
+
+    private AdapterView.OnItemLongClickListener gvTableOnItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            int iTable = ((Main) getActivity()).getVarTable();
+            int iBillNr = ((Main) getActivity()).getVarBill();
+
+            // fragment only available if bill has been choosen
+            if(iBillNr != -1){
+
+            }
+            else
+            {
+                Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+            }
+            return true;
         }
     };
 
