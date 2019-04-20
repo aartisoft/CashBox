@@ -11,12 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.dd.cashbox.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import adapter.ViewPagerRetoureStornoAdapter;
@@ -31,6 +33,11 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
     private Button m_button_min;
     private Button m_button_pl;
     private EditText m_edttCount;
+    private EditText m_edtInfo;
+    private EditText m_edtVK;
+    private SwitchCompat m_Switch;
+    private FloatingActionButton m_fab;
+
     private int m_iItems = 0;
     private FragmentActivity m_Context;
     private static RegisterPopUpDialogFragment m_frag;
@@ -67,6 +74,10 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         m_button_min = view.findViewById(R.id.fragment_registerpopup_page_btnminus);
         m_button_pl = view.findViewById(R.id.fragment_registerpopup_page_btnplus);
         m_edttCount = view.findViewById(R.id.fragment_registerpopup_page_edttxt);
+        m_edtInfo= view.findViewById(R.id.fragment_registerpopup_page_ticom);
+        m_edtVK = view.findViewById(R.id.fragment_registerpopup_page_tivk);
+        m_fab = view.findViewById(R.id.fragment_registerpopup_page_fab);
+        m_Switch = view.findViewById(R.id.fragment_registerpopup_page_switch);
 
         //set EditText
         m_edttCount.setText(String.valueOf(0), TextView.BufferType.EDITABLE);
@@ -75,6 +86,7 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         //set listener
         m_button_min.setOnClickListener(this);
         m_button_pl.setOnClickListener(this);
+        m_fab.setOnClickListener(fabOnClickListener);
 
         return view;
     }
@@ -107,6 +119,12 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
 
         }
     }
+
+    private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+        }
+    };
 
     private void button_minus(){
         if(m_iItems > 0){
