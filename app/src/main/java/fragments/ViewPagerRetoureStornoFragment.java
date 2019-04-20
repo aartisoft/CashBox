@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.dd.cashbox.Main;
@@ -18,6 +19,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import adapter.GridViewProductAdapter;
+import adapter.ListViewPrinterSearchAdapter;
+import adapter.ListViewRetoureStornoAdapter;
 import adapter.ViewPagerRetoureStornoAdapter;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,11 +28,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
 import objects.ObjCategory;
+import objects.ObjPrinterSearch;
 import objects.ObjProduct;
 
 public class ViewPagerRetoureStornoFragment extends Fragment{
@@ -41,6 +46,8 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
     private ViewPagerRetoureStornoAdapter m_ViewPagerAdapter;
     private TabLayout m_TabLayout;
     private ViewPager m_ViewPager;
+    private ListView m_listView;
+    private ListViewRetoureStornoAdapter m_adapter;
     Context m_Context;
     private String m_strCategory = "";
     private String m_strProduct = "";
@@ -84,32 +91,21 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
         //set variables
-        m_fab = view.findViewById(R.id.fragment_retourestorno_fab);
         m_Context = getContext();
+        m_fab = view.findViewById(R.id.fragment_retourestorno_fab);
+        m_listView = view.findViewById(R.id.fragment_retourestorno_lv);
 
         //set Listener
         m_fab.setOnClickListener(fabOnClickListener);
+
+        //set listview
+        initListView();
     }
 
     private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-        }
-    };
-
-    public void raiseCloseDialog(){
-        //update listview bill
-        ((Main) getActivity()).raiseNewProduct();
-
-        //close dialog
-        Fragment mParentFragment = (RetoureStornoDialogFragment) getParentFragment();
-        ((RetoureStornoDialogFragment) mParentFragment).raiseCloseDialog();
-    }
-
-    private void button_returned(){
-
-        //if value has changed
+            //if value has changed
         /*if(m_iItems != 0) {
             //get current product and set returned
             final ObjBillProduct objbillproduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(m_iSessionLVPos);
@@ -139,7 +135,30 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
             //show popupwindow
             showPopUpWIndowOk();
         }*/
+        }
+    };
 
+    public void raiseCloseDialog(){
+        //update listview bill
+        ((Main) getActivity()).raiseNewProduct();
+
+        //close dialog
+        Fragment mParentFragment = (RetoureStornoDialogFragment) getParentFragment();
+        ((RetoureStornoDialogFragment) mParentFragment).raiseCloseDialog();
+    }
+
+    private void initListView(){
+        //init adapter
+        ArrayList<ObjBillProduct> lstObjBillProducts = new ArrayList<>();
+
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+            if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
+                lstObjBillProducts.add(objBillProduct);
+            }
+        }
+
+        m_adapter = new ListViewRetoureStornoAdapter(m_Context, lstObjBillProducts);
+        m_listView.setAdapter(m_adapter);
     }
 
     private int getBillListPointer(){
