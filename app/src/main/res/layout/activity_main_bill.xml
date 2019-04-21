@@ -16,6 +16,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="vertical">
 
+
         <TextView
             android:id="@+id/activity_main_bill_tvtable"
             android:layout_width="match_parent"
@@ -58,6 +59,34 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context="info.androidhive.recyclerviewswipe.MainActivity"
                 tools:showIn="@layout/activity_main_bill">
+
+                <RelativeLayout
+                    android:id="@+id/activity_main_bill_rv_noitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/src_LeererBeleg"
+                        android:textColor="@color/colorGrey"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/activity_main_bill_rv_nobill"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/src_KeinBeleg__Ausgewaehlt"
+                        android:textColor="@color/colorGrey"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+                </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activity_main_bill_rv"

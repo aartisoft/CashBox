@@ -74,6 +74,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private TextView m_TextViewTable;
     private TextView m_TextViewBill;
     private TextView m_TextViewOpenSum;
+    private View m_ViewNoBill;
+    private View m_ViewEmptyBill;
     private Button m_btnRegisterDel;
     private RecyclerViewMainBillAdapter m_rv_adapter;
     private RecyclerItemTouchHelperBill m_RecyclerItemTouchHelper;
@@ -119,6 +121,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_TextViewTable = findViewById(R.id.activity_main_bill_tvtable);
         m_TextViewBill = findViewById(R.id.activity_main_bill_tvbill);
         m_TextViewOpenSum = findViewById(R.id.activity_main_bill_tvbillsum);
+        m_ViewEmptyBill = findViewById(R.id.activity_main_bill_rv_noitem);
+        m_ViewNoBill = findViewById(R.id.activity_main_bill_rv_nobill);
         m_recyclerview = findViewById(R.id.activity_main_bill_rv);
         m_btnRegisterDel = findViewById(R.id.am_menu_btnCashBoxDelete);
 
@@ -267,29 +271,62 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         @Override
         public void onClick(View v) {
             if(m_iSessionTable != -1) {
-                //set new bill
-                ObjBill objBill = new ObjBill();
-                objBill.setBillNr(GlobVar.g_iBillNr +1);
-                objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
+                //only add new bill if last one is not empty
+                if (m_iSessionBill != -1) {
+                    if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
+                        //set new bill
+                        ObjBill objBill = new ObjBill();
+                        objBill.setBillNr(GlobVar.g_iBillNr + 1);
+                        objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
 
-                String pattern = "dd/MM/yyyy HH:mm:ss";
-                DateFormat df = new SimpleDateFormat(pattern);
+                        String pattern = "dd/MM/yyyy HH:mm:ss";
+                        DateFormat df = new SimpleDateFormat(pattern);
 
-                Date date = Calendar.getInstance().getTime();
-                String todayAsString = df.format(date);
-                objBill.setBillingDate(todayAsString);
+                        Date date = Calendar.getInstance().getTime();
+                        String todayAsString = df.format(date);
+                        objBill.setBillingDate(todayAsString);
 
-                GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
+                        GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
 
-                //set bill number and header
-                //SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmm");
-                //int iDate = Integer.parseInt(dt.format(date));
-                GlobVar.g_iBillNr++;
-                m_iSessionBill = GlobVar.g_iBillNr;
-                setHeaderBill();
-                setOpenSum();
+                        //set bill number and header
+                        //SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmm");
+                        //int iDate = Integer.parseInt(dt.format(date));
+                        GlobVar.g_iBillNr++;
+                        m_iSessionBill = GlobVar.g_iBillNr;
+                        setHeaderBill();
+                        setOpenSum();
 
-                Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegHinzugefuegt), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegHinzugefuegt), Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegBereitsVorhanden), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    //set new bill
+                    ObjBill objBill = new ObjBill();
+                    objBill.setBillNr(GlobVar.g_iBillNr + 1);
+                    objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
+
+                    String pattern = "dd/MM/yyyy HH:mm:ss";
+                    DateFormat df = new SimpleDateFormat(pattern);
+
+                    Date date = Calendar.getInstance().getTime();
+                    String todayAsString = df.format(date);
+                    objBill.setBillingDate(todayAsString);
+
+                    GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
+
+                    //set bill number and header
+                    //SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmm");
+                    //int iDate = Integer.parseInt(dt.format(date));
+                    GlobVar.g_iBillNr++;
+                    m_iSessionBill = GlobVar.g_iBillNr;
+                    setHeaderBill();
+                    setOpenSum();
+
+                    Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegHinzugefuegt), Toast.LENGTH_SHORT).show();
+                }
             }
             else{
                 Toast.makeText(Main.this, getResources().getString(R.string.src_KeinTischAusgewaehlt), Toast.LENGTH_SHORT).show();
@@ -374,14 +411,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         objBillProduct.setPrinted(true);
                         objBillProduct.setSqlChanged(true);
                     }
-
                     //set print symbols
                     setupRecyclerView();
-
-                    //write tablebills to database
-                    //SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-                    //db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
-                } else {
+                }
+                else {
                     Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdeBereitsAlleArtikelGedruckt), Toast.LENGTH_SHORT).show();
                 }
 
@@ -620,6 +653,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private void setHeaderBill(){
         String strBillHeader = "";
         if(m_iSessionBill != -1){
+
             strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
 
             //only set recyclerview when bill product list not empty
@@ -631,6 +665,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
         else{
             strBillHeader = getResources().getString(R.string.src_Beleg_empty);
+
+            //set infotext mainbill
+            m_ViewNoBill.setVisibility(View.VISIBLE);
+            m_ViewEmptyBill.setVisibility(View.INVISIBLE);
         }
         m_TextViewBill.setText(strBillHeader);
     }
@@ -671,6 +709,29 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         m_recyclerview.setAdapter(m_rv_adapter);
         m_rv_adapter.notifyDataSetChanged();
+
+        //set infotext mainbill
+        if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts.size() > 0){
+            boolean bFound = false;
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts){
+                if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
+                    bFound = true;
+                    break;
+                }
+            }
+            if(bFound){
+                m_ViewNoBill.setVisibility(View.INVISIBLE);
+                m_ViewEmptyBill.setVisibility(View.INVISIBLE);
+            }
+            else{
+                m_ViewNoBill.setVisibility(View.INVISIBLE);
+                m_ViewEmptyBill.setVisibility(View.VISIBLE);
+            }
+        }
+        else{
+            m_ViewNoBill.setVisibility(View.INVISIBLE);
+            m_ViewEmptyBill.setVisibility(View.VISIBLE);
+        }
     }
 
     private int getBillListPointer(){
