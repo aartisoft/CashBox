@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="1000dp"
-    android:minHeight="1000dp"
+    android:minHeight="800dp"
     android:layout_gravity="center"
     android:orientation="vertical">
 
@@ -20,7 +20,7 @@
             android:id="@+id/fragment_registerpopup_tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/src_ArtikelExtraInfos"
+            android:text="@string/src_ExtraInfos"
             android:textColor="@color/colorWhite"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 

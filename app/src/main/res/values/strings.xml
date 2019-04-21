@@ -98,7 +98,7 @@
     <string name="src_KeineZusaetzlicheInfo">Keine Zusätzliche Information</string>
     <string name="src_KeineProdukteVorhanden">Keine Produkte vorhanden</string>
     <string name="src_KeineProduktAusgewaehlt">Kein Produkt ausgewählt</string>
-    <string name="src_ArtikelExtraInfos">Artikel Extra Infomationen</string>
+    <string name="src_ExtraInfos">Extra Infomationen</string>
     <string name="src_ToGo">To Go</string>
     <string name="src_KeinVerkaufspreisAngegeben">Kein Verkaufspreis angegeben</string>
 

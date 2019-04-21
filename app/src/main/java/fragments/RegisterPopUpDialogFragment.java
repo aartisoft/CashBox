@@ -47,6 +47,7 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
     private EditText m_edttCount;
     private EditText m_edtInfo;
     private EditText m_edtVK;
+    private TextView m_tvTitle;
     private SwitchCompat m_Switch;
     private FloatingActionButton m_fab;
 
@@ -76,6 +77,7 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         m_iBillNr = getArguments().getInt("BILL");
         m_strCategory = getArguments().getString("CATEGORY");
         m_strProduct = getArguments().getString("PRODUCT");
+        m_Context = getActivity();
 
         //set UI
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -84,14 +86,17 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         toolbar.setNavigationOnClickListener(tbOnClickListener);
 
         //set variables
-        m_Context = getActivity();
         m_button_min = view.findViewById(R.id.fragment_registerpopup_page_btnminus);
         m_button_pl = view.findViewById(R.id.fragment_registerpopup_page_btnplus);
+        m_tvTitle = view.findViewById(R.id.fragment_registerpopup_tvTitle);
         m_edttCount = view.findViewById(R.id.fragment_registerpopup_page_edttxt);
         m_edtInfo = view.findViewById(R.id.fragment_registerpopup_page_edttxtaddinfo);
         m_edtVK = view.findViewById(R.id.fragment_registerpopup_page_edttxtvk);
         m_fab = view.findViewById(R.id.fragment_registerpopup_page_fab);
         m_Switch = view.findViewById(R.id.fragment_registerpopup_page_switch);
+
+        //set title
+        m_tvTitle.setText(m_strProduct + " - " + m_Context.getString(R.string.src_ExtraInfos));
 
         //set EditText Counter
         m_edttCount.setText(String.valueOf(0), TextView.BufferType.EDITABLE);
