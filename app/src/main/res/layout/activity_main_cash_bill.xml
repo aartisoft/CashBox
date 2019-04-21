@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/activity_main_bill_cash_tvtable"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_above="@+id/activity_main_bill_cash_tvbill"
+            android:text="@string/src_Tisch_emtpy"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:background="@drawable/textview_border" />
+
+        <TextView
+            android:id="@+id/activity_main_bill_cash_tvbill"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_above="@+id/activity_main_bill_cash_rv"
+            android:layout_marginTop="1dp"
+            android:text="@string/src_Beleg_empty"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:background="@drawable/textview_border"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="52dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/listview_border"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:context="info.androidhive.recyclerviewswipe.MainActivity"
+                tools:showIn="@layout/activity_main_bill">
+
+                <RelativeLayout
+                    android:id="@+id/activity_main_bill_cash_rv_noitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/src_KeineArtikel__Vorhanden"
+                        android:textColor="@color/colorGrey"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_main_bill_cash_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:scrollbars="vertical" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="left|center"
+        android:background="@drawable/listview_border">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:text="@string/src_Summe"
+            android:layout_marginLeft="5dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/activity_main_bill_cash_tvbillsum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textAlignment="textEnd"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                android:text="0,00€"
+                android:layout_marginRight="5dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

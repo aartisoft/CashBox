@@ -82,6 +82,7 @@
     <string name="src_KeinBelegAusgewaehlt">Kein Beleg ausgewählt</string>
     <string name="src_KeinBeleg__Ausgewaehlt">Kein Beleg \nausgewählt</string>
     <string name="src_KeineArtikelVorhanden">Keine Artikel vorhanden</string>
+    <string name="src_KeineArtikel__Vorhanden">Keine Artikel \n    vorhanden</string>
     <string name="src_NeuerBelegHinzugefuegt">Neuer Beleg hinzugefügt</string>
     <string name="src_BelegAuswaehlen">Beleg auswählen</string>
     <string name="src_BelegAuswaehlenOffeneBelege">Beleg auswählen (Offene Belege)</string>
@@ -106,6 +107,8 @@
     <string name="src_KeineStueckzahlAngegeben">Keine Stückzahl angegeben</string>
     <string name="src_LeererBeleg">Leerer Beleg</string>
     <string name="src_NeuerBelegBereitsVorhanden">Neuer Beleg bereits vorhanden</string>
+    <string name="src_Bezahlen">Bezahlen</string>
+    <string name="src_Abbrechen">Abbrechen</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
