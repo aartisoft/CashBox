@@ -27,7 +27,7 @@ public class MainCash extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editproduct);
+        setContentView(R.layout.activity_main_cash);
 
         //get intent variables
         m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
@@ -39,7 +39,8 @@ public class MainCash extends AppCompatActivity{
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
-        Toolbar toolbar = findViewById(R.id.toolbar_editproduct);
+        Toolbar toolbar = findViewById(R.id.activity_main_cash_toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

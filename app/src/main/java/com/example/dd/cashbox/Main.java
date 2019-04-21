@@ -425,10 +425,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabPayOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(Main.this, MainCash.class);
-            intent.putExtra("TABLE", m_iSessionTable);
-            intent.putExtra("BILL", m_iSessionBill);
-            startActivity(intent);
+            if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+                Intent intent = new Intent(Main.this, MainCash.class);
+                intent.putExtra("TABLE", m_iSessionTable);
+                intent.putExtra("BILL", m_iSessionBill);
+                startActivity(intent);
+            }
+            else{
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
