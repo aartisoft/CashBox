@@ -69,7 +69,7 @@
                     android:layout_marginLeft="3dp">
 
                     <!-- Main UI Register -->
-                    <!--<include layout="@layout/activity_main_register"/>-->
+                    <include layout="@layout/activity_main_cash_pay"/>
 
                 </RelativeLayout>
 

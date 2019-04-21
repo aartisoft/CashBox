@@ -20,10 +20,37 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="40dp" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            tools:text="EUR" />
+    </RelativeLayout>
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main_cash_pay_lv"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        tools:context="abhiandroid.com.listexample.MainActivity"
+        android:divider="@color/colorGrey"
+        android:dividerHeight="1dp"
+        android:theme="@style/ListView">
+    </ListView>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:background="@android:color/darker_gray"/>
@@ -62,7 +89,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:orientation="horizontal">
@@ -72,15 +99,15 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="normal"
-            tools:text="@string/src_KundeMoechteZahlen"/>
+            tools:text="@string/src_MoechteZahlen"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
                 android:tag="EUR"
-                android:id="@+id/activity_main_cash_pay_tvcustomerwantspaySum"
-                android:layout_width="80dp"
+                android:id="@+id/activity_main_cash_pay_tvcustomerwantspaysum"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginLeft="0dp"
@@ -119,7 +146,7 @@
             <EditText
                 android:tag="EUR"
                 android:id="@+id/activity_main_cash_pay_tvcustomerpayssum"
-                android:layout_width="80dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginLeft="0dp"
@@ -180,7 +207,7 @@
         android:id="@+id/activity_main_cash_pay_btnpay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:textColor="@color/colorBlack"

@@ -111,7 +111,7 @@
     <string name="src_Abbrechen">Abbrechen</string>
     <string name="src_Rechnung">Rechnung</string>
     <string name="src_ZuZahlen">Zu Zahlen:</string>
-    <string name="src_KundeMoechteZahlen">Kunde möchte zahlen:</string>
+    <string name="src_MoechteZahlen">Möchte zahlen:</string>
     <string name="src_Gegeben">Gegeben:</string>
     <string name="src_Rueckgeld">Rückgeld:</string>
 
