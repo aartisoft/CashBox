@@ -425,7 +425,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabPayOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            Intent intent = new Intent(Main.this, MainCash.class);
+            intent.putExtra("TABLE", m_iSessionTable);
+            intent.putExtra("BILL", m_iSessionBill);
+            startActivity(intent);
         }
     };
 

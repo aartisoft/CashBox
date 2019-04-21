@@ -22,9 +22,9 @@ public class MainShowBills extends AppCompatActivity {
 
     private Context m_Context;
     private View m_decorView;
-    private int m_iSessionTable;
     private ExpandableListView m_ListView;
     private ListViewBillAdapter m_listViewBillAdapter;
+    private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -42,7 +42,7 @@ public class MainShowBills extends AppCompatActivity {
 
         //get intent variables
         m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
-        m_iSessionBill = getIntent().getIntExtra("BILL", 0);
+        m_iSessionBill = getIntent().getIntExtra("BILL", -1);
 
         //init variables
         m_Context = this;

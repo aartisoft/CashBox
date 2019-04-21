@@ -14,11 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:text="@string/src_Rechnung"
         android:textAlignment="center"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="40dp" />
+        android:layout_marginBottom="20dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_main_cash_pay_lv"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -50,7 +50,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:background="@android:color/darker_gray"/>
@@ -67,7 +67,7 @@
             android:id="@+id/activity_main_cash_pay_tvtopay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="normal"
             tools:text="@string/src_ZuZahlen"/>
 
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:textAlignment="textEnd"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="normal"
                 tools:text="VK" />
         </RelativeLayout>
@@ -97,7 +97,7 @@
             android:id="@+id/activity_main_cash_pay_tvcustomerwantspay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="normal"
             tools:text="@string/src_MoechteZahlen"/>
 
@@ -118,7 +118,7 @@
                 android:hint="EUR"
                 android:backgroundTint="@color/colorGrey"
                 android:textColorHint="@color/colorGrey"
-                android:textSize="18dp"
+                android:textSize="16dp"
                 android:textCursorDrawable="@drawable/colorcursor_black"
                 android:inputType="numberDecimal"
                 android:singleLine="true"/>
@@ -136,7 +136,7 @@
             android:id="@+id/activity_main_cash_pay_tvcustomerpays"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="normal"
             tools:text="@string/src_Gegeben"/>
 
@@ -157,7 +157,7 @@
                 android:hint="EUR"
                 android:backgroundTint="@color/colorGrey"
                 android:textColorHint="@color/colorGrey"
-                android:textSize="18dp"
+                android:textSize="16dp"
                 android:textCursorDrawable="@drawable/colorcursor_black"
                 android:inputType="numberDecimal"
                 android:singleLine="true"/>
@@ -184,7 +184,7 @@
             android:id="@+id/activity_main_cash_pay_tvrest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="normal"
             tools:text="@string/src_Rueckgeld"/>
 
@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:textAlignment="textEnd"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="normal"
                 tools:text="VK" />
         </RelativeLayout>

@@ -35,6 +35,7 @@
         <activity android:name=".EditProduct_Edit"></activity>
         <activity android:name=".MainShowTables"></activity>
         <activity android:name=".MainShowBills"></activity>
+        <activity android:name=".MainCash"></activity>
     </application>
 
 </manifest>
