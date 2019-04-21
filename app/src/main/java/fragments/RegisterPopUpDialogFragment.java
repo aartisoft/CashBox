@@ -18,6 +18,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -92,9 +93,12 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         m_fab = view.findViewById(R.id.fragment_registerpopup_page_fab);
         m_Switch = view.findViewById(R.id.fragment_registerpopup_page_switch);
 
-        //set EditText
+        //set EditText Counter
         m_edttCount.setText(String.valueOf(0), TextView.BufferType.EDITABLE);
         m_edttCount.setCursorVisible(false);
+
+        //set EditText VK
+        setEditTextVK();
 
         //set listener
         m_button_min.setOnClickListener(this);
@@ -143,6 +147,9 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
                 }
                 else {
                     writeTableBillsList(m_iTable, m_iBillNr);
+                    //tel main activity there is a new product available
+                    ((Main) getActivity()).raiseNewProduct();
+                    m_frag.dismiss();
                 }
             }
         }
@@ -164,6 +171,13 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         m_edttCount.setText(String.valueOf(m_iItems), TextView.BufferType.EDITABLE);
     }
 
+    private void setEditTextVK(){
+        //get object product
+        ObjProduct objproduct = getObjProduct();
+
+        m_edtVK.setText(String.valueOf(objproduct.getVK()), TextView.BufferType.EDITABLE);
+    }
+
     private void writeTableBillsList(int iTable, int iBillNr){
 
         //get bill
@@ -176,18 +190,9 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         }
 
         //get object product
-        ObjProduct objproduct = new ObjProduct();
-        for(ObjCategory objCategory : GlobVar.g_lstCategory){
-            if(objCategory.getName().equals(m_strCategory)){
-                for(ObjProduct objProduct : objCategory.getListProduct()){
-                    if(objProduct.getName().equals(m_strProduct)){
-                        objproduct = objProduct;
-                    }
-                }
-            }
-        }
+        ObjProduct objproduct = getObjProduct();
 
-        for(int i = 0; i <= m_iItems; i++){
+        for(int i = 0; i < m_iItems; i++){
             ObjBillProduct objbillproduct = new ObjBillProduct();
 
             //set id
@@ -219,5 +224,20 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
             //add globally
             GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
         }
+    }
+
+    private ObjProduct getObjProduct(){
+        //get object product
+        ObjProduct objproduct = new ObjProduct();
+        for(ObjCategory objCategory : GlobVar.g_lstCategory){
+            if(objCategory.getName().equals(m_strCategory)){
+                for(ObjProduct objProduct : objCategory.getListProduct()){
+                    if(objProduct.getName().equals(m_strProduct)){
+                        objproduct = objProduct;
+                    }
+                }
+            }
+        }
+        return objproduct;
     }
 }

@@ -379,8 +379,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     setupRecyclerView();
 
                     //write tablebills to database
-                    SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-                    db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
+                    //SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+                    //db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
                 } else {
                     Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdeBereitsAlleArtikelGedruckt), Toast.LENGTH_SHORT).show();
                 }
@@ -656,6 +656,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void setupRecyclerView(){
+
+        //write tablebills to database
+        SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+        db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
 
         //get list bill pointer
         final int iBill = getBillListPointer();
