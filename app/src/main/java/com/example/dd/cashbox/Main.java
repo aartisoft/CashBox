@@ -641,7 +641,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             double prize = 0.00;
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
                 if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
-                    prize += objBillProduct.getProduct().getVK();
+                    prize += objBillProduct.getVK();
                 }
             }
 

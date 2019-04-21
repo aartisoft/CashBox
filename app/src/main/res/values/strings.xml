@@ -101,6 +101,8 @@
     <string name="src_ExtraInfos">Extra Infomationen</string>
     <string name="src_ToGo">To Go</string>
     <string name="src_KeinVerkaufspreisAngegeben">Kein Verkaufspreis angegeben</string>
+    <string name="src_ErmaessigterPreis">Ermäßigter Preis</string>
+    <string name="src_KeineStueckzahlAngegeben">Keine Stückzahl angegeben</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

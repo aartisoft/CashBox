@@ -1,12 +1,12 @@
 package fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,19 +16,16 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import adapter.ViewPagerRetoureStornoAdapter;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
@@ -48,7 +45,8 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
     private EditText m_edtInfo;
     private EditText m_edtVK;
     private TextView m_tvTitle;
-    private SwitchCompat m_Switch;
+    private SwitchCompat m_ToGoSwitch;
+    private SwitchCompat m_ReducedSwitch;
     private FloatingActionButton m_fab;
 
     private int m_iItems = 0;
@@ -93,7 +91,8 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         m_edtInfo = view.findViewById(R.id.fragment_registerpopup_page_edttxtaddinfo);
         m_edtVK = view.findViewById(R.id.fragment_registerpopup_page_edttxtvk);
         m_fab = view.findViewById(R.id.fragment_registerpopup_page_fab);
-        m_Switch = view.findViewById(R.id.fragment_registerpopup_page_switch);
+        m_ToGoSwitch = view.findViewById(R.id.fragment_registerpopup_page_switch);
+        m_ReducedSwitch = view.findViewById(R.id.fragment_registerpopup_page_Reducedswitch);
 
         //set title
         m_tvTitle.setText(m_strProduct + " - " + m_Context.getString(R.string.src_ExtraInfos));
@@ -103,12 +102,13 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         m_edttCount.setCursorVisible(false);
 
         //set EditText VK
-        setEditTextVK();
+        m_edtVK.setEnabled(false);
 
         //set listener
         m_button_min.setOnClickListener(this);
         m_button_pl.setOnClickListener(this);
         m_fab.setOnClickListener(fabOnClickListener);
+        m_ReducedSwitch.setOnCheckedChangeListener(vkOnCheckedChangeListener);
 
         return view;
     }
@@ -147,7 +147,7 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         public void onClick(View v) {
             //check weather all field are filled
             if(m_iItems > 0){
-                if(m_edtVK.getText().toString().equals("")){
+                if(m_ReducedSwitch.isChecked() && m_edtVK.getText().toString().equals("")){
                     Toast.makeText(m_Context, getResources().getString(R.string.src_KeinVerkaufspreisAngegeben), Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -156,6 +156,21 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
                     ((Main) getActivity()).raiseNewProduct();
                     m_frag.dismiss();
                 }
+            }
+            else{
+                Toast.makeText(m_Context, getResources().getString(R.string.src_KeineStueckzahlAngegeben), Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    private CompoundButton.OnCheckedChangeListener vkOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener(){
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(isChecked){
+                m_edtVK.setEnabled(true);
+            }
+            else{
+                m_edtVK.setEnabled(false);
             }
         }
     };
@@ -210,10 +225,18 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
             objbillproduct.setID(lID);
 
             objbillproduct.setProduct(objproduct);
-            objbillproduct.setVK(Double.parseDouble(m_edtVK.getText().toString()));
+
+            //set VK
+            if(m_ReducedSwitch.isChecked()){
+                objbillproduct.setVK(Double.parseDouble(m_edtVK.getText().toString()));
+            }
+            else{
+                objbillproduct.setVK(objproduct.getVK());
+            }
+
             objbillproduct.setCategory(objproduct.getCategory());
             objbillproduct.setAddInfo(m_edtInfo.getText().toString());
-            objbillproduct.setToGo(m_Switch.isChecked());
+            objbillproduct.setToGo(m_ToGoSwitch.isChecked());
 
             //get printer
             for(ObjCategory objCategory : GlobVar.g_lstCategory){
