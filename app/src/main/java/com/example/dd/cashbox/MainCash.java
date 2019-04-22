@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -48,6 +50,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
     private ListViewMainCashBillPayAdapter m_lv_adapter;
     private RecyclerView m_recyclerview;
     private ListView m_listview;
+    private double m_dToPay = 0.0;
+    private double m_dWantsToPay = 0.0;
+    private double m_dPays = 0.0;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -100,6 +105,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
         m_btnPay.setOnClickListener(this);
         m_btnCancel.setOnClickListener(this);
+        m_EdtPays.addTextChangedListener(paysTextWatcher);
+        m_EdtWantsToPay.addTextChangedListener(wantsToPayTextWatcher);
         //m_EdtWantsToPay.setOnTouchListener(WantsToPayOnTouchListener);
         //m_EdtPays.setOnTouchListener(PaysOnTouchListener);
     }
@@ -172,16 +179,28 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(MainCash.this, Main.class);
+
         switch(v.getId()){
             case R.id.activity_main_cash_pay_btnpay:
+                //set articles paid
+                setPaid();
 
+                //set pay transit false
+                setPayTransitFalse();
+
+                intent = new Intent(MainCash.this, Main.class);
+                intent.putExtra("BILL", m_iSessionBill);
+                intent.putExtra("TABLE", m_iSessionTable);
+                startActivity(intent);
+                finish();
                 break;
 
             case R.id.activity_main_cash_pay_btncancel:
                 //set pay transit false
                 setPayTransitFalse();
 
-                Intent intent = new Intent(MainCash.this, Main.class);
+                intent = new Intent(MainCash.this, Main.class);
                 intent.putExtra("BILL", m_iSessionBill);
                 intent.putExtra("TABLE", m_iSessionTable);
                 startActivity(intent);
@@ -192,6 +211,56 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
 
         }
     }
+
+    private TextWatcher wantsToPayTextWatcher = new TextWatcher(){
+        public void afterTextChanged(Editable s) {
+            String strWantsToPay = "";
+            if(m_EdtWantsToPay.getText().equals("")){
+                strWantsToPay = "0,0";
+            }
+            else{
+                strWantsToPay = m_EdtWantsToPay.getText().toString();
+            }
+
+            strWantsToPay = strWantsToPay.replace(",", ".");
+            m_dWantsToPay = Double.parseDouble(strWantsToPay);
+
+            setChangeSum();
+        }
+
+        public void beforeTextChanged(CharSequence s, int start,
+                                      int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start,
+                                  int before, int count) {
+        }
+    };
+
+    private TextWatcher paysTextWatcher = new TextWatcher(){
+        public void afterTextChanged(Editable s) {
+            String strPays = "";
+            if(m_EdtPays.getText().equals("")){
+                strPays = "0,0";
+            }
+            else{
+                strPays = m_EdtPays.getText().toString();
+            }
+
+            strPays = strPays.replace(",", ".");
+            m_dPays = Double.parseDouble(strPays);
+
+            setChangeSum();
+        }
+
+        public void beforeTextChanged(CharSequence s, int start,
+                                      int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start,
+                                  int before, int count) {
+        }
+    };
 
     //////////////////////////////////////////// METHODS /////////////////////////////////////////////////////////////////////////////
     public void raiseChange(){
@@ -250,8 +319,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
 
     private void setOpenTransitSum(){
         String strOpenTransitSum;
+        double prize = 0.00;
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
-            double prize = 0.00;
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
                 if(objBillProduct.getPayTransit()){
                     prize += objBillProduct.getVK();
@@ -262,9 +331,36 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
             strOpenTransitSum = df.format(prize);
         }
         else{
+            prize = 0.0;
             strOpenTransitSum = "0,00";
         }
+        m_dToPay = prize;
         m_TvToPay.setText(strOpenTransitSum);
+    }
+
+    private void setChangeSum(){
+        if(m_dPays > 0.00){
+            double dChange;
+            if(m_dWantsToPay > m_dToPay){
+                dChange = m_dToPay - (m_dToPay - m_dWantsToPay) - m_dPays;
+            }
+            else{
+                dChange = m_dToPay - m_dPays;
+            }
+
+            //delete sign
+            if(dChange < 0){
+                dChange = dChange*-1;
+            }
+            else{
+                dChange = 0.00;
+            }
+
+            //write to textview
+            DecimalFormat df = new DecimalFormat("0.00");
+            String strChange = df.format(dChange);
+            m_TvBack.setText(strChange);
+        }
     }
 
     private void setupRecyclerView(){
@@ -329,6 +425,14 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
     private void setPayTransitFalse(){
         for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
             objBillProduct.setPayTransit(false);
+        }
+    }
+
+    private void setPaid(){
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+            if(objBillProduct.getPayTransit()){
+                objBillProduct.setPaid(true);
+            }
         }
     }
 
