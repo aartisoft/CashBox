@@ -19,6 +19,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.dd.cashbox.Main;
+import com.example.dd.cashbox.MainCash;
 import com.example.dd.cashbox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -43,7 +44,6 @@ public class MainCashBillDialogFragment extends DialogFragment {
     private int m_iBillNr = -1;
     private String m_strCategory = "";
     private String m_strProduct = "";
-    private TextView m_tvTitle;
     private FloatingActionButton m_fab;
     private ListView m_listView;
     private ListViewMainCashBillAdapter m_adapter;
@@ -141,8 +141,9 @@ public class MainCashBillDialogFragment extends DialogFragment {
                 Toast.makeText(m_Context, getResources().getString(R.string.src_KeineProduktAusgewaehlt), Toast.LENGTH_SHORT).show();
             }
 
-            //show popupwindow
-            //showPopUpWIndowOk();
+            //close fragment
+            ((MainCash)m_Context).raiseChange();
+            m_frag.dismiss();
         }
     };
 

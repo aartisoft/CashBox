@@ -149,6 +149,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                //set pay transit false
+                setPayTransitFalse();
+
                 Intent intent = new Intent(MainCash.this, Main.class);
                 intent.putExtra("BILL", m_iSessionBill);
                 intent.putExtra("TABLE", m_iSessionTable);
@@ -169,6 +172,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
                 break;
 
             case R.id.activity_main_cash_pay_btncancel:
+                //set pay transit false
+                setPayTransitFalse();
+
                 Intent intent = new Intent(MainCash.this, Main.class);
                 intent.putExtra("BILL", m_iSessionBill);
                 intent.putExtra("TABLE", m_iSessionTable);
@@ -182,6 +188,10 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
     }
 
     //////////////////////////////////////////// METHODS /////////////////////////////////////////////////////////////////////////////
+    public void raiseChange(){
+        setupRecyclerView();
+    }
+
     private void setHeaderTable(){
         String strTableHeader = "";
         if(m_iSessionTable != -1){
@@ -281,6 +291,12 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
             iBill++;
         }
         return 0;
+    }
+
+    private void setPayTransitFalse(){
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+            objBillProduct.setPayTransit(false);
+        }
     }
 
     public void showMainCashBillDialog(String p_strCategory, String p_strProduct) {

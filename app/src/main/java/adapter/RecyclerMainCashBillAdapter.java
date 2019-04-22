@@ -66,8 +66,8 @@ public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMa
 
         //set list
         for(ObjBillProduct objBillProductAdapter : billproductList){
-            if(objBillProductAdapter.getPrinted() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
-                    && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
+            if(objBillProductAdapter.getPrinted() && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
+                    && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
                 //init variables
                 ObjBillProduct objBillProductSearch = objBillProductAdapter;
                 ObjMainBillProduct objMainBillProduct = new ObjMainBillProduct();
@@ -79,7 +79,8 @@ public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMa
 
                 for(ObjBillProduct objBillProduct : billproductList){
                     if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
-                        if(!objBillProduct.getPaid() && !objBillProduct.getCanceled()
+                        if(objBillProduct.getPrinted() && !objBillProduct.getPayTransit()
+                                && !objBillProduct.getPaid() && !objBillProduct.getCanceled()
                                 && !objBillProduct.getReturned() && !objBillProduct.isShown()){
                             iQuantity++;
                             dPrize += objBillProduct.getVK();
