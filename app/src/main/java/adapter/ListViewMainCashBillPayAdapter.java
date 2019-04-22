@@ -30,10 +30,16 @@ public class ListViewMainCashBillPayAdapter extends BaseAdapter {
         super();
         this.m_Context = context;
 
+        //set shown false
+        for(ObjBillProduct objBillProduct : p_lstBillProducts) {
+            objBillProduct.setShown(false);
+        }
+
         //set list
         for(ObjBillProduct objBillProductAdapter : p_lstBillProducts){
-            if(!objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
-                    && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
+            if(objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
+                    && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned()
+                    && !objBillProductAdapter.isShown()){
                 //init variables
                 ObjBillProduct objBillProductSearch = objBillProductAdapter;
                 ObjMainCashBillProduct objMainBillProduct  = new ObjMainCashBillProduct();
@@ -47,24 +53,10 @@ public class ListViewMainCashBillPayAdapter extends BaseAdapter {
                         if(objBillProduct.getPayTransit() && !objBillProduct.getPaid()
                                 && !objBillProduct.getCanceled() && !objBillProduct.getReturned()
                                 && !objBillProduct.isShown()){
-                            //summarize items
-                            if(objBillProduct.getAddInfo().equals("")){
-                                iQuantity++;
-                                dPrize += objBillProduct.getVK();
-                                objBillProduct.setShown(true);
-                                bFound = true;
-                            }
-                            //list as one item
-                            else{
-                                objBillProduct.setShown(true);
-
-                                objMainBillProduct.setQuantity(iQuantity);
-                                objMainBillProduct.setAddInfo(objBillProductSearch.getAddInfo());
-                                objMainBillProduct.setSum(dPrize);
-
-                                //add to adapter list
-                                this.m_List.add(objMainBillProduct);
-                            }
+                            iQuantity++;
+                            dPrize += objBillProduct.getVK();
+                            objBillProduct.setShown(true);
+                            bFound = true;
                         }
                     }
                 }
@@ -117,8 +109,8 @@ public class ListViewMainCashBillPayAdapter extends BaseAdapter {
         }
 
         // Populate the data into the template view using the data object
-        view.txtArticle.setText(m_List.get(position).getQuantity() + "x"
-                + m_List.get(position).getProduct().getName() + " - " + m_List.get(position).getAddInfo());
+        view.txtArticle.setText(m_List.get(position).getQuantity() + "x "
+                + m_List.get(position).getProduct().getName());
 
         DecimalFormat df = new DecimalFormat("0.00");
         String strSum = df.format(m_List.get(position).getSum());

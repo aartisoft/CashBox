@@ -197,6 +197,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
     public void raiseChange(){
         setupRecyclerView();
         setuplistview();
+        setOpenTransitSum();
     }
 
     private void setHeaderTable(){
@@ -245,6 +246,25 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
             strOpenSum = "0,00€";
         }
         m_TextViewOpenSum.setText(strOpenSum);
+    }
+
+    private void setOpenTransitSum(){
+        String strOpenTransitSum;
+        if(m_iSessionTable != -1 && m_iSessionBill != -1){
+            double prize = 0.00;
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                if(objBillProduct.getPayTransit()){
+                    prize += objBillProduct.getVK();
+                }
+            }
+
+            DecimalFormat df = new DecimalFormat("0.00");
+            strOpenTransitSum = df.format(prize);
+        }
+        else{
+            strOpenTransitSum = "0,00";
+        }
+        m_TvToPay.setText(strOpenTransitSum);
     }
 
     private void setupRecyclerView(){

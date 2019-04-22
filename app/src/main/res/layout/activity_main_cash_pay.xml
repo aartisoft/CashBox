@@ -38,11 +38,11 @@
         android:layout_width="match_parent"
         android:layout_height="230dp"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         tools:context="abhiandroid.com.listexample.MainActivity"
-        android:divider="@color/colorGrey"
-        android:dividerHeight="1dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
         android:theme="@style/ListView">
     </ListView>
 
@@ -50,16 +50,16 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:background="@android:color/darker_gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -89,8 +89,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="17dp">
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="6dp">
 
         <TextView
             android:id="@+id/activity_main_cash_pay_tvcustomerwantspay"
@@ -127,8 +127,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="17dp">
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="6dp">
 
         <TextView
             android:id="@+id/activity_main_cash_pay_tvcustomerpays"
@@ -164,16 +164,16 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:background="@android:color/darker_gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal">
 
         <TextView

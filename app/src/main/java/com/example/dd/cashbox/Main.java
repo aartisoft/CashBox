@@ -377,6 +377,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     }
                                     //set printed
                                     objBillProduct.setPrinted(true);
+                                    objBillProduct.setSqlChanged(true);
                                     bPrinted = true;
                                 }
                             }
