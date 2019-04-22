@@ -93,6 +93,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
 
         //set Listener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
+        m_btnPay.setOnClickListener(this);
+        m_btnCancel.setOnClickListener(this);
         //m_EdtWantsToPay.setOnTouchListener(WantsToPayOnTouchListener);
         //m_EdtPays.setOnTouchListener(PaysOnTouchListener);
     }
@@ -185,30 +187,27 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         String strTableHeader = "";
         if(m_iSessionTable != -1){
             strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable+1);
+            m_TextViewTable.setText(strTableHeader);
         }
         else{
-            strTableHeader = getResources().getString(R.string.src_Tisch_emtpy);
+            //implement failure
         }
-        m_TextViewTable.setText(strTableHeader);
+
     }
 
     private void setHeaderBill(){
         String strBillHeader = "";
         if(m_iSessionBill != -1){
-
             strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
+            m_TextViewBill.setText(strBillHeader);
 
-            //only set recyclerview when bill product list not empty
-            if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts == null){
-                GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts = new ArrayList<ObjBillProduct>();
-            }
             //set recyclerview
             setupRecyclerView();
         }
         else{
-            strBillHeader = getResources().getString(R.string.src_Beleg_empty);
+            //implement failure
         }
-        m_TextViewBill.setText(strBillHeader);
+
     }
 
     private void setOpenSum(){
@@ -248,24 +247,28 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         m_recyclerview.setAdapter(m_rv_adapter);
         m_rv_adapter.notifyDataSetChanged();
 
+        //set opensum
+        setOpenSum();
+
         //set infotext mainbill
         if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts.size() > 0){
             boolean bFound = false;
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts){
-                if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
+                if(!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
+                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                     bFound = true;
                     break;
                 }
             }
             if(bFound){
-                findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.VISIBLE);
+                findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.INVISIBLE);
             }
             else{
-                findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.INVISIBLE);
+                findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.VISIBLE);
             }
         }
         else{
-            findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.INVISIBLE);
+            findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.VISIBLE);
         }
     }
 
