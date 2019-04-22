@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dd.cashbox.MainCash;
 import com.example.dd.cashbox.R;
 
 import java.text.DecimalFormat;
@@ -46,9 +47,9 @@ public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMa
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag();
-            //ObjMainBillProduct objMainBillProduct = m_billproductList.get(position);
+            ObjMainBillProduct objMainBillProduct = m_billproductList.get(position);
             //implement interface instead if adapter is used in more than one activity!
-            //((Main)context).showRetoureStornoDialog(objMainBillProduct.getProduct().getCategory(), objMainBillProduct.getProduct().getName());
+            ((MainCash)context).showMainCashBillDialog(objMainBillProduct.getProduct().getCategory(), objMainBillProduct.getProduct().getName());
         }
     }
 
@@ -65,7 +66,7 @@ public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMa
 
         //set list
         for(ObjBillProduct objBillProductAdapter : billproductList){
-            if(!objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
+            if(objBillProductAdapter.getPrinted() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
                     && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
                 //init variables
                 ObjBillProduct objBillProductSearch = objBillProductAdapter;

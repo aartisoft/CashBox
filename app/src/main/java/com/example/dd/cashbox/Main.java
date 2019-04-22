@@ -429,7 +429,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 boolean bFound = false;
                 if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
                     for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                        if (!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                        if (objBillProduct.getPrinted() && !objBillProduct.getPaid()
+                                && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
                             bFound = true;
                             break;
                         }

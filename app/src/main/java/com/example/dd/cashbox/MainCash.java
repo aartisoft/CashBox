@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import java.text.DecimalFormat;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import adapter.RecyclerMainCashBillAdapter;
+import fragments.MainCashBillDialogFragment;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
@@ -279,5 +281,20 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
             iBill++;
         }
         return 0;
+    }
+
+    public void showMainCashBillDialog(String p_strCategory, String p_strProduct) {
+        FragmentManager fm = getSupportFragmentManager();
+        MainCashBillDialogFragment mainCashBillDialogFragment = MainCashBillDialogFragment.newInstance("Some Title");
+
+        // pass table, bill to fragment
+        Bundle args = new Bundle();
+        args.putString("CATEGORY", p_strCategory);
+        args.putString("PRODUCT", p_strProduct);
+        args.putInt("TABLE", m_iSessionTable);
+        args.putInt("BILL", m_iSessionBill);
+
+        mainCashBillDialogFragment.setArguments(args);
+        mainCashBillDialogFragment.show(fm, "fragment_maincashbill");
     }
 }
