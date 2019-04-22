@@ -104,7 +104,7 @@
         <EditText
             android:tag="EUR"
             android:id="@+id/activity_main_cash_pay_edtcustomerwantspaysum"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="0dp"
@@ -141,7 +141,7 @@
         <EditText
             android:tag="0,00€"
             android:id="@+id/activity_main_cash_pay_edtcustomerpayssum"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="0dp"
