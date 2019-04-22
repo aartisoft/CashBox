@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
 
 import java.text.DecimalFormat;
@@ -20,7 +19,7 @@ import java.util.List;
 import objects.ObjBillProduct;
 import objects.ObjMainBillProduct;
 
-public class RecyclerViewBillCashAdapter extends RecyclerView.Adapter<RecyclerViewBillCashAdapter.MyViewHolder>{
+public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMainCashBillAdapter.MyViewHolder>{
     private Context context;
     private List<ObjMainBillProduct> m_billproductList = new ArrayList<>();
 
@@ -53,7 +52,7 @@ public class RecyclerViewBillCashAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    public RecyclerViewBillCashAdapter(Context context, List<ObjBillProduct> billproductList) {
+    public RecyclerMainCashBillAdapter(Context context, List<ObjBillProduct> billproductList) {
         this.context = context;
 
 

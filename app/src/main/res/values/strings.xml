@@ -114,6 +114,7 @@
     <string name="src_MoechteZahlen">Möchte zahlen:</string>
     <string name="src_Gegeben">Gegeben:</string>
     <string name="src_Rueckgeld">Rückgeld:</string>
+    <string name="src_ArtikelAuswaehlen">Artikel auswählen</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

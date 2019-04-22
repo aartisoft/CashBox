@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -20,11 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
-import adapter.RecyclerViewBillCashAdapter;
-import adapter.RecyclerViewMainBillAdapter;
+import adapter.RecyclerMainCashBillAdapter;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
@@ -42,7 +39,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
     private EditText m_EdtPays;
     private Button m_btnPay;
     private Button m_btnCancel;
-    private RecyclerViewBillCashAdapter m_rv_adapter;
+    private RecyclerMainCashBillAdapter m_rv_adapter;
     private RecyclerView m_recyclerview;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
@@ -239,7 +236,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         //get list bill pointer
         final int iBill = getBillListPointer();
 
-        m_rv_adapter = new RecyclerViewBillCashAdapter(this, GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts);
+        m_rv_adapter = new RecyclerMainCashBillAdapter(this, GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         m_recyclerview.setLayoutManager(mLayoutManager);
