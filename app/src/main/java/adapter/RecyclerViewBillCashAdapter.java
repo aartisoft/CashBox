@@ -25,7 +25,7 @@ public class RecyclerViewBillCashAdapter extends RecyclerView.Adapter<RecyclerVi
     private List<ObjMainBillProduct> m_billproductList = new ArrayList<>();
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView textview_itemname;
         public TextView textview_prize;
         public TextView textview_printerQ;
@@ -41,16 +41,15 @@ public class RecyclerViewBillCashAdapter extends RecyclerView.Adapter<RecyclerVi
             imageview_printer = view.findViewById(R.id.am_bill_rv_printerimage);
 
             mCardView = view.findViewById(R.id.editproduct_recyclerview_items);
-            mCardView.setOnLongClickListener(this);
+            mCardView.setOnClickListener(this);
         }
 
         @Override
-        public boolean onLongClick(View v) {
+        public void onClick(View v) {
             int position = (int) v.getTag();
-            ObjMainBillProduct objMainBillProduct = m_billproductList.get(position);
+            //ObjMainBillProduct objMainBillProduct = m_billproductList.get(position);
             //implement interface instead if adapter is used in more than one activity!
-            ((Main)context).showRetoureStornoDialog(objMainBillProduct.getProduct().getCategory(), objMainBillProduct.getProduct().getName());
-            return false;
+            //((Main)context).showRetoureStornoDialog(objMainBillProduct.getProduct().getCategory(), objMainBillProduct.getProduct().getName());
         }
     }
 

@@ -426,10 +426,24 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         @Override
         public void onClick(View v) {
             if (m_iSessionTable != -1 && m_iSessionBill != -1) {
-                Intent intent = new Intent(Main.this, MainCash.class);
-                intent.putExtra("TABLE", m_iSessionTable);
-                intent.putExtra("BILL", m_iSessionBill);
-                startActivity(intent);
+                boolean bFound = false;
+                if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
+                    for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                        if (!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                            bFound = true;
+                            break;
+                        }
+                    }
+                }
+                if(bFound){
+                    Intent intent = new Intent(Main.this, MainCash.class);
+                    intent.putExtra("TABLE", m_iSessionTable);
+                    intent.putExtra("BILL", m_iSessionBill);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(Main.this, getResources().getString(R.string.src_KeineArtikelVorhanden), Toast.LENGTH_SHORT).show();
+                }
             }
             else{
                 Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
