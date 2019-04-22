@@ -144,13 +144,19 @@ public class EditProduct_Edit extends AppCompatActivity {
                                 if(objproduct.getName().equals(m_SessionProduct)){
                                     ObjProduct product = new ObjProduct();
                                     product.setName(m_EditTextName.getText().toString());
-                                    product.setVK(Double.parseDouble(m_EditTextVK.getText().toString()));
+
+                                    //set VK
+                                    String strVK = m_EditTextVK.getText().toString();
+                                    strVK = strVK.replace(",", ".");
+                                    product.setVK(Double.parseDouble(strVK));
                                     product.setEnabled(m_EnableSwitch.isChecked());
 
                                     //set pawn
                                     product.setbPAWN(m_PawnSwitch.isChecked());
                                     if(m_PawnSwitch.isChecked()){
-                                        product.setPAWN(Double.parseDouble(m_EditTextPawn.getText().toString()));
+                                        String strPawn = m_EditTextPawn.getText().toString();
+                                        strPawn = strPawn.replace(",", ".");
+                                        product.setPAWN(Double.parseDouble(strPawn));
                                     }
                                     else{
                                         product.setPAWN(0.00);
@@ -213,6 +219,9 @@ public class EditProduct_Edit extends AppCompatActivity {
             }
             else {
                 //keyboard is closed
+                m_EditTextName.setCursorVisible(false);
+                m_EditTextVK.setCursorVisible(false);
+                m_EditTextPawn.setCursorVisible(false);
                 m_decorView.setSystemUiVisibility(m_uiOptions);
             }
         }
@@ -257,7 +266,6 @@ public class EditProduct_Edit extends AppCompatActivity {
                 m_EditTextName.setText(product.getName());
 
                 String vk = String.valueOf(df.format(product.getVK()));
-                vk = vk.replace(",", ".");
                 m_EditTextVK.setText(vk);
 
                 //set pawn
@@ -265,7 +273,6 @@ public class EditProduct_Edit extends AppCompatActivity {
                 String strPawn = "";
                 if(product.getbPawn()){
                     strPawn = String.valueOf(df.format(product.getPawn()));
-                    strPawn = strPawn.replace(",", ".");
                     m_EditTextPawn.setEnabled(true);
                 }
                 else{

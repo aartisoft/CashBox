@@ -132,13 +132,19 @@ public class EditProduct_Add extends AppCompatActivity {
 
                             ObjProduct product = new ObjProduct();
                             product.setName(m_EditTextName.getText().toString());
-                            product.setVK(Double.parseDouble(m_EditTextVK.getText().toString()));
+
+                            //set VK
+                            String strVK = m_EditTextVK.getText().toString();
+                            strVK = strVK.replace(",", ".");
+                            product.setVK(Double.parseDouble(strVK));
                             product.setEnabled(m_EnableSwitch.isChecked());
 
                             //set pawn
                             product.setbPAWN(m_PawnSwitch.isChecked());
                             if(m_PawnSwitch.isChecked()){
-                                product.setPAWN(Double.parseDouble(m_EditTextPawn.getText().toString()));
+                                String strPawn = m_EditTextPawn.getText().toString();
+                                strPawn = strPawn.replace(",", ".");
+                                product.setPAWN(Double.parseDouble(strPawn));
                             }
                             else{
                                 product.setPAWN(0.00);
@@ -198,6 +204,9 @@ public class EditProduct_Add extends AppCompatActivity {
                 // keyboard is opened
             } else {
                 //keyboard is closed
+                m_EditTextName.setCursorVisible(false);
+                m_EditTextVK.setCursorVisible(false);
+                m_EditTextPawn.setCursorVisible(false);
                 m_decorView.setSystemUiVisibility(m_uiOptions);
             }
         }

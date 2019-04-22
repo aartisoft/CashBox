@@ -228,7 +228,9 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
 
             //set VK
             if(m_ReducedSwitch.isChecked()){
-                objbillproduct.setVK(Double.parseDouble(m_edtVK.getText().toString()));
+                String strVK = m_edtVK.getText().toString();
+                strVK = strVK.replace(",", ".");
+                objbillproduct.setVK(Double.parseDouble(strVK));
             }
             else{
                 objbillproduct.setVK(objproduct.getVK());

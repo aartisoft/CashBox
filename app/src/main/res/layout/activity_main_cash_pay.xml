@@ -103,7 +103,7 @@
 
         <EditText
             android:tag="EUR"
-            android:id="@+id/activity_main_cash_pay_tvcustomerwantspaysum"
+            android:id="@+id/activity_main_cash_pay_edtcustomerwantspaysum"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -118,7 +118,9 @@
             android:textSize="14dp"
             android:textCursorDrawable="@drawable/colorcursor_black"
             android:inputType="numberDecimal"
-            android:singleLine="true"/>
+            android:digits="0123456789,"
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -138,7 +140,7 @@
             android:text="@string/src_Gegeben"/>
         <EditText
             android:tag="0,00€"
-            android:id="@+id/activity_main_cash_pay_tvcustomerpayssum"
+            android:id="@+id/activity_main_cash_pay_edtcustomerpayssum"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -153,7 +155,9 @@
             android:textSize="14dp"
             android:textCursorDrawable="@drawable/colorcursor_black"
             android:inputType="numberDecimal"
-            android:singleLine="true"/>
+            android:digits="0123456789,"
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
     </RelativeLayout>
 
     <View

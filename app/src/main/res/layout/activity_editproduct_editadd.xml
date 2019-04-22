@@ -57,7 +57,8 @@
             android:textSize="15dp"
             android:textCursorDrawable="@drawable/colorcursor_black"
             android:inputType="text"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -84,7 +85,9 @@
                 android:textSize="15dp"
                 android:textCursorDrawable="@drawable/colorcursor_black"
                 android:inputType="numberDecimal"
-                android:singleLine="true"/>
+                android:digits="0123456789,"
+                android:singleLine="true"
+                android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -116,7 +119,9 @@
                     android:textSize="15dp"
                     android:textCursorDrawable="@drawable/colorcursor_black"
                     android:inputType="numberDecimal"
-                    android:singleLine="true"/>
+                    android:digits="0123456789,"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <RelativeLayout

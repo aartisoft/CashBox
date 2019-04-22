@@ -91,7 +91,8 @@
                 android:textSize="15dp"
                 android:textCursorDrawable="@drawable/colorcursor_black"
                 android:inputType="text"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -125,6 +126,8 @@
                     android:textSize="15dp"
                     android:textCursorDrawable="@drawable/colorcursor_black"
                     android:inputType="numberDecimal"
+                    android:digits="0123456789,"
+                    android:imeOptions="actionDone"
                     android:singleLine="true"/>
             </com.google.android.material.textfield.TextInputLayout>
 
