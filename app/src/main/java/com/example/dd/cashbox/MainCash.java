@@ -190,6 +190,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
     //////////////////////////////////////////// METHODS /////////////////////////////////////////////////////////////////////////////
     public void raiseChange(){
         setupRecyclerView();
+        setuplistview();
     }
 
     private void setHeaderTable(){
@@ -280,6 +281,10 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         else{
             findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.VISIBLE);
         }
+    }
+
+    private void setuplistview(){
+
     }
 
     private int getBillListPointer(){
