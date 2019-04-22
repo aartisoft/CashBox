@@ -17,12 +17,12 @@ import java.util.ArrayList;
 
 import objects.ObjBillProduct;
 
-public class ListViewMainCashBillAdapter extends BaseAdapter {
+public class ListViewMainCashBillChooseAdapter extends BaseAdapter {
 
     private Context m_Context;
     ArrayList<ObjBillProduct> m_List = new ArrayList<>();
 
-    public ListViewMainCashBillAdapter(Context context, ArrayList<ObjBillProduct> p_lstBillProducts) {
+    public ListViewMainCashBillChooseAdapter(Context context, ArrayList<ObjBillProduct> p_lstBillProducts) {
         super();
         this.m_Context = context;
 

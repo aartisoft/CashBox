@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
+import adapter.ListViewMainCashBillPayAdapter;
 import adapter.RecyclerMainCashBillAdapter;
 import fragments.MainCashBillDialogFragment;
 import global.GlobVar;
@@ -42,7 +45,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
     private Button m_btnPay;
     private Button m_btnCancel;
     private RecyclerMainCashBillAdapter m_rv_adapter;
+    private ListViewMainCashBillPayAdapter m_lv_adapter;
     private RecyclerView m_recyclerview;
+    private ListView m_listview;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -77,6 +82,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         m_btnPay = findViewById(R.id.activity_main_cash_pay_btnpay);
         m_btnCancel = findViewById(R.id.activity_main_cash_pay_btncancel);
         m_recyclerview = findViewById(R.id.activity_main_bill_cash_rv);
+        m_listview = findViewById(R.id.activity_main_cash_pay_lv);
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -284,7 +290,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void setuplistview(){
-
+        m_lv_adapter = new ListViewMainCashBillPayAdapter(m_Context, GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts);
+        m_listview.setAdapter(m_lv_adapter);
     }
 
     private int getBillListPointer(){

@@ -5,38 +5,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.MainCash;
 import com.example.dd.cashbox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
-import SQLite.SQLiteDatabaseHandler_TableBills;
-import adapter.ListViewMainCashBillAdapter;
+import adapter.ListViewMainCashBillChooseAdapter;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
-import objects.ObjCategory;
-import objects.ObjPrinter;
-import objects.ObjProduct;
 
 public class MainCashBillDialogFragment extends DialogFragment {
 
@@ -46,7 +32,7 @@ public class MainCashBillDialogFragment extends DialogFragment {
     private String m_strProduct = "";
     private FloatingActionButton m_fab;
     private ListView m_listView;
-    private ListViewMainCashBillAdapter m_adapter;
+    private ListViewMainCashBillChooseAdapter m_adapter;
     private FragmentActivity m_Context;
     private static MainCashBillDialogFragment m_frag;
 
@@ -164,7 +150,7 @@ public class MainCashBillDialogFragment extends DialogFragment {
             }
         }
 
-        m_adapter = new ListViewMainCashBillAdapter(m_Context, lstObjBillProducts);
+        m_adapter = new ListViewMainCashBillChooseAdapter(m_Context, lstObjBillProducts);
         m_listView.setAdapter(m_adapter);
 
     }
