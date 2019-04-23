@@ -400,29 +400,37 @@ public class EditProduct_Edit extends AppCompatActivity {
         taxes.add("19%");
 
         //get saved tax
-        String strTaxRead = "";
+        Double dTaxRead = 0.0;
         for(ObjCategory objCategory : GlobVar.g_lstCategory){
             if(objCategory.getName().equals(m_SessionCategory)){
                 for(ObjProduct objProduct : objCategory.getListProduct()){
                     if(objProduct.getName().equals(m_SessionProduct)){
-                        strTaxRead = String.valueOf(objProduct.getTax());
+                        String strTaxRead = String.valueOf(objProduct.getTax());
+                        dTaxRead = Double.parseDouble(strTaxRead);
                     }
                 }
             }
         }
         int iCounter = 0;
+        boolean bFound = false;
         for(String tax : taxes){
-            if(tax.contains(strTaxRead)){
+            String strTaxList = tax.replace("%", "");
+            double dTaxList = Double.parseDouble(strTaxList);
+            if(dTaxList == dTaxRead){
+                bFound = true;
                 break;
             }
             iCounter++;
         }
-        m_Spinner_Tax.setSelection(iCounter);
+        //if not found set to default 19% tax
+        if(!bFound){
+            iCounter = 1;
+        }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, taxes);
         m_Spinner_Tax.setAdapter(dataAdapter);
 
-
-
+        //set read tax
+        m_Spinner_Tax.setSelection(iCounter);
     }
 }
