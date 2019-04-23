@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -57,6 +58,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     private double m_dToPay = 0.0;
     private double m_dWantsToPay = 0.0;
     private double m_dPays = 0.0;
+    private double m_dChange = 0.0;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -113,6 +115,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         m_EdtWantsToPay.setOnTouchListener(wantsToPayOnTouchListener);
         m_EdtPays.setOnEditorActionListener(paysOnKeyListener);
         m_EdtWantsToPay.setOnEditorActionListener(wantsToPayOnKeyListener);
+        m_TextViewBill.setOnLongClickListener(tvBillOnLongClickListener);
     }
 
     public void hideSystemUI(Window window) {
@@ -182,16 +185,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.activity_main_cash_pay_btnpay:
-                FragmentManager fm = getSupportFragmentManager();
-                PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
-
-                // pass table, bill to fragment
-                Bundle args = new Bundle();
-                args.putString("TEXT", getResources().getString(R.string.src_BitteBezahlvorgangBestaetigen));
-
-                popUpWindowCancelOKFragment.setArguments(args);
-                popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
-
+                startPayment();
                 break;
 
             case R.id.activity_main_cash_pay_btncancel:
@@ -231,6 +225,24 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     public void onCancelResult() {
         //do nothing
     }
+
+    private View.OnLongClickListener tvBillOnLongClickListener = new View.OnLongClickListener() {
+
+        @Override
+        public boolean onLongClick(View v) {
+            if(m_iSessionTable != -1 && m_iSessionBill != -1){
+                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                    if (!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
+                            && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                        objBillProduct.setPayTransit(true);
+                    }
+                }
+            }
+            //update view
+            raiseChange();
+            return true;
+        }
+    };
 
     private View.OnTouchListener wantsToPayOnTouchListener = new View.OnTouchListener(){
 
@@ -416,6 +428,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             DecimalFormat df = new DecimalFormat("0.00");
             String strChange = df.format(dChange);
             m_TvBack.setText(strChange);
+            m_dChange = dChange;
         }
     }
 
@@ -481,6 +494,55 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     private void setPayTransitFalse(){
         for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
             objBillProduct.setPayTransit(false);
+        }
+    }
+
+    private void startPayment(){
+        if(m_dWantsToPay > m_dToPay){
+            if(m_dPays > m_dWantsToPay){
+                FragmentManager fm = getSupportFragmentManager();
+                PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
+
+                // pass text to fragment
+                Bundle args = new Bundle();
+                String strText = getResources().getString(R.string.src_BitteBezahlvorgangBestaetigen) + "\n\n";
+
+                DecimalFormat df = new DecimalFormat("0.00");
+                strText += getResources().getString(R.string.src_KundeBekommtSummeXZurueck);
+                String strVK = df.format(m_dChange);
+                strText = strText.replace("{0}", strVK);
+
+                args.putString("TEXT", strText);
+
+                popUpWindowCancelOKFragment.setArguments(args);
+                popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
+            }
+            else{
+                Toast.makeText(MainCash.this, getResources().getString(R.string.src_BitteSummeUeberpruefen), Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            if(m_dPays > m_dToPay){
+                FragmentManager fm = getSupportFragmentManager();
+                PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
+
+                // pass text to fragment
+                Bundle args = new Bundle();
+                String strText = getResources().getString(R.string.src_BitteBezahlvorgangBestaetigen) + "\n\n";
+
+                DecimalFormat df = new DecimalFormat("0.00");
+                strText += getResources().getString(R.string.src_KundeBekommtSummeXZurueck);
+                String strVK = df.format(m_dChange);
+                strText = strText.replace("{0}", strVK);
+
+                args.putString("TEXT", strText);
+
+                popUpWindowCancelOKFragment.setArguments(args);
+                popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
+            }
+            else{
+                Toast.makeText(MainCash.this, getResources().getString(R.string.src_BitteSummeUeberpruefen), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
