@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.dd.cashbox.MainCash;
 import com.example.dd.cashbox.R;
 
 import java.text.DecimalFormat;
@@ -115,6 +116,16 @@ public class ListViewMainCashBillPayAdapter extends BaseAdapter {
         DecimalFormat df = new DecimalFormat("0.00");
         String strSum = df.format(m_List.get(position).getSum());
         view.txtSum.setText(strSum);
+
+        //item delete listener
+        final View.OnClickListener delListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ObjMainCashBillProduct objMainCashBillProduct = m_List.get(position);
+                ((MainCash)m_Context).delTransitItems(objMainCashBillProduct.getProduct().getCategory(), objMainCashBillProduct.getProduct().getName());
+            }
+        };
+        view.ivDel.setOnClickListener(delListener);
 
         // Return the completed view to render on screen
         return convertView;

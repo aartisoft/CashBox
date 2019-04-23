@@ -292,6 +292,19 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         setOpenTransitSum();
     }
 
+    public void delTransitItems(String p_strCategory, String p_strProduct){
+        if(m_iSessionTable != -1 && m_iSessionBill != -1) {
+            for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                if(objBillProduct.getCategory().equals(p_strCategory)){
+                    if(objBillProduct.getProduct().getName().equals(p_strProduct)){
+                        objBillProduct.setPayTransit(false);
+                    }
+                }
+            }
+        }
+        raiseChange();
+    }
+
     private void setHeaderTable(){
         String strTableHeader = "";
         if(m_iSessionTable != -1){
