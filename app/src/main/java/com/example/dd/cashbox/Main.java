@@ -9,7 +9,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
-import SQLite.SQLiteDatabaseHandler_Session;
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import SQLite.SQLiteDatabaseHandler_Tables;
 import adapter.RecyclerViewMainBillAdapter;
@@ -54,11 +53,11 @@ import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
 import objects.ObjCategory;
+import objects.ObjMainBillProduct;
 import objects.ObjPrintJob;
 import objects.ObjPrinter;
 import objects.ObjProduct;
 import printer.PrintJobQueue;
-import recyclerview.RecyclerItemTouchHelperBill;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -79,7 +78,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View m_ViewEmptyBill;
     private Button m_btnRegisterDel;
     private RecyclerViewMainBillAdapter m_rv_adapter;
-    private RecyclerItemTouchHelperBill m_RecyclerItemTouchHelper;
+    private List<ObjMainBillProduct> m_ListObjMainBillProduct = new ArrayList<>();
     private RecyclerView m_recyclerview;
 
     //fab buttons
@@ -152,22 +151,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //read database
         readSQLiteDB();
 
+        //init adapter
+        initRecyclerViewListObjMainBillProduct();
+
         //set Table/Bill Header
         setHeaderTable();
         setHeaderBill();
 
         //set main register
         setRegister();
-
-        //set Listener
-        m_navigationView.setNavigationItemSelectedListener(this);
-        m_fab_main.setOnClickListener(fabMainOnClickListener);
-        m_fab_newbill.setOnClickListener(fabNewBillOnClickListener);
-        m_fab_print.setOnClickListener(fabPrintOnClickListener);
-        m_fab_pay.setOnClickListener(fabPayOnClickListener);
-        m_TextViewTable.setOnClickListener(tvTableOnClickListener);
-        m_TextViewBill.setOnClickListener(tvBillOnClickListener);
-        m_btnRegisterDel.setOnClickListener(this);
 
         //open Drawer
         if(m_iSessionId == 1){
@@ -189,6 +181,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             GlobVar.g_bPrintQueueStarted = true;
         }
 
+        //set Listener
+        m_navigationView.setNavigationItemSelectedListener(this);
+        m_fab_main.setOnClickListener(fabMainOnClickListener);
+        m_fab_newbill.setOnClickListener(fabNewBillOnClickListener);
+        m_fab_print.setOnClickListener(fabPrintOnClickListener);
+        m_fab_pay.setOnClickListener(fabPayOnClickListener);
+        m_TextViewTable.setOnClickListener(tvTableOnClickListener);
+        m_TextViewBill.setOnClickListener(tvBillOnClickListener);
+        m_btnRegisterDel.setOnClickListener(this);
     }
 
     ///////////////////////////////////////// LISTENER /////////////////////////////////////////////////////////////////////////
@@ -332,7 +333,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     public void raiseNewProduct(){
-        setupRecyclerView();
+        updateListObjMainBillProduct();
         setOpenSum();
     }
 
@@ -602,7 +603,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             //only change database and global list if items are printable
             if (bPrinted) {
                 //set print symbols
-                setupRecyclerView();
+                updateListObjMainBillProduct();
             }
             else {
                 Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdeBereitsAlleArtikelGedruckt), Toast.LENGTH_SHORT).show();
@@ -736,7 +737,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts = new ArrayList<ObjBillProduct>();
             }
             //set recyclerview
-            setupRecyclerView();
+            updateListObjMainBillProduct();
         }
         else{
             strBillHeader = getResources().getString(R.string.src_Beleg_empty);
@@ -773,22 +774,115 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_TextViewOpenSum.setText(strOpenSum);
     }
 
-    private void setupRecyclerView(){
+    private void initRecyclerViewListObjMainBillProduct(){
+        m_rv_adapter = new RecyclerViewMainBillAdapter(this, m_ListObjMainBillProduct);
 
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        m_recyclerview.setLayoutManager(mLayoutManager);
+        m_recyclerview.setAdapter(m_rv_adapter);
+
+        //updateListObjMainBillProduct();
+        //setInfoRecyclerViewListObjMainBillProduct();
+    }
+    private void updateListObjMainBillProduct(){
         //write tablebills to database
         SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
         db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
 
+        //get global list
+        List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts;
+
+        //set shown false
+        for(ObjBillProduct objBillProduct : lstObjBillProduct) {
+            objBillProduct.setShown(false);
+        }
+
+        //set list
+        for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
+            //add new item or update list
+            if(!objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
+                    && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
+                //init variables
+                ObjBillProduct objBillProductSearch = objBillProductAdapter;
+                int iQuantity = 0;
+                int iPrinted = 0;
+                double dPrize = 0.0;
+                boolean bFound = false;
+
+                for(ObjBillProduct objBillProduct : lstObjBillProduct){
+                    if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
+                        if(!objBillProduct.getPaid() && !objBillProduct.getCanceled()
+                                && !objBillProduct.getReturned() && !objBillProduct.isShown()){
+                            iQuantity++;
+                            dPrize += objBillProduct.getVK();
+                            //if pawn is available
+                            if(objBillProduct.getProduct().getbPawn()){
+                                dPrize += objBillProduct.getProduct().getPawn();
+                            }
+
+                            if(objBillProduct.getPrinted()){
+                                iPrinted++;
+                            }
+                            objBillProduct.setShown(true);
+                            bFound = true;
+                        }
+                    }
+                }
+                if(bFound){
+                    boolean bExists = false;
+                    ObjMainBillProduct objMainBillProductExists =  new ObjMainBillProduct();
+                    for(ObjMainBillProduct objMainBillProduct : m_ListObjMainBillProduct){
+                        if(objMainBillProduct.getProduct() == objBillProductSearch.getProduct()) {
+                            objMainBillProductExists = objMainBillProduct;
+                            bExists = true;
+                            break;
+                        }
+                    }
+
+                    //only update list
+                    if(bExists){
+                        objMainBillProductExists.setQuantity(iQuantity);
+                        objMainBillProductExists.setPrinted(iPrinted);
+                        objMainBillProductExists.setVK(dPrize);
+                    }
+                    //add new item
+                    else{
+                        ObjMainBillProduct objMainBillProduct  = new ObjMainBillProduct();
+                        objMainBillProduct.setProduct(objBillProductSearch.getProduct());
+                        objMainBillProduct.setQuantity(iQuantity);
+                        objMainBillProduct.setPrinted(iPrinted);
+                        objMainBillProduct.setVK(dPrize);
+
+                        this.m_ListObjMainBillProduct.add(objMainBillProduct);
+                    }
+                }
+            }
+        }
+
+        //delete items
+        for(int i = m_ListObjMainBillProduct.size(); i-- > 0;) {
+            boolean bKeepAlive = false;
+            for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
+                if(objBillProductAdapter.getProduct() == m_ListObjMainBillProduct.get(i).getProduct()){
+                    if(!objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
+                            && !objBillProductAdapter.getReturned()){
+                        bKeepAlive = true;
+                        break;
+                    }
+                }
+            }
+            if(!bKeepAlive){
+                m_ListObjMainBillProduct.remove(i);
+            }
+        }
+
+        //update recyclerview
+        m_rv_adapter.notifyDataSetChanged();
+        setInfoRecyclerViewListObjMainBillProduct();
+    }
+    private void setInfoRecyclerViewListObjMainBillProduct(){
         //get list bill pointer
         final int iBill = getBillListPointer();
-
-        m_rv_adapter = new RecyclerViewMainBillAdapter(this, GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        m_recyclerview.setLayoutManager(mLayoutManager);
-
-        m_recyclerview.setAdapter(m_rv_adapter);
-        m_rv_adapter.notifyDataSetChanged();
 
         //set infotext mainbill
         if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts.size() > 0){

@@ -6,25 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import global.GlobVar;
-import objects.ObjBillProduct;
-import objects.ObjCategory;
 import objects.ObjMainBillProduct;
-import objects.ObjPrinter;
-import objects.ObjProduct;
 
 public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerViewMainBillAdapter.MyViewHolder>{
     private Context context;
@@ -60,59 +49,9 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    public RecyclerViewMainBillAdapter(Context context, List<ObjBillProduct> billproductList) {
+    public RecyclerViewMainBillAdapter(Context context, List<ObjMainBillProduct> billproductList) {
         this.context = context;
-
-
-        m_billproductList = new ArrayList<>();
-
-        //set shown false
-        for(ObjBillProduct objBillProduct : billproductList) {
-            objBillProduct.setShown(false);
-        }
-
-        //set list
-        for(ObjBillProduct objBillProductAdapter : billproductList){
-            if(!objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
-                    && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
-                //init variables
-                ObjBillProduct objBillProductSearch = objBillProductAdapter;
-                ObjMainBillProduct objMainBillProduct = new ObjMainBillProduct();
-                objMainBillProduct.setProduct(objBillProductSearch.getProduct());
-                int iQuantity = 0;
-                int iPrinted = 0;
-                double dPrize = 0.0;
-                boolean bFound = false;
-
-                for(ObjBillProduct objBillProduct : billproductList){
-                    if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
-                        if(!objBillProduct.getPaid() && !objBillProduct.getCanceled()
-                                && !objBillProduct.getReturned() && !objBillProduct.isShown()){
-                            iQuantity++;
-                            dPrize += objBillProduct.getVK();
-                            //if pawn is available
-                            if(objBillProduct.getProduct().getbPawn()){
-                                dPrize += objBillProduct.getProduct().getPawn();
-                            }
-
-                            if(objBillProduct.getPrinted()){
-                                iPrinted++;
-                            }
-                            objBillProduct.setShown(true);
-                            bFound = true;
-                        }
-                    }
-                }
-                if(bFound){
-                    objMainBillProduct.setQuantity(iQuantity);
-                    objMainBillProduct.setPrinted(iPrinted);
-                    objMainBillProduct.setVK(dPrize);
-
-                    //add to adapter list
-                    this.m_billproductList.add(objMainBillProduct);
-                }
-            }
-        }
+        this.m_billproductList = billproductList;
     }
 
     @Override
