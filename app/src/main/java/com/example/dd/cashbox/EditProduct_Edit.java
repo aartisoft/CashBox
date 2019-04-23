@@ -11,8 +11,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ public class EditProduct_Edit extends AppCompatActivity {
     private EditText m_EditTextPawn;
     private SwitchCompat m_PawnSwitch;
     private SwitchCompat m_EnableSwitch;
+    private Spinner m_Spinner_Tax;
     private View m_decorView;
     private String m_SessionCategory;
     private String m_SessionProduct;
@@ -70,6 +73,7 @@ public class EditProduct_Edit extends AppCompatActivity {
         m_decorView = getWindow().getDecorView();
         m_PawnSwitch = findViewById(R.id.editproduct_add_Pawnswitch);
         m_EnableSwitch = findViewById(R.id.editproduct_add_Enabledswitch);
+        m_Spinner_Tax = findViewById(R.id.editproduct_add_spinnertax);
 
         //activity variables
         m_SessionCategory = getIntent().getStringExtra( "CATEGORY");
@@ -116,79 +120,7 @@ public class EditProduct_Edit extends AppCompatActivity {
     private OnClickListener fabOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            //check weather all field are filled
-            if (m_EditTextName.getText().toString().equals("") || m_EditTextVK.getText().toString().equals("")
-                    || (m_EditTextPawn.getText().toString().equals("")) && m_PawnSwitch.isChecked())  {
-                Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
-            } else {
-                //does category already exists?
-                boolean b_ProductExists = false;
-                for (ObjProduct product : m_lstProduct) {
-                    if (product.getName().equals(m_EditTextName.getText().toString())) {
-                        if (!product.getName().equals(m_SessionProduct)) {
-                            b_ProductExists = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!b_ProductExists) {
-                    int indexcounter = 0;
-                    for(ObjCategory objcategory : GlobVar.g_lstCategory){
-                        if(objcategory.getName().equals(m_SessionCategory)){
-                            ObjCategory category = objcategory;
-                            List<ObjProduct> lstProduct = category.getListProduct();
-
-                            int indexcounter_prod = 0;
-                            for(ObjProduct objproduct : lstProduct){
-                                if(objproduct.getName().equals(m_SessionProduct)){
-                                    ObjProduct product = new ObjProduct();
-                                    product.setName(m_EditTextName.getText().toString());
-
-                                    //set VK
-                                    String strVK = m_EditTextVK.getText().toString();
-                                    strVK = strVK.replace(",", ".");
-                                    product.setVK(Double.parseDouble(strVK));
-                                    product.setEnabled(m_EnableSwitch.isChecked());
-
-                                    //set pawn
-                                    product.setbPAWN(m_PawnSwitch.isChecked());
-                                    if(m_PawnSwitch.isChecked()){
-                                        String strPawn = m_EditTextPawn.getText().toString();
-                                        strPawn = strPawn.replace(",", ".");
-                                        product.setPAWN(Double.parseDouble(strPawn));
-                                    }
-                                    else{
-                                        product.setPAWN(0.00);
-                                    }
-
-                                    product.set_Category(m_SessionCategory);
-                                    lstProduct.set(indexcounter_prod, product);
-
-                                    category.setProductList(lstProduct);
-
-                                    //save category to global and sql
-                                    GlobVar.g_lstCategory.set(indexcounter, category);
-                                    SQLiteDatabaseHandler_Product db = new SQLiteDatabaseHandler_Product(m_Context);
-                                    db.updateProduct(m_SessionProduct, product);
-
-                                    Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_ProduktGaendert), Toast.LENGTH_SHORT).show();
-
-                                    Intent intent = new Intent(EditProduct_Edit.this, EditProduct.class);
-                                    intent.putExtra("CATEGORY", m_SessionCategory);
-                                    startActivity(intent);
-                                    finish();
-                                    break;
-                                }
-                                indexcounter_prod++;
-                            }
-                        }
-                        indexcounter++;
-                    }
-                } else {
-                    Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_ProduktNameBereitsVorhanden), Toast.LENGTH_SHORT).show();
-                }
-            }
+            getData();
         }
     };
 
@@ -227,6 +159,31 @@ public class EditProduct_Edit extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus){
+            m_decorView.setSystemUiVisibility(m_uiOptions);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(EditProduct_Edit.this, EditProduct.class);
+                intent.putExtra("CATEGORY", m_SessionCategory);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    //////////////////////////////////// METHODS /////////////////////////////////////////////////////////////////
+
     public void hideSystemUI(Window window) {
         m_decorView = window.getDecorView();
         final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -247,16 +204,6 @@ public class EditProduct_Edit extends AppCompatActivity {
             }
         }
     }
-
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
-            m_decorView.setSystemUiVisibility(m_uiOptions);
-        }
-    }
-
 
     private void setData(){
         for(ObjProduct product : m_lstProduct){
@@ -284,21 +231,106 @@ public class EditProduct_Edit extends AppCompatActivity {
                 m_EnableSwitch.setChecked(product.getEnabled());
             }
         }
+
+        //set taxes spinner
+        setSpinnerTax();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(EditProduct_Edit.this, EditProduct.class);
-                intent.putExtra("CATEGORY", m_SessionCategory);
-                startActivity(intent);
-                finish();
-                return true;
+    private void getData(){
+        //check weather all field are filled
+        if (m_EditTextName.getText().toString().equals("") || m_EditTextVK.getText().toString().equals("")
+                || ((m_EditTextPawn.getText().toString().equals("")) && m_PawnSwitch.isChecked()) || m_Spinner_Tax.getSelectedItem().equals(""))   {
+            Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            //does category already exists?
+            boolean b_ProductExists = false;
+            for (ObjProduct product : m_lstProduct) {
+                if (product.getName().equals(m_EditTextName.getText().toString())) {
+                    if (!product.getName().equals(m_SessionProduct)) {
+                        b_ProductExists = true;
+                        break;
+                    }
+                }
+            }
 
-            default:
-                return super.onOptionsItemSelected(item);
+            if (!b_ProductExists) {
+                int indexcounter = 0;
+                for(ObjCategory objcategory : GlobVar.g_lstCategory){
+                    if(objcategory.getName().equals(m_SessionCategory)){
+                        ObjCategory category = objcategory;
+                        List<ObjProduct> lstProduct = category.getListProduct();
+
+                        int indexcounter_prod = 0;
+                        for(ObjProduct objproduct : lstProduct){
+                            if(objproduct.getName().equals(m_SessionProduct)){
+                                ObjProduct product = new ObjProduct();
+                                product.setName(m_EditTextName.getText().toString());
+
+                                //set VK
+                                String strVK = m_EditTextVK.getText().toString();
+                                strVK = strVK.replace(",", ".");
+                                product.setVK(Double.parseDouble(strVK));
+                                product.setEnabled(m_EnableSwitch.isChecked());
+
+                                //set pawn
+                                product.setbPAWN(m_PawnSwitch.isChecked());
+                                if(m_PawnSwitch.isChecked()){
+                                    String strPawn = m_EditTextPawn.getText().toString();
+                                    strPawn = strPawn.replace(",", ".");
+                                    product.setPAWN(Double.parseDouble(strPawn));
+                                }
+                                else{
+                                    product.setPAWN(0.00);
+                                }
+
+                                //set tax
+                                String strTax = m_Spinner_Tax.getSelectedItem().toString();
+                                strTax.replace("%", "");
+                                product.setTax(Double.parseDouble(strTax));
+
+                                product.set_Category(m_SessionCategory);
+                                lstProduct.set(indexcounter_prod, product);
+
+                                category.setProductList(lstProduct);
+
+                                //save category to global and sql
+                                GlobVar.g_lstCategory.set(indexcounter, category);
+                                SQLiteDatabaseHandler_Product db = new SQLiteDatabaseHandler_Product(m_Context);
+                                db.updateProduct(m_SessionProduct, product);
+
+                                Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_ProduktGaendert), Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(EditProduct_Edit.this, EditProduct.class);
+                                intent.putExtra("CATEGORY", m_SessionCategory);
+                                startActivity(intent);
+                                finish();
+                                break;
+                            }
+                            indexcounter_prod++;
+                        }
+                    }
+                    indexcounter++;
+                }
+            }
+            else {
+                Toast.makeText(EditProduct_Edit.this, getResources().getString(R.string.src_ProduktNameBereitsVorhanden), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
+    private void setSpinnerTax(){
+        m_Spinner_Tax.setPrompt(getResources().getString(R.string.src_MehrwertsteuerAuswaehlen));
+        int printer_position = 0;
+
+        List<String> taxes = new ArrayList<>();
+        taxes.add("7%");
+        taxes.add("19%");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, taxes);
+        m_Spinner_Tax.setAdapter(dataAdapter);
+
+        m_Spinner_Tax.setSelection(printer_position);
+
+    }
 }

@@ -5,20 +5,11 @@ public class ObjProduct {
     private double m_dVK;
     private boolean m_bPawn;
     private double m_dPawn;
+    private double m_dTax;
     private boolean m_bEnabled;
     private String m_strCategory;
 
     public ObjProduct(){
-
-    }
-
-    public ObjProduct(String p_strName, Float p_dVK, boolean p_bPawn, Float p_dPawn, boolean p_bEnabled, String p_strCategory){
-        this.m_strName = p_strName;
-        this.m_dVK = p_dVK;
-        this.m_bPawn = p_bPawn;
-        this.m_dPawn = p_dPawn;
-        this.m_bEnabled = p_bEnabled;
-        this.m_strCategory = p_strCategory;
     }
 
     public String getName(){
@@ -32,6 +23,9 @@ public class ObjProduct {
     }
     public double getPawn(){
         return this.m_dPawn;
+    }
+    public double getTax(){
+        return this.m_dTax;
     }
     public boolean getEnabled(){
         return this.m_bEnabled;
@@ -51,6 +45,9 @@ public class ObjProduct {
     }
     public void setPAWN(double p_dPawn){
         this.m_dPawn = p_dPawn;
+    }
+    public void setTax(double p_dTax){
+        this.m_dTax = p_dTax;
     }
     public void setEnabled(boolean p_bEnabled){
         this.m_bEnabled = p_bEnabled;

@@ -142,6 +142,27 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/editproduct_add_tvtax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/src_Mehrwertsteuer"
+            android:textColorHint="@color/colorGrey"
+            android:textColor="@color/colorGrey"
+            android:textSize="15dp">
+        </TextView>
+        <Spinner
+            android:id="@+id/editproduct_add_spinnertax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            style="@android:style/Widget.Holo.Light.Spinner"
+            android:spinnerMode="dialog"/>
+
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/editproduct_add_Enabledswitch"
             android:layout_width="match_parent"
@@ -166,7 +187,7 @@
                 app:layout_anchorGravity="bottom|right"
                 app:fabSize="normal"
                 app:backgroundTint="@color/colorPrimary3"
-                android:src="@drawable/ic_save_white_24dp"
+                android:src="@drawable/ic_check_white_24dp"
                 android:scaleType="center"
                 android:layout_margin="16dp"
                 android:clickable="true"/>

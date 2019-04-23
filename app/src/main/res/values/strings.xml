@@ -118,6 +118,8 @@
     <string name="src_ArtikelAuswaehlen">Artikel auswählen</string>
     <string name="src_BitteBezahlvorgangBestaetigen">Bitte Bezahlvorgang bestätigen.</string>
     <string name="src_BitteSummeUeberpruefen">Bitte Summe überprüfen</string>
+    <string name="src_Mehrwertsteuer">Mehrwertsteuer</string>
+    <string name="src_MehrwertsteuerAuswaehlen">Mehrwertsteuer auswählen</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

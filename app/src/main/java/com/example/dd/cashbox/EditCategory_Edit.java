@@ -100,81 +100,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     private OnClickListener fabOnClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
-            //check weather all field are filled
-            if(m_EditTextName.getText().toString().equals("") //|| m_ColorPickerView.get
-                    || m_Spinner_Printer.getSelectedItem().equals("")){
-                Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
-            }
-            else {
-                //does category already exists?
-                boolean b_CategoryExists = false;
-                for (ObjCategory objcategory : GlobVar.g_lstCategory) {
-                    if (objcategory.getName().equals(m_EditTextName.getText().toString())) {
-                        if (!objcategory.getName().equals(m_SessionCategory)) {
-                            b_CategoryExists = true;
-                            break;
-                        }
-                    }
-                }
-                int indexcounter = 0;
-                for (ObjCategory objcategory : GlobVar.g_lstCategory) {
-                    if (objcategory.getName().equals(m_SessionCategory)) {
-                        if (!b_CategoryExists) {
-                            ObjCategory category = new ObjCategory();
-                            category.setName(m_EditTextName.getText().toString());
-
-                            //ColorDrawable can throw exception
-                            try{
-                                ColorDrawable viewColor = (ColorDrawable) m_EditTextColor.getBackground();
-                                category.setProdColor(viewColor.getColor());
-                            }
-                            catch(Exception e){
-                                category.setProdColor(1);
-                            }
-
-                            //get object printer
-                            ObjPrinter foundPrinter = new ObjPrinter();
-                            foundPrinter = null;
-                            String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
-                            String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") + 1);
-                            for (ObjPrinter printer : GlobVar.g_lstPrinter) {
-                                if (printer.getMacAddress().equals(macadress)) {
-                                    foundPrinter = printer;
-                                    break;
-                                }
-                            }
-
-                            category.setPrinter(foundPrinter);
-                            category.setEnabled(m_Switch.isChecked());
-                            category.setProductList(objcategory.getListProduct());
-
-                            //update global and in database
-                            GlobVar.g_lstCategory.set(indexcounter, category);
-                            SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
-                            db.updateCategory(m_strCategoryName, category);
-
-                            //if categoryname has changed --> update global and in database
-                            if(!m_SessionCategory.equals(m_EditTextName.getText().toString())){
-                                for(ObjProduct objproduct : objcategory.getListProduct()){
-                                    objproduct.set_Category(m_EditTextName.getText().toString());
-                                }
-
-                                SQLiteDatabaseHandler_Product db_product = new SQLiteDatabaseHandler_Product(m_Context);
-                                db_product.updateProductsCategory(m_SessionCategory, m_EditTextName.getText().toString());
-                            }
-
-
-                            Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieGeaendert), Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieNameBereitsVorhanden), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    indexcounter++;
-                }
-            }
+            getData();
         }
     };
 
@@ -217,6 +143,37 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         }
     };
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus){
+            m_decorView.setSystemUiVisibility(m_uiOptions);
+        }
+    }
+
+    @Override
+    public void onFinishChooseColorDialog(int colorInt) {
+        m_EditTextColor.setBackgroundColor(colorInt);
+
+        //set global variables
+        m_iProdColor = colorInt;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    ///////////////////////////////////////// METHODS //////////////////////////////////////////////////////////////////////
     public void hideSystemUI(Window window) {
         m_decorView = window.getDecorView();
         final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -227,15 +184,6 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LOW_PROFILE;
         m_decorView.setSystemUiVisibility(uiOptions);
-    }
-
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
-            m_decorView.setSystemUiVisibility(m_uiOptions);
-        }
     }
 
     private void setSpinnerPrinter(ObjPrinter p_printer){
@@ -293,26 +241,81 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         }
     }
 
-    @Override
-    public void onFinishChooseColorDialog(int colorInt) {
-        m_EditTextColor.setBackgroundColor(colorInt);
+    private void getData(){
+        //check weather all field are filled
+        if(m_EditTextName.getText().toString().equals("") //|| m_ColorPickerView.get
+                || m_Spinner_Printer.getSelectedItem().equals("")){
+            Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            //does category already exists?
+            boolean b_CategoryExists = false;
+            for (ObjCategory objcategory : GlobVar.g_lstCategory) {
+                if (objcategory.getName().equals(m_EditTextName.getText().toString())) {
+                    if (!objcategory.getName().equals(m_SessionCategory)) {
+                        b_CategoryExists = true;
+                        break;
+                    }
+                }
+            }
+            int indexcounter = 0;
+            for (ObjCategory objcategory : GlobVar.g_lstCategory) {
+                if (objcategory.getName().equals(m_SessionCategory)) {
+                    if (!b_CategoryExists) {
+                        ObjCategory category = new ObjCategory();
+                        category.setName(m_EditTextName.getText().toString());
 
-        //set global variables
-        m_iProdColor = colorInt;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-                return true;
+                        //ColorDrawable can throw exception
+                        try{
+                            ColorDrawable viewColor = (ColorDrawable) m_EditTextColor.getBackground();
+                            category.setProdColor(viewColor.getColor());
+                        }
+                        catch(Exception e){
+                            category.setProdColor(1);
+                        }
 
-            default:
-                return super.onOptionsItemSelected(item);
+                        //get object printer
+                        ObjPrinter foundPrinter = new ObjPrinter();
+                        foundPrinter = null;
+                        String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
+                        String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") + 1);
+                        for (ObjPrinter printer : GlobVar.g_lstPrinter) {
+                            if (printer.getMacAddress().equals(macadress)) {
+                                foundPrinter = printer;
+                                break;
+                            }
+                        }
+
+                        category.setPrinter(foundPrinter);
+                        category.setEnabled(m_Switch.isChecked());
+                        category.setProductList(objcategory.getListProduct());
+
+                        //update global and in database
+                        GlobVar.g_lstCategory.set(indexcounter, category);
+                        SQLiteDatabaseHandler_Category db = new SQLiteDatabaseHandler_Category(m_Context);
+                        db.updateCategory(m_strCategoryName, category);
+
+                        //if categoryname has changed --> update global and in database
+                        if(!m_SessionCategory.equals(m_EditTextName.getText().toString())){
+                            for(ObjProduct objproduct : objcategory.getListProduct()){
+                                objproduct.set_Category(m_EditTextName.getText().toString());
+                            }
+
+                            SQLiteDatabaseHandler_Product db_product = new SQLiteDatabaseHandler_Product(m_Context);
+                            db_product.updateProductsCategory(m_SessionCategory, m_EditTextName.getText().toString());
+                        }
+
+
+                        Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieGeaendert), Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(EditCategory_Edit.this, EditCategory.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_KategorieNameBereitsVorhanden), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                indexcounter++;
+            }
         }
     }
-
 }
