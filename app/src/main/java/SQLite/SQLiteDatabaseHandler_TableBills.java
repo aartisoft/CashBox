@@ -36,11 +36,12 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     private static final String KEY_CANCELED = "canceled";
     private static final String KEY_RETURNED = "returned";
     private static final String KEY_PAID = "paid";
+    private static final String KEY_TIP = "tip";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_TABLENAME, KEY_BILLNR,
             KEY_CASHIERNAME, KEY_BILLINGDATE, KEY_CATEGORY, KEY_PRODUCT, KEY_OBJID,
             KEY_VK, KEY_ADDINFO, KEY_PRINTERMAC, KEY_PRINTED, KEY_CANCELED, KEY_PAID,
-            KEY_RETURNED };
+            KEY_RETURNED, KEY_TIP };
 
     public SQLiteDatabaseHandler_TableBills(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -53,7 +54,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 + "billnr INTEGER, " + "cashiername TEXT, " + "billingdate TEXT, "
                 + "category TEXT, " + "product TEXT, " + "objid TEXT, " + "vk TEXT, "
                 + "addinfo TEXT, " + "printermac TEXT, " + "printed INTEGER, "
-                + "canceled INTEGER, " + "paid INTEGER, " + "returned INTEGER)";
+                + "canceled INTEGER, " + "paid INTEGER, " + "returned INTEGER, " + "tip TEXT )";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -107,6 +108,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                                 objBill.setBillNr(Integer.parseInt(cursor.getString(2)));
                                 objBill.setCashierName(cursor.getString(3));
                                 objBill.setBillingDate(cursor.getString(4));
+                                objBill.setTip(Double.parseDouble(cursor.getString(15)));
 
                                 objBill.m_lstProducts = new ArrayList<ObjBillProduct>();
                                 objBill.m_lstProducts.add(objBillProduct);
@@ -201,6 +203,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_BILLNR, p_iBill);
                 values.put(KEY_CASHIERNAME, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getCashierName());
                 values.put(KEY_BILLINGDATE, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getBillingDate());
+                values.put(KEY_TIP, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getTip());
                 values.put(KEY_CATEGORY, objproduct.getCategory());
                 values.put(KEY_PRODUCT, objproduct.getProduct().getName());
                 values.put(KEY_OBJID, objproduct.getID());
@@ -254,7 +257,16 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 objproduct.setSqlChanged(false);
             }
 
-            //db.close();
+            if(GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getSqlChanged()){
+                values.put(KEY_TIP, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getTip());
+
+                int i = db.update(TABLE_NAME, // table
+                        values, // column/value
+                        "billnr = ?" , // selections
+                        new String[] { String.valueOf(p_iBill) });
+
+                GlobVar.g_lstTableBills.get(p_iTable).get(iBill).setSqlChanged(false);
+            }
         }
     }
 }

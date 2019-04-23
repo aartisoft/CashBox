@@ -7,7 +7,9 @@ public class ObjBill {
     private int m_iBillNr;
     private String m_strCashierName;
     private String m_strBillingDate;
+    private double m_dTip = 0.0;
     public List<ObjBillProduct> m_lstProducts = new ArrayList<ObjBillProduct>();
+    private boolean m_bSqlChanged;
 
     //getter
     public int getBillNr(){
@@ -18,6 +20,12 @@ public class ObjBill {
     }
     public String getBillingDate(){
         return this.m_strBillingDate;
+    }
+    public double getTip(){
+        return this.m_dTip;
+    }
+    public boolean getSqlChanged() {
+        return m_bSqlChanged;
     }
 
 
@@ -30,5 +38,11 @@ public class ObjBill {
     }
     public void setBillingDate(String p_strBillingDate){
         this.m_strBillingDate = p_strBillingDate;
+    }
+    public void setTip(double p_dTip){
+        this.m_dTip = p_dTip;
+    }
+    public void setSqlChanged(boolean m_bSqlChanged) {
+        this.m_bSqlChanged = m_bSqlChanged;
     }
 }
