@@ -67,7 +67,18 @@ public class GridViewProductAdapter extends BaseAdapter {
         strVK = strVK + "€";
         subtitleTextView.setText(strVK);
 
+        //subtitle pawn
+        TextView subtitlePawnTextView = convertView.findViewById(R.id.fragm_tabregister_layout_tvpawn);
+        subtitlePawnTextView.setBackgroundColor(m_iProdColor);
+        //if pawn is available
+        String strPawn = "";
+        if(m_lstProducts.get(position).getbPawn()){
+            strPawn = m_Context.getResources().getString(R.string.src_Pfand);
+            strPawn += " " + df.format(m_lstProducts.get(position).getPawn());
+            strPawn += "€";
 
+        }
+        subtitlePawnTextView.setText(strPawn);
 
         return convertView;
     }

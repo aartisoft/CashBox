@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/fragm_tabregister_layout_tvtitle"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:textSize="16sp"
         android:text="Bier"
         android:textStyle="bold"
@@ -18,9 +19,17 @@
     <TextView
         android:id="@+id/fragm_tabregister_layout_tvsubtitle"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="15dp"
         android:textSize="14sp"
         android:text="1,00€"
         android:gravity="top|center"/>
+
+    <TextView
+        android:id="@+id/fragm_tabregister_layout_tvpawn"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:textSize="14sp"
+        android:text="Pfand 1,00€"
+        android:gravity="center"/>
 
 </LinearLayout>
