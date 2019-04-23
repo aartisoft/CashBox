@@ -25,57 +25,12 @@ import objects.ObjMainCashBillProduct;
 public class ListViewMainCashBillPayAdapter extends BaseAdapter {
 
     private Context m_Context;
-    ArrayList<ObjMainCashBillProduct> m_List = new ArrayList<>();
+    List<ObjMainCashBillProduct> m_List = new ArrayList<>();
 
-    public ListViewMainCashBillPayAdapter(Context context, List<ObjBillProduct> p_lstBillProducts) {
+    public ListViewMainCashBillPayAdapter(Context context, List<ObjMainCashBillProduct> p_lstBillProducts) {
         super();
         this.m_Context = context;
-
-        //set shown false
-        for(ObjBillProduct objBillProduct : p_lstBillProducts) {
-            objBillProduct.setShown(false);
-        }
-
-        //set list
-        for(ObjBillProduct objBillProductAdapter : p_lstBillProducts){
-            if(objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
-                    && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned()
-                    && !objBillProductAdapter.isShown()){
-                //init variables
-                ObjBillProduct objBillProductSearch = objBillProductAdapter;
-                ObjMainCashBillProduct objMainBillProduct  = new ObjMainCashBillProduct();
-                objMainBillProduct.setProduct(objBillProductSearch.getProduct());
-                int iQuantity = 0;
-                double dPrize = 0.0;
-                boolean bFound = false;
-
-                for(ObjBillProduct objBillProduct : p_lstBillProducts){
-                    if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
-                        if(objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                                && !objBillProduct.getCanceled() && !objBillProduct.getReturned()
-                                && !objBillProduct.isShown()){
-                            iQuantity++;
-                            dPrize += objBillProduct.getVK();
-                            //if pawn is available
-                            if(objBillProduct.getProduct().getbPawn()){
-                                dPrize += objBillProduct.getProduct().getPawn();
-                            }
-
-                            objBillProduct.setShown(true);
-                            bFound = true;
-                        }
-                    }
-                }
-                if(bFound){
-                    objMainBillProduct.setQuantity(iQuantity);
-                    objMainBillProduct.setAddInfo(objBillProductSearch.getAddInfo());
-                    objMainBillProduct.setSum(dPrize);
-
-                    //add to adapter list
-                    this.m_List.add(objMainBillProduct);
-                }
-            }
-        }
+        this.m_List = p_lstBillProducts;
     }
 
     @Override

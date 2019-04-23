@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import adapter.ListViewMainCashBillPayAdapter;
@@ -56,6 +57,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     private Button m_btnCancel;
     private RecyclerMainCashBillAdapter m_rv_adapter;
     private ListViewMainCashBillPayAdapter m_lv_adapter;
+    List<ObjMainCashBillProduct> m_ListObjMainCashBillProduct = new ArrayList<>();
     private RecyclerView m_recyclerview;
     private ListView m_listview;
     private double m_dToPay = 0.0;
@@ -110,6 +112,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         //set headers
         setHeaderTable();
         setHeaderBill();
+
+        //init adapter
+        setuplistview();
 
         //set Listener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
@@ -304,7 +309,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     //////////////////////////////////////////// METHODS /////////////////////////////////////////////////////////////////////////////
     public void raiseChange(){
         setupRecyclerView();
-        setuplistview();
+        updateListObjMainCashBillProduct();
         setOpenTransitSum();
     }
 
@@ -510,11 +515,6 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         }
     }
 
-    private void setuplistview(){
-        m_lv_adapter = new ListViewMainCashBillPayAdapter(m_Context, GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts);
-        m_listview.setAdapter(m_lv_adapter);
-    }
-
     private int getBillListPointer(){
         //get bill
         int iBill = 0;
@@ -610,5 +610,97 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
         mainCashBillDialogFragment.setArguments(args);
         mainCashBillDialogFragment.show(fm, "fragment_maincashbill");
+    }
+
+    private void setuplistview(){
+        m_lv_adapter = new ListViewMainCashBillPayAdapter(m_Context, m_ListObjMainCashBillProduct);
+        m_listview.setAdapter(m_lv_adapter);
+    }
+
+    private void updateListObjMainCashBillProduct(){
+
+        List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts;
+
+        //set shown false
+        for(ObjBillProduct objBillProduct : lstObjBillProduct) {
+            objBillProduct.setShown(false);
+        }
+
+        //set list
+        for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
+            //add new item or update
+            if(objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
+                    && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned()
+                    && !objBillProductAdapter.isShown()){
+                //init variables
+                ObjBillProduct objBillProductSearch = objBillProductAdapter;
+                int iQuantity = 0;
+                double dPrize = 0.0;
+                boolean bFound = false;
+
+                for(ObjBillProduct objBillProduct : lstObjBillProduct){
+                    if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
+                        if(objBillProduct.getPayTransit() && !objBillProduct.getPaid()
+                                && !objBillProduct.getCanceled() && !objBillProduct.getReturned()
+                                && !objBillProduct.isShown()){
+                            iQuantity++;
+                            dPrize += objBillProduct.getVK();
+                            //if pawn is available
+                            if(objBillProduct.getProduct().getbPawn()){
+                                dPrize += objBillProduct.getProduct().getPawn();
+                            }
+
+                            objBillProduct.setShown(true);
+                            bFound = true;
+                        }
+                    }
+                }
+                if(bFound){
+                    boolean bExists = false;
+                    ObjMainCashBillProduct objMainCashBillProductExists =  new ObjMainCashBillProduct();
+                    for(ObjMainCashBillProduct objMainCashBillProduct : m_ListObjMainCashBillProduct){
+                        if(objMainCashBillProduct.getProduct() == objBillProductSearch.getProduct()) {
+                            objMainCashBillProductExists = objMainCashBillProduct;
+                            bExists = true;
+                            break;
+                        }
+                    }
+
+                    //only update list
+                    if(bExists){
+                        objMainCashBillProductExists.setQuantity(iQuantity);
+                        objMainCashBillProductExists.setSum(dPrize);
+                    }
+                    //add new item
+                    else{
+                        ObjMainCashBillProduct objMainBillProduct  = new ObjMainCashBillProduct();
+                        objMainBillProduct.setProduct(objBillProductSearch.getProduct());
+                        objMainBillProduct.setQuantity(iQuantity);
+                        objMainBillProduct.setSum(dPrize);
+
+                        this.m_ListObjMainCashBillProduct.add(objMainBillProduct);
+                    }
+                }
+            }
+        }
+
+        //delete items
+        for(int i = m_ListObjMainCashBillProduct.size(); i-- > 0;) {
+            boolean bKeepAlive = false;
+            for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
+                if(objBillProductAdapter.getProduct() == m_ListObjMainCashBillProduct.get(i).getProduct()){
+                    if(objBillProductAdapter.getPayTransit()){
+                        bKeepAlive = true;
+                        break;
+                    }
+                }
+            }
+            if(!bKeepAlive){
+                m_ListObjMainCashBillProduct.remove(i);
+            }
+        }
+
+        //update listview
+        m_lv_adapter.notifyDataSetChanged();
     }
 }
