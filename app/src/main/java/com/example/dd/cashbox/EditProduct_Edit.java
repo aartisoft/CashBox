@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
@@ -101,7 +102,12 @@ public class EditProduct_Edit extends AppCompatActivity {
         //set Listener
         m_fab.setOnClickListener(fabOnClickListener);
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
-        m_EditTextName.setOnEditorActionListener(DoneOnEditorActionListener);
+        m_EditTextVK.setOnEditorActionListener(VKOnEditorActionListener);
+        m_EditTextPawn.setOnEditorActionListener(PawnOnEditorActionListener);
+        m_EditTextName.setOnEditorActionListener(NameOnEditorActionListener);
+        m_EditTextVK.setOnTouchListener(vkOnTouchListener);
+        m_EditTextPawn.setOnTouchListener(pawnOnTouchListener);
+        m_EditTextName.setOnTouchListener(nameOnTouchListener);
         m_PawnSwitch.setOnCheckedChangeListener(pawnOnCheckedChangeListener);
     }
 
@@ -124,11 +130,81 @@ public class EditProduct_Edit extends AppCompatActivity {
         }
     };
 
-    private OnEditorActionListener DoneOnEditorActionListener = new OnEditorActionListener(){
+    private TextView.OnEditorActionListener VKOnEditorActionListener = new TextView.OnEditorActionListener(){
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                m_EditTextVK.setCursorVisible(false);
+
+                //get edittext
+                String strVK = m_EditTextVK.getText().toString();
+                strVK = strVK.replace(",", ".");
+                double dInput = Double.parseDouble(strVK);
+
+
+                //set edittext
+                DecimalFormat df = new DecimalFormat("0.00");
+                String strOutput = df.format(dInput);
+                m_EditTextVK.setText(strOutput);
             }
+            return false;
+        }
+    };
+
+    private TextView.OnEditorActionListener PawnOnEditorActionListener = new TextView.OnEditorActionListener(){
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                m_EditTextPawn.setCursorVisible(false);
+
+                //get edittext
+                String strPawn = m_EditTextPawn.getText().toString();
+                strPawn = strPawn.replace(",", ".");
+                double dInput = Double.parseDouble(strPawn);
+
+
+                //set edittext
+                DecimalFormat df = new DecimalFormat("0.00");
+                String strOutput = df.format(dInput);
+                m_EditTextPawn.setText(strOutput);
+            }
+            return false;
+        }
+    };
+
+    private TextView.OnEditorActionListener NameOnEditorActionListener = new TextView.OnEditorActionListener(){
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                m_EditTextName.setCursorVisible(false);
+            }
+            return false;
+        }
+    };
+
+    private View.OnTouchListener vkOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_EditTextVK.setCursorVisible(true);
+            return false;
+        }
+    };
+
+    private View.OnTouchListener pawnOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_EditTextPawn.setCursorVisible(true);
+            return false;
+        }
+    };
+
+    private View.OnTouchListener nameOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_EditTextName.setCursorVisible(true);
             return false;
         }
     };
@@ -151,9 +227,6 @@ public class EditProduct_Edit extends AppCompatActivity {
             }
             else {
                 //keyboard is closed
-                m_EditTextName.setCursorVisible(false);
-                m_EditTextVK.setCursorVisible(false);
-                m_EditTextPawn.setCursorVisible(false);
                 m_decorView.setSystemUiVisibility(m_uiOptions);
             }
         }
@@ -286,7 +359,7 @@ public class EditProduct_Edit extends AppCompatActivity {
 
                                 //set tax
                                 String strTax = m_Spinner_Tax.getSelectedItem().toString();
-                                strTax.replace("%", "");
+                                strTax = strTax.replace("%", "");
                                 product.setTax(Double.parseDouble(strTax));
 
                                 product.set_Category(m_SessionCategory);
@@ -321,16 +394,35 @@ public class EditProduct_Edit extends AppCompatActivity {
 
     private void setSpinnerTax(){
         m_Spinner_Tax.setPrompt(getResources().getString(R.string.src_MehrwertsteuerAuswaehlen));
-        int printer_position = 0;
 
         List<String> taxes = new ArrayList<>();
         taxes.add("7%");
         taxes.add("19%");
 
+        //get saved tax
+        String strTaxRead = "";
+        for(ObjCategory objCategory : GlobVar.g_lstCategory){
+            if(objCategory.getName().equals(m_SessionCategory)){
+                for(ObjProduct objProduct : objCategory.getListProduct()){
+                    if(objProduct.getName().equals(m_SessionProduct)){
+                        strTaxRead = String.valueOf(objProduct.getTax());
+                    }
+                }
+            }
+        }
+        int iCounter = 0;
+        for(String tax : taxes){
+            if(tax.contains(strTaxRead)){
+                break;
+            }
+            iCounter++;
+        }
+        m_Spinner_Tax.setSelection(iCounter);
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, taxes);
         m_Spinner_Tax.setAdapter(dataAdapter);
 
-        m_Spinner_Tax.setSelection(printer_position);
+
 
     }
 }

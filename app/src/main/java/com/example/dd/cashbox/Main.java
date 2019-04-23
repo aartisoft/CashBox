@@ -196,9 +196,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     public void onClick(View v){
         switch (v.getId()) {
             case R.id.am_menu_btnCashBoxDelete:
-                /*this.deleteDatabase("ProductsDB");
-                this.deleteDatabase("CategoriesDB");
-                this.deleteDatabase("PrintersDB");*/
+                //this.deleteDatabase("ProductsDB");
+                //this.deleteDatabase("CategoriesDB");
+                //this.deleteDatabase("PrintersDB");
                 this.deleteDatabase("TableBillsDB");
                 this.deleteDatabase("TablesDB");
                 Toast.makeText(Main.this, getResources().getString(R.string.src_KasseWurdeVollstaendigGeloescht), Toast.LENGTH_SHORT).show();

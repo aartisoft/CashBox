@@ -23,10 +23,11 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
     private static final String KEY_BPAWN = "bpawn";
     private static final String KEY_PAWN = "pawn";
     private static final String KEY_ENABLED = "enabled";
-    private static final String KEY_CATEGORY= "category";
+    private static final String KEY_CATEGORY = "category";
+    private static final String KEY_TAX = "tax";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_NAME, KEY_VK,
-            KEY_BPAWN, KEY_PAWN, KEY_ENABLED, KEY_CATEGORY };
+            KEY_BPAWN, KEY_PAWN, KEY_ENABLED, KEY_CATEGORY, KEY_TAX };
 
     public SQLiteDatabaseHandler_Product(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,8 +37,8 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE Products ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "name TEXT, "
-                + "vk REAL, " + "bpawn INTEGER, "
-                + "pawn REAL, " + "enabled INTEGER, " + "category TEXT)";
+                + "vk REAL, " + "bpawn INTEGER, " + "pawn REAL, "
+                + "enabled INTEGER, " + "category TEXT, " + "tax TEXT)";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -71,6 +72,8 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
                     product.setbPAWN(bPawn);
 
                     product.setPAWN(Double.parseDouble(cursor.getString(4)));
+
+                    product.setTax(Double.parseDouble(cursor.getString(7)));
 
                     //set enabled
                     boolean bEnabled = true;
@@ -108,6 +111,7 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         product.setVK(Float.parseFloat(cursor.getString(2)));
         product.setbPAWN(Boolean.parseBoolean(cursor.getString(3)));
         product.setPAWN(Float.parseFloat(cursor.getString(4)));
+        product.setTax(Double.parseDouble(cursor.getString(7)));
         product.setEnabled(Boolean.parseBoolean(cursor.getString(5)));
 
         return product;
@@ -123,6 +127,8 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         values.put(KEY_BPAWN, bpawn);
 
         values.put(KEY_PAWN, product.getPawn());
+
+        values.put(KEY_TAX, product.getTax());
 
         int key_enabled = product.getEnabled() ? 1 : 0;
         values.put(KEY_ENABLED, key_enabled);
@@ -144,6 +150,8 @@ public class SQLiteDatabaseHandler_Product extends SQLiteOpenHelper {
         values.put(KEY_BPAWN, bpawn);
 
         values.put(KEY_PAWN, product.getPawn());
+
+        values.put(KEY_TAX, product.getTax());
 
         int key_enabled = product.getEnabled() ? 1 : 0;
         values.put(KEY_ENABLED, key_enabled);
