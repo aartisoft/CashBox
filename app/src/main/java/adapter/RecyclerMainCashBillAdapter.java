@@ -25,7 +25,7 @@ public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMa
     private List<ObjMainBillProduct> m_billproductList = new ArrayList<>();
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         public TextView textview_itemname;
         public TextView textview_prize;
         public TextView textview_printerQ;
@@ -42,6 +42,7 @@ public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMa
 
             mCardView = view.findViewById(R.id.editproduct_recyclerview_items);
             mCardView.setOnClickListener(this);
+            mCardView.setOnLongClickListener(this);
         }
 
         @Override
@@ -50,6 +51,15 @@ public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMa
             ObjMainBillProduct objMainBillProduct = m_billproductList.get(position);
             //implement interface instead if adapter is used in more than one activity!
             ((MainCash)context).showMainCashBillDialog(objMainBillProduct.getProduct().getCategory(), objMainBillProduct.getProduct().getName());
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            int position = (int) v.getTag();
+            ObjMainBillProduct objMainBillProduct = m_billproductList.get(position);
+            //implement interface instead if adapter is used in more than one activity!
+            ((MainCash)context).transferAllProductItems(objMainBillProduct);
+            return true;
         }
     }
 

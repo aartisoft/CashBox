@@ -37,6 +37,9 @@ import fragments.PopUpWindowCancelOKFragment;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
+import objects.ObjMainBillProduct;
+import objects.ObjMainCashBillProduct;
+import objects.ObjProduct;
 
 public class MainCash extends AppCompatActivity implements View.OnClickListener, PopUpWindowCancelOKFragment.OnDialogCancelOkResultListener {
 
@@ -218,19 +221,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     }
 
     private View.OnLongClickListener tvBillOnLongClickListener = new View.OnLongClickListener() {
-
         @Override
         public boolean onLongClick(View v) {
-            if(m_iSessionTable != -1 && m_iSessionBill != -1){
-                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                    if (!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                            && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
-                        objBillProduct.setPayTransit(true);
-                    }
-                }
-            }
-            //update view
-            raiseChange();
+            transferAllItems();
             return true;
         }
     };
@@ -365,6 +358,34 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             //implement failure
         }
 
+    }
+
+    private void transferAllItems(){
+        if(m_iSessionTable != -1 && m_iSessionBill != -1){
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                if (!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
+                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                    objBillProduct.setPayTransit(true);
+                }
+            }
+        }
+        //update view
+        raiseChange();
+    }
+
+    public void transferAllProductItems(ObjMainBillProduct p_objMainCashProduct){
+        if(m_iSessionTable != -1 && m_iSessionBill != -1){
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                if (!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
+                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                    if(objBillProduct.getProduct() == p_objMainCashProduct.getProduct()){
+                        objBillProduct.setPayTransit(true);
+                    }
+                }
+            }
+        }
+        //update view
+        raiseChange();
     }
 
     private void setOpenSum(){
