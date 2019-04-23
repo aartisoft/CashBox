@@ -368,7 +368,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
                 if (!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted()) {
                     objBillProduct.setPayTransit(true);
                 }
             }
@@ -381,7 +381,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
                 if (!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted()) {
                     if(objBillProduct.getProduct() == p_objMainCashProduct.getProduct()){
                         objBillProduct.setPayTransit(true);
                     }
@@ -720,7 +720,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             //add new item or update
             if(objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
                     && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned()
-                    && !objBillProductAdapter.isShown()){
+                    && !objBillProductAdapter.isShown() && objBillProductAdapter.getPrinted()){
                 //init variables
                 ObjBillProduct objBillProductSearch = objBillProductAdapter;
                 int iQuantity = 0;
@@ -731,7 +731,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
                     if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
                         if(objBillProduct.getPayTransit() && !objBillProduct.getPaid()
                                 && !objBillProduct.getCanceled() && !objBillProduct.getReturned()
-                                && !objBillProduct.isShown()){
+                                && !objBillProduct.isShown() && objBillProductAdapter.getPrinted()){
                             iQuantity++;
                             dPrize += objBillProduct.getVK();
                             //if pawn is available
