@@ -508,7 +508,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     int iQuantity = 0;
                     for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
                         if(objProduct == objBillProduct.getProduct()){
-                            if(!objBillProduct.getPrinted()){
+                            if(!objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled() && !objBillProduct.getPaid()){
                                 //if billproduct has no extra info
                                 if(objBillProduct.getAddInfo().equals("")){
                                     iQuantity++;

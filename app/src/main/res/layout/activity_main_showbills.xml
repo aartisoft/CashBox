@@ -25,8 +25,6 @@
         android:id="@+id/activity_main_showbills_lv"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
         tools:context="abhiandroid.com.listexample.MainActivity"
         android:divider="@color/colorGrey"
         android:dividerHeight="1dp"

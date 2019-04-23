@@ -48,8 +48,10 @@ public class ListViewRetoureStornoAdapter extends BaseAdapter {
     }
     public void onItemSelected(int position) {
     }
-    public ObjBillProduct getObjBillProduct(int position){
-        return m_List.get(position);
+    public void setAllCheckedFalse(){
+        for(ObjBillProduct objBillProduct : m_List){
+            objBillProduct.setChecked(false);
+        }
     }
     public ArrayList<ObjBillProduct> getObjBillProductList(){
         return m_List;

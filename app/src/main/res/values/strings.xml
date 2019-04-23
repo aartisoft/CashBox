@@ -89,7 +89,9 @@
     <string name="src_TischAuswaehlen">Tisch auswählen</string>
     <string name="src_Bemerkung">Bemerkung</string>
     <string name="src_KundeBekommtSummeXZurueck">Kunde bekommt Summe {0}€ zurück.</string>
-    <string name="src_ArtikelWurdeStorniert">Artikel wurde(n) storniert.</string>
+    <string name="src_ArtikelWerdenStorniert">Artikel werden storniert.</string>
+    <string name="src_ArtikelWerdenRetourniert">Artikel werden retourniert.</string>
+    <string name="src_BitteBestaetigenSieDenVorgang">Bitte bestätigen Sie den Vorgang.</string>
     <string name="src_RetoureStorno">Retoure/Storno</string>
     <string name="src_Retoure">Retoure</string>
     <string name="src_Storno">Storno</string>

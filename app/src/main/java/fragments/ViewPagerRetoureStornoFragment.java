@@ -114,32 +114,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
             }
 
             if(bChecked){
-                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                    if (objBillProduct.getCategory().equals(m_strCategory)) {
-                        if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
-                            for (ObjBillProduct objBillProductAdapter : ObjBillProductList) {
-                                if(objBillProduct == objBillProductAdapter){
-                                    if (objBillProduct.isChecked()) {
-                                        if (m_strTask.equals("returned")) {
-                                            m_dPrize += objBillProduct.getVK();
-                                            objBillProduct.setReturned(true);
-                                            objBillProduct.setSqlChanged(true);
-                                            objBillProduct.setChecked(false);
-                                        } else {
-                                            objBillProduct.setCanceled(true);
-                                            objBillProduct.setSqlChanged(true);
-                                            objBillProduct.setChecked(false);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                //set product in database
-                SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-                db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
+                getPrize();
 
                 //show popupwindow
                 showPopUpWIndowOk();
@@ -153,12 +128,19 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
 
     //////////////////////////////////////////// METHODS /////////////////////////////////////////////////////////////////////
     public void raiseCloseDialog(){
+        setData();
         //update listview bill
         ((Main) getActivity()).raiseNewProduct();
 
         //close dialog
         Fragment mParentFragment = (RetoureStornoDialogFragment) getParentFragment();
         ((RetoureStornoDialogFragment) mParentFragment).raiseCloseDialog();
+    }
+
+    public void raiseClear(){
+        m_dPrize = 0.0;
+        m_adapter.setAllCheckedFalse();
+        m_adapter.notifyDataSetChanged();
     }
 
     private void initListView(){
@@ -189,6 +171,60 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         }
         else{
             m_View.findViewById(R.id.fragment_retourestorno_lv_noitem).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setData(){
+        ArrayList<ObjBillProduct> ObjBillProductList = m_adapter.getObjBillProductList();
+
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+            if (objBillProduct.getCategory().equals(m_strCategory)) {
+                if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
+                    for (ObjBillProduct objBillProductAdapter : ObjBillProductList) {
+                        if(objBillProduct == objBillProductAdapter){
+                            if (objBillProduct.isChecked()) {
+                                if (m_strTask.equals("returned")) {
+                                    objBillProduct.setReturned(true);
+                                    objBillProduct.setSqlChanged(true);
+                                    objBillProduct.setChecked(false);
+                                } else {
+                                    objBillProduct.setCanceled(true);
+                                    objBillProduct.setSqlChanged(true);
+                                    objBillProduct.setChecked(false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //set product in database
+        SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+        db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
+    }
+
+    private void getPrize(){
+        ArrayList<ObjBillProduct> ObjBillProductList = m_adapter.getObjBillProductList();
+
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+            if (objBillProduct.getCategory().equals(m_strCategory)) {
+                if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
+                    for (ObjBillProduct objBillProductAdapter : ObjBillProductList) {
+                        if(objBillProduct == objBillProductAdapter){
+                            if (objBillProduct.isChecked()) {
+                                if (m_strTask.equals("returned")) {
+                                    m_dPrize += objBillProduct.getVK();
+                                    //if pawn is available
+                                    if(objBillProduct.getProduct().getbPawn()){
+                                        m_dPrize += objBillProduct.getProduct().getPawn();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

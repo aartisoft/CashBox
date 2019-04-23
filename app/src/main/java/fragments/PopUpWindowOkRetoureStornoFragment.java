@@ -21,7 +21,8 @@ import androidx.fragment.app.Fragment;
 
 public class PopUpWindowOkRetoureStornoFragment extends DialogFragment implements View.OnClickListener {
 
-    private Button m_button;
+    private Button m_btnCancel;
+    private Button m_btnOK;
     private TextView m_tvText;
     private double m_dCash = 0;
     private Context m_Context;
@@ -40,7 +41,7 @@ public class PopUpWindowOkRetoureStornoFragment extends DialogFragment implement
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_popupwindowok, container, false);
+        View view = inflater.inflate(R.layout.fragment_popupwindowcancelok, container, false);
 
         //activity variables
         m_dCash = getArguments().getDouble("CASH");
@@ -49,12 +50,14 @@ public class PopUpWindowOkRetoureStornoFragment extends DialogFragment implement
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         //set variables
-        m_button = view.findViewById(R.id.fragment_puwok_button);
-        m_tvText = view.findViewById(R.id.fragment_puwok_tv);
+        m_btnOK = view.findViewById(R.id.fragment_puco_btnok);
+        m_btnCancel = view.findViewById(R.id.fragment_puco_btncancel);
+        m_tvText = view.findViewById(R.id.fragment_puco_tv);
         m_Context = getContext();
 
         //set Listener
-        m_button.setOnClickListener(this);
+        m_btnOK.setOnClickListener(this);
+        m_btnCancel.setOnClickListener(this);
 
         //set Text
         setText();
@@ -70,20 +73,35 @@ public class PopUpWindowOkRetoureStornoFragment extends DialogFragment implement
     @Override
     public void onClick(View v) {
         Fragment mParentFragment = (ViewPagerRetoureStornoFragment) getParentFragment();
-        ((ViewPagerRetoureStornoFragment) mParentFragment).raiseCloseDialog();
-        m_frag.dismiss();
+        switch(v.getId()){
+            case R.id.fragment_puco_btnok:
+                ((ViewPagerRetoureStornoFragment) mParentFragment).raiseCloseDialog();
+                m_frag.dismiss();
+                break;
+
+            case R.id.fragment_puco_btncancel:
+                ((ViewPagerRetoureStornoFragment) mParentFragment).raiseClear();
+                m_frag.dismiss();
+                break;
+
+            default:
+
+        }
     }
 
     private void setText(){
         //product has been canceled
         if(m_dCash == 0){
-            String strText = getResources().getString(R.string.src_ArtikelWurdeStorniert);
+            String strText = getResources().getString(R.string.src_ArtikelWerdenStorniert) + "\n\n";
+            strText += getResources().getString(R.string.src_BitteBestaetigenSieDenVorgang);
             m_tvText.setText(strText);
         }
         //product has been returned
         else{
             DecimalFormat df = new DecimalFormat("0.00");
-            String strText = getResources().getString(R.string.src_KundeBekommtSummeXZurueck);
+            String strText = getResources().getString(R.string.src_ArtikelWerdenStorniert) + "\n";
+            strText += getResources().getString(R.string.src_KundeBekommtSummeXZurueck) + "\n\n";
+            strText += getResources().getString(R.string.src_BitteBestaetigenSieDenVorgang);
             String strVK = df.format(m_dCash);
             strText = strText.replace("{0}", strVK);
             m_tvText.setText(strText);
