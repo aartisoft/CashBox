@@ -110,11 +110,23 @@ public class ListViewMainCashBillPayAdapter extends BaseAdapter {
         }
 
         // Populate the data into the template view using the data object
-        view.txtArticle.setText(m_List.get(position).getQuantity() + "x "
-                + m_List.get(position).getProduct().getName());
+        //set name
+        String strName = m_List.get(position).getQuantity() + "x " + m_List.get(position).getProduct().getName();
+        //if pawn is available
+        if(m_List.get(position).getProduct().getbPawn()){
+            strName += "*";
+        }
+        view.txtArticle.setText(strName);
 
+        //set vk
+        //if pawn is available
+        double dPrize = 0.0;
+        if(m_List.get(position).getProduct().getbPawn()){
+            dPrize = m_List.get(position).getProduct().getPawn();
+        }
+        dPrize += m_List.get(position).getSum();
         DecimalFormat df = new DecimalFormat("0.00");
-        String strSum = df.format(m_List.get(position).getSum());
+        String strSum = df.format(dPrize);
         view.txtSum.setText(strSum);
 
         //item delete listener

@@ -127,10 +127,20 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
         //set name
         String strName = item.getQuantity() + "x " + item.getProduct().getName();
+        //if pawn is available
+        if(item.getProduct().getbPawn()){
+            strName += "*";
+        }
         holder.textview_itemname.setText(strName);
 
         //set prize
-        String strVK = df.format(item.getVK());
+        //if pawn is available
+        double dPrize = 0.0;
+        if(item.getProduct().getbPawn()){
+            dPrize = item.getProduct().getPawn();
+        }
+        dPrize += item.getVK();
+        String strVK = df.format(dPrize);
         strVK = strVK + "€";
         holder.textview_prize.setText(strVK);
 

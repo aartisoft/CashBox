@@ -93,9 +93,19 @@ public class ListViewRetoureStornoAdapter extends BaseAdapter {
             view.txtAddInfo.setText(m_List.get(position).getAddInfo());
         }
 
+        //set vk
         DecimalFormat df = new DecimalFormat("0.00");
         String strVK = df.format(m_List.get(position).getVK());
         strVK += "€";
+
+        //if pawn is available
+        double dPrize = 0.0;
+        if(m_List.get(position).getProduct().getbPawn()){
+            dPrize = m_List.get(position).getProduct().getPawn();
+            String strPawn = df.format(dPrize);
+            strPawn += "€";
+            strVK += " - " + m_Context.getResources().getString(R.string.src_Pfand) + " " + strPawn;
+        }
         view.txtVK.setText(strVK);
 
         view.cbAdd.setChecked(m_List.get(position).isChecked());
