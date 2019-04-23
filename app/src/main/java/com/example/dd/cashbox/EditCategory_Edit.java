@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
@@ -94,6 +95,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         m_fab.setOnClickListener(fabOnClickListener);
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
         m_EditTextName.setOnEditorActionListener(DoneOnEditorActionListener);
+        m_EditTextName.setOnTouchListener(nameOnTouchListener);
         m_EditTextColor.setOnClickListener(OnClickListener);
     }
 
@@ -108,7 +110,17 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                m_EditTextName.setCursorVisible(false);
             }
+            return false;
+        }
+    };
+
+    private View.OnTouchListener nameOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_EditTextName.setCursorVisible(true);
             return false;
         }
     };
