@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -40,7 +38,6 @@ import objects.ObjBill;
 import objects.ObjBillProduct;
 import objects.ObjMainBillProduct;
 import objects.ObjMainCashBillProduct;
-import objects.ObjProduct;
 
 public class MainCash extends AppCompatActivity implements View.OnClickListener, PopUpWindowCancelOKFragment.OnDialogCancelOkResultListener {
 
@@ -56,8 +53,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     private Button m_btnPay;
     private Button m_btnCancel;
     private RecyclerMainCashBillAdapter m_rv_adapter;
+    private List<ObjMainBillProduct> m_ListObjMainBillProduct = new ArrayList<>();
     private ListViewMainCashBillPayAdapter m_lv_adapter;
-    List<ObjMainCashBillProduct> m_ListObjMainCashBillProduct = new ArrayList<>();
+    private List<ObjMainCashBillProduct> m_ListObjMainCashBillProduct = new ArrayList<>();
     private RecyclerView m_recyclerview;
     private ListView m_listview;
     private double m_dToPay = 0.0;
@@ -114,7 +112,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         setHeaderBill();
 
         //init adapter
-        setuplistview();
+        initListViewMainCashBill();
+        initRecyclerViewMainBillProduct();
 
         //set Listener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
@@ -308,7 +307,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     //////////////////////////////////////////// METHODS /////////////////////////////////////////////////////////////////////////////
     public void raiseChange(){
-        setupRecyclerView();
+        updateListObjMainBillProduct();
         updateListObjMainCashBillProduct();
         setOpenTransitSum();
     }
@@ -357,7 +356,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             m_TextViewBill.setText(strBillHeader);
 
             //set recyclerview
-            setupRecyclerView();
+            initRecyclerViewMainBillProduct();
         }
         else{
             //implement failure
@@ -473,48 +472,6 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         }
     }
 
-    private void setupRecyclerView(){
-
-        //write tablebills to database
-        SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-        db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
-
-        //get list bill pointer
-        final int iBill = getBillListPointer();
-
-        m_rv_adapter = new RecyclerMainCashBillAdapter(this, GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        m_recyclerview.setLayoutManager(mLayoutManager);
-
-        m_recyclerview.setAdapter(m_rv_adapter);
-        m_rv_adapter.notifyDataSetChanged();
-
-        //set opensum
-        setOpenSum();
-
-        //set infotext mainbill
-        if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts.size() > 0){
-            boolean bFound = false;
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts){
-                if(!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
-                    bFound = true;
-                    break;
-                }
-            }
-            if(bFound){
-                findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.INVISIBLE);
-            }
-            else{
-                findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.VISIBLE);
-            }
-        }
-        else{
-            findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.VISIBLE);
-        }
-    }
-
     private int getBillListPointer(){
         //get bill
         int iBill = 0;
@@ -612,11 +569,143 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         mainCashBillDialogFragment.show(fm, "fragment_maincashbill");
     }
 
-    private void setuplistview(){
+    private void initRecyclerViewMainBillProduct(){
+        m_rv_adapter = new RecyclerMainCashBillAdapter(this, m_ListObjMainBillProduct);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        m_recyclerview.setLayoutManager(mLayoutManager);
+        m_recyclerview.setAdapter(m_rv_adapter);
+
+        updateListObjMainBillProduct();
+        setInfoRecyclerViewMainBillProduct();
+    }
+
+    private void updateListObjMainBillProduct(){
+        //get global list
+        List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts;
+
+        //set shown false
+        for(ObjBillProduct objBillProduct : lstObjBillProduct) {
+            objBillProduct.setShown(false);
+        }
+
+        //set list
+        for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
+            //add new item or update
+            if(objBillProductAdapter.getPrinted() && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
+                    && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
+                //init variables
+                ObjBillProduct objBillProductSearch = objBillProductAdapter;
+                int iQuantity = 0;
+                int iPrinted = 0;
+                double dPrize = 0.0;
+                boolean bFound = false;
+
+                for(ObjBillProduct objBillProduct : lstObjBillProduct){
+                    if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
+                        if(objBillProduct.getPrinted() && !objBillProduct.getPayTransit()
+                                && !objBillProduct.getPaid() && !objBillProduct.getCanceled()
+                                && !objBillProduct.getReturned() && !objBillProduct.isShown()){
+                            iQuantity++;
+                            dPrize += objBillProduct.getVK();
+                            //if pawn is available
+                            if(objBillProduct.getProduct().getbPawn()){
+                                dPrize += objBillProduct.getProduct().getPawn();
+                            }
+
+                            if(objBillProduct.getPrinted()){
+                                iPrinted++;
+                            }
+                            objBillProduct.setShown(true);
+                            bFound = true;
+                        }
+                    }
+                }
+                if(bFound){
+                    boolean bExists = false;
+                    ObjMainBillProduct objMainBillProductExists =  new ObjMainBillProduct();
+                    for(ObjMainBillProduct objMainBillProduct : m_ListObjMainBillProduct){
+                        if(objMainBillProduct.getProduct() == objBillProductSearch.getProduct()) {
+                            objMainBillProductExists = objMainBillProduct;
+                            bExists = true;
+                            break;
+                        }
+                    }
+
+                    //only update list
+                    if(bExists){
+                        objMainBillProductExists.setQuantity(iQuantity);
+                        objMainBillProductExists.setPrinted(iPrinted);
+                        objMainBillProductExists.setVK(dPrize);
+                    }
+                    //add new item
+                    else{
+                        ObjMainBillProduct objMainBillProduct = new ObjMainBillProduct();
+                        objMainBillProduct.setProduct(objBillProductSearch.getProduct());
+                        objMainBillProduct.setQuantity(iQuantity);
+                        objMainBillProduct.setPrinted(iPrinted);
+                        objMainBillProduct.setVK(dPrize);
+
+                        this.m_ListObjMainBillProduct.add(objMainBillProduct);
+                    }
+                }
+            }
+        }
+
+        //delete items
+        for(int i = m_ListObjMainBillProduct.size(); i-- > 0;) {
+            boolean bKeepAlive = false;
+            for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
+                if(objBillProductAdapter.getProduct() == m_ListObjMainBillProduct.get(i).getProduct()){
+                    if(!objBillProductAdapter.getPayTransit()){
+                        bKeepAlive = true;
+                        break;
+                    }
+                }
+            }
+            if(!bKeepAlive){
+                m_ListObjMainBillProduct.remove(i);
+            }
+        }
+
+        //update recyclerview
+        m_rv_adapter.notifyDataSetChanged();
+        setInfoRecyclerViewMainBillProduct();
+    }
+
+    private void setInfoRecyclerViewMainBillProduct(){
+        //get list bill pointer
+        final int iBill = getBillListPointer();
+
+        //set opensum
+        setOpenSum();
+
+        //set infotext mainbill
+        if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts.size() > 0){
+            boolean bFound = false;
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts){
+                if(!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
+                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
+                    bFound = true;
+                    break;
+                }
+            }
+            if(bFound){
+                findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.INVISIBLE);
+            }
+            else{
+                findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.VISIBLE);
+            }
+        }
+        else{
+            findViewById(R.id.activity_main_bill_cash_rv_noitem).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void initListViewMainCashBill(){
         m_lv_adapter = new ListViewMainCashBillPayAdapter(m_Context, m_ListObjMainCashBillProduct);
         m_listview.setAdapter(m_lv_adapter);
     }
-
     private void updateListObjMainCashBillProduct(){
 
         List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts;

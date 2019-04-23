@@ -63,60 +63,9 @@ public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMa
         }
     }
 
-    public RecyclerMainCashBillAdapter(Context context, List<ObjBillProduct> billproductList) {
+    public RecyclerMainCashBillAdapter(Context context, List<ObjMainBillProduct> billproductList) {
         this.context = context;
-
-
-        m_billproductList = new ArrayList<>();
-
-        //set shown false
-        for(ObjBillProduct objBillProduct : billproductList) {
-            objBillProduct.setShown(false);
-        }
-
-        //set list
-        for(ObjBillProduct objBillProductAdapter : billproductList){
-            if(objBillProductAdapter.getPrinted() && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
-                    && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
-                //init variables
-                ObjBillProduct objBillProductSearch = objBillProductAdapter;
-                ObjMainBillProduct objMainBillProduct = new ObjMainBillProduct();
-                objMainBillProduct.setProduct(objBillProductSearch.getProduct());
-                int iQuantity = 0;
-                int iPrinted = 0;
-                double dPrize = 0.0;
-                boolean bFound = false;
-
-                for(ObjBillProduct objBillProduct : billproductList){
-                    if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
-                        if(objBillProduct.getPrinted() && !objBillProduct.getPayTransit()
-                                && !objBillProduct.getPaid() && !objBillProduct.getCanceled()
-                                && !objBillProduct.getReturned() && !objBillProduct.isShown()){
-                            iQuantity++;
-                            dPrize += objBillProduct.getVK();
-                            //if pawn is available
-                            if(objBillProduct.getProduct().getbPawn()){
-                                dPrize += objBillProduct.getProduct().getPawn();
-                            }
-
-                            if(objBillProduct.getPrinted()){
-                                iPrinted++;
-                            }
-                            objBillProduct.setShown(true);
-                            bFound = true;
-                        }
-                    }
-                }
-                if(bFound){
-                    objMainBillProduct.setQuantity(iQuantity);
-                    objMainBillProduct.setPrinted(iPrinted);
-                    objMainBillProduct.setVK(dPrize);
-
-                    //add to adapter list
-                    this.m_billproductList.add(objMainBillProduct);
-                }
-            }
-        }
+        this.m_billproductList = billproductList;
     }
 
     @Override
