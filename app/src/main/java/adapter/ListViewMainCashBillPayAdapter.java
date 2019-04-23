@@ -56,6 +56,11 @@ public class ListViewMainCashBillPayAdapter extends BaseAdapter {
                                 && !objBillProduct.isShown()){
                             iQuantity++;
                             dPrize += objBillProduct.getVK();
+                            //if pawn is available
+                            if(objBillProduct.getProduct().getbPawn()){
+                                dPrize += objBillProduct.getProduct().getPawn();
+                            }
+
                             objBillProduct.setShown(true);
                             bFound = true;
                         }
@@ -119,14 +124,8 @@ public class ListViewMainCashBillPayAdapter extends BaseAdapter {
         view.txtArticle.setText(strName);
 
         //set vk
-        //if pawn is available
-        double dPrize = 0.0;
-        if(m_List.get(position).getProduct().getbPawn()){
-            dPrize = m_List.get(position).getProduct().getPawn();
-        }
-        dPrize += m_List.get(position).getSum();
         DecimalFormat df = new DecimalFormat("0.00");
-        String strSum = df.format(dPrize);
+        String strSum = df.format(m_List.get(position).getSum());
         view.txtSum.setText(strSum);
 
         //item delete listener

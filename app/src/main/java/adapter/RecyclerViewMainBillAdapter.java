@@ -90,6 +90,11 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
                                 && !objBillProduct.getReturned() && !objBillProduct.isShown()){
                             iQuantity++;
                             dPrize += objBillProduct.getVK();
+                            //if pawn is available
+                            if(objBillProduct.getProduct().getbPawn()){
+                                dPrize += objBillProduct.getProduct().getPawn();
+                            }
+
                             if(objBillProduct.getPrinted()){
                                 iPrinted++;
                             }
@@ -134,13 +139,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.textview_itemname.setText(strName);
 
         //set prize
-        //if pawn is available
-        double dPrize = 0.0;
-        if(item.getProduct().getbPawn()){
-            dPrize = item.getProduct().getPawn();
-        }
-        dPrize += item.getVK();
-        String strVK = df.format(dPrize);
+        String strVK = df.format(item.getVK());
         strVK = strVK + "€";
         holder.textview_prize.setText(strVK);
 
