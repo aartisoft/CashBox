@@ -108,8 +108,6 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
         m_btnPay.setOnClickListener(this);
         m_btnCancel.setOnClickListener(this);
-        //m_EdtPays.addTextChangedListener(paysTextWatcher);
-        //m_EdtWantsToPay.addTextChangedListener(wantsToPayTextWatcher);
         m_EdtPays.setOnTouchListener(paysOnTouchListener);
         m_EdtWantsToPay.setOnTouchListener(wantsToPayOnTouchListener);
         m_EdtPays.setOnEditorActionListener(paysOnKeyListener);
@@ -213,33 +211,6 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
 
         }
     }
-
-    private TextWatcher wantsToPayTextWatcher = new TextWatcher(){
-        public void afterTextChanged(Editable s) {
-        }
-
-        public void beforeTextChanged(CharSequence s, int start,
-                                      int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start,
-                                  int before, int count) {
-        }
-    };
-
-    private TextWatcher paysTextWatcher = new TextWatcher(){
-        public void afterTextChanged(Editable s) {
-        }
-
-        public void beforeTextChanged(CharSequence s, int start,
-                                      int count, int after) {
-            m_EdtPays.setCursorVisible(true);
-        }
-
-        public void onTextChanged(CharSequence s, int start,
-                                  int before, int count) {
-        }
-    };
 
     private View.OnTouchListener wantsToPayOnTouchListener = new View.OnTouchListener(){
 
