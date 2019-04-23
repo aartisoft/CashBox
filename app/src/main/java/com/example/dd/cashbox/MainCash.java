@@ -6,11 +6,14 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -105,10 +108,12 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
         m_btnPay.setOnClickListener(this);
         m_btnCancel.setOnClickListener(this);
-        m_EdtPays.addTextChangedListener(paysTextWatcher);
-        m_EdtWantsToPay.addTextChangedListener(wantsToPayTextWatcher);
-        //m_EdtWantsToPay.setOnTouchListener(WantsToPayOnTouchListener);
-        //m_EdtPays.setOnTouchListener(PaysOnTouchListener);
+        //m_EdtPays.addTextChangedListener(paysTextWatcher);
+        //m_EdtWantsToPay.addTextChangedListener(wantsToPayTextWatcher);
+        m_EdtPays.setOnTouchListener(paysOnTouchListener);
+        m_EdtWantsToPay.setOnTouchListener(wantsToPayOnTouchListener);
+        m_EdtPays.setOnEditorActionListener(paysOnKeyListener);
+        m_EdtWantsToPay.setOnEditorActionListener(wantsToPayOnKeyListener);
     }
 
     public void hideSystemUI(Window window) {
@@ -136,14 +141,11 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
 
             //Log.d(TAG, "keypadHeight = " + keypadHeight);
 
-            if (keypadHeight > screenHeight * 0.5) {
+            if (keypadHeight > screenHeight * 0.1) {
                 // keyboard is opened
             }
             else {
                 //keyboard is closed
-                //set edittexts
-                m_EdtWantsToPay.setCursorVisible(false);
-                m_EdtPays.setCursorVisible(false);
                 m_decorView.setSystemUiVisibility(m_uiOptions);
             }
         }
@@ -214,18 +216,6 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
 
     private TextWatcher wantsToPayTextWatcher = new TextWatcher(){
         public void afterTextChanged(Editable s) {
-            String strWantsToPay = "";
-            if(m_EdtWantsToPay.getText().equals("")){
-                strWantsToPay = "0,0";
-            }
-            else{
-                strWantsToPay = m_EdtWantsToPay.getText().toString();
-            }
-
-            strWantsToPay = strWantsToPay.replace(",", ".");
-            m_dWantsToPay = Double.parseDouble(strWantsToPay);
-
-            setChangeSum();
         }
 
         public void beforeTextChanged(CharSequence s, int start,
@@ -239,26 +229,88 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
 
     private TextWatcher paysTextWatcher = new TextWatcher(){
         public void afterTextChanged(Editable s) {
-            String strPays = "";
-            if(m_EdtPays.getText().equals("")){
-                strPays = "0,0";
-            }
-            else{
-                strPays = m_EdtPays.getText().toString();
-            }
-
-            strPays = strPays.replace(",", ".");
-            m_dPays = Double.parseDouble(strPays);
-
-            setChangeSum();
         }
 
         public void beforeTextChanged(CharSequence s, int start,
                                       int count, int after) {
+            m_EdtPays.setCursorVisible(true);
         }
 
         public void onTextChanged(CharSequence s, int start,
                                   int before, int count) {
+        }
+    };
+
+    private View.OnTouchListener wantsToPayOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_EdtWantsToPay.setCursorVisible(true);
+            return false;
+        }
+    };
+
+    private View.OnTouchListener paysOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_EdtPays.setCursorVisible(true);
+            return false;
+        }
+    };
+
+    private TextView.OnEditorActionListener wantsToPayOnKeyListener = new TextView.OnEditorActionListener(){
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                m_EdtWantsToPay.setCursorVisible(false);
+
+                String strWantsToPay = "0,0";
+                strWantsToPay = m_EdtWantsToPay.getText().toString();
+
+
+                if(strWantsToPay.equals("")){
+                    strWantsToPay = "0,0";
+                }
+                strWantsToPay = strWantsToPay.replace(",", ".");
+                m_dWantsToPay = Double.parseDouble(strWantsToPay);
+
+                setChangeSum();
+
+                //set edittext
+                DecimalFormat df = new DecimalFormat("0.00");
+                String strOutput = df.format(m_dWantsToPay);
+                m_EdtWantsToPay.setText(strOutput);
+            }
+            return false;
+        }
+    };
+
+    private TextView.OnEditorActionListener paysOnKeyListener = new TextView.OnEditorActionListener(){
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                m_EdtPays.setCursorVisible(false);
+
+                String strPays = "0,0";
+                strPays = m_EdtPays.getText().toString();
+
+                if(strPays.equals("")){
+                    strPays = "0,0";
+                }
+                strPays = strPays.replace(",", ".");
+                m_dPays = Double.parseDouble(strPays);
+
+                setChangeSum();
+
+                //set edittext
+                DecimalFormat df = new DecimalFormat("0.00");
+                String strOutput = df.format(m_dPays);
+                m_EdtPays.setText(strOutput);
+            }
+            return false;
         }
     };
 
@@ -342,7 +394,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         if(m_dPays > 0.00){
             double dChange;
             if(m_dWantsToPay > m_dToPay){
-                dChange = m_dToPay - (m_dToPay - m_dWantsToPay) - m_dPays;
+                dChange = m_dWantsToPay - m_dPays;
             }
             else{
                 dChange = m_dToPay - m_dPays;
