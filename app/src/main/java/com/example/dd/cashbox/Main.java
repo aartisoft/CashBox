@@ -190,6 +190,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     }
 
+    ///////////////////////////////////////// LISTENER /////////////////////////////////////////////////////////////////////////
+
     @Override
     public void onClick(View v){
         switch (v.getId()) {
@@ -205,18 +207,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             default:
                 break;
         }
-    }
-
-    public int getVarTable(){
-        return m_iSessionTable;
-    }
-    public int getVarBill(){
-       return m_iSessionBill;
-    }
-
-    public void raiseNewProduct(){
-        setupRecyclerView();
-        setOpenSum();
     }
 
     private View.OnClickListener fabMainOnClickListener = new View.OnClickListener() {
@@ -270,183 +260,19 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View.OnClickListener fabNewBillOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(m_iSessionTable != -1) {
-                //only add new bill if last one is not empty
-                if (m_iSessionBill != -1) {
-                    if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
-                        //set new bill
-                        ObjBill objBill = new ObjBill();
-                        objBill.setBillNr(GlobVar.g_iBillNr + 1);
-                        objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
-
-                        String pattern = "dd/MM/yyyy HH:mm:ss";
-                        DateFormat df = new SimpleDateFormat(pattern);
-
-                        Date date = Calendar.getInstance().getTime();
-                        String todayAsString = df.format(date);
-                        objBill.setBillingDate(todayAsString);
-
-                        GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
-
-                        //set bill number and header
-                        //SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmm");
-                        //int iDate = Integer.parseInt(dt.format(date));
-                        GlobVar.g_iBillNr++;
-                        m_iSessionBill = GlobVar.g_iBillNr;
-                        setHeaderBill();
-                        setOpenSum();
-
-                        Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegHinzugefuegt), Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegBereitsVorhanden), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else {
-                    //set new bill
-                    ObjBill objBill = new ObjBill();
-                    objBill.setBillNr(GlobVar.g_iBillNr + 1);
-                    objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
-
-                    String pattern = "dd/MM/yyyy HH:mm:ss";
-                    DateFormat df = new SimpleDateFormat(pattern);
-
-                    Date date = Calendar.getInstance().getTime();
-                    String todayAsString = df.format(date);
-                    objBill.setBillingDate(todayAsString);
-
-                    GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
-
-                    //set bill number and header
-                    //SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmm");
-                    //int iDate = Integer.parseInt(dt.format(date));
-                    GlobVar.g_iBillNr++;
-                    m_iSessionBill = GlobVar.g_iBillNr;
-                    setHeaderBill();
-                    setOpenSum();
-
-                    Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegHinzugefuegt), Toast.LENGTH_SHORT).show();
-                }
-            }
-            else{
-                Toast.makeText(Main.this, getResources().getString(R.string.src_KeinTischAusgewaehlt), Toast.LENGTH_SHORT).show();
-            }
+            createNewBill();
         }
     };
     private View.OnClickListener fabPrintOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (m_iSessionTable != -1 && m_iSessionBill != -1) {
-                boolean bPrinted = false;
-                GlobVar.g_bPrintQueueFilling = true;
-
-                //write bill to printqueue
-                for(ObjCategory objCategory : GlobVar.g_lstCategory){
-                    ObjPrinter objPrinter = objCategory.getPrinter();
-                    for(ObjProduct objProduct : objCategory.getListProduct()){
-                        int iQuantity = 0;
-                        for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                            if(objProduct == objBillProduct.getProduct()){
-                                if(!objBillProduct.getPrinted()){
-                                    //if billproduct has no extra info
-                                    if(objBillProduct.getAddInfo().equals("")){
-                                        iQuantity++;
-                                    }
-                                    //if billproduct has extrainfo
-                                    else{
-                                        ObjPrintJob objPrintJob = new ObjPrintJob();
-                                        objPrintJob.setContext(m_Context);
-                                        objPrintJob.setPrinter(objPrinter);
-
-                                        String pattern = "dd/MM/yyyy HH:mm:ss";
-                                        DateFormat df = new SimpleDateFormat(pattern);
-                                        Date date = Calendar.getInstance().getTime();
-                                        String todayAsString = df.format(date);
-
-                                        //set bill text
-                                        String[] arrBillText = new String[6];
-                                        arrBillText[0] = GlobVar.g_ObjSession.getHostName();
-                                        arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
-                                        arrBillText[2] = todayAsString;
-                                        arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
-                                        arrBillText[4] = "1x " + objBillProduct.getProduct().getName();
-                                        arrBillText[5] = objBillProduct.getAddInfo();
-                                        objPrintJob.setBillText(arrBillText);
-
-                                        GlobVar.g_lstPrintJob.add(objPrintJob);
-                                    }
-                                    //set printed
-                                    objBillProduct.setPrinted(true);
-                                    objBillProduct.setSqlChanged(true);
-                                    bPrinted = true;
-                                }
-                            }
-                        }
-                        if(iQuantity != 0){
-                            ObjPrintJob objPrintJob = new ObjPrintJob();
-                            objPrintJob.setContext(m_Context);
-                            objPrintJob.setPrinter(objPrinter);
-
-                            String pattern = "dd/MM/yyyy HH:mm:ss";
-                            DateFormat df = new SimpleDateFormat(pattern);
-                            Date date = Calendar.getInstance().getTime();
-                            String todayAsString = df.format(date);
-
-                            //set bill text
-                            String[] arrBillText = new String[6];
-                            arrBillText[0] = GlobVar.g_ObjSession.getHostName();
-                            arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
-                            arrBillText[2] = todayAsString;
-                            arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
-                            arrBillText[4] = iQuantity + "x " + objProduct.getName();
-                            arrBillText[5] = "";
-                            objPrintJob.setBillText(arrBillText);
-
-                            GlobVar.g_lstPrintJob.add(objPrintJob);
-                        }
-                    }
-                }
-
-                //only change database and global list if items are printable
-                if (bPrinted) {
-                    //set print symbols
-                    setupRecyclerView();
-                }
-                else {
-                    Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdeBereitsAlleArtikelGedruckt), Toast.LENGTH_SHORT).show();
-                }
-
-                GlobVar.g_bPrintQueueFilling = false;
-            }
+            addPrintJob();
         }
     };
     private View.OnClickListener fabPayOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (m_iSessionTable != -1 && m_iSessionBill != -1) {
-                boolean bFound = false;
-                if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
-                    for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                        if (objBillProduct.getPrinted() && !objBillProduct.getPaid()
-                                && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
-                            bFound = true;
-                            break;
-                        }
-                    }
-                }
-                if(bFound){
-                    Intent intent = new Intent(Main.this, MainCash.class);
-                    intent.putExtra("TABLE", m_iSessionTable);
-                    intent.putExtra("BILL", m_iSessionBill);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(Main.this, getResources().getString(R.string.src_KeineArtikelVorhanden), Toast.LENGTH_SHORT).show();
-                }
-            }
-            else{
-                Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
-            }
+            startPayProcess();
         }
     };
 
@@ -492,6 +318,21 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    ///////////////////////////////////////// METHODS /////////////////////////////////////////////////////////////////////////
+
+    public int getVarTable(){
+        return m_iSessionTable;
+    }
+
+    public int getVarBill(){
+        return m_iSessionBill;
+    }
+
+    public void raiseNewProduct(){
+        setupRecyclerView();
+        setOpenSum();
     }
 
     private void readSQLiteDB(){
@@ -649,6 +490,214 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
     }
 
+    private void addPrintJob(){
+        if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+            boolean bPrinted = false;
+            GlobVar.g_bPrintQueueFilling = true;
+
+            //write bill to printqueue
+            for(ObjCategory objCategory : GlobVar.g_lstCategory){
+                ObjPrinter objPrinter = objCategory.getPrinter();
+                for(ObjProduct objProduct : objCategory.getListProduct()){
+                    int iQuantity = 0;
+                    for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+                        if(objProduct == objBillProduct.getProduct()){
+                            if(!objBillProduct.getPrinted()){
+                                //if billproduct has no extra info
+                                if(objBillProduct.getAddInfo().equals("")){
+                                    iQuantity++;
+                                }
+                                //if billproduct has extrainfo
+                                else{
+                                    ObjPrintJob objPrintJob = new ObjPrintJob();
+                                    objPrintJob.setContext(m_Context);
+                                    objPrintJob.setPrinter(objPrinter);
+
+                                    String pattern = "dd/MM/yyyy HH:mm:ss";
+                                    DateFormat df = new SimpleDateFormat(pattern);
+                                    Date date = Calendar.getInstance().getTime();
+                                    String todayAsString = df.format(date);
+
+                                    //set bill text
+                                    String[] arrBillText = new String[7];
+                                    arrBillText[0] = GlobVar.g_ObjSession.getHostName();
+                                    arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
+                                    arrBillText[2] = todayAsString;
+                                    arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
+                                    arrBillText[4] = "1x " + objBillProduct.getProduct().getName();
+                                    arrBillText[5] = objBillProduct.getAddInfo();
+                                    arrBillText[6] = "";
+                                    objPrintJob.setBillText(arrBillText);
+
+                                    GlobVar.g_lstPrintJob.add(objPrintJob);
+                                }
+
+                                //print pawn bon
+                                if(objBillProduct.getProduct().getbPawn()){
+                                    ObjPrintJob objPrintJob = new ObjPrintJob();
+                                    objPrintJob.setContext(m_Context);
+                                    objPrintJob.setPrinter(objPrinter);
+
+                                    String pattern = "dd/MM/yyyy HH:mm:ss";
+                                    DateFormat df = new SimpleDateFormat(pattern);
+                                    Date date = Calendar.getInstance().getTime();
+                                    String todayAsString = df.format(date);
+
+                                    //set bill text
+                                    String[] arrBillText = new String[7];
+                                    arrBillText[0] = GlobVar.g_ObjSession.getHostName();
+                                    arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
+                                    arrBillText[2] = todayAsString;
+                                    arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
+                                    arrBillText[4] = objBillProduct.getProduct().getName();
+                                    arrBillText[5] = "";
+
+                                    DecimalFormat dfprize = new DecimalFormat("0.00");
+                                    String strPawn = "1x " + getResources().getString(R.string.src_Pfand);
+                                    String strPawnPrize = dfprize.format(objBillProduct.getProduct().getPawn());
+                                    strPawnPrize = strPawnPrize + "EUR";
+                                    arrBillText[6] = strPawn + " - " + strPawnPrize;
+                                    objPrintJob.setBillText(arrBillText);
+
+                                    GlobVar.g_lstPrintJob.add(objPrintJob);
+                                }
+                                //set printed
+                                objBillProduct.setPrinted(true);
+                                objBillProduct.setSqlChanged(true);
+                                bPrinted = true;
+                            }
+                        }
+                    }
+                    if(iQuantity != 0){
+                        ObjPrintJob objPrintJob = new ObjPrintJob();
+                        objPrintJob.setContext(m_Context);
+                        objPrintJob.setPrinter(objPrinter);
+
+                        String pattern = "dd/MM/yyyy HH:mm:ss";
+                        DateFormat df = new SimpleDateFormat(pattern);
+                        Date date = Calendar.getInstance().getTime();
+                        String todayAsString = df.format(date);
+
+                        //set bill text
+                        String[] arrBillText = new String[7];
+                        arrBillText[0] = GlobVar.g_ObjSession.getHostName();
+                        arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
+                        arrBillText[2] = todayAsString;
+                        arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
+                        arrBillText[4] = iQuantity + "x " + objProduct.getName();
+                        arrBillText[5] = "";
+                        arrBillText[6] = "";
+                        objPrintJob.setBillText(arrBillText);
+
+                        GlobVar.g_lstPrintJob.add(objPrintJob);
+                    }
+                }
+            }
+
+            //only change database and global list if items are printable
+            if (bPrinted) {
+                //set print symbols
+                setupRecyclerView();
+            }
+            else {
+                Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdeBereitsAlleArtikelGedruckt), Toast.LENGTH_SHORT).show();
+            }
+
+            GlobVar.g_bPrintQueueFilling = false;
+        }
+    }
+
+    private void createNewBill(){
+        if(m_iSessionTable != -1) {
+            //only add new bill if last one is not empty
+            if (m_iSessionBill != -1) {
+                if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
+                    //set new bill
+                    ObjBill objBill = new ObjBill();
+                    objBill.setBillNr(GlobVar.g_iBillNr + 1);
+                    objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
+
+                    String pattern = "dd/MM/yyyy HH:mm:ss";
+                    DateFormat df = new SimpleDateFormat(pattern);
+
+                    Date date = Calendar.getInstance().getTime();
+                    String todayAsString = df.format(date);
+                    objBill.setBillingDate(todayAsString);
+
+                    GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
+
+                    //set bill number and header
+                    //SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmm");
+                    //int iDate = Integer.parseInt(dt.format(date));
+                    GlobVar.g_iBillNr++;
+                    m_iSessionBill = GlobVar.g_iBillNr;
+                    setHeaderBill();
+                    setOpenSum();
+
+                    Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegHinzugefuegt), Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegBereitsVorhanden), Toast.LENGTH_SHORT).show();
+                }
+            }
+            else {
+                //set new bill
+                ObjBill objBill = new ObjBill();
+                objBill.setBillNr(GlobVar.g_iBillNr + 1);
+                objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
+
+                String pattern = "dd/MM/yyyy HH:mm:ss";
+                DateFormat df = new SimpleDateFormat(pattern);
+
+                Date date = Calendar.getInstance().getTime();
+                String todayAsString = df.format(date);
+                objBill.setBillingDate(todayAsString);
+
+                GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
+
+                //set bill number and header
+                //SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmm");
+                //int iDate = Integer.parseInt(dt.format(date));
+                GlobVar.g_iBillNr++;
+                m_iSessionBill = GlobVar.g_iBillNr;
+                setHeaderBill();
+                setOpenSum();
+
+                Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegHinzugefuegt), Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            Toast.makeText(Main.this, getResources().getString(R.string.src_KeinTischAusgewaehlt), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void startPayProcess(){
+        if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+            boolean bFound = false;
+            if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
+                for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                    if (objBillProduct.getPrinted() && !objBillProduct.getPaid()
+                            && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                        bFound = true;
+                        break;
+                    }
+                }
+            }
+            if(bFound){
+                Intent intent = new Intent(Main.this, MainCash.class);
+                intent.putExtra("TABLE", m_iSessionTable);
+                intent.putExtra("BILL", m_iSessionBill);
+                startActivity(intent);
+            }
+            else{
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KeineArtikelVorhanden), Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void setDrawerMenuHeader(){
         View headerView = m_navigationView.getHeaderView(0);
         TextView tv_cashiername = headerView.findViewById(R.id.drawerheadercashiername);
@@ -701,6 +750,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
                 if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                     prize += objBillProduct.getVK();
+
+                    //if product has a pawn prize
+                    if(objBillProduct.getProduct().getbPawn()){
+                        prize += objBillProduct.getProduct().getPawn();
+                    }
                 }
             }
 

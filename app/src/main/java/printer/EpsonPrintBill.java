@@ -408,32 +408,63 @@ public class EpsonPrintBill {
         //create message for printer
         StringBuilder textData = new StringBuilder();
         try {
-            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
-            m_Printer.addTextSize(1, 1);
-            textData.append(arrBillText[0] + "\n");
-            textData.append(arrBillText[1] + "\n");
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
-            m_Printer.addFeedLine(1);
+            //print pawn bon
+            if(!arrBillText[6].equals("")){
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append(arrBillText[0] + "\n");
+                textData.append(arrBillText[1] + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
 
-            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
-            m_Printer.addTextSize(1, 1);
-            textData.append(arrBillText[2] + "\n");
-            textData.append(arrBillText[3] + "\n");
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
-            m_Printer.addFeedLine(1);
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append(arrBillText[2] + "\n");
+                textData.append(arrBillText[3] + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
 
-            m_Printer.addTextAlign(Printer.ALIGN_CENTER);
-            m_Printer.addTextSize(1, 2);
-            textData.append(arrBillText[4] + "\n");
-            m_Printer.addTextSize(1, 1);
-            //textData.delete(0, textData.length());
-            textData.append(arrBillText[5] + "\n");
-            m_Printer.addText(textData.toString());
-            textData.delete(0, textData.length());
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 2);
+                textData.append(arrBillText[4] + "\n");
+                textData.append(arrBillText[5] + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addTextSize(1, 2);
+                textData.append(arrBillText[6] + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
 
-            m_Printer.addCut(Printer.CUT_FEED);
+                m_Printer.addCut(Printer.CUT_FEED);
+            }
+            else{
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append(arrBillText[0] + "\n");
+                textData.append(arrBillText[1] + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
+
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append(arrBillText[2] + "\n");
+                textData.append(arrBillText[3] + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
+
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 2);
+                textData.append(arrBillText[4] + "\n");
+                textData.append(arrBillText[5] + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+
+                m_Printer.addCut(Printer.CUT_FEED);
+            }
         }
         catch (Exception e){
             Log.e("createBillJob failed", e.toString());

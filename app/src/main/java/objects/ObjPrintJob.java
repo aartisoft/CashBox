@@ -9,7 +9,7 @@ public class ObjPrintJob {
 
     private Context m_Context;
     private ObjPrinter m_printer;
-    private String[] m_arrBillText = new String[6];
+    private String[] m_arrBillText = new String[7];
     private boolean m_bPrinted = false;
     public List<String[]> g_lstBillText = new ArrayList<>();
 

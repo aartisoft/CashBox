@@ -119,17 +119,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         m_TextViewBill.setOnLongClickListener(tvBillOnLongClickListener);
     }
 
-    public void hideSystemUI(Window window) {
-        m_decorView = window.getDecorView();
-        final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LOW_PROFILE;
-        m_decorView.setSystemUiVisibility(uiOptions);
-    }
+    //////////////////////////////////////////// LISTENER /////////////////////////////////////////////////////////////////////////////
 
     private ViewTreeObserver.OnGlobalLayoutListener softkeyboardOnGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener(){
         @Override
@@ -338,6 +328,18 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         raiseChange();
     }
 
+    public void hideSystemUI(Window window) {
+        m_decorView = window.getDecorView();
+        final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        m_decorView.setSystemUiVisibility(uiOptions);
+    }
+
     private void setHeaderTable(){
         String strTableHeader = "";
         if(m_iSessionTable != -1){
@@ -373,6 +375,11 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
                 if(!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
                         && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                     prize += objBillProduct.getVK();
+
+                    //if product has a pawn prize
+                    if(objBillProduct.getProduct().getbPawn()){
+                        prize += objBillProduct.getProduct().getPawn();
+                    }
                 }
             }
 
@@ -393,6 +400,11 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
                 if(objBillProduct.getPayTransit()){
                     prize += objBillProduct.getVK();
+
+                    //if product has a pawn prize
+                    if(objBillProduct.getProduct().getbPawn()){
+                        prize += objBillProduct.getProduct().getPawn();
+                    }
                 }
             }
 

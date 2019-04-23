@@ -37,7 +37,7 @@ public class PrintJobQueue{
         private  Context m_Context;
         private  ObjPrinter m_ObjPrinter;
         private List<String[]> g_lstBillText = new ArrayList<>();
-        private  String[] m_arrBillText = new String[10];
+        private  String[] m_arrBillText = new String[7];
         private boolean m_bPrintStatus = false;
         private boolean m_bPrintConnect = false;
         public static List<ObjPrintJob> m_lstPrinterJob = new ArrayList<>();
