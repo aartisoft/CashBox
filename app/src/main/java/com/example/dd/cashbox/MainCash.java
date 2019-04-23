@@ -32,11 +32,12 @@ import SQLite.SQLiteDatabaseHandler_TableBills;
 import adapter.ListViewMainCashBillPayAdapter;
 import adapter.RecyclerMainCashBillAdapter;
 import fragments.MainCashBillDialogFragment;
+import fragments.PopUpWindowCancelOKFragment;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
 
-public class MainCash extends AppCompatActivity implements View.OnClickListener {
+public class MainCash extends AppCompatActivity implements View.OnClickListener, PopUpWindowCancelOKFragment.OnDialogCancelOkResultListener {
 
     private Context m_Context;
     private View m_decorView;
@@ -179,27 +180,25 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(MainCash.this, Main.class);
-
         switch(v.getId()){
             case R.id.activity_main_cash_pay_btnpay:
-                //set articles paid
-                setPaid();
+                FragmentManager fm = getSupportFragmentManager();
+                PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
 
-                //set pay transit false
-                setPayTransitFalse();
+                // pass table, bill to fragment
+                Bundle args = new Bundle();
+                args.putString("TEXT", getResources().getString(R.string.src_BitteBezahlvorgangBestaetigen));
 
-                intent = new Intent(MainCash.this, Main.class);
-                intent.putExtra("BILL", m_iSessionBill);
-                intent.putExtra("TABLE", m_iSessionTable);
-                startActivity(intent);
-                finish();
+                popUpWindowCancelOKFragment.setArguments(args);
+                popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
+
                 break;
 
             case R.id.activity_main_cash_pay_btncancel:
                 //set pay transit false
                 setPayTransitFalse();
 
+                Intent intent = new Intent(MainCash.this, Main.class);
                 intent = new Intent(MainCash.this, Main.class);
                 intent.putExtra("BILL", m_iSessionBill);
                 intent.putExtra("TABLE", m_iSessionTable);
@@ -210,6 +209,27 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
             default:
 
         }
+    }
+
+    @Override
+    public void onOkResult() {
+        //set articles paid
+        setPaid();
+
+        //set pay transit false
+        setPayTransitFalse();
+
+        Intent intent = new Intent(MainCash.this, Main.class);
+        intent = new Intent(MainCash.this, Main.class);
+        intent.putExtra("BILL", m_iSessionBill);
+        intent.putExtra("TABLE", m_iSessionTable);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onCancelResult() {
+        //do nothing
     }
 
     private View.OnTouchListener wantsToPayOnTouchListener = new View.OnTouchListener(){
@@ -468,6 +488,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener 
         for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
             if(objBillProduct.getPayTransit()){
                 objBillProduct.setPaid(true);
+                objBillProduct.setSqlChanged(true);
             }
         }
     }

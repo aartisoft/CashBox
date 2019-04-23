@@ -204,8 +204,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
         android:textColor="@color/colorBlack"
         android:text="@string/src_Bezahlen"
         android:textAllCaps="false"/>
@@ -214,8 +214,8 @@
         android:id="@+id/activity_main_cash_pay_btncancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
         android:textColor="@color/colorBlack"
         android:text="@string/src_Abbrechen"
         android:textAllCaps="false"/>
