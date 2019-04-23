@@ -9,6 +9,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
+import SQLite.SQLiteDatabaseHandler_Session;
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import SQLite.SQLiteDatabaseHandler_Tables;
 import adapter.RecyclerViewMainBillAdapter;
@@ -338,7 +339,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private void readSQLiteDB(){
         try{
             if(GlobVar.g_bReadSQL){
-                //read session
+                //read session --> comes from server database or start screen (has to be implemented)
+                /*SQLiteDatabaseHandler_Session db_session = new SQLiteDatabaseHandler_Session(m_Context);
+                if(GlobVar.g_ObjSession == null){
+                    db_session.getSession();
+                }*/
                 GlobVar.g_ObjSession.setCashierName("Dominik Diedrich");
                 GlobVar.g_ObjSession.setHostName("Musikverein Illingen e.V.");
                 GlobVar.g_ObjSession.setPartyName("Scheunenfest");

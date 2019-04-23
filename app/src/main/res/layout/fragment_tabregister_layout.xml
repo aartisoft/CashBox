@@ -28,7 +28,7 @@
         android:id="@+id/fragm_tabregister_layout_tvpawn"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:text="Pfand 1,00€"
         android:gravity="center"/>
 
