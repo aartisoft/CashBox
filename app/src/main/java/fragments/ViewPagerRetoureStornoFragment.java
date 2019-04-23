@@ -151,6 +151,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         }
     };
 
+    //////////////////////////////////////////// METHODS /////////////////////////////////////////////////////////////////////
     public void raiseCloseDialog(){
         //update listview bill
         ((Main) getActivity()).raiseNewProduct();

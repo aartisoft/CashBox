@@ -1,10 +1,13 @@
 package fragments;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -22,6 +25,7 @@ import com.example.dd.cashbox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -105,6 +109,10 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         m_edtVK.setEnabled(false);
 
         //set listener
+        m_edtVK.setOnTouchListener(vkOnTouchListener);
+        m_edtInfo.setOnTouchListener(infoOnTouchListener);
+        m_edtVK.setOnEditorActionListener(vkOnEditorActionListener);
+        m_edtInfo.setOnEditorActionListener(infoOnEditorActionListener);
         m_button_min.setOnClickListener(this);
         m_button_pl.setOnClickListener(this);
         m_fab.setOnClickListener(fabOnClickListener);
@@ -142,6 +150,55 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         }
     }
 
+    private View.OnTouchListener infoOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_edtInfo.setCursorVisible(true);
+            return false;
+        }
+    };
+
+    private View.OnTouchListener vkOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_edtVK.setCursorVisible(true);
+            return false;
+        }
+    };
+
+    private TextView.OnEditorActionListener infoOnEditorActionListener = new TextView.OnEditorActionListener(){
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                m_edtInfo.setCursorVisible(false);
+            }
+            return false;
+        }
+    };
+
+    private TextView.OnEditorActionListener vkOnEditorActionListener = new TextView.OnEditorActionListener(){
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                m_edtVK.setCursorVisible(false);
+
+                //get edittext
+                String strPawn = m_edtVK.getText().toString();
+                strPawn = strPawn.replace(",", ".");
+                double dInput = Double.parseDouble(strPawn);
+
+
+                //set edittext
+                DecimalFormat df = new DecimalFormat("0.00");
+                String strOutput = df.format(dInput);
+                m_edtVK.setText(strOutput);
+            }
+            return false;
+        }
+    };
+
     private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -175,6 +232,7 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
         }
     };
 
+    ///////////////////////////////////// METHODS ////////////////////////////////////////////////////////////////////////
     private void button_minus(){
         if(m_iItems > 0){
             m_iItems--;
