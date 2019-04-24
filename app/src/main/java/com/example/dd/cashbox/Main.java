@@ -530,7 +530,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
                                     arrBillText[2] = todayAsString;
                                     arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
-                                    arrBillText[4] = "1x " + objBillProduct.getProduct().getName();
+
+                                    String strArticle = "1x " + objBillProduct.getProduct().getName();
+                                    if(objBillProduct.getProduct().getbPawn()){
+                                        strArticle += "*";
+                                    }
+                                    arrBillText[4] = strArticle;
                                     arrBillText[5] = objBillProduct.getAddInfo();
                                     arrBillText[6] = "";
                                     objPrintJob.setBillText(arrBillText);
@@ -555,15 +560,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
                                     arrBillText[2] = todayAsString;
                                     arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
-                                    arrBillText[4] = objBillProduct.getProduct().getName();
-                                    arrBillText[5] = "";
 
                                     DecimalFormat dfprize = new DecimalFormat("0.00");
                                     String strPawn = "1x " + getResources().getString(R.string.src_Pfand);
                                     String strPawnPrize = dfprize.format(objBillProduct.getProduct().getPawn());
                                     strPawnPrize = strPawnPrize + "EUR";
-                                    arrBillText[6] = strPawn + " - " + strPawnPrize;
+                                    arrBillText[4] = strPawn + " - " + strPawnPrize;
                                     objPrintJob.setBillText(arrBillText);
+
+                                    arrBillText[5] = "";
+                                    arrBillText[6] = objBillProduct.getProduct().getName();
 
                                     GlobVar.g_lstPrintJob.add(objPrintJob);
                                 }
@@ -590,7 +596,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
                         arrBillText[2] = todayAsString;
                         arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
-                        arrBillText[4] = iQuantity + "x " + objProduct.getName();
+
+                        String strArticle = iQuantity + "x " + objProduct.getName();
+                        if(objProduct.getbPawn()){
+                            strArticle += "*";
+                        }
+                        arrBillText[4] = strArticle;
                         arrBillText[5] = "";
                         arrBillText[6] = "";
                         objPrintJob.setBillText(arrBillText);
