@@ -213,8 +213,16 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
         Intent intent = new Intent(MainCash.this, Main.class);
         intent = new Intent(MainCash.this, Main.class);
-        intent.putExtra("BILL", m_iSessionBill);
         intent.putExtra("TABLE", m_iSessionTable);
+
+        //if bill is completley empty, then close it
+        if(isBillEmpty()){
+            intent.putExtra("BILL", m_iSessionBill);
+        }
+        else{
+            intent.putExtra("BILL", -1);
+        }
+
         startActivity(intent);
         finish();
     }
@@ -392,6 +400,16 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         raiseChange();
     }
 
+    public boolean isBillEmpty(){
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+            if(!objBillProduct.getPrinted() && !objBillProduct.getPaid()
+                    && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void setOpenSum(){
         String strOpenSum;
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
@@ -491,8 +509,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     }
 
     private void startPayment(){
-        if(m_dWantsToPay > m_dToPay){
-            if(m_dPays > m_dWantsToPay){
+        if(m_dWantsToPay >= m_dToPay){
+            if(m_dPays >= m_dWantsToPay){
                 FragmentManager fm = getSupportFragmentManager();
                 PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
 
@@ -515,7 +533,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             }
         }
         else{
-            if(m_dPays > m_dToPay){
+            if(m_dPays >= m_dToPay){
                 FragmentManager fm = getSupportFragmentManager();
                 PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
 
