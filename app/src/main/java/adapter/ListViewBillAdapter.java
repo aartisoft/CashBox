@@ -7,8 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.dd.cashbox.MainShowBills;
 import com.example.dd.cashbox.R;
 
 import java.text.DecimalFormat;
@@ -104,6 +107,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        final int OnClickPosition = groupPosition;
         ViewHolderParent view = null;
         LayoutInflater inflator = ((Activity) m_Context).getLayoutInflater();
 
@@ -123,6 +127,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
             // Lookup view for data population
             view.txtBill= (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_billnr);
             view.txtBillDate= (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_billdate);
+            view.ivChoose = convertView.findViewById(R.id.activity_main_showbills_ilr_tv);
 
             convertView.setTag(view);
         } else {
@@ -133,6 +138,17 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
         String strBillName = m_Context.getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_List.get(groupPosition).getBillNr());
         view.txtBill.setText(strBillName);
         view.txtBillDate.setText(m_List.get(groupPosition).getBillingDate());
+
+        //item delete listener
+        final ViewHolderParent OnClickView = view;
+        final View.OnClickListener ChooseListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OnClickView.ivChoose.setImageDrawable(m_Context.getResources().getDrawable(R.drawable.ic_add_circle_outline_greydark_24dp));
+                ((MainShowBills)m_Context).openBill(OnClickPosition);
+            }
+        };
+        view.ivChoose.setOnClickListener(ChooseListener);
 
         // Return the completed view to render on screen
         return convertView;
@@ -221,6 +237,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
     public class ViewHolderParent {
         public TextView txtBill;
         public TextView txtBillDate;
+        public ImageView ivChoose;
     }
 
     public class ViewHolderChild {

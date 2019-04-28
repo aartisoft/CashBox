@@ -1,33 +1,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?android:attr/listPreferredItemHeight"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
     android:padding="6dip"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/activity_main_showbills_ilr_billdate"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:layout_marginStart="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:singleLine="true"
+        android:text="Datum"
+        android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/activity_main_showbills_ilr_billnr"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/activity_main_showbills_ilr_billnr"
-            android:layout_width="fill_parent"
-            android:layout_height="26dip"
-            android:gravity="center_vertical"
-            android:text="Belegnummer"
-            android:layout_marginLeft="30dp"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/activity_main_showbills_ilr_billdate"
-            android:layout_width="fill_parent"
-            android:layout_height="26dip"
-            android:layout_marginLeft="30dp"
-            android:gravity="center_vertical"
-            android:text="Datum"
-            android:textSize="14sp"/>
-
-    </LinearLayout>
+        android:layout_marginStart="35dp"
+        android:layout_above="@id/activity_main_showbills_ilr_billdate"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:gravity="center_vertical"
+        android:text="Begelgnummer"
+        android:textSize="16sp"/>
+    <ImageView
+        android:id="@+id/activity_main_showbills_ilr_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="16dip"
+        android:src="@drawable/ic_add_circle_outline_grey_24dp"
+        android:text="" />
 
 </RelativeLayout>

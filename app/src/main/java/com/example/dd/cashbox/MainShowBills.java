@@ -123,6 +123,17 @@ public class MainShowBills extends AppCompatActivity {
         }
     }
 
+    //////////////////////////////// METHODS ////////////////////////////////////////////////////////////////////
+    public void openBill(int position){
+        // Get the selected item text from ListView
+        ObjBill objBill = m_listViewBillAdapter.getObjBill(position);
+
+        Intent intent = new Intent(MainShowBills.this, Main.class);
+        intent.putExtra("BILL", objBill.getBillNr());
+        intent.putExtra("TABLE", m_iSessionTable);
+        startActivity(intent);
+    }
+
     private void setBills(){
         if(GlobVar.g_lstTableBills.size() != 0){
             m_listViewBillAdapter = new ListViewBillAdapter(this, GlobVar.g_lstTableBills.get(m_iSessionTable));
