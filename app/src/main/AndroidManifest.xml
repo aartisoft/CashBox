@@ -36,6 +36,7 @@
         <activity android:name=".MainShowTables"></activity>
         <activity android:name=".MainShowBills"></activity>
         <activity android:name=".MainCash"></activity>
+        <activity android:name=".AllBills"></activity>
     </application>
 
 </manifest>

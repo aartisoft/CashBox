@@ -24,6 +24,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -66,6 +68,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private View m_decorView;
+    private Menu m_Menu;
+    private MenuItem m_MenuItemAllBills;
     private NavigationView m_navigationView;
     private DrawerLayout m_DrawerLayout;
     private TabLayout m_TabLayout;
@@ -292,8 +296,27 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             case android.R.id.home:
                 m_DrawerLayout.openDrawer(GravityCompat.START);
                 return true;
+
+            case R.id.main_usermenu_allbills:
+                Intent intent = new Intent(Main.this, AllBills.class);
+                intent.putExtra("TABLE", m_iSessionTable);
+                intent.putExtra("BILL", m_iSessionBill);
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_usermenu, menu);
+
+        //init menu variables
+        m_Menu = menu;
+        m_MenuItemAllBills = menu.findItem(R.id.main_usermenu_allbills);
+        m_MenuItemAllBills.setEnabled(true);
+        return true;
     }
 
     @Override
