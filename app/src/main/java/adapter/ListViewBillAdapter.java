@@ -107,7 +107,6 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        final int OnClickPosition = groupPosition;
         ViewHolderParent view = null;
         LayoutInflater inflator = ((Activity) m_Context).getLayoutInflater();
 
@@ -141,6 +140,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
 
         //item delete listener
         final ViewHolderParent OnClickView = view;
+        final int OnClickPosition = groupPosition;
         final View.OnClickListener ChooseListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
