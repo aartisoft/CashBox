@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -20,15 +21,37 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ExpandableListView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/activity_allbills_lv"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        tools:context="abhiandroid.com.listexample.MainActivity"
-        android:divider="@color/colorGrey"
-        android:dividerHeight="1dp"
-        android:theme="@style/ListView">
-    </ExpandableListView>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/activity_allbills_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            app:tabPaddingStart="2dp"
+            app:tabPaddingEnd="2dp"
+            app:tabPaddingTop="0dp"
+            app:tabPaddingBottom="2dp"
+            app:tabIndicatorFullWidth="false"
+            app:tabMaxWidth="120dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:tabIndicatorColor="@color/colorPrimary3"
+            android:layout_above ="@+id/am_register_viewpager">
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/activity_allbills_viewpager"
+            android:layout_marginTop="2.5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.viewpager.widget.ViewPager>
+    </LinearLayout>
 
 </LinearLayout>

@@ -125,7 +125,6 @@ public class RetoureStornoDialogFragment extends DialogFragment {
         for(int tabs = 0; tabs < m_TabLayout.getTabCount(); tabs++){
             m_TabLayout.getTabAt(tabs).setCustomView(m_ViewPagerAdapter.getTabView(tabs));
         }
-
     }
 
     private int getBillListPointer(){
