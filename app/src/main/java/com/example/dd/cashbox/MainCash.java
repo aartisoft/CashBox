@@ -217,10 +217,10 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
         //if bill is completley empty, then close it
         if(isBillEmpty()){
-            intent.putExtra("BILL", m_iSessionBill);
+            intent.putExtra("BILL", -1);
         }
         else{
-            intent.putExtra("BILL", -1);
+            intent.putExtra("BILL", m_iSessionBill);
         }
 
         startActivity(intent);
@@ -402,12 +402,13 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     public boolean isBillEmpty(){
         for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-            if(!objBillProduct.getPrinted() && !objBillProduct.getPaid()
-                    && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
-                return true;
+            if(!objBillProduct.getCanceled() || !objBillProduct.getReturned()){
+                if(!objBillProduct.getPaid()){
+                    return false;
+                }
             }
         }
-        return false;
+        return true;
     }
 
     private void setOpenSum(){
