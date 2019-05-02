@@ -97,10 +97,20 @@ public class ViewPagerAllBillFragment extends Fragment{
 
             switch(m_strTask){
                 case "all":
-                    for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTableBills.size(); iTblCounter++){
-                        for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(iTblCounter).size(); iBillCounter++){
-                            ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
+                    //only one table
+                    if(m_iSessionTable != -1){
+                        for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(m_iSessionTable).size(); iBillCounter++){
+                            ObjBill objBill = GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBillCounter);
                             m_List.add(objBill);
+                        }
+                    }
+                    //all tables
+                    else{
+                        for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTableBills.size(); iTblCounter++){
+                            for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(iTblCounter).size(); iBillCounter++){
+                                ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
+                                m_List.add(objBill);
+                            }
                         }
                     }
 

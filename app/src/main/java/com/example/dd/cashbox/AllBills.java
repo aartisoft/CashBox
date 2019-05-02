@@ -97,7 +97,8 @@ public class AllBills extends AppCompatActivity {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            setTabulator();
+           m_iChoosenTable = m_Spinner_Tables.getSelectedItemPosition() - 1;
+           setTabulator();
         }
 
         @Override
@@ -110,6 +111,18 @@ public class AllBills extends AppCompatActivity {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            int iChoosenDate = m_Spinner_Date.getSelectedItemPosition();
+            switch(iChoosenDate) {
+                case 0:
+                    m_strChoosenDate = "all";
+                    break;
+                case 1:
+                    m_strChoosenDate = "today";
+                    break;
+                default:
+                    break;
+            }
+
             setTabulator();
         }
 
