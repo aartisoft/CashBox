@@ -46,6 +46,43 @@
             android:layout_above ="@+id/am_register_viewpager">
         </com.google.android.material.tabs.TabLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+                <Spinner
+                    android:id="@+id/activity_allbills_tab_spinner_tbls"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@android:style/Widget.Spinner.DropDown"
+                    android:spinnerMode="dialog"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+                <Spinner
+                    android:id="@+id/activity_allbills_tab_spinner_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@android:style/Widget.Spinner.DropDown"
+                    android:spinnerMode="dialog"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/activity_allbills_viewpager"
             android:layout_marginTop="2.5dp"

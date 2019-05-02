@@ -32,8 +32,6 @@ public class ViewPagerAllBillFragment extends Fragment{
     private View m_View;
     private ListView m_listView;
     private ListViewAllBillAdapter m_adapter;
-    private String m_strCategory = "";
-    private String m_strProduct = "";
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private String m_strTask = "";
@@ -95,6 +93,13 @@ public class ViewPagerAllBillFragment extends Fragment{
         m_dPrize = 0.0;
         m_adapter.notifyDataSetChanged();
     }
+
+    /*private void setBills(){
+        if(GlobVar.g_lstTableBills.size() != 0){
+            m_listViewBillAdapter = new ListViewAllBillAdapter(this, GlobVar.g_lstTableBills.get(0));
+            m_ListView.setAdapter(m_listViewBillAdapter);
+        }
+    }*/
 
     /*private void initListView(){
         //init adapter

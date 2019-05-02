@@ -173,10 +173,5 @@ public class AllBills extends AppCompatActivity {
         startActivity(intent);
     }*/
 
-    /*private void setBills(){
-        if(GlobVar.g_lstTableBills.size() != 0){
-            m_listViewBillAdapter = new ListViewAllBillAdapter(this, GlobVar.g_lstTableBills.get(0));
-            m_ListView.setAdapter(m_listViewBillAdapter);
-        }
-    }*/
+
 }
