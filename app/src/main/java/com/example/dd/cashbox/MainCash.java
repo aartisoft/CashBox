@@ -588,6 +588,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         mainCashBillDialogFragment.show(fm, "fragment_maincashbill");
     }
 
+    //left side
     private void initRecyclerViewMainBillProduct(){
         m_rv_adapter = new RecyclerMainCashBillAdapter(this, m_ListObjMainBillProduct);
 
@@ -599,6 +600,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         setInfoRecyclerViewMainBillProduct();
     }
 
+    //left side
     private void updateListObjMainBillProduct(){
         //get global list
         List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts;
@@ -676,7 +678,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             boolean bKeepAlive = false;
             for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
                 if(objBillProductAdapter.getProduct() == m_ListObjMainBillProduct.get(i).getProduct()){
-                    if(!objBillProductAdapter.getPayTransit()){
+                    if(!objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
+                            && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned()
+                            && objBillProductAdapter.getPrinted()){
                         bKeepAlive = true;
                         break;
                     }
@@ -721,10 +725,13 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         }
     }
 
+    //right side
     private void initListViewMainCashBill(){
         m_lv_adapter = new ListViewMainCashBillPayAdapter(m_Context, m_ListObjMainCashBillProduct);
         m_listview.setAdapter(m_lv_adapter);
     }
+
+    //right side
     private void updateListObjMainCashBillProduct(){
 
         List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts;
