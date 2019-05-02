@@ -8,7 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,6 +18,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import adapter.ListViewAllBillAdapter;
 import adapter.ListViewBillAdapter;
@@ -32,9 +37,12 @@ public class AllBills extends AppCompatActivity {
     private ViewPagerAllBillAdapter m_ViewPagerAdapter;
     private TabLayout m_TabLayout;
     private ViewPager m_ViewPager;
-    private ListViewAllBillAdapter m_listViewBillAdapter;
+    private Spinner m_Spinner_Tables;
+    private Spinner m_Spinner_Date;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
+    private int m_iChoosenTable = -1;
+    private String m_strChoosenDate = "";
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -58,6 +66,8 @@ public class AllBills extends AppCompatActivity {
         m_decorView = getWindow().getDecorView();
         m_TabLayout = findViewById(R.id.activity_allbills_tab);
         m_ViewPager = findViewById(R.id.activity_allbills_viewpager);
+        m_Spinner_Tables = findViewById(R.id.activity_allbills_tab_spinner_tbls);
+        m_Spinner_Date = findViewById(R.id.activity_allbills_tab_spinner_date);
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -71,30 +81,41 @@ public class AllBills extends AppCompatActivity {
         //set tabs
         setTabulator();
 
+        //set spinner
+        setSpinnerTables();
+        setSpinnerDates();
+
         //set bills
         //setBills();
 
         //set Listener
-        //m_ListView.setOnItemLongClickListener(listviewOnItemListener);
+        m_Spinner_Tables.setOnItemSelectedListener(spinnerTablesOnItemSelectedListener);
+        m_Spinner_Date.setOnItemSelectedListener(spinnerDatesOnItemSelectedListener);
     }
 
-    private ExpandableListView.OnItemLongClickListener listviewOnItemListener = new ExpandableListView.OnItemLongClickListener(){
+    private Spinner.OnItemSelectedListener spinnerTablesOnItemSelectedListener = new Spinner.OnItemSelectedListener(){
+
         @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP
-                    || ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                int groupPosition = ExpandableListView.getPackedPositionGroup(id);
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            setTabulator();
+        }
 
-                // Get the selected item text from ListView
-                ObjBill objBill = m_listViewBillAdapter.getObjBill(groupPosition);
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            //do nothing
+        }
+    };
 
-                Intent intent = new Intent(AllBills.this, Main.class);
-                intent.putExtra("BILL", objBill.getBillNr());
-                intent.putExtra("TABLE", m_iSessionTable);
-                startActivity(intent);
-                return true;
-            }
-            return false;
+    private Spinner.OnItemSelectedListener spinnerDatesOnItemSelectedListener = new Spinner.OnItemSelectedListener(){
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            setTabulator();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            //do nothing
         }
     };
 
@@ -141,11 +162,11 @@ public class AllBills extends AppCompatActivity {
         //setup viewpager
         FragmentManager fm = getSupportFragmentManager();
         m_ViewPagerAdapter = new ViewPagerAllBillAdapter(fm);
-        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance(m_iSessionTable, m_iSessionBill, "all")
+        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance(m_iChoosenTable, m_strChoosenDate, "all")
                 , getResources().getString(R.string.src_Alle), 1, m_Context);
-        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance(m_iSessionTable, m_iSessionBill, "open")
+        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance(m_iChoosenTable, m_strChoosenDate, "open")
                 , getResources().getString(R.string.src_Offen), 1, m_Context);
-        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance(m_iSessionTable, m_iSessionBill, "paid")
+        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance(m_iChoosenTable, m_strChoosenDate, "paid")
                 , getResources().getString(R.string.src_Bezahlt), 1, m_Context);
 
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
@@ -163,6 +184,34 @@ public class AllBills extends AppCompatActivity {
         }
     }
 
+    private void setSpinnerTables(){
+        //create list tables
+        List<String> lstTables = new ArrayList<>();
+        lstTables.add(getResources().getString(R.string.src_AlleTische));
+        for(int i = 0; i <= GlobVar.g_iTables; i++){
+            int iTable = i+1;
+            lstTables.add(getResources().getString(R.string.src_Tisch) + " " + iTable);
+        }
+
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, lstTables);
+        m_Spinner_Tables.setAdapter(dataAdapter);
+
+        m_Spinner_Tables.setSelection(0);
+    }
+
+    private void setSpinnerDates(){
+        //create list dates
+        List<String> lstDates = new ArrayList<>();
+        lstDates.add(getResources().getString(R.string.src_AlleZeitraeume));
+        lstDates.add(getResources().getString(R.string.src_Heute));
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, lstDates);
+        m_Spinner_Date.setAdapter(dataAdapter);
+
+        m_Spinner_Date.setSelection(0);
+    }
+
     /*public void openBill(int position){
         // Get the selected item text from ListView
         ObjBill objBill = m_listViewBillAdapter.getObjBill(position);
@@ -172,6 +221,4 @@ public class AllBills extends AppCompatActivity {
         intent.putExtra("TABLE", m_iSessionTable);
         startActivity(intent);
     }*/
-
-
 }

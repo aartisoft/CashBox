@@ -26,7 +26,6 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
 
     private Context m_Context;
     private List<ObjBill> m_List;
-    private ArrayList<Integer> m_lstHiddenPositions = new ArrayList<>();
 
     public ListViewAllBillAdapter(Context context, List<ObjBill> bills) {
         super();
@@ -41,7 +40,7 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return m_List.size() - m_lstHiddenPositions.size();
+        return m_List.size();
     }
 
     @Override
@@ -51,13 +50,7 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int groupPosition) {
-        //code snippet for hidden items
-        for(Integer hiddenIndex : m_lstHiddenPositions) {
-            if(hiddenIndex <= groupPosition) {
-                groupPosition = groupPosition + 1;
-            }
-        }
-        return m_List.get(groupPosition).toString();
+        return groupPosition;
     }
 
     @Override
@@ -67,12 +60,6 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
 
     @Override
     public long getGroupId(int groupPosition) {
-        //code snippet for hidden items
-        for(Integer hiddenIndex : m_lstHiddenPositions) {
-            if(hiddenIndex <= groupPosition) {
-                groupPosition = groupPosition + 1;
-            }
-        }
         return groupPosition;
     }
 
@@ -91,23 +78,16 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
         ViewHolderParent view = null;
         LayoutInflater inflator = ((Activity) m_Context).getLayoutInflater();
 
-        //code snippet for hidden items
-        for(Integer hiddenIndex : m_lstHiddenPositions) {
-            if(hiddenIndex <= groupPosition) {
-                groupPosition = groupPosition + 1;
-            }
-        }
-
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             view = new ViewHolderParent();
-            convertView = inflator.inflate(R.layout.activity_main_showbills_itemlistrow_parent,  parent, false);
+            convertView = inflator.inflate(R.layout.childfragment_allbills_lvitems_parent,  parent, false);
 
             // Lookup view for data population
-            view.txtBill= (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_billnr);
-            view.txtBillDate= (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_billdate);
-            view.ivChoose = convertView.findViewById(R.id.activity_main_showbills_ilr_tv);
+            view.txtBill= (TextView) convertView.findViewById(R.id.childfragment_allbills_lvitems_child_billnr);
+            view.txtBillDate= (TextView) convertView.findViewById(R.id.childfragment_allbills_lvitems_child_billdate);
+            view.ivChoose = convertView.findViewById(R.id.childfragment_allbills_lvitems_child_iv);
 
             convertView.setTag(view);
         } else {
@@ -125,7 +105,7 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
         final View.OnClickListener ChooseListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OnClickView.ivChoose.setImageDrawable(m_Context.getResources().getDrawable(R.drawable.ic_add_circle_outline_greydark_24dp));
+                OnClickView.ivChoose.setImageDrawable(m_Context.getResources().getDrawable(R.drawable.ic_search_grey_24dp));
                 ((MainShowBills)m_Context).openBill(OnClickPosition);
             }
         };
@@ -140,21 +120,14 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
         ViewHolderChild view = null;
         LayoutInflater inflator = ((Activity) m_Context).getLayoutInflater();
 
-        //code snippet for hidden items
-        for(Integer hiddenIndex : m_lstHiddenPositions) {
-            if(hiddenIndex <= groupPosition) {
-                groupPosition = groupPosition + 1;
-            }
-        }
-
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             view = new ViewHolderChild();
-            convertView = inflator.inflate(R.layout.activity_main_showbills_itemlistrow_child,  parent, false);
+            convertView = inflator.inflate(R.layout.childfragment_allbills_lvitems_child,  parent, false);
 
             // Lookup view for data population
-            view.txtArticles = (TextView) convertView.findViewById(R.id.activity_main_showbills_ilr_articles);
+            view.txtArticles = (TextView) convertView.findViewById(R.id.childfragment_allbills_lvitems_child_tv);
 
             convertView.setTag(view);
         } else {
@@ -177,16 +150,14 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                 boolean bFound = false;
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
                     if (objProduct == objBillProduct.getProduct()) {
-                        if (!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
-                            dPrize += objBillProduct.getVK();
-                            //if pawn is available
-                            if(objBillProduct.getProduct().getbPawn()){
-                                dPrize += objBillProduct.getProduct().getPawn();
-                            }
-
-                            iQuantity++;
-                            bFound = true;
+                        dPrize += objBillProduct.getVK();
+                        //if pawn is available
+                        if(objBillProduct.getProduct().getbPawn()){
+                            dPrize += objBillProduct.getProduct().getPawn();
                         }
+
+                        iQuantity++;
+                        bFound = true;
                     }
                 }
                 if(bFound){
@@ -196,13 +167,13 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
         }
 
         //populate open sum
-        String strOpenSum;
+        String strSum;
         DecimalFormat df = new DecimalFormat("0.00");
-        strOpenSum = df.format(dPrize);
-        strOpenSum = strOpenSum + "€";
+        strSum = df.format(dPrize);
+        strSum = strSum + "€";
 
         //concat articles and sum
-        String strChild = strAllArticles + "\n" + m_Context.getString(R.string.src_OffeneSumme) + " "+ strOpenSum;
+        String strChild = strAllArticles + "\n" + m_Context.getString(R.string.src_Summme) + " "+ strSum;
 
         view.txtArticles.setText(strChild);
 

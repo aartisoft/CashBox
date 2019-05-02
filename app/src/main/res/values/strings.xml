@@ -126,6 +126,10 @@
     <string name="src_Alle">Alle</string>
     <string name="src_Offen">Offen</string>
     <string name="src_Bezahlt">Bezahlt</string>
+    <string name="src_AlleTische">Alle Tische</string>
+    <string name="src_Heute">Heute</string>
+    <string name="src_Summme">Summe</string>
+    <string name="src_AlleZeitraeume">Alle Zeiträume</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
