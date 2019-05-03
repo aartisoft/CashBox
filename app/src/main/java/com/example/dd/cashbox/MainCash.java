@@ -510,52 +510,58 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     }
 
     private void startPayment(){
-        if(m_dWantsToPay >= m_dToPay){
-            if(m_dPays >= m_dWantsToPay){
-                FragmentManager fm = getSupportFragmentManager();
-                PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
+        if(m_ListObjMainCashBillProduct.size() > 0){
+            if(m_dWantsToPay >= m_dToPay){
+                if(m_dPays >= m_dWantsToPay){
+                    FragmentManager fm = getSupportFragmentManager();
+                    PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
 
-                // pass text to fragment
-                Bundle args = new Bundle();
-                String strText = getResources().getString(R.string.src_BitteBezahlvorgangBestaetigen) + "\n\n";
+                    // pass text to fragment
+                    Bundle args = new Bundle();
+                    String strText = getResources().getString(R.string.src_BitteBezahlvorgangBestaetigen) + "\n\n";
 
-                DecimalFormat df = new DecimalFormat("0.00");
-                strText += getResources().getString(R.string.src_KundeBekommtSummeXZurueck);
-                String strVK = df.format(m_dChange);
-                strText = strText.replace("{0}", strVK);
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    strText += getResources().getString(R.string.src_KundeBekommtSummeXZurueck);
+                    String strVK = df.format(m_dChange);
+                    strText = strText.replace("{0}", strVK);
 
-                args.putString("TEXT", strText);
+                    args.putString("TEXT", strText);
 
-                popUpWindowCancelOKFragment.setArguments(args);
-                popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
+                    popUpWindowCancelOKFragment.setArguments(args);
+                    popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
+                }
+                else{
+                    Toast.makeText(MainCash.this, getResources().getString(R.string.src_BitteSummeUeberpruefen), Toast.LENGTH_SHORT).show();
+                }
             }
             else{
-                Toast.makeText(MainCash.this, getResources().getString(R.string.src_BitteSummeUeberpruefen), Toast.LENGTH_SHORT).show();
+                if(m_dPays >= m_dToPay){
+                    FragmentManager fm = getSupportFragmentManager();
+                    PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
+
+                    // pass text to fragment
+                    Bundle args = new Bundle();
+                    String strText = getResources().getString(R.string.src_BitteBezahlvorgangBestaetigen) + "\n\n";
+
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    strText += getResources().getString(R.string.src_KundeBekommtSummeXZurueck);
+                    String strVK = df.format(m_dChange);
+                    strText = strText.replace("{0}", strVK);
+
+                    args.putString("TEXT", strText);
+
+                    popUpWindowCancelOKFragment.setArguments(args);
+                    popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
+                }
+                else{
+                    Toast.makeText(MainCash.this, getResources().getString(R.string.src_BitteSummeUeberpruefen), Toast.LENGTH_SHORT).show();
+                }
             }
         }
         else{
-            if(m_dPays >= m_dToPay){
-                FragmentManager fm = getSupportFragmentManager();
-                PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
-
-                // pass text to fragment
-                Bundle args = new Bundle();
-                String strText = getResources().getString(R.string.src_BitteBezahlvorgangBestaetigen) + "\n\n";
-
-                DecimalFormat df = new DecimalFormat("0.00");
-                strText += getResources().getString(R.string.src_KundeBekommtSummeXZurueck);
-                String strVK = df.format(m_dChange);
-                strText = strText.replace("{0}", strVK);
-
-                args.putString("TEXT", strText);
-
-                popUpWindowCancelOKFragment.setArguments(args);
-                popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
-            }
-            else{
-                Toast.makeText(MainCash.this, getResources().getString(R.string.src_BitteSummeUeberpruefen), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(MainCash.this, getResources().getString(R.string.src_KeineArtikelZumBezahlenAusgewaehlt), Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private void setPaid(){
@@ -565,6 +571,11 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
                 objBillProduct.setSqlChanged(true);
             }
         }
+
+        //update database
+        //write tablebills to database
+        SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+        db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
 
         //set bill tip
         double dTip = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getTip();
