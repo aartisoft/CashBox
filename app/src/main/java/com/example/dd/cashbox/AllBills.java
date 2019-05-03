@@ -37,8 +37,6 @@ public class AllBills extends AppCompatActivity {
     private ViewPagerAllBillAdapter m_ViewPagerAdapter;
     private TabLayout m_TabLayout;
     private ViewPager m_ViewPager;
-    private Spinner m_Spinner_Tables;
-    private Spinner m_Spinner_Date;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private int m_iChoosenTable = -1;
@@ -66,8 +64,6 @@ public class AllBills extends AppCompatActivity {
         m_decorView = getWindow().getDecorView();
         m_TabLayout = findViewById(R.id.activity_allbills_tab);
         m_ViewPager = findViewById(R.id.activity_allbills_viewpager);
-        m_Spinner_Tables = findViewById(R.id.activity_allbills_tab_spinner_tbls);
-        m_Spinner_Date = findViewById(R.id.activity_allbills_tab_spinner_date);
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -81,56 +77,11 @@ public class AllBills extends AppCompatActivity {
         //set tabs
         setTabulator();
 
-        //set spinner
-        setSpinnerTables();
-        setSpinnerDates();
-
         //set bills
         //setBills();
 
         //set Listener
-        m_Spinner_Tables.setOnItemSelectedListener(spinnerTablesOnItemSelectedListener);
-        m_Spinner_Date.setOnItemSelectedListener(spinnerDatesOnItemSelectedListener);
     }
-
-    private Spinner.OnItemSelectedListener spinnerTablesOnItemSelectedListener = new Spinner.OnItemSelectedListener(){
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-           m_iChoosenTable = m_Spinner_Tables.getSelectedItemPosition() - 1;
-           setTabulator();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-            //do nothing
-        }
-    };
-
-    private Spinner.OnItemSelectedListener spinnerDatesOnItemSelectedListener = new Spinner.OnItemSelectedListener(){
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            int iChoosenDate = m_Spinner_Date.getSelectedItemPosition();
-            switch(iChoosenDate) {
-                case 0:
-                    m_strChoosenDate = "all";
-                    break;
-                case 1:
-                    m_strChoosenDate = "today";
-                    break;
-                default:
-                    break;
-            }
-
-            setTabulator();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-            //do nothing
-        }
-    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -175,11 +126,11 @@ public class AllBills extends AppCompatActivity {
         //setup viewpager
         FragmentManager fm = getSupportFragmentManager();
         m_ViewPagerAdapter = new ViewPagerAllBillAdapter(fm);
-        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance(m_iChoosenTable, m_strChoosenDate, "all")
+        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance("all")
                 , getResources().getString(R.string.src_Alle), 1, m_Context);
-        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance(m_iChoosenTable, m_strChoosenDate, "open")
+        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance("open")
                 , getResources().getString(R.string.src_Offen), 1, m_Context);
-        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance(m_iChoosenTable, m_strChoosenDate, "paid")
+        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance("paid")
                 , getResources().getString(R.string.src_Bezahlt), 1, m_Context);
 
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
@@ -195,34 +146,6 @@ public class AllBills extends AppCompatActivity {
         for(int tabs = 0; tabs < m_TabLayout.getTabCount(); tabs++){
             m_TabLayout.getTabAt(tabs).setCustomView(m_ViewPagerAdapter.getTabView(tabs));
         }
-    }
-
-    private void setSpinnerTables(){
-        //create list tables
-        List<String> lstTables = new ArrayList<>();
-        lstTables.add(getResources().getString(R.string.src_AlleTische));
-        for(int i = 0; i <= GlobVar.g_iTables; i++){
-            int iTable = i+1;
-            lstTables.add(getResources().getString(R.string.src_Tisch) + " " + iTable);
-        }
-
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, lstTables);
-        m_Spinner_Tables.setAdapter(dataAdapter);
-
-        m_Spinner_Tables.setSelection(0);
-    }
-
-    private void setSpinnerDates(){
-        //create list dates
-        List<String> lstDates = new ArrayList<>();
-        lstDates.add(getResources().getString(R.string.src_AlleZeitraeume));
-        lstDates.add(getResources().getString(R.string.src_Heute));
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, lstDates);
-        m_Spinner_Date.setAdapter(dataAdapter);
-
-        m_Spinner_Date.setSelection(0);
     }
 
     /*public void openBill(int position){
