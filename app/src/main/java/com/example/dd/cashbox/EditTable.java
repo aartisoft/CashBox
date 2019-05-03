@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -70,7 +71,9 @@ public class EditTable extends AppCompatActivity {
 
         //set EditText
         m_tbTable.setText(String.valueOf(m_iTables), TextView.BufferType.EDITABLE);
-        m_tbTable.setCursorVisible(true);
+        m_tbTable.setOnTouchListener(tableOnTouchListener);
+        m_tbTable.setCursorVisible(false);
+
 
         //set Listener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
@@ -79,19 +82,22 @@ public class EditTable extends AppCompatActivity {
         m_fab_plus.setOnClickListener(fabPlusOnClickListener);
     }
 
+    //////////////////////////////////////////// LISTENER ////////////////////////////////////////////////////////////////////////////
     private View.OnClickListener fabMinusOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(GlobVar.g_lstTableBills == null){
-                if(m_iTables > 0) {
+            if(m_iTables > 0) {
+                int iTables = m_iTables-1;
+                if(!isTableUsed(iTables)){
                     m_iTables--;
                     m_tbTable.setText(String.valueOf(m_iTables), TextView.BufferType.EDITABLE);
                 }
-            }
-            else{
-                Toast.makeText(EditTable.this, getResources().getString(R.string.src_TischeSindInBenutzungUndKoennenNichtReduziertWerden), Toast.LENGTH_SHORT).show();
+                else{
+                    Toast.makeText(EditTable.this, getResources().getString(R.string.src_TischeSindInBenutzungUndKoennenNichtReduziertWerden), Toast.LENGTH_SHORT).show();
+                }
             }
         }
+
     };
 
     private View.OnClickListener fabPlusOnClickListener = new View.OnClickListener() {
@@ -107,8 +113,28 @@ public class EditTable extends AppCompatActivity {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                GlobVar.g_iTables = Integer.parseInt(m_tbTable.getText().toString());
+                int iTables = Integer.parseInt(m_tbTable.getText().toString());
+
+                if(!areTableUsed(iTables)){
+                    m_iTables = iTables;
+                    m_tbTable.setText(String.valueOf(m_iTables), TextView.BufferType.EDITABLE);
+                }
+                else{
+                    m_tbTable.setText(String.valueOf(m_iTables), TextView.BufferType.EDITABLE);
+                    Toast.makeText(EditTable.this, getResources().getString(R.string.src_TischeSindInBenutzungUndKoennenNichtReduziertWerden), Toast.LENGTH_SHORT).show();
+                }
+
+                m_tbTable.setCursorVisible(false);
             }
+            return false;
+        }
+    };
+
+    private View.OnTouchListener tableOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_tbTable.setCursorVisible(true);
             return false;
         }
     };
@@ -131,24 +157,10 @@ public class EditTable extends AppCompatActivity {
             }
             else {
                 //keyboard is closed
-                m_tbTable.setCursorVisible(false);
                 m_decorView.setSystemUiVisibility(m_uiOptions);
             }
         }
     };
-
-    public void hideSystemUI(Window window) {
-        m_decorView = window.getDecorView();
-        final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LOW_PROFILE;
-        m_decorView.setSystemUiVisibility(uiOptions);
-    }
-
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -192,11 +204,48 @@ public class EditTable extends AppCompatActivity {
         }
     }
 
+    //////////////////////////////////////////// METHODS ////////////////////////////////////////////////////////////////////////////
+    public void hideSystemUI(Window window) {
+        m_decorView = window.getDecorView();
+        final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        m_decorView.setSystemUiVisibility(uiOptions);
+    }
+
+
     private void setListTableBills(){
         //init global list
         for (int iTables = 0; iTables <= GlobVar.g_iTables; iTables++){
             List<ObjBill> lstBill = new ArrayList<ObjBill>();
             GlobVar.g_lstTableBills.add(lstBill);
         }
+    }
+
+    private boolean isTableUsed(int p_iTable){
+        if(p_iTable <= GlobVar.g_iTables){
+            if(GlobVar.g_lstTableBills.get(p_iTable).size() > 0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private boolean areTableUsed(int p_iTable){
+        if(p_iTable <= GlobVar.g_iTables){
+            for(int i = p_iTable; i < m_iTables; i++){
+                if(GlobVar.g_lstTableBills.get(i).size() > 0){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
