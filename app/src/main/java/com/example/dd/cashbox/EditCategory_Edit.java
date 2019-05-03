@@ -204,8 +204,9 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
 
         if(!GlobVar.g_lstPrinter.isEmpty()){
             List<String> categories = new ArrayList<>();
+            categories.add(getResources().getString(R.string.src_KeinenDruckerAusgewählt));
 
-            int counter = 0;
+            int counter = 1;
             for(ObjPrinter printer : GlobVar.g_lstPrinter){
                 //get position of choosen printer
                 if(p_printer != null){

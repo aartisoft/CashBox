@@ -194,8 +194,10 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
     private void setSpinnerPrinter(){
         m_Spinner_Printer.setPrompt(getResources().getString(R.string.src_DruckerAuswaehlen));
 
+        List<String> categories = new ArrayList<>();
+        categories.add(getResources().getString(R.string.src_KeinenDruckerAusgewählt));
+
         if(!GlobVar.g_lstPrinter.isEmpty()){
-            List<String> categories = new ArrayList<>();
             for(ObjPrinter printer : GlobVar.g_lstPrinter){
                 categories.add(printer.getDeviceName() + " - MAC:" + printer.getMacAddress());
             }
@@ -203,7 +205,6 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
             m_Spinner_Printer.setAdapter(dataAdapter);
         }
         else{
-            List<String> categories = new ArrayList<>();
             categories.add(getResources().getString(R.string.src_KeineDruckerVorhanden));
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
             m_Spinner_Printer.setAdapter(dataAdapter);

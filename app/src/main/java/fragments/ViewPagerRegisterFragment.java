@@ -78,12 +78,20 @@ public class ViewPagerRegisterFragment extends Fragment {
 
             int iTable = ((Main) getActivity()).getVarTable();
             int iBillNr = ((Main) getActivity()).getVarBill();
+            ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
 
             // fragment only available if bill has been choosen
             if(iBillNr != -1){
-                writeTableBillsList(position, iTable, iBillNr);
-                //tel main activity there is a new product available
-                ((Main) getActivity()).raiseNewProduct();
+                //get printer
+                ObjPrinter objPrinter = getPrinter(objproduct);
+                if(objPrinter != null) {
+                    writeTableBillsList(position, iTable, iBillNr);
+                    //tel main activity there is a new product available
+                    ((Main) getActivity()).raiseNewProduct();
+                }
+                else{
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.src_DerKategorieIstKeinDruckerZugeordnet), Toast.LENGTH_SHORT).show();
+                }
             }
             else
             {
@@ -98,27 +106,35 @@ public class ViewPagerRegisterFragment extends Fragment {
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             int iTable = ((Main) getActivity()).getVarTable();
             int iBillNr = ((Main) getActivity()).getVarBill();
+            ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
 
             // fragment only available if bill has been choosen
             if(iBillNr != -1){
-                FragmentManager fm = getChildFragmentManager();
-                RegisterPopUpDialogFragment registerPopUpDialogFragment = RegisterPopUpDialogFragment.newInstance("Register PopUp");
+                //get printer
+                ObjPrinter objPrinter = getPrinter(objproduct);
+                if(objPrinter != null) {
+                    FragmentManager fm = getChildFragmentManager();
+                    RegisterPopUpDialogFragment registerPopUpDialogFragment = RegisterPopUpDialogFragment.newInstance("Register PopUp");
 
-                // pass table, bill to fragment
-                ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
-                Bundle args = new Bundle();
-                args.putInt("TABLE", iTable);
-                args.putInt("BILL", iBillNr);
-                args.putString("CATEGORY", objproduct.getCategory());
-                args.putString("PRODUCT", objproduct.getName());
+                    // pass table, bill to fragment
+                    Bundle args = new Bundle();
+                    args.putInt("TABLE", iTable);
+                    args.putInt("BILL", iBillNr);
+                    args.putString("CATEGORY", objproduct.getCategory());
+                    args.putString("PRODUCT", objproduct.getName());
 
-                registerPopUpDialogFragment.setArguments(args);
-                registerPopUpDialogFragment.show(fm, "fragment_registerpopup");
+                    registerPopUpDialogFragment.setArguments(args);
+                    registerPopUpDialogFragment.show(fm, "fragment_registerpopup");
+                }
+                else{
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.src_DerKategorieIstKeinDruckerZugeordnet), Toast.LENGTH_SHORT).show();
+                }
             }
             else
             {
                 Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
             }
+
             return true;
         }
     };
@@ -152,16 +168,28 @@ public class ViewPagerRegisterFragment extends Fragment {
         objbillproduct.setCategory(objproduct.getCategory());
 
         //get printer
-        for(ObjCategory objCategory : GlobVar.g_lstCategory){
-            if(objproduct.getCategory().equals(objCategory.getName())){
-                for (ObjPrinter objPrinter : GlobVar.g_lstPrinter) {
-                    if(objCategory.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
-                        objbillproduct.setPrinter(objPrinter);
+        ObjPrinter objPrinter = getPrinter(objproduct);
+        objbillproduct.setPrinter(objPrinter);
+
+        //add globally
+        GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
+    }
+
+    private ObjPrinter getPrinter(ObjProduct p_objProduct){
+        try{
+            for(ObjCategory objCategory : GlobVar.g_lstCategory){
+                if(p_objProduct.getCategory().equals(objCategory.getName())){
+                    for (ObjPrinter objPrinter : GlobVar.g_lstPrinter) {
+                        if(objCategory.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
+                            return objPrinter;
+                        }
                     }
                 }
             }
+            return null;
         }
-        //add globally
-        GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
+        catch(Exception e){
+            return null;
+        }
     }
 }
