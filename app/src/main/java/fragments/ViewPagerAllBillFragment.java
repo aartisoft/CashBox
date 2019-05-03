@@ -16,7 +16,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.dd.cashbox.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import adapter.ListViewAllBillAdapter;
@@ -33,6 +37,7 @@ public class ViewPagerAllBillFragment extends Fragment{
     private int m_iChoosenTable = -1;
     private String m_strChoosenDate = "";
     private String m_strTask = "";
+    private String m_strTodaysDate = "";
     private Spinner m_Spinner_Tables;
     private Spinner m_Spinner_Date;
     private List<ObjBill> m_List = new ArrayList<>();
@@ -73,6 +78,9 @@ public class ViewPagerAllBillFragment extends Fragment{
         //set spinner
         setSpinnerTables();
         setSpinnerDates();
+
+        //get todaysdate
+        getDate();
 
         //initalizie adapter
         initBillsAdapter();
@@ -152,6 +160,14 @@ public class ViewPagerAllBillFragment extends Fragment{
         m_Spinner_Date.setSelection(0);
     }
 
+    private void getDate(){
+        String pattern = "dd/MM/yyyy";
+        DateFormat df = new SimpleDateFormat(pattern);
+
+        Date date = Calendar.getInstance().getTime();
+        m_strTodaysDate = df.format(date);
+    }
+
     private void initBillsAdapter(){
         m_listViewAllBillAdapter = new ListViewAllBillAdapter(m_Context, m_List);
         m_listView.setAdapter(m_listViewAllBillAdapter);
@@ -183,6 +199,9 @@ public class ViewPagerAllBillFragment extends Fragment{
                 default:
                     break;
             }
+
+            //filter dates
+            setBillsDate();
 
             //update adapter
             m_listViewAllBillAdapter.notifyDataSetChanged();
@@ -287,6 +306,29 @@ public class ViewPagerAllBillFragment extends Fragment{
                     }
                 }
             }
+        }
+    }
+
+    private void setBillsDate(){
+        //init list for adapter
+        switch(m_strChoosenDate){
+            case "all":
+                //do nothing
+
+                break;
+            case "today":
+                //delete items
+                for(int i = m_List.size(); i-- > 0;) {
+                    String strBillingDate = m_List.get(i).getBillingDate();
+                    strBillingDate = strBillingDate.substring(0, 10);
+                    if(!strBillingDate.equals(m_strTodaysDate)){
+                        m_List.remove(i);
+                    }
+                }
+
+                break;
+            default:
+                break;
         }
     }
 }
