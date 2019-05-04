@@ -17,10 +17,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import objects.ObjBillProduct;
 import objects.ObjMainBillProduct;
 
-public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMainCashBillAdapter.MyViewHolder>{
+public class RecyclerViewMainCashBillAdapter extends RecyclerView.Adapter<RecyclerViewMainCashBillAdapter.MyViewHolder>{
     private Context context;
     private List<ObjMainBillProduct> m_billproductList = new ArrayList<>();
 
@@ -63,7 +62,7 @@ public class RecyclerMainCashBillAdapter extends RecyclerView.Adapter<RecyclerMa
         }
     }
 
-    public RecyclerMainCashBillAdapter(Context context, List<ObjMainBillProduct> billproductList) {
+    public RecyclerViewMainCashBillAdapter(Context context, List<ObjMainBillProduct> billproductList) {
         this.context = context;
         this.m_billproductList = billproductList;
     }

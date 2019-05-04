@@ -30,7 +30,7 @@ import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import adapter.ListViewMainCashBillPayAdapter;
-import adapter.RecyclerMainCashBillAdapter;
+import adapter.RecyclerViewMainCashBillAdapter;
 import fragments.MainCashBillDialogFragment;
 import fragments.PopUpWindowCancelOKFragment;
 import global.GlobVar;
@@ -52,7 +52,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     private EditText m_EdtPays;
     private Button m_btnPay;
     private Button m_btnCancel;
-    private RecyclerMainCashBillAdapter m_rv_adapter;
+    private RecyclerViewMainCashBillAdapter m_rv_adapter;
     private List<ObjMainBillProduct> m_ListObjMainBillProduct = new ArrayList<>();
     private ListViewMainCashBillPayAdapter m_lv_adapter;
     private List<ObjMainCashBillProduct> m_ListObjMainCashBillProduct = new ArrayList<>();
@@ -601,7 +601,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     //left side
     private void initRecyclerViewMainBillProduct(){
-        m_rv_adapter = new RecyclerMainCashBillAdapter(this, m_ListObjMainBillProduct);
+        m_rv_adapter = new RecyclerViewMainCashBillAdapter(this, m_ListObjMainBillProduct);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         m_recyclerview.setLayoutManager(mLayoutManager);
