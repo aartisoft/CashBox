@@ -84,6 +84,8 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
         //set Spinner Printer
         setSpinnerPrinter();
 
+        //set color
+        m_EditTextColor.setBackgroundColor(-1697699555);
 
         //set Listener
         m_fab.setOnClickListener(fabOnClickListener);
@@ -213,7 +215,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
 
     private void showColorDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        ChooseColorDialogFragment chooseColorDialogFragment = ChooseColorDialogFragment.newInstance("Some Title", 11022900);
+        ChooseColorDialogFragment chooseColorDialogFragment = ChooseColorDialogFragment.newInstance("Some Title");
         chooseColorDialogFragment.show(fm, "fragment_edit_name");
 
     }

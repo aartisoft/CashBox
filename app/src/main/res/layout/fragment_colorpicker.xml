@@ -13,10 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:text="@string/src_FarbeAuswaehlen"
-        android:textColorHint="@color/colorGrey"
-        android:textColor="@color/colorGrey"
+        android:textColor="@color/colorBlack"
         android:textSize="15dp"/>
 
     <com.thebluealliance.spectrum.SpectrumPalette
@@ -28,5 +27,14 @@
         app:spectrum_autoPadding="true"
         app:spectrum_colors="@array/spectrum_colors"
         app:spectrum_outlineWidth="2dp" />
+
+    <Button
+        android:id="@+id/color_picker_view_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorBlack"
+        android:text="@string/src_Uebernehmen"
+        android:textAllCaps="false"/>
 
 </LinearLayout>

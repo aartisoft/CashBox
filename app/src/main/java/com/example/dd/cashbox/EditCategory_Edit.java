@@ -234,7 +234,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
 
     private void showColorDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        ChooseColorDialogFragment chooseColorDialogFragment = ChooseColorDialogFragment.newInstance("Some Title", m_iProdColor);
+        ChooseColorDialogFragment chooseColorDialogFragment = ChooseColorDialogFragment.newInstance("Some Title");
         chooseColorDialogFragment.show(fm, "fragment_edit_name");
 
     }
