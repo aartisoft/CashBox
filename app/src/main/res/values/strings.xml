@@ -133,6 +133,7 @@
     <string name="src_DerKategorieIstKeinDruckerZugeordnet">Der Kategorie ist kein Drucker zugeordnet</string>
     <string name="src_KeinenDruckerAusgewählt">Keinen Drucker ausgewählt</string>
     <string name="src_KeineArtikelZumBezahlenAusgewaehlt">Keine Artikel Zum Bezahlen ausgewählt</string>
+    <string name="src_FarbeAuswaehlen">Farbe auswählen</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

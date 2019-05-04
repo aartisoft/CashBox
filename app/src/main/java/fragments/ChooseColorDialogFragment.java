@@ -4,18 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 
 import com.example.dd.cashbox.R;
 import com.jaredrummler.android.colorpicker.ColorPickerView;
+import com.thebluealliance.spectrum.SpectrumPalette;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class ChooseColorDialogFragment extends DialogFragment implements View.OnClickListener {
+public class ChooseColorDialogFragment extends DialogFragment implements SpectrumPalette.OnColorSelectedListener {
 
-    private ColorPickerView m_colorPickerView;
-    private Button m_button;
+    private SpectrumPalette m_colorPickerView;
     private ChooseColorDialogListener m_listener;
     private static int m_ProdColor;
     private static ChooseColorDialogFragment m_frag;
@@ -43,13 +44,14 @@ public class ChooseColorDialogFragment extends DialogFragment implements View.On
 
         View view = inflater.inflate(R.layout.fragment_colorpicker, container, false);
 
+        //set UI
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
         //set variables
         m_colorPickerView = view.findViewById(R.id.cpv_color_picker_view);
-        m_button = view.findViewById(R.id.color_picker_view_button);
-        m_colorPickerView.setColor(m_ProdColor);
 
         //set Listener
-        m_button.setOnClickListener(this);
+        m_colorPickerView.setOnColorSelectedListener(this);
 
         return view;
     }
@@ -60,8 +62,7 @@ public class ChooseColorDialogFragment extends DialogFragment implements View.On
     }
 
     @Override
-    public void onClick(View v) {
-        int color = m_colorPickerView.getColor();
+    public void onColorSelected(int color) {
         m_listener = (ChooseColorDialogListener)getActivity();
         m_listener.onFinishChooseColorDialog(color);
         m_frag.dismiss();

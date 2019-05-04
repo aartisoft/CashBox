@@ -22,4 +22,12 @@
     <color name="colorPrimary3">#2997FF</color>
     <color name="colorPrimary4">#5A97E8</color>
     <color name="colorPrimary5">#2972FF</color>
+
+    <color name="colorspectrum_blue">#BF194BB3</color>
+    <color name="colorspectrum_red">#C3CF291D</color>
+
+    <array name="spectrum_colors">
+        <item>@color/colorspectrum_red</item>
+        <item>@color/colorspectrum_blue</item>
+    </array>
 </resources>

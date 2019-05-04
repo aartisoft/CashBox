@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/edit_name"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical">
 
-    <!--<TextView
+    <TextView
+        android:id="@+id/editcategory_add_tvvolor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/src_FarbeWaehlen"
-        android:textColor="@color/colorBlack"
-        android:textSize="20dp"
-        android:layout_marginBottom="10dp"/>-->
-
-    <com.jaredrummler.android.colorpicker.ColorPickerView
-        android:id="@id/cpv_color_picker_view"
-        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        app:cpv_alphaChannelVisible="true" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/src_FarbeAuswaehlen"
+        android:textColorHint="@color/colorGrey"
+        android:textColor="@color/colorGrey"
+        android:textSize="15dp"/>
 
-    <Button
-        android:id="@+id/color_picker_view_button"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/colorBlack"
-        android:text="@string/src_Uebernehmen"
-        android:textAllCaps="false"/>
+    <com.thebluealliance.spectrum.SpectrumPalette
+        android:id="@+id/cpv_color_picker_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        app:spectrum_autoPadding="true"
+        app:spectrum_colors="@array/spectrum_colors"
+        app:spectrum_outlineWidth="2dp" />
+
 </LinearLayout>
