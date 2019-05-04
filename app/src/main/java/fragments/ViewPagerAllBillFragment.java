@@ -239,10 +239,10 @@ public class ViewPagerAllBillFragment extends Fragment{
         //only one table
         if(m_iChoosenTable != -1){
             for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(m_iChoosenTable).size(); iBillCounter++){
-                boolean bOpen = true;
+                boolean bOpen = false;
                 for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts){
-                    if(objBillProduct.getPaid()){
-                        bOpen = false;
+                    if(!objBillProduct.getPaid()){
+                        bOpen = true;
                         break;
                     }
                 }
