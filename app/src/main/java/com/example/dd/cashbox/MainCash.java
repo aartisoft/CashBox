@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,8 +26,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
@@ -43,6 +49,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     private Context m_Context;
     private View m_decorView;
+    private Menu m_Menu;
+    private MenuItem m_MenuItemSplitBill;
     private TextView m_TextViewTable;
     private TextView m_TextViewBill;
     private TextView m_TextViewOpenSum;
@@ -65,6 +73,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     private double m_dTip = 0.0;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
+    private int m_iSessionBillOLD = -1;
+    private boolean bBillSplit = false;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -101,6 +111,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Toolbar toolbar = findViewById(R.id.activity_main_cash_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         setSupportActionBar(toolbar);
@@ -114,6 +125,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         //init adapter
         initListViewMainCashBill();
         initRecyclerViewMainBillProduct();
+
+        //init session variables
+        m_iSessionBillOLD = m_iSessionBill;
 
         //set Listener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
@@ -161,6 +175,18 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.maincash_usermenu, menu);
+
+        //init menu variables
+        m_Menu = menu;
+        m_MenuItemSplitBill = menu.findItem(R.id.maincash_usermenu_splitbill);
+        m_MenuItemSplitBill.setEnabled(false);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -172,6 +198,21 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
                 intent.putExtra("TABLE", m_iSessionTable);
                 startActivity(intent);
                 finish();
+                return true;
+
+            case R.id.maincash_usermenu_splitbill:
+                FragmentManager fm = getSupportFragmentManager();
+                PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
+
+                // pass text to fragment
+                Bundle args = new Bundle();
+                String strText = getResources().getString(R.string.src_BelegWirklichSplitten) + "\n";
+                args.putString("TEXT", strText);
+                args.putString("TASK", "split");
+
+                popUpWindowCancelOKFragment.setArguments(args);
+                popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
+
                 return true;
 
             default:
@@ -204,27 +245,38 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     }
 
     @Override
-    public void onOkResult() {
-        //set articles paid
-        setPaid();
+    public void onOkResult(String p_strTASK) {
+        switch(p_strTASK) {
+            case "pay":
+                //set articles paid
+                setPaid();
 
-        //set pay transit false
-        setPayTransitFalse();
+                //set pay transit false
+                setPayTransitFalse();
 
-        Intent intent = new Intent(MainCash.this, Main.class);
-        intent = new Intent(MainCash.this, Main.class);
-        intent.putExtra("TABLE", m_iSessionTable);
+                Intent intent = new Intent(MainCash.this, Main.class);
+                intent = new Intent(MainCash.this, Main.class);
+                intent.putExtra("TABLE", m_iSessionTable);
 
-        //if bill is completley empty, then close it
-        if(isBillEmpty()){
-            intent.putExtra("BILL", -1);
+                //if bill is completely empty, then close it
+                if (isBillEmpty(m_iSessionBillOLD)) {
+                    intent.putExtra("BILL", -1);
+                }
+                else {
+                    intent.putExtra("BILL", m_iSessionBillOLD);
+                }
+
+                startActivity(intent);
+                finish();
+                break;
+
+            case "split":
+               splitBill();
+                break;
+
+            default:
+                break;
         }
-        else{
-            intent.putExtra("BILL", m_iSessionBill);
-        }
-
-        startActivity(intent);
-        finish();
     }
 
     @Override
@@ -400,8 +452,17 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         raiseChange();
     }
 
-    public boolean isBillEmpty(){
-        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+    public boolean isBillEmpty(int p_iBillNr){
+        //get bill
+        int iBill = 0;
+        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+            if(objBill.getBillNr() == p_iBillNr){
+                break;
+            }
+            iBill++;
+        }
+
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts){
             if(!objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                 if(!objBillProduct.getPaid()){
                     return false;
@@ -526,6 +587,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
                     strText = strText.replace("{0}", strVK);
 
                     args.putString("TEXT", strText);
+                    args.putString("TASK", "pay");
 
                     popUpWindowCancelOKFragment.setArguments(args);
                     popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
@@ -549,6 +611,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
                     strText = strText.replace("{0}", strVK);
 
                     args.putString("TEXT", strText);
+                    args.putString("TASK", "pay");
 
                     popUpWindowCancelOKFragment.setArguments(args);
                     popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
@@ -828,5 +891,54 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
         //update listview
         m_lv_adapter.notifyDataSetChanged();
+
+        //update usermenu
+        updateUserMenu();
+    }
+
+    private void updateUserMenu(){
+        if(m_ListObjMainCashBillProduct.size() > 0 && m_ListObjMainBillProduct.size() != 0){
+            m_MenuItemSplitBill.setEnabled(true);
+        }
+        else{
+            m_MenuItemSplitBill.setEnabled(false);
+        }
+    }
+
+    private void splitBill(){
+        //init session variables
+        bBillSplit = true;
+
+        //set new bill
+        ObjBill objBill = new ObjBill();
+        objBill.setBillNr(GlobVar.g_iBillNr + 1);
+        objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
+
+        //add products to new bill and delete it from old bill
+        //delete items
+        for(int i = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size(); i-- > 0;) {
+            if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(i).getPayTransit()){
+                objBill.m_lstProducts.add(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(i));
+                GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.remove(i);
+            }
+        }
+
+        String pattern = "dd/MM/yyyy HH:mm:ss";
+        DateFormat df = new SimpleDateFormat(pattern);
+
+        Date date = Calendar.getInstance().getTime();
+        String todayAsString = df.format(date);
+        objBill.setBillingDate(todayAsString);
+
+        GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
+
+        //set bill number and header
+        GlobVar.g_iBillNr++;
+        m_iSessionBill = GlobVar.g_iBillNr;
+        setHeaderBill();
+
+        //update GUI - delete all items on the left side
+        m_ListObjMainBillProduct.clear();
+        updateListObjMainBillProduct();
     }
 }

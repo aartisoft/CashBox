@@ -138,6 +138,8 @@
     <string name="src_offen">(offen)</string>
     <string name="src_bezahlt">(bezahlt)</string>
     <string name="src_EsWurdenNochKeineArtikelGedruckt">Es wurden noch keine Artikel gedruckt</string>
+    <string name="src_BelegSplitten">Beleg splitten</string>
+    <string name="src_BelegWirklichSplitten">Beleg wirklich splitten?</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

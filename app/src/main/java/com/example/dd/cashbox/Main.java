@@ -645,6 +645,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
             GlobVar.g_bPrintQueueFilling = false;
         }
+        else{
+            Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void createNewBill(){

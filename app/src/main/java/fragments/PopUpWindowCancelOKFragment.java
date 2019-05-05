@@ -25,6 +25,7 @@ public class PopUpWindowCancelOKFragment extends DialogFragment implements View.
     private TextView m_tvText;
     private Context m_Context;
     private String m_strText = "";
+    private String m_strTASK = "";
     private OnDialogCancelOkResultListener onDialogResultListener;
     private static PopUpWindowCancelOKFragment m_frag;
 
@@ -34,11 +35,12 @@ public class PopUpWindowCancelOKFragment extends DialogFragment implements View.
 
     public static PopUpWindowCancelOKFragment newInstance() {
         m_frag = new PopUpWindowCancelOKFragment();
+
         return m_frag;
     }
 
     public interface OnDialogCancelOkResultListener {
-        public abstract void onOkResult();
+        public abstract void onOkResult(String p_strTASK);
         public abstract void onCancelResult();
     }
 
@@ -50,6 +52,7 @@ public class PopUpWindowCancelOKFragment extends DialogFragment implements View.
 
         //activity variables
         m_strText = getArguments().getString("TEXT");
+        m_strTASK = getArguments().getString("TASK");
 
         //set UI
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -80,7 +83,7 @@ public class PopUpWindowCancelOKFragment extends DialogFragment implements View.
         OnDialogCancelOkResultListener listener = (OnDialogCancelOkResultListener)getActivity();
         switch(v.getId()){
             case R.id.fragment_puco_btnok:
-                listener.onOkResult();
+                listener.onOkResult(m_strTASK);
                 m_frag.dismiss();
                 break;
 
