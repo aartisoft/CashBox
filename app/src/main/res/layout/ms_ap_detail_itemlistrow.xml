@@ -23,7 +23,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/ms_ap_ilr_icon"
         android:gravity="center_vertical"
         android:text="Eigenschaft"
         android:textSize="16sp"/>
