@@ -714,12 +714,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private void startPayProcess(){
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
             boolean bFound = false;
+            boolean bPrinted = true;
             if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
                 for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
                     if (objBillProduct.getPrinted() && !objBillProduct.getPaid()
                             && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
                         bFound = true;
                         break;
+                    }
+                    else if(!objBillProduct.getPrinted() && !objBillProduct.getPaid()
+                            && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
+                        bPrinted = false;
                     }
                 }
             }
@@ -730,7 +735,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 startActivity(intent);
             }
             else{
-                Toast.makeText(Main.this, getResources().getString(R.string.src_KeineArtikelVorhanden), Toast.LENGTH_SHORT).show();
+                if(!bPrinted){
+                    Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdenNochKeineArtikelGedruckt), Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(Main.this, getResources().getString(R.string.src_KeineArtikelVorhanden), Toast.LENGTH_SHORT).show();
+                }
             }
         }
         else{
