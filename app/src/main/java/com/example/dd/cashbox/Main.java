@@ -247,7 +247,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         @Override
         public void onClick(View v) {
             if(m_iSessionTable != -1){
-                if(GlobVar.g_lstTableBills.get(m_iSessionTable).size() > 0)
+                if(GlobVar.g_lstTableBills.get(m_iSessionTable).size() > 0 && billsToShow())
                 {
                     Intent intent = new Intent(Main.this, MainShowBills.class);
                     intent.putExtra("TABLE", m_iSessionTable);
@@ -967,5 +967,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         retoureStornoDialogFragment.setArguments(args);
         retoureStornoDialogFragment.show(fm, "fragment_retourestorno");
+    }
+
+    private boolean billsToShow(){
+        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+            for(ObjBillProduct objBillProduct : objBill.m_lstProducts){
+                if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

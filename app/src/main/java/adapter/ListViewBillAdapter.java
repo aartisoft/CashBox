@@ -192,11 +192,27 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
                     strArticle += "*";
                 }
 
+                //printed and paid
                 int iQuantity = 0;
                 boolean bFound = false;
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
-                    if (objProduct == objBillProduct.getProduct()) {
-                        if (!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                    if(!objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid()){
+                        if (objProduct == objBillProduct.getProduct()) {
+                            iQuantity++;
+                            bFound = true;
+                        }
+                    }
+                }
+                if(bFound){
+                    strAllArticles += iQuantity + "x " + strArticle  + " " + m_Context.getResources().getString(R.string.src_bezahlt) + "\n";
+                }
+
+                //printed and not paid
+                iQuantity = 0;
+                bFound = false;
+                for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
+                    if(!objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid()){
+                        if (objProduct == objBillProduct.getProduct()) {
                             dPrize += objBillProduct.getVK();
                             //if pawn is available
                             if(objBillProduct.getProduct().getbPawn()){
@@ -209,7 +225,28 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
                     }
                 }
                 if(bFound){
-                    strAllArticles += iQuantity + "x " + strArticle + "\n";
+                    strAllArticles += iQuantity + "x " + strArticle  + " " + m_Context.getResources().getString(R.string.src_offen) + "\n";
+                }
+
+                //not printed
+                iQuantity = 0;
+                bFound = false;
+                for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
+                    if(!objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.getPaid() && !objBillProduct.getPrinted()){
+                        if (objProduct == objBillProduct.getProduct()) {
+                            dPrize += objBillProduct.getVK();
+                            //if pawn is available
+                            if(objBillProduct.getProduct().getbPawn()){
+                                dPrize += objBillProduct.getProduct().getPawn();
+                            }
+
+                            iQuantity++;
+                            bFound = true;
+                        }
+                    }
+                }
+                if(bFound){
+                    strAllArticles += iQuantity + "x " + strArticle + " " + m_Context.getResources().getString(R.string.src_nichtgedruckt) + "\n";
                 }
             }
         }

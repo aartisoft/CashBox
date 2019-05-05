@@ -402,7 +402,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     public boolean isBillEmpty(){
         for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-            if(!objBillProduct.getCanceled() || !objBillProduct.getReturned()){
+            if(!objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                 if(!objBillProduct.getPaid()){
                     return false;
                 }

@@ -241,7 +241,7 @@ public class ViewPagerAllBillFragment extends Fragment{
             for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(m_iChoosenTable).size(); iBillCounter++){
                 boolean bOpen = false;
                 for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts){
-                    if(!objBillProduct.getPaid()){
+                    if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
                         bOpen = true;
                         break;
                     }
@@ -256,10 +256,10 @@ public class ViewPagerAllBillFragment extends Fragment{
         else{
             for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTableBills.size(); iTblCounter++){
                 for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(iTblCounter).size(); iBillCounter++){
-                    boolean bOpen = true;
+                    boolean bOpen = false;
                     for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter).m_lstProducts){
-                        if(objBillProduct.getPaid()){
-                            bOpen = false;
+                        if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
+                            bOpen = true;
                             break;
                         }
                     }
@@ -278,7 +278,7 @@ public class ViewPagerAllBillFragment extends Fragment{
             for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(m_iChoosenTable).size(); iBillCounter++){
                 boolean bPaid = true;
                 for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts){
-                    if(!objBillProduct.getPaid()){
+                    if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
                         bPaid = false;
                         break;
                     }
@@ -295,7 +295,7 @@ public class ViewPagerAllBillFragment extends Fragment{
                 for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(iTblCounter).size(); iBillCounter++){
                     boolean bPaid = true;
                     for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter).m_lstProducts){
-                        if(!objBillProduct.getPaid()){
+                        if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
                             bPaid = false;
                             break;
                         }
