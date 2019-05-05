@@ -95,7 +95,8 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
         }
 
         // Populate the data into the template view using the data object
-        String strBillName = m_Context.getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_List.get(groupPosition).getBillNr());
+        String strBillName = m_Context.getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_List.get(groupPosition).getTable())
+                + " - " + m_Context.getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_List.get(groupPosition).getBillNr());
         view.txtBill.setText(strBillName);
         view.txtBillDate.setText(m_List.get(groupPosition).getBillingDate());
 

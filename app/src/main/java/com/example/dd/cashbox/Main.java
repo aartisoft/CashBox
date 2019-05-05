@@ -658,6 +658,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     //set new bill
                     ObjBill objBill = new ObjBill();
                     objBill.setBillNr(GlobVar.g_iBillNr + 1);
+                    objBill.setTable(m_iSessionTable + 1);
                     objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
 
                     String pattern = "dd/MM/yyyy HH:mm:ss";
@@ -687,6 +688,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 //set new bill
                 ObjBill objBill = new ObjBill();
                 objBill.setBillNr(GlobVar.g_iBillNr + 1);
+                objBill.setTable(m_iSessionTable + 1);
                 objBill.setCashierName(GlobVar.g_ObjSession.getCashierName());
 
                 String pattern = "dd/MM/yyyy HH:mm:ss";

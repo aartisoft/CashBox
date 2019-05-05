@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ObjBill {
     private int m_iBillNr;
+    private int m_iTable;
     private String m_strCashierName;
     private String m_strBillingDate;
     private double m_dTip = 0.0;
@@ -14,6 +15,9 @@ public class ObjBill {
     //getter
     public int getBillNr(){
         return this.m_iBillNr;
+    }
+    public int getTable() {
+        return m_iTable;
     }
     public String getCashierName(){
         return this.m_strCashierName;
@@ -32,6 +36,9 @@ public class ObjBill {
     //setter
     public void setBillNr(int p_iBillNr){
         this.m_iBillNr = p_iBillNr;
+    }
+    public void setTable(int m_iTable) {
+        this.m_iTable = m_iTable;
     }
     public void setCashierName(String p_strCashierName){
         this.m_strCashierName = p_strCashierName;

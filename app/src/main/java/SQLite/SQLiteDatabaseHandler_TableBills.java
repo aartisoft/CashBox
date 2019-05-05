@@ -105,6 +105,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                             //if bill doesn't exists in table
                             else {
                                 ObjBill objBill = new ObjBill();
+                                objBill.setTable(Integer.parseInt(cursor.getString(1)) +1);
                                 objBill.setBillNr(Integer.parseInt(cursor.getString(2)));
                                 objBill.setCashierName(cursor.getString(3));
                                 objBill.setBillingDate(cursor.getString(4));

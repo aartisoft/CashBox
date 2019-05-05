@@ -161,7 +161,6 @@
 
     <string-array name="menusettings_entries">
         <item>@string/src_Druckerverwaltung</item>
-        <item>Item n</item>
     </string-array>
 
 
