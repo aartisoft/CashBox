@@ -74,7 +74,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private int m_iSessionBillOLD = -1;
-    private boolean bBillSplit = false;
+    private boolean m_bBillSplit = false;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -897,7 +897,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     }
 
     private void updateUserMenu(){
-        if(m_ListObjMainCashBillProduct.size() > 0 && m_ListObjMainBillProduct.size() != 0){
+        if(m_ListObjMainCashBillProduct.size() > 0 && m_ListObjMainBillProduct.size() != 0 && !m_bBillSplit){
             m_MenuItemSplitBill.setEnabled(true);
         }
         else{
@@ -907,7 +907,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     private void splitBill(){
         //init session variables
-        bBillSplit = true;
+        m_bBillSplit = true;
+        m_MenuItemSplitBill.setEnabled(false);
 
         //set new bill
         ObjBill objBill = new ObjBill();
