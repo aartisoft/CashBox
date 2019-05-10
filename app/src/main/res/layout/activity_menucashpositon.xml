@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_menucashposition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary3"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/src_Kassenstand"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/menucashposition_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="abhiandroid.com.listexample.MainActivity"
+        android:divider="@color/colorGrey"
+        android:dividerHeight="1dp"
+        android:theme="@style/ListView"
+        android:entries="@array/menucashposition_entries">
+    </ListView>
+
+</LinearLayout>

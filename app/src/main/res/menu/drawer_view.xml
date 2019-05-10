@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <group android:id="@+id/drawerview_grp1" android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_statistik"
+            android:id="@+id/nav_cashposition"
             android:icon="@drawable/ic_statistics"
-            android:title="@string/src_Statistik" />
+            android:title="@string/src_Kassenstand" />
         <item
             android:id="@+id/nav_artikel"
             android:icon="@drawable/ic_edit_black_24dp"

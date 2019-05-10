@@ -325,16 +325,20 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_DrawerLayout.closeDrawer(GravityCompat.START);
 
         switch (item.getItemId()) {
-            case R.id.nav_einstellungen:
-                startActivity(new Intent(this, MenuSettings.class));
+            case R.id.nav_cashposition:
+                startActivity(new Intent(this, MenuCashPosition.class));
+                return true;
+
+            case R.id.nav_artikel:
+                startActivity(new Intent(this, EditCategory.class));
                 return true;
 
             case R.id.nav_tische:
                 startActivity(new Intent(this, EditTable.class));
                 return true;
 
-            case R.id.nav_artikel:
-                startActivity(new Intent(this, EditCategory.class));
+            case R.id.nav_einstellungen:
+                startActivity(new Intent(this, MenuSettings.class));
                 return true;
 
             case R.id.nav_hilfe:
