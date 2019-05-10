@@ -9,6 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.dd.cashbox.AllBills;
 import com.example.dd.cashbox.MainShowBills;
 import com.example.dd.cashbox.R;
 
@@ -107,7 +108,8 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 OnClickView.ivChoose.setImageDrawable(m_Context.getResources().getDrawable(R.drawable.ic_search_grey_24dp));
-                ((MainShowBills)m_Context).openBill(OnClickPosition);
+                ((AllBills)m_Context).openBill(OnClickPosition);
+
             }
         };
         view.ivChoose.setOnClickListener(ChooseListener);

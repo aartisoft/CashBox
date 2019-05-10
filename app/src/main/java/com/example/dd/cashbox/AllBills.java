@@ -77,9 +77,6 @@ public class AllBills extends AppCompatActivity {
         //set tabs
         setTabulator();
 
-        //set bills
-        //setBills();
-
         //set Listener
     }
 
@@ -148,13 +145,13 @@ public class AllBills extends AppCompatActivity {
         }
     }
 
-    /*public void openBill(int position){
+    public void openBill(int position){
         // Get the selected item text from ListView
-        ObjBill objBill = m_listViewBillAdapter.getObjBill(position);
+        /*ObjBill objBill = m_listViewBillAdapter.getObjBill(position);
 
         Intent intent = new Intent(AllBills.this, Main.class);
         intent.putExtra("BILL", objBill.getBillNr());
         intent.putExtra("TABLE", m_iSessionTable);
-        startActivity(intent);
-    }*/
+        startActivity(intent);*/
+    }
 }
