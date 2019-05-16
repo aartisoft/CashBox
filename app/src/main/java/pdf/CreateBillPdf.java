@@ -26,7 +26,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 
-public class CreateBill {
+public class CreateBillPdf {
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
             Font.BOLD);
     private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
@@ -38,11 +38,11 @@ public class CreateBill {
     private static Context m_Context;
     private static File m_OutputFile;
 
-    CreateBill(Context p_Context){
+    public CreateBillPdf(Context p_Context){
         this.m_Context = p_Context;
     }
 
-    public static void createBill() throws IOException {
+    public File createBillPdf() {
         try {
             createTmpFile();
             Document document = new Document();
@@ -55,9 +55,11 @@ public class CreateBill {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return m_OutputFile;
     }
 
-    private static void createTmpFile() throws IOException{
+    private void createTmpFile() throws IOException{
         File outputDir = m_Context.getCacheDir(); // context being the Activity pointer
         m_OutputFile = File.createTempFile("prefix", "extension", outputDir);
     }
@@ -65,7 +67,7 @@ public class CreateBill {
     // iText allows to add metadata to the PDF which can be viewed in your Adobe
     // Reader
     // under File -> Properties
-    private static void addMetaData(Document document) {
+    private void addMetaData(Document document) {
         document.addTitle(m_Context.getResources().getString(R.string.src_Rechnung));
         //document.addSubject("Using iText");
         document.addKeywords("Rechnung, CashBox");
@@ -73,7 +75,7 @@ public class CreateBill {
         document.addCreator("CashBox App");
     }
 
-    private static void addTitlePage(Document document)
+    private void addTitlePage(Document document)
             throws DocumentException {
         Paragraph preface = new Paragraph();
         // We add one empty line
@@ -102,7 +104,7 @@ public class CreateBill {
         document.newPage();
     }
 
-    private static void addContent(Document document) throws DocumentException {
+    private void addContent(Document document) throws DocumentException {
         Anchor anchor = new Anchor("First Chapter", catFont);
         anchor.setName("First Chapter");
 
@@ -147,7 +149,7 @@ public class CreateBill {
 
     }
 
-    private static void createTable(Section subCatPart)
+    private void createTable(Section subCatPart)
             throws BadElementException {
         PdfPTable table = new PdfPTable(3);
 
@@ -180,7 +182,7 @@ public class CreateBill {
 
     }
 
-    private static void createList(Section subCatPart) {
+    private void createList(Section subCatPart) {
         List list = new List(true, false, 10);
         list.add(new ListItem("First point"));
         list.add(new ListItem("Second point"));
@@ -188,7 +190,7 @@ public class CreateBill {
         subCatPart.add(list);
     }
 
-    private static void addEmptyLine(Paragraph paragraph, int number) {
+    private void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }

@@ -19,6 +19,7 @@ import com.google.android.material.tabs.TabLayout;
 import adapter.ViewPagerRetoureStornoAdapter;
 import global.GlobVar;
 import objects.ObjBill;
+import pdf.CreateBillPdf;
 
 
 import android.app.Activity;
@@ -37,6 +38,7 @@ import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.shockwave.pdfium.PdfDocument;
 
+import java.io.File;
 import java.util.List;
 
 public class AllBillsShowDialogFragment extends DialogFragment implements OnPageChangeListener,OnLoadCompleteListener {
@@ -44,11 +46,11 @@ public class AllBillsShowDialogFragment extends DialogFragment implements OnPage
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
     private FragmentActivity m_Context;
-    PDFView m_pdfView;
-    Integer m_iPageNumber = 0;
-    String m_strPdfFileName;
+    private PDFView m_pdfView;
+    private Integer m_iPageNumber = 0;
+    private String m_strPdfFileName;
+    private String m_strPdfFilePath;
     private static final String TAG = AllBillsShowDialogFragment.class.getSimpleName();
-    public static final String PDF_FILE = "android_tutorial.pdf";
     private static AllBillsShowDialogFragment m_frag;
 
     public AllBillsShowDialogFragment() { }
@@ -79,10 +81,10 @@ public class AllBillsShowDialogFragment extends DialogFragment implements OnPage
         m_pdfView = view.findViewById(R.id.fragment_allbillshow_pdf);
 
         //create pdf
-
+        createPdf();
 
         //show pdf
-        displayFromAsset(PDF_FILE);
+        displayFromAsset(m_strPdfFilePath);
 
         return view;
     }
@@ -121,7 +123,7 @@ public class AllBillsShowDialogFragment extends DialogFragment implements OnPage
     private void displayFromAsset(String assetFileName) {
         m_strPdfFileName = assetFileName;
 
-        m_pdfView.fromAsset(PDF_FILE)
+        m_pdfView.fromAsset(m_strPdfFilePath)
                 .defaultPage(m_iPageNumber)
                 .enableSwipe(true)
 
@@ -142,6 +144,13 @@ public class AllBillsShowDialogFragment extends DialogFragment implements OnPage
                 printBookmarksTree(b.getChildren(), sep + "-");
             }
         }
+    }
+
+    private void createPdf(){
+        CreateBillPdf createBillPdf = new CreateBillPdf(m_Context);
+
+        File pdfFile = createBillPdf.createBillPdf();
+        m_strPdfFilePath = pdfFile.toURI().getPath();
     }
 
     private int getBillListPointer() {
