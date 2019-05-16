@@ -50,6 +50,7 @@ public class AllBillsShowDialogFragment extends DialogFragment implements OnPage
     private Integer m_iPageNumber = 0;
     private String m_strPdfFileName;
     private String m_strPdfFilePath;
+    private static File m_PdfFilePath;
     private static final String TAG = AllBillsShowDialogFragment.class.getSimpleName();
     private static AllBillsShowDialogFragment m_frag;
 
@@ -123,7 +124,7 @@ public class AllBillsShowDialogFragment extends DialogFragment implements OnPage
     private void displayFromAsset(String assetFileName) {
         m_strPdfFileName = assetFileName;
 
-        m_pdfView.fromAsset(m_strPdfFilePath)
+        /*m_pdfView.fromAsset(m_strPdfFilePath)
                 .defaultPage(m_iPageNumber)
                 .enableSwipe(true)
 
@@ -132,7 +133,9 @@ public class AllBillsShowDialogFragment extends DialogFragment implements OnPage
                 .enableAnnotationRendering(true)
                 .onLoad(this)
                 .scrollHandle(new DefaultScrollHandle(m_Context))
-                .load();
+                .load();*/
+        m_pdfView.fromFile(m_PdfFilePath);
+
     }
 
     private void printBookmarksTree(List<PdfDocument.Bookmark> tree, String sep) {
@@ -149,8 +152,7 @@ public class AllBillsShowDialogFragment extends DialogFragment implements OnPage
     private void createPdf(){
         CreateBillPdf createBillPdf = new CreateBillPdf(m_Context);
 
-        File pdfFile = createBillPdf.createBillPdf();
-        m_strPdfFilePath = pdfFile.toURI().getPath();
+        m_PdfFilePath = createBillPdf.createBillPdf();
     }
 
     private int getBillListPointer() {

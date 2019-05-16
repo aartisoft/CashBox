@@ -1,6 +1,7 @@
 package pdf;
 
 import android.content.Context;
+import android.os.Environment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,8 +61,9 @@ public class CreateBillPdf {
     }
 
     private void createTmpFile() throws IOException{
-        File outputDir = m_Context.getCacheDir(); // context being the Activity pointer
-        m_OutputFile = File.createTempFile("prefix", "extension", outputDir);
+        //File outputDir = m_Context.getCacheDir(); // context being the Activity pointer
+        File outputDir = m_Context.getFilesDir(); // context being the Activity pointer
+        m_OutputFile = File.createTempFile("bill", ".pdf", outputDir);
     }
 
     // iText allows to add metadata to the PDF which can be viewed in your Adobe
