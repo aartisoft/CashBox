@@ -42,7 +42,7 @@ public class CreateBill {
         this.m_Context = p_Context;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void createBill() throws IOException {
         try {
             createTmpFile();
             Document document = new Document();

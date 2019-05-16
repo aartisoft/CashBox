@@ -14,6 +14,7 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -26,6 +27,8 @@ import adapter.ListViewAllBillAdapter;
 import adapter.ListViewBillAdapter;
 import adapter.ViewPagerAllBillAdapter;
 import adapter.ViewPagerRetoureStornoAdapter;
+import fragments.AllBillsShowDialogFragment;
+import fragments.RetoureStornoDialogFragment;
 import fragments.ViewPagerAllBillFragment;
 import global.GlobVar;
 import objects.ObjBill;
@@ -146,12 +149,14 @@ public class AllBills extends AppCompatActivity {
     }
 
     public void openBill(int position){
-        // Get the selected item text from ListView
-        /*ObjBill objBill = m_listViewBillAdapter.getObjBill(position);
+        //open dialogfragment
+        FragmentManager fm = getSupportFragmentManager();
+        AllBillsShowDialogFragment allBillsShowDialogFragment = AllBillsShowDialogFragment.newInstance();
 
-        Intent intent = new Intent(AllBills.this, Main.class);
-        intent.putExtra("BILL", objBill.getBillNr());
-        intent.putExtra("TABLE", m_iSessionTable);
-        startActivity(intent);*/
+        Bundle args = new Bundle();
+        args.putInt("BILL", position);
+
+        allBillsShowDialogFragment.setArguments(args);
+        allBillsShowDialogFragment.show(fm, "showbill");
     }
 }
