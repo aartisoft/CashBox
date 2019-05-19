@@ -62,8 +62,8 @@ public class CreateBillPdf {
 
     private void createTmpFile() throws IOException{
         //File outputDir = m_Context.getCacheDir(); // context being the Activity pointer
-        File outputDir = m_Context.getFilesDir(); // context being the Activity pointer
-        m_OutputFile = File.createTempFile("bill", ".pdf", outputDir);
+        //File outputDir = m_Context.getFilesDir(); // context being the Activity pointer
+        //m_OutputFile = File.("bill", ".pdf");
     }
 
     // iText allows to add metadata to the PDF which can be viewed in your Adobe
