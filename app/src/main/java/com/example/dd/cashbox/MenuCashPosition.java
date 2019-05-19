@@ -52,7 +52,7 @@ public class MenuCashPosition extends AppCompatActivity {
 
 
             if (selectedItem.equals(getResources().getString(R.string.src_AktuellerKassenstand))) {
-                //startActivity(new Intent(MenuCashPosition.this, MS_AddPrinter.class));
+                startActivity(new Intent(MenuCashPosition.this, CurrCashPosition.class));
             }
             else if(selectedItem.equals(getResources().getString(R.string.src_AlleAbschlussbelege))) {
                 //startActivity(new Intent(MenuCashPosition.this, MS_AddPrinter.class));
