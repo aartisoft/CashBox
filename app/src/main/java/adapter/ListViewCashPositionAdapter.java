@@ -19,10 +19,9 @@ public class ListViewCashPositionAdapter extends BaseAdapter {
     private Context m_Context;
     List<HashMap<String,String>> m_List;
 
-    public ListViewCashPositionAdapter(Context context, List<HashMap<String,String>> printers) {
+    public ListViewCashPositionAdapter(List<HashMap<String,String>> values) {
         super();
-        this.m_Context = context;
-        this.m_List = printers;
+        this.m_List = values;
     }
 
     @Override
@@ -51,7 +50,8 @@ public class ListViewCashPositionAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder view = null;
-        LayoutInflater inflator = ((Activity) m_Context).getLayoutInflater();
+        m_Context = parent.getContext();
+        LayoutInflater inflator = (LayoutInflater) m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {

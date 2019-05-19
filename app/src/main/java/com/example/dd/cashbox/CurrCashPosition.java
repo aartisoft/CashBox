@@ -58,7 +58,6 @@ public class CurrCashPosition extends AppCompatActivity {
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
         Toolbar toolbar = findViewById(R.id.activity_currcashpos_toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -75,7 +74,7 @@ public class CurrCashPosition extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
 
-                Intent intent = new Intent(CurrCashPosition.this, Main.class);
+                Intent intent = new Intent(CurrCashPosition.this, MenuCashPosition.class);
                 intent.putExtra("BILL", m_iSessionBill);
                 intent.putExtra("TABLE", m_iSessionTable);
                 startActivity(intent);

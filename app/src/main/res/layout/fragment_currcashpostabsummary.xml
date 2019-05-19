@@ -16,7 +16,7 @@
         android:text="@string/src_Umsatz"
         android:textColor="@color/colorGrey"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:layout_above ="@+id/toolbar_ms_addprinter"
         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
 
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/fragment_currcashpostabsummary_tvsumall_oincome"
         android:text="@string/src_SonstigeEinnahmen"
         android:textColor="@color/colorGrey"

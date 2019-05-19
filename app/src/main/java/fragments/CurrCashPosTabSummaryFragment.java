@@ -38,7 +38,7 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         //init variables
         m_Context = view.getContext();
         m_lvsumincome = view.findViewById(R.id.fragment_currcashpostabsummary_lvincome);
-        m_lvsumincome = view.findViewById(R.id.fragment_currcashpostabsummary_lvoincome);
+        m_lvsumoincome = view.findViewById(R.id.fragment_currcashpostabsummary_lvoincome);
 
         //set listview
         setListViewIncome();
@@ -61,7 +61,7 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         hashMap.put("value", printer.getDeviceName());
         lstViewAttr.add(hashMap);*/
 
-        m_adapterlvsumincome = new ListViewCashPositionAdapter(m_Context, lstViewAttr);
+        m_adapterlvsumincome = new ListViewCashPositionAdapter(lstViewAttr);
         m_lvsumincome.setAdapter(m_adapterlvsumincome);
     }
 
@@ -78,7 +78,7 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         hashMap.put("value", printer.getDeviceName());
         lstViewAttr.add(hashMap);*/
 
-        m_adapterlvsumoincome = new ListViewCashPositionAdapter(m_Context, lstViewAttr);
+        m_adapterlvsumoincome = new ListViewCashPositionAdapter(lstViewAttr);
         m_lvsumoincome.setAdapter(m_adapterlvsumoincome);
     }
 }
