@@ -9,20 +9,50 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical">
 
-    <FrameLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_currcashpostabsummary_tvsum"
+        android:text="@string/src_Umsatz"
+        android:textColor="@color/colorGrey"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_above ="@+id/toolbar_ms_addprinter"
+        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
 
-        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/fragment_currcashpostabsummary_lv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:context="abhiandroid.com.listexample.MainActivity"
-            android:divider="@color/colorGrey"
-            android:dividerHeight="1dp"
-            android:theme="@style/ListView">
-        </ListView>
-    </FrameLayout>
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fragment_currcashpostabsummary_lvincome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        tools:context="abhiandroid.com.listexample.MainActivity"
+        android:divider="@color/colorGrey"
+        android:dividerHeight="1dp"
+        android:theme="@style/ListView">
+    </ListView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/fragment_currcashpostabsummary_tvsumall_oincome"
+        android:text="@string/src_SonstigeEinnahmen"
+        android:textColor="@color/colorGrey"
+        android:layout_above ="@+id/fragment_currcashpostabsummary_lvincome"
+        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fragment_currcashpostabsummary_lvoincome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        tools:context="abhiandroid.com.listexample.MainActivity"
+        android:divider="@color/colorGrey"
+        android:dividerHeight="1dp"
+        android:theme="@style/ListView">
+    </ListView>
 
 </LinearLayout>

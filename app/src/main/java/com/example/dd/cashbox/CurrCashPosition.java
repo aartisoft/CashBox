@@ -117,10 +117,12 @@ public class CurrCashPosition extends AppCompatActivity {
 
         // Add your fragments in adapter.
         CurrCashPosTabSummaryFragment fragmentSum = new CurrCashPosTabSummaryFragment();
-        m_ViewPagerAdapter.addFragment(fragmentSum, getResources().getString(R.string.src_Zusammenfassung));
-
+        m_ViewPagerAdapter.addFragment(fragmentSum, getResources().getString(R.string.src_Uebersicht));
 
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
+
+        View headerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.activity_currcashpos_tablayout, null, false);
 
         //setup custom view
         m_TabLayout.setupWithViewPager(m_ViewPager);
