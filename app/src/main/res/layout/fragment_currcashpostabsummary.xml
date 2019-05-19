@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/fragment_currcashpostabsummary_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context="abhiandroid.com.listexample.MainActivity"
+            android:divider="@color/colorGrey"
+            android:dividerHeight="1dp"
+            android:theme="@style/ListView">
+        </ListView>
+    </FrameLayout>
+
+</LinearLayout>

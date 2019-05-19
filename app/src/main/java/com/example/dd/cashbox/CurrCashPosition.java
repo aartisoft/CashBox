@@ -11,19 +11,22 @@ import android.view.Window;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
 import adapter.ViewPagerAllBillAdapter;
 import fragments.AllBillsShowDialogFragment;
+import fragments.CurrCashPosTabSummaryFragment;
 import fragments.ViewPagerAllBillFragment;
+import fragments.ViewPagerCurrCashPosTabs;
 
 public class CurrCashPosition extends AppCompatActivity {
 
     private Context m_Context;
     private View m_decorView;
-    private ViewPagerAllBillAdapter m_ViewPagerAdapter;
+    private ViewPagerCurrCashPosTabs m_ViewPagerAdapter;
     private TabLayout m_TabLayout;
     private ViewPager m_ViewPager;
     private int m_iSessionTable = -1;
@@ -40,7 +43,7 @@ public class CurrCashPosition extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_allbills);
+        setContentView(R.layout.activity_currentcashposition);
 
         //get intent variables
         m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
@@ -109,26 +112,18 @@ public class CurrCashPosition extends AppCompatActivity {
     private void setTabulator(){
         //setup viewpager
         FragmentManager fm = getSupportFragmentManager();
-        m_ViewPagerAdapter = new ViewPagerAllBillAdapter(fm);
-        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance("all")
-                , getResources().getString(R.string.src_Alle), 1, m_Context);
-        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance("open")
-                , getResources().getString(R.string.src_Offen), 1, m_Context);
-        m_ViewPagerAdapter.addFragment(new ViewPagerAllBillFragment().getInstance("paid")
-                , getResources().getString(R.string.src_Bezahlt), 1, m_Context);
+        m_ViewPagerAdapter = new ViewPagerCurrCashPosTabs(fm);
+
+
+        // Add your fragments in adapter.
+        CurrCashPosTabSummaryFragment fragmentSum = new CurrCashPosTabSummaryFragment();
+        m_ViewPagerAdapter.addFragment(fragmentSum, getResources().getString(R.string.src_Zusammenfassung));
+
 
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
 
         //setup custom view
         m_TabLayout.setupWithViewPager(m_ViewPager);
         m_TabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-
-        View headerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(R.layout.activity_allbills_tablayout, null, false);
-
-        //set for all tabs
-        for(int tabs = 0; tabs < m_TabLayout.getTabCount(); tabs++){
-            m_TabLayout.getTabAt(tabs).setCustomView(m_ViewPagerAdapter.getTabView(tabs));
-        }
     }
 }
