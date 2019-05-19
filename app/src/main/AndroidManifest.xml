@@ -38,6 +38,7 @@
         <activity android:name=".MainCash"></activity>
         <activity android:name=".AllBills"></activity>
         <activity android:name=".MenuCashPosition"></activity>
+        <activity android:name=".CurrCashPosition"></activity>
     </application>
 
 </manifest>
