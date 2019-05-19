@@ -26,6 +26,8 @@ import objects.ObjBill;
 import objects.ObjBillProduct;
 import objects.ObjPrinter;
 
+import static global.GlobVar.g_lstTableBills;
+
 public class CurrCashPosTabSummaryFragment extends Fragment {
     private ListViewCashPositionAdapter m_adapterlvsumincome;
     private ListViewCashPositionAdapter m_adapterlvsumoincome;
@@ -54,20 +56,29 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
     private void setListViewIncome(){
         //build data for listview
         List lstViewAttr = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("0.00");
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("typ", getResources().getString(R.string.src_Barzahlungen));
 
+        hashMap.put("typ", getResources().getString(R.string.src_Start));
+        String strDate = getStartingDate();
+        hashMap.put("value", strDate);
+        lstViewAttr.add(hashMap);
+
+        hashMap = new HashMap<>();
+        hashMap.put("typ", getResources().getString(R.string.src_Barzahlungen));
         //get sum
         double dSum = getAllIncomeSum();
-        DecimalFormat df = new DecimalFormat("0.00");
         String strOutput = df.format(dSum);
         hashMap.put("value", strOutput + " €");
         lstViewAttr.add(hashMap);
 
-        /*hashMap = new HashMap<>();
-        hashMap.put("typ", getResources().getString(R.string.src_DruckerName));
-        hashMap.put("value", printer.getDeviceName());
-        lstViewAttr.add(hashMap);*/
+        hashMap = new HashMap<>();
+        hashMap.put("typ", getResources().getString(R.string.src_Gesamt));
+        //get sum
+        double dSumAll = getAllIncomeSum();
+        String strSumAll = df.format(dSum);
+        hashMap.put("value", strSumAll + " €");
+        lstViewAttr.add(hashMap);
 
         m_adapterlvsumincome = new ListViewCashPositionAdapter(lstViewAttr);
         m_lvsumincome.setAdapter(m_adapterlvsumincome);
@@ -95,11 +106,24 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         m_lvsumoincome.setAdapter(m_adapterlvsumoincome);
     }
 
+    private String getStartingDate(){
+        String strDate = "";
+        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
+                if(g_lstTableBills.get(iCounterTables).get(iCounterBills).getBillNr() == 1){
+                    strDate = GlobVar.g_lstTableBills.get(iCounterTables).get(iCounterBills).getBillingDate();
+                    return strDate;
+                }
+            }
+        }
+        return strDate;
+    }
+
     private double getAllIncomeSum(){
         double dSum = 0.0;
-        for(int iCounterTables = 0; iCounterTables < GlobVar.g_lstTableBills.size(); iCounterTables++){
-            for(int iCounterBills = 0; iCounterBills < GlobVar.g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
-                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
+        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
+                for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
                     if(objBillProduct.getPaid()){
                         dSum += objBillProduct.getVK();
                     }
@@ -111,9 +135,9 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
 
     private double getAllTip(){
         double dSum = 0.0;
-        for(int iCounterTables = 0; iCounterTables < GlobVar.g_lstTableBills.size(); iCounterTables++){
-            for(int iCounterBills = 0; iCounterBills < GlobVar.g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
-                dSum += GlobVar.g_lstTableBills.get(iCounterTables).get(iCounterBills).getTip();
+        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
+                dSum += g_lstTableBills.get(iCounterTables).get(iCounterBills).getTip();
             }
         }
         return dSum;

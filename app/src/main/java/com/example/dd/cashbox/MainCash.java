@@ -635,16 +635,15 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             }
         }
 
-        //update database
-        //write tablebills to database
-        SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-        db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
-
         //set bill tip
         double dTip = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getTip();
         dTip += m_dTip;
         GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).setTip(dTip);
         GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).setSqlChanged(true);
+
+        //update database
+        SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+        db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
     }
 
     public void showMainCashBillDialog(String p_strCategory, String p_strProduct) {
