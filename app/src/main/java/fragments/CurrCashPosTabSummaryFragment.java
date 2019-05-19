@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.dd.cashbox.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,8 @@ import java.util.List;
 import adapter.ListViewCashPositionAdapter;
 import adapter.ListViewPrinterDetailAdapter;
 import global.GlobVar;
+import objects.ObjBill;
+import objects.ObjBillProduct;
 import objects.ObjPrinter;
 
 public class CurrCashPosTabSummaryFragment extends Fragment {
@@ -53,7 +56,12 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         List lstViewAttr = new ArrayList<>();
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("typ", getResources().getString(R.string.src_Barzahlungen));
-        hashMap.put("value", "20,00 €");
+
+        //get sum
+        double dSum = getAllIncomeSum();
+        DecimalFormat df = new DecimalFormat("0.00");
+        String strOutput = df.format(dSum);
+        hashMap.put("value", strOutput + " €");
         lstViewAttr.add(hashMap);
 
         /*hashMap = new HashMap<>();
@@ -70,7 +78,12 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         List lstViewAttr = new ArrayList<>();
         HashMap<String,String> hashMap = new HashMap<>();
         hashMap.put("typ", getResources().getString(R.string.src_Trinkgeld));
-        hashMap.put("value", "10,00 €");
+
+        //get sum
+        double dSum = getAllTip();
+        DecimalFormat df = new DecimalFormat("0.00");
+        String strOutput = df.format(dSum);
+        hashMap.put("value", strOutput + " €");
         lstViewAttr.add(hashMap);
 
         /*hashMap = new HashMap<>();
@@ -80,5 +93,29 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
 
         m_adapterlvsumoincome = new ListViewCashPositionAdapter(lstViewAttr);
         m_lvsumoincome.setAdapter(m_adapterlvsumoincome);
+    }
+
+    private double getAllIncomeSum(){
+        double dSum = 0.0;
+        for(int iCounterTables = 0; iCounterTables < GlobVar.g_lstTableBills.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < GlobVar.g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
+                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
+                    if(objBillProduct.getPaid()){
+                        dSum += objBillProduct.getVK();
+                    }
+                }
+            }
+        }
+        return dSum;
+    }
+
+    private double getAllTip(){
+        double dSum = 0.0;
+        for(int iCounterTables = 0; iCounterTables < GlobVar.g_lstTableBills.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < GlobVar.g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
+                dSum += GlobVar.g_lstTableBills.get(iCounterTables).get(iCounterBills).getTip();
+            }
+        }
+        return dSum;
     }
 }
