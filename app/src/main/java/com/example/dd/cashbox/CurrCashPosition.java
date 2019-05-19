@@ -18,6 +18,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import adapter.ViewPagerAllBillAdapter;
 import fragments.AllBillsShowDialogFragment;
+import fragments.CurrCashPosTabCategoryFragment;
+import fragments.CurrCashPosTabProductFragment;
 import fragments.CurrCashPosTabSummaryFragment;
 import fragments.ViewPagerAllBillFragment;
 import fragments.ViewPagerCurrCashPosTabs;
@@ -117,6 +119,12 @@ public class CurrCashPosition extends AppCompatActivity {
         // Add your fragments in adapter.
         CurrCashPosTabSummaryFragment fragmentSum = new CurrCashPosTabSummaryFragment();
         m_ViewPagerAdapter.addFragment(fragmentSum, getResources().getString(R.string.src_Uebersicht));
+
+        CurrCashPosTabCategoryFragment fragmentCategory = new CurrCashPosTabCategoryFragment();
+        m_ViewPagerAdapter.addFragment(fragmentCategory, getResources().getString(R.string.src_Kategorien));
+
+        CurrCashPosTabProductFragment fragmentProduct = new CurrCashPosTabProductFragment();
+        m_ViewPagerAdapter.addFragment(fragmentProduct, getResources().getString(R.string.src_Produkte));
 
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
 
