@@ -59,13 +59,17 @@ public class CurrCashPosTabProductFragment extends Fragment {
                 ObjProductCashPos objProductCashPos = new ObjProductCashPos();
                 objProductCashPos.setName(objProduct.getName());
                 objProductCashPos = getProductInfo(objProductCashPos, objProduct.getTax(), false);
-                lstProduct.add(objProductCashPos);
+                if(objProductCashPos != null){
+                    lstProduct.add(objProductCashPos);
+                }
 
                 //init object togo
                 objProductCashPos = new ObjProductCashPos();
                 objProductCashPos.setName(objProduct.getName());
                 objProductCashPos = getProductInfo(objProductCashPos, objProduct.getTax(), true);
-                lstProduct.add(objProductCashPos);
+                if(objProductCashPos != null){
+                    lstProduct.add(objProductCashPos);
+                }
             }
         }
 
@@ -94,7 +98,7 @@ public class CurrCashPosTabProductFragment extends Fragment {
                         if (objBillProduct.getProduct().getName().equals(p_objProductCashPos.getName())
                                 && objBillProduct.getToGo()) {
                             dSum += objBillProduct.getVK();
-                            p_dTax = 8.0;
+                            p_dTax = 7.0;
                             iCount++;
                         }
                     }
@@ -102,15 +106,18 @@ public class CurrCashPosTabProductFragment extends Fragment {
             }
         }
 
-        //set sum
-        String strOutput = df.format(dSum);
-        p_objProductCashPos.setVK(strOutput + " €");
+        if(iCount != 0){
+            //set sum
+            String strOutput = df.format(dSum);
+            p_objProductCashPos.setVK(strOutput + " €");
 
-        //set info
-        String strInfo = iCount + " " + m_Context.getResources().getString(R.string.src_VerkaeufeMit)
-                        + p_dTax + "%" + " " + m_Context.getResources().getString(R.string.src_MwSt);
-        p_objProductCashPos.setInfo(strInfo);
+            //set info
+            String strInfo = iCount + " " + m_Context.getResources().getString(R.string.src_VerkaeufeMit)
+                    + " " + p_dTax + "%" + " " + m_Context.getResources().getString(R.string.src_MwSt);
+            p_objProductCashPos.setInfo(strInfo);
 
-        return p_objProductCashPos;
+            return p_objProductCashPos;
+        }
+        return null;
     }
 }

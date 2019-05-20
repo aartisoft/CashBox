@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import SQLite.SQLiteDatabaseHandler_TableBills;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
@@ -311,6 +312,10 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
 
             //add globally
             GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
+
+            //write tablebills to database
+            //SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
+            //db_tablebills.addTableBill(m_iTable, m_iBillNr);
         }
     }
 

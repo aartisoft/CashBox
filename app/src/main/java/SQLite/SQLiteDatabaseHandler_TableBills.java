@@ -37,11 +37,12 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     private static final String KEY_RETURNED = "returned";
     private static final String KEY_PAID = "paid";
     private static final String KEY_TIP = "tip";
+    private static final String KEY_TOGO = "togo";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_TABLENAME, KEY_BILLNR,
             KEY_CASHIERNAME, KEY_BILLINGDATE, KEY_CATEGORY, KEY_PRODUCT, KEY_OBJID,
             KEY_VK, KEY_ADDINFO, KEY_PRINTERMAC, KEY_PRINTED, KEY_CANCELED, KEY_PAID,
-            KEY_RETURNED, KEY_TIP };
+            KEY_RETURNED, KEY_TIP, KEY_TOGO };
 
     public SQLiteDatabaseHandler_TableBills(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -54,7 +55,8 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 + "billnr INTEGER, " + "cashiername TEXT, " + "billingdate TEXT, "
                 + "category TEXT, " + "product TEXT, " + "objid TEXT, " + "vk TEXT, "
                 + "addinfo TEXT, " + "printermac TEXT, " + "printed INTEGER, "
-                + "canceled INTEGER, " + "paid INTEGER, " + "returned INTEGER, " + "tip TEXT )";
+                + "canceled INTEGER, " + "paid INTEGER, " + "returned INTEGER, " + "tip TEXT, "
+                + "togo INTEGER )";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -174,7 +176,13 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         if(cursor.getString(14).equals("0")){
             b_Returned = false;
         }
-        objBillProduct.setReturned(b_Returned);
+
+        //set togo
+        boolean b_ToGo = true;
+        if(cursor.getString(16).equals("0")){
+            b_ToGo = false;
+        }
+        objBillProduct.setToGo(b_ToGo);
 
         //set sql variables
         objBillProduct.setSqlSaved(true);
@@ -223,6 +231,9 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
                 int key_returned = objproduct.getReturned() ? 1 : 0;
                 values.put(KEY_RETURNED, key_returned);
+
+                int key_togo = objproduct.getToGo() ? 1 : 0;
+                values.put(KEY_TOGO, key_togo);
 
                 //set sql variables
                 objproduct.setSqlSaved(true);
