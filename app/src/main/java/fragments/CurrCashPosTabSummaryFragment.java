@@ -9,8 +9,6 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.dd.cashbox.R;
 
@@ -19,18 +17,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import adapter.ListViewCashPositionAdapter;
-import adapter.ListViewPrinterDetailAdapter;
+import adapter.ListViewCurrCashPositionAdapter;
 import global.GlobVar;
-import objects.ObjBill;
 import objects.ObjBillProduct;
-import objects.ObjPrinter;
 
 import static global.GlobVar.g_lstTableBills;
 
 public class CurrCashPosTabSummaryFragment extends Fragment {
-    private ListViewCashPositionAdapter m_adapterlvsumincome;
-    private ListViewCashPositionAdapter m_adapterlvsumoincome;
+    private ListViewCurrCashPositionAdapter m_adapterlvsumincome;
+    private ListViewCurrCashPositionAdapter m_adapterlvsumoincome;
     private ListView m_lvsumincome;
     private ListView m_lvsumoincome;
     private Context m_Context;
@@ -80,7 +75,7 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         hashMap.put("value", strSumAll + " €");
         lstViewAttr.add(hashMap);
 
-        m_adapterlvsumincome = new ListViewCashPositionAdapter(lstViewAttr);
+        m_adapterlvsumincome = new ListViewCurrCashPositionAdapter(lstViewAttr);
         m_lvsumincome.setAdapter(m_adapterlvsumincome);
     }
 
@@ -102,7 +97,7 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         hashMap.put("value", printer.getDeviceName());
         lstViewAttr.add(hashMap);*/
 
-        m_adapterlvsumoincome = new ListViewCashPositionAdapter(lstViewAttr);
+        m_adapterlvsumoincome = new ListViewCurrCashPositionAdapter(lstViewAttr);
         m_lvsumoincome.setAdapter(m_adapterlvsumoincome);
     }
 

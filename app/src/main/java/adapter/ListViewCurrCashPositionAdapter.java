@@ -1,8 +1,6 @@
 package adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +12,12 @@ import com.example.dd.cashbox.R;
 import java.util.HashMap;
 import java.util.List;
 
-public class ListViewCashPositionAdapter extends BaseAdapter {
+public class ListViewCurrCashPositionAdapter extends BaseAdapter {
 
     private Context m_Context;
     List<HashMap<String,String>> m_List;
 
-    public ListViewCashPositionAdapter(List<HashMap<String,String>> values) {
+    public ListViewCurrCashPositionAdapter(List<HashMap<String,String>> values) {
         super();
         this.m_List = values;
     }
@@ -56,7 +54,7 @@ public class ListViewCashPositionAdapter extends BaseAdapter {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             view = new ViewHolder();
-            convertView = inflator.inflate(R.layout.cashposition_itemlistrow,  parent, false);
+            convertView = inflator.inflate(R.layout.cashposition_lv_itemlistrow,  parent, false);
 
             // Lookup view for data population
             view.txtTyp = (TextView) convertView.findViewById(R.id.cashposition_itemlistrow_typ);
@@ -64,7 +62,7 @@ public class ListViewCashPositionAdapter extends BaseAdapter {
 
             convertView.setTag(view);
         } else {
-            view = (ListViewCashPositionAdapter.ViewHolder) convertView.getTag();
+            view = (ListViewCurrCashPositionAdapter.ViewHolder) convertView.getTag();
         }
 
         // Populate the data into the template view using the data object

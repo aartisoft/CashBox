@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import adapter.ListViewCashPositionAdapter;
+import adapter.ListViewCurrCashPositionAdapter;
 import global.GlobVar;
 import objects.ObjBillProduct;
 import objects.ObjCategory;
@@ -25,8 +25,8 @@ import objects.ObjCategory;
 import static global.GlobVar.g_lstTableBills;
 
 public class CurrCashPosTabCategoryFragment extends Fragment {
-    private ListViewCashPositionAdapter m_adapterlvsumincome;
-    private ListViewCashPositionAdapter m_adapterlvsumoincome;
+    private ListViewCurrCashPositionAdapter m_adapterlvsumincome;
+    private ListViewCurrCashPositionAdapter m_adapterlvsumoincome;
     private ListView m_lvsumincome;
     private Context m_Context;
 
@@ -63,7 +63,7 @@ public class CurrCashPosTabCategoryFragment extends Fragment {
             lstViewAttr.add(hashMap);
         }
 
-        m_adapterlvsumincome = new ListViewCashPositionAdapter(lstViewAttr);
+        m_adapterlvsumincome = new ListViewCurrCashPositionAdapter(lstViewAttr);
         m_lvsumincome.setAdapter(m_adapterlvsumincome);
     }
 
