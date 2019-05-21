@@ -118,21 +118,23 @@ public class CurrCashPosition extends AppCompatActivity {
 
         // Add your fragments in adapter.
         CurrCashPosTabSummaryFragment fragmentSum = new CurrCashPosTabSummaryFragment();
-        m_ViewPagerAdapter.addFragment(fragmentSum, getResources().getString(R.string.src_Uebersicht));
+        m_ViewPagerAdapter.addFragment(fragmentSum, getResources().getString(R.string.src_Uebersicht), m_Context);
 
         CurrCashPosTabCategoryFragment fragmentCategory = new CurrCashPosTabCategoryFragment();
-        m_ViewPagerAdapter.addFragment(fragmentCategory, getResources().getString(R.string.src_Kategorien));
+        m_ViewPagerAdapter.addFragment(fragmentCategory, getResources().getString(R.string.src_Kategorien), m_Context);
 
         CurrCashPosTabProductFragment fragmentProduct = new CurrCashPosTabProductFragment();
-        m_ViewPagerAdapter.addFragment(fragmentProduct, getResources().getString(R.string.src_Produkte));
+        m_ViewPagerAdapter.addFragment(fragmentProduct, getResources().getString(R.string.src_Produkte), m_Context);
 
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
-
-        View headerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(R.layout.activity_currcashpos_tablayout, null, false);
 
         //setup custom view
         m_TabLayout.setupWithViewPager(m_ViewPager);
         m_TabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+        //set layout for all tabs
+        for(int tabs = 0; tabs < m_TabLayout.getTabCount(); tabs++){
+            m_TabLayout.getTabAt(tabs).setCustomView(m_ViewPagerAdapter.getTabView(tabs));
+        }
     }
 }
