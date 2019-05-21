@@ -154,6 +154,10 @@
     <string name="src_Start">Start</string>
     <string name="src_VerkaeufeMit">Verkäufe mit</string>
     <string name="src_MwSt">MwSt.</string>
+    <string name="src_Benutzerkonten">Benutzerkonten</string>
+    <string name="src_Abonnementverwaltung">Abonnementverwaltung</string>
+    <string name="src_Shopinformation">Shopinformation</string>
+    <string name="src_Kasseneinstellungen">Kasseneinstellungen</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
@@ -174,7 +178,11 @@
     <string name="handlingmsg_online">Online - Ready to print\n</string>
 
     <string-array name="menusettings_entries">
+        <item>@string/src_Benutzerkonten</item>
+        <item>@string/src_Shopinformation</item>
+        <item>@string/src_Kasseneinstellungen</item>
         <item>@string/src_Druckerverwaltung</item>
+        <item>@string/src_Abonnementverwaltung</item>
     </string-array>
 
     <string-array name="menucashposition_entries">
