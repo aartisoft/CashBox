@@ -160,7 +160,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //set Table/Bill Header
         setHeaderTable();
-        setHeaderBill();
+        if(m_iSessionBill == -2){
+            createNewBill();
+        }
+        else{
+            setHeaderBill();
+        }
 
         //set main register
         setRegister();
@@ -654,7 +659,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
     }
 
-    private void createNewBill(){
+    public void createNewBill(){
         if(m_iSessionTable != -1) {
             //only add new bill if last one is not empty
             if (m_iSessionBill != -1) {

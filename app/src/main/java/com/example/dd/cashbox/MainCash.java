@@ -260,7 +260,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
                 //if bill is completely empty, then close it
                 if (isBillEmpty(m_iSessionBillOLD)) {
-                    intent.putExtra("BILL", -1);
+                    intent.putExtra("BILL", -2);
                 }
                 else {
                     intent.putExtra("BILL", m_iSessionBillOLD);
