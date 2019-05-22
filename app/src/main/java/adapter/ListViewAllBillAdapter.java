@@ -107,8 +107,8 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
         final View.OnClickListener ChooseListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OnClickView.ivChoose.setImageDrawable(m_Context.getResources().getDrawable(R.drawable.ic_search_grey_24dp));
-                ((AllBills)m_Context).openBill(OnClickPosition);
+                OnClickView.ivChoose.setImageDrawable(m_Context.getResources().getDrawable(R.drawable.ic_add_circle_outline_greydark_24dp));
+                ((AllBills)m_Context).openBill(m_List.get(OnClickPosition).getTable(), m_List.get(OnClickPosition).getBillNr());
 
             }
         };
@@ -167,7 +167,7 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                     }
                 }
                 if(bFound){
-                    strAllArticles += iQuantity + "x " + strArticle  + " " + m_Context.getResources().getString(R.string.src_bezahlt) + "\n";
+                    strAllArticles += iQuantity + "x " + strArticle  + " - " + m_Context.getResources().getString(R.string.src_bezahlt) + "\n";
                 }
 
                 //printed and not paid
@@ -188,7 +188,7 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                     }
                 }
                 if(bFound){
-                    strAllArticles += iQuantity + "x " + strArticle  + " " + m_Context.getResources().getString(R.string.src_offen) + "\n";
+                    strAllArticles += iQuantity + "x " + strArticle  + " - " + m_Context.getResources().getString(R.string.src_offen) + "\n";
                 }
 
                 //not printed
@@ -209,7 +209,37 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                     }
                 }
                 if(bFound){
-                    strAllArticles += iQuantity + "x " + strArticle + " " + m_Context.getResources().getString(R.string.src_nichtgedruckt) + "\n";
+                    strAllArticles += iQuantity + "x " + strArticle + " - " + m_Context.getResources().getString(R.string.src_nichtgedruckt) + "\n";
+                }
+
+                //returned
+                iQuantity = 0;
+                bFound = false;
+                for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
+                    if(objBillProduct.getReturned()){
+                        if (objProduct == objBillProduct.getProduct()) {
+                            iQuantity++;
+                            bFound = true;
+                        }
+                    }
+                }
+                if(bFound){
+                    strAllArticles += iQuantity + "x " + strArticle + " - " + m_Context.getResources().getString(R.string.src_retourniert) + "\n";
+                }
+
+                //canceled
+                iQuantity = 0;
+                bFound = false;
+                for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
+                    if(objBillProduct.getCanceled()){
+                        if (objProduct == objBillProduct.getProduct()) {
+                            iQuantity++;
+                            bFound = true;
+                        }
+                    }
+                }
+                if(bFound){
+                    strAllArticles += iQuantity + "x " + strArticle + " - " + m_Context.getResources().getString(R.string.src_storniert) + "\n";
                 }
             }
         }

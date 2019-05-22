@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:src="@drawable/cashblack_16dp" />
+                android:src="@drawable/ic_check_black_16dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

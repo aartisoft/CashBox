@@ -26,12 +26,7 @@ public class ListViewRetoureStornoAdapter extends BaseAdapter {
     public ListViewRetoureStornoAdapter(Context context, ArrayList<ObjBillProduct> p_lstBillProducts) {
         super();
         this.m_Context = context;
-
-        for(ObjBillProduct objBillProduct : p_lstBillProducts){
-            if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
-                this.m_List.add(objBillProduct);
-            }
-        }
+        this.m_List = p_lstBillProducts;
     }
 
     @Override
@@ -99,6 +94,9 @@ public class ListViewRetoureStornoAdapter extends BaseAdapter {
         DecimalFormat df = new DecimalFormat("0.00");
         String strVK = df.format(m_List.get(position).getVK());
         strVK += "€";
+        if(m_List.get(position).getPaid()){
+            strVK += " - " + m_Context.getResources().getString(R.string.src_bezahlt_klein);
+        }
 
         //if pawn is available
         double dPrize = 0.0;

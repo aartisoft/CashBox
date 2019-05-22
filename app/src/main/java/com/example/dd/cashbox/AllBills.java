@@ -148,15 +148,10 @@ public class AllBills extends AppCompatActivity {
         }
     }
 
-    public void openBill(int position){
-        //open dialogfragment
-        FragmentManager fm = getSupportFragmentManager();
-        AllBillsShowDialogFragment allBillsShowDialogFragment = AllBillsShowDialogFragment.newInstance();
-
-        Bundle args = new Bundle();
-        args.putInt("BILL", position);
-
-        allBillsShowDialogFragment.setArguments(args);
-        allBillsShowDialogFragment.show(fm, "showbill");
+    public void openBill(int iTable, int iBillnr){
+        Intent intent = new Intent(AllBills.this, Main.class);
+        intent.putExtra("BILL", iBillnr);
+        intent.putExtra("TABLE", iTable-1);
+        startActivity(intent);
     }
 }

@@ -134,9 +134,9 @@
     <string name="src_KeinenDruckerAusgewählt">Keinen Drucker ausgewählt</string>
     <string name="src_KeineArtikelZumBezahlenAusgewaehlt">Keine Artikel Zum Bezahlen ausgewählt</string>
     <string name="src_FarbeAuswaehlen">Farbe auswählen</string>
-    <string name="src_nichtgedruckt">(nicht gedruckt)</string>
-    <string name="src_offen">(offen)</string>
-    <string name="src_bezahlt">(bezahlt)</string>
+    <string name="src_nichtgedruckt">nicht gedruckt</string>
+    <string name="src_offen">offen</string>
+    <string name="src_bezahlt">bezahlt</string>
     <string name="src_EsWurdenNochKeineArtikelGedruckt">Es wurden noch keine Artikel gedruckt</string>
     <string name="src_BelegSplitten">Beleg splitten</string>
     <string name="src_BelegWirklichSplitten">Beleg wirklich splitten?</string>
@@ -158,6 +158,10 @@
     <string name="src_Abonnementverwaltung">Abonnementverwaltung</string>
     <string name="src_Shopinformation">Shopinformation</string>
     <string name="src_Kasseneinstellungen">Kasseneinstellungen</string>
+    <string name="src_bezahlt_klein">bezahlt</string>
+    <string name="src_retourniert">retourniert</string>
+    <string name="src_storniert">storniert</string>
+    <string name="src_BonsDrucken">Bons drucken</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
@@ -189,5 +193,21 @@
         <item>@string/src_AktuellerKassenstand</item>
         <item>@string/src_AlleAbschlussbelege</item>
     </string-array>
+    <string name="title_activity_cash_register_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
 </resources>

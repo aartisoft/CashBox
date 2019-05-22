@@ -27,6 +27,8 @@ public class RecyclerViewMainCashBillAdapter extends RecyclerView.Adapter<Recycl
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         public TextView textview_itemname;
         public TextView textview_prize;
+        public TextView textview_paidQ;
+        public ImageView imageview_paid;
         public TextView textview_printerQ;
         public ImageView imageview_printer;
         public View mCardView;
@@ -36,6 +38,8 @@ public class RecyclerViewMainCashBillAdapter extends RecyclerView.Adapter<Recycl
 
             textview_itemname = view.findViewById(R.id.am_bill_rv_name);
             textview_prize = view.findViewById(R.id.am_bill_rv_prize);
+            textview_paidQ = view.findViewById(R.id.am_bill_rv_paid_tv);
+            imageview_paid = view.findViewById(R.id.am_bill_rv_paid_iv);
             textview_printerQ = view.findViewById(R.id.am_bill_rv_printer_tv);
             imageview_printer = view.findViewById(R.id.am_bill_rv_printerimage);
 
@@ -94,6 +98,9 @@ public class RecyclerViewMainCashBillAdapter extends RecyclerView.Adapter<Recycl
         String strVK = df.format(item.getVK());
         strVK = strVK + "€";
         holder.textview_prize.setText(strVK);
+
+        //set image paid
+        holder.imageview_paid.setVisibility(View.INVISIBLE);
 
         //set image printer
         String strPrinted = item.getPrinted() + "x";

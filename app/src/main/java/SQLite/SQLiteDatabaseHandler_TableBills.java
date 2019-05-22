@@ -176,6 +176,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         if(cursor.getString(14).equals("0")){
             b_Returned = false;
         }
+        objBillProduct.setReturned(b_Returned);
 
         //set togo
         boolean b_ToGo = true;
@@ -253,10 +254,10 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_CANCELED, key_canceled);
 
                 int key_paid = objproduct.getPaid() ? 1 : 0;
-                values.put(KEY_PAID, objproduct.getPaid());
+                values.put(KEY_PAID, key_paid);
 
                 int key_returned = objproduct.getReturned() ? 1 : 0;
-                values.put(KEY_RETURNED, objproduct.getReturned());
+                values.put(KEY_RETURNED, key_returned);
 
                 int i = db.update(TABLE_NAME, // table
                         values, // column/value

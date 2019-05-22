@@ -25,4 +25,8 @@ public abstract class GlobVar extends Application {
     public static boolean g_bPrintQueueStarted = false;
     public static boolean g_bPrintQueueFilling = false;
     public static long g_BillObjID = 0;
+
+
+    //setting variables
+    public static boolean g_bBon = true;
 }

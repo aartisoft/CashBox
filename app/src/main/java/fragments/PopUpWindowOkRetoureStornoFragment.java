@@ -91,7 +91,7 @@ public class PopUpWindowOkRetoureStornoFragment extends DialogFragment implement
 
     private void setText(){
         //product has been canceled
-        if(m_dCash == 0){
+        if(m_dCash == -1){
             String strText = getResources().getString(R.string.src_ArtikelWerdenStorniert) + "\n\n";
             strText += getResources().getString(R.string.src_BitteBestaetigenSieDenVorgang);
             m_tvText.setText(strText);

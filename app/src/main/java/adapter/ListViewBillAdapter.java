@@ -204,7 +204,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
                     }
                 }
                 if(bFound){
-                    strAllArticles += iQuantity + "x " + strArticle  + " " + m_Context.getResources().getString(R.string.src_bezahlt) + "\n";
+                    strAllArticles += iQuantity + "x " + strArticle  + " - " + m_Context.getResources().getString(R.string.src_bezahlt) + "\n";
                 }
 
                 //printed and not paid
@@ -225,7 +225,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
                     }
                 }
                 if(bFound){
-                    strAllArticles += iQuantity + "x " + strArticle  + " " + m_Context.getResources().getString(R.string.src_offen) + "\n";
+                    strAllArticles += iQuantity + "x " + strArticle  + " - " + m_Context.getResources().getString(R.string.src_offen) + "\n";
                 }
 
                 //not printed
@@ -246,7 +246,37 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
                     }
                 }
                 if(bFound){
-                    strAllArticles += iQuantity + "x " + strArticle + " " + m_Context.getResources().getString(R.string.src_nichtgedruckt) + "\n";
+                    strAllArticles += iQuantity + "x " + strArticle + " - " + m_Context.getResources().getString(R.string.src_nichtgedruckt) + "\n";
+                }
+
+                //returned
+                iQuantity = 0;
+                bFound = false;
+                for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
+                    if(objBillProduct.getReturned()){
+                        if (objProduct == objBillProduct.getProduct()) {
+                            iQuantity++;
+                            bFound = true;
+                        }
+                    }
+                }
+                if(bFound){
+                    strAllArticles += iQuantity + "x " + strArticle + " - " + m_Context.getResources().getString(R.string.src_retourniert) + "\n";
+                }
+
+                //canceled
+                iQuantity = 0;
+                bFound = false;
+                for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
+                    if(objBillProduct.getCanceled()){
+                        if (objProduct == objBillProduct.getProduct()) {
+                            iQuantity++;
+                            bFound = true;
+                        }
+                    }
+                }
+                if(bFound){
+                    strAllArticles += iQuantity + "x " + strArticle + " - " + m_Context.getResources().getString(R.string.src_storniert) + "\n";
                 }
             }
         }

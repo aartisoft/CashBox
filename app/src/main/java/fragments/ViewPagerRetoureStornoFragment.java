@@ -152,13 +152,15 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                 if(objBillProduct.getProduct().getName().equals(m_strProduct)){
                     //retoure
                     if(m_strTask.equals("returned")) {
-                        if(objBillProduct.getPaid() && !objBillProduct.getReturned()){
+                        if(GlobVar.g_bBon && objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()
+                            || (!GlobVar.g_bBon && objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled())){
                             lstObjBillProducts.add(objBillProduct);
                         }
                     }
                     //storno
                     else{
-                        if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
+                        if(GlobVar.g_bBon && !objBillProduct.getPaid() && !objBillProduct.getPrinted() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()
+                            || (!GlobVar.g_bBon  && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())){
                             lstObjBillProducts.add(objBillProduct);
                         }
                     }
@@ -215,7 +217,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                     for (ObjBillProduct objBillProductAdapter : ObjBillProductList) {
                         if(objBillProduct == objBillProductAdapter){
                             if (objBillProduct.isChecked()) {
-                                if (m_strTask.equals("returned")) {
+                                if (m_strTask.equals("returned") && objBillProduct.getPaid()) {
                                     m_dPrize += objBillProduct.getVK();
                                     //if pawn is available
                                     if(objBillProduct.getProduct().getbPawn()){
@@ -255,7 +257,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
             args.putDouble("CASH", m_dPrize);
         }
         else{
-            args.putDouble("CASH", 0.00);
+            args.putDouble("CASH", -1.00);
         }
 
         popUpWindowOkFragment.setArguments(args);

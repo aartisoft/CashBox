@@ -11,7 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
         <activity
             android:name=".Login"
             android:windowSoftInputMode="adjustPan">
@@ -21,24 +20,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main"></activity>
-        <activity android:name=".MenuSettings"></activity>
-        <activity android:name=".MS_AddPrinter"></activity>
-        <activity android:name=".MS_AddPrinter_Search"></activity>
-        <activity android:name=".MS_AddPrinter_Detail"></activity>
-        <activity android:name=".EditTable"></activity>
-        <activity android:name=".EditCategory"></activity>
-        <activity android:name=".EditCategory_Add"></activity>
-        <activity android:name=".EditCategory_Edit"></activity>
-        <activity android:name=".EditProduct"></activity>
-        <activity android:name=".EditProduct_Add"></activity>
-        <activity android:name=".EditProduct_Edit"></activity>
-        <activity android:name=".MainShowTables"></activity>
-        <activity android:name=".MainShowBills"></activity>
-        <activity android:name=".MainCash"></activity>
-        <activity android:name=".AllBills"></activity>
-        <activity android:name=".MenuCashPosition"></activity>
-        <activity android:name=".CurrCashPosition"></activity>
+        <activity android:name=".Main" />
+        <activity android:name=".MenuSettings" />
+        <activity android:name=".MS_AddPrinter" />
+        <activity android:name=".MS_AddPrinter_Search" />
+        <activity android:name=".MS_AddPrinter_Detail" />
+        <activity android:name=".EditTable" />
+        <activity android:name=".EditCategory" />
+        <activity android:name=".EditCategory_Add" />
+        <activity android:name=".EditCategory_Edit" />
+        <activity android:name=".EditProduct" />
+        <activity android:name=".EditProduct_Add" />
+        <activity android:name=".EditProduct_Edit" />
+        <activity android:name=".MainShowTables" />
+        <activity android:name=".MainShowBills" />
+        <activity android:name=".MainCash" />
+        <activity android:name=".AllBills" />
+        <activity android:name=".MenuCashPosition" />
+        <activity android:name=".CurrCashPosition" />
     </application>
 
 </manifest>
