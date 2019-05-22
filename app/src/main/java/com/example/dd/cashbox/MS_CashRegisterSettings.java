@@ -1,120 +1,88 @@
 package com.example.dd.cashbox;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CompoundButton;
+import android.widget.ListView;
+import android.widget.Switch;
 
-import preferences.AppCompatPreferenceActivity;
+import global.GlobVar;
 
-public class MS_CashRegisterSettings extends AppCompatPreferenceActivity {
-    private static final String TAG = MS_CashRegisterSettings.class.getSimpleName();
+public class MS_CashRegisterSettings extends AppCompatActivity {
+
+    private View m_decorView;
+    private Switch m_switchUseMainCash;
+    private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_menusettings);
 
-        // load settings fragment
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new MainPreferenceFragment()).commit();
+        //init variables
+        m_decorView = getWindow().getDecorView();
+        m_switchUseMainCash = findViewById(R.id.ms_cashregistersett_maincashswitch);
+
+
+        //set UI
+        m_decorView.setSystemUiVisibility(m_uiOptions);
+        Toolbar toolbar = findViewById(R.id.toolbar_menusettings);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //set listener
+        m_switchUseMainCash.setOnCheckedChangeListener(pawnOnCheckedChangeListener);
     }
 
-    public static class MainPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_cashregistersettings);
+    ///////////////////////////// LISTENER ///////////////////////////////////////////////////////////////////
 
-            // gallery EditText change listener
-            //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_gallery_name)));
-
-            // notification preference change listener
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.src_Kasseneinstellungen)));
-
-            // feedback preference click listener
-            /*Preference myPref = findPreference(getString(R.string.src_BonsDrucken));
-            myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    sendFeedback(getActivity());
-                    return true;
-                }
-            });*/
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus){
+            m_decorView.setSystemUiVisibility(m_uiOptions);
         }
     }
 
-    /////////////////////////// LISTENER /////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(MS_CashRegisterSettings.this, Main.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("EXTRA_SESSION_ID", 1);
+                startActivity(intent);
+                finish();
+                return true;
 
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private CompoundButton.OnCheckedChangeListener pawnOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener(){
         @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-            String stringValue = newValue.toString();
-
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
-
-            } else if (preference instanceof RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
-                if (TextUtils.isEmpty(stringValue)) {
-                    // Empty values correspond to 'silent' (no ringtone).
-                    preference.setSummary(R.string.src_BonsDrucken);
-
-                } else {
-                    Ringtone ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), Uri.parse(stringValue));
-
-                    if (ringtone == null) {
-                        // Clear the summary if there was a lookup error.
-                        preference.setSummary(R.string.src_BonsDrucken);
-                    } else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
-                        String name = ringtone.getTitle(preference.getContext());
-                        preference.setSummary(name);
-                    }
-                }
-
-            } else if (preference instanceof EditTextPreference) {
-                if (preference.getKey().equals("key_gallery_name")) {
-                    // update the changed gallery name to summary filed
-                    preference.setSummary(stringValue);
-                }
-            } else {
-                preference.setSummary(stringValue);
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(isChecked){
+                GlobVar.g_bUseMainCash = true;
             }
-            return true;
+            else{
+                GlobVar.g_bUseMainCash = false;
+            }
         }
     };
 
-    /////////////////////////// METHODS /////////////////////////////////////////////////////////////////////////////////////
-
-    private static void bindPreferenceSummaryToValue(Preference preference) {
-        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
-
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
-    }
+    ///////////////////////////// METHODS ///////////////////////////////////////////////////////////////////
 }

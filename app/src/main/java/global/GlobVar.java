@@ -28,5 +28,5 @@ public abstract class GlobVar extends Application {
 
 
     //setting variables
-    public static boolean g_bBon = true;
+    public static boolean g_bUseMainCash = true;
 }

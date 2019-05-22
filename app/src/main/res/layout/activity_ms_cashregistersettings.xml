@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/ms_cashregistersett_tb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary3"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/src_Kasseneinstellungen"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/src_AlsHauptkasseBenutzen"
+            android:textColor="@color/colorBlack"
+            android:textSize="16dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/ms_cashregistersett_maincashswitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:text=""
+                android:theme="@style/Color1SwitchStyle"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

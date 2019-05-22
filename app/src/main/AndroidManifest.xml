@@ -38,6 +38,7 @@
         <activity android:name=".AllBills" />
         <activity android:name=".MenuCashPosition" />
         <activity android:name=".CurrCashPosition" />
+        <activity android:name=".MS_CashRegisterSettings" />
     </application>
 
 </manifest>

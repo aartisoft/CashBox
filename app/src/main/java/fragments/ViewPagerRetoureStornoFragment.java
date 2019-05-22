@@ -6,37 +6,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_TableBills;
-import adapter.GridViewProductAdapter;
-import adapter.ListViewPrinterSearchAdapter;
 import adapter.ListViewRetoureStornoAdapter;
-import adapter.ViewPagerRetoureStornoAdapter;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
-import objects.ObjCategory;
-import objects.ObjPrinterSearch;
-import objects.ObjProduct;
 
 public class ViewPagerRetoureStornoFragment extends Fragment{
 
@@ -152,15 +140,15 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                 if(objBillProduct.getProduct().getName().equals(m_strProduct)){
                     //retoure
                     if(m_strTask.equals("returned")) {
-                        if(GlobVar.g_bBon && objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()
-                            || (!GlobVar.g_bBon && objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled())){
+                        if(GlobVar.g_bUseMainCash && objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()
+                            || (!GlobVar.g_bUseMainCash && objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled())){
                             lstObjBillProducts.add(objBillProduct);
                         }
                     }
                     //storno
                     else{
-                        if(GlobVar.g_bBon && !objBillProduct.getPaid() && !objBillProduct.getPrinted() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()
-                            || (!GlobVar.g_bBon  && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())){
+                        if(GlobVar.g_bUseMainCash && !objBillProduct.getPaid() && !objBillProduct.getPrinted() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()
+                            || (!GlobVar.g_bUseMainCash && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())){
                             lstObjBillProducts.add(objBillProduct);
                         }
                     }
