@@ -22,10 +22,11 @@
             <Button
                 android:id="@+id/am_menu_btnCashBoxDelete"
                 android:textColor="@color/colorWhite"
-                android:background="@color/colorRed"
+                android:background="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:text="@string/src_KasseLoeschen" />
+                android:text="@string/src_Logout"
+                android:textAllCaps="false"/>
         </LinearLayout>
 </com.google.android.material.navigation.NavigationView>
