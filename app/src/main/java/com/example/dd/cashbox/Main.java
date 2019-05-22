@@ -481,7 +481,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         layoutParams2.bottomMargin += (int) (m_fab_print.getHeight() * 1.5);
         m_fab_print.setLayoutParams(layoutParams2);
         m_fab_print.startAnimation(m_animShowFabPrint);
-        m_fab_print.setClickable(true);
+        //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            m_fab_print.setClickable(false);
+            m_fab_print.setBackgroundColor(getResources().getColor(R.color.colorGrey));
+        }
+        else{
+            m_fab_print.setClickable(true);
+        }
 
         //Floating Action Button 3
         FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) m_fab_pay.getLayoutParams();
@@ -508,7 +515,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         layoutParams2.bottomMargin -= (int) (m_fab_print.getHeight() * 1.5);
         m_fab_print.setLayoutParams(layoutParams2);
         m_fab_print.startAnimation(m_animHideFabPrint);
-        m_fab_print.setClickable(false);
+        //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            m_fab_print.setClickable(false);
+        }
+        else{
+            m_fab_print.setClickable(true);
+        }
 
         //Floating Action Button 3
         FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) m_fab_pay.getLayoutParams();
@@ -726,39 +739,44 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void startPayProcess(){
-        if (m_iSessionTable != -1 && m_iSessionBill != -1) {
-            boolean bFound = false;
-            boolean bPrinted = true;
-            if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
-                for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                    if (objBillProduct.getPrinted() && !objBillProduct.getPaid()
-                            && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
-                        bFound = true;
-                        break;
-                    }
-                    else if(!objBillProduct.getPrinted() && !objBillProduct.getPaid()
-                            && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
-                        bPrinted = false;
-                    }
-                }
-            }
-            if(bFound){
-                Intent intent = new Intent(Main.this, MainCash.class);
-                intent.putExtra("TABLE", m_iSessionTable);
-                intent.putExtra("BILL", m_iSessionBill);
-                startActivity(intent);
-            }
-            else{
-                if(!bPrinted){
-                    Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdenNochKeineArtikelGedruckt), Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(Main.this, getResources().getString(R.string.src_KeineArtikelVorhanden), Toast.LENGTH_SHORT).show();
-                }
-            }
+        //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            Intent intent = new Intent(Main.this, MainCash.class);
+            intent.putExtra("TABLE", 0);
+            intent.putExtra("BILL", m_iSessionBill);
+            startActivity(intent);
         }
-        else{
-            Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+        else {
+            if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+                boolean bFound = false;
+                boolean bPrinted = true;
+                if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
+                    for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                        if (objBillProduct.getPrinted() && !objBillProduct.getPaid()
+                                && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                            bFound = true;
+                            break;
+                        } else if (!objBillProduct.getPrinted() && !objBillProduct.getPaid()
+                                && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
+                            bPrinted = false;
+                        }
+                    }
+                }
+                if (bFound) {
+                    Intent intent = new Intent(Main.this, MainCash.class);
+                    intent.putExtra("TABLE", m_iSessionTable);
+                    intent.putExtra("BILL", m_iSessionBill);
+                    startActivity(intent);
+                } else {
+                    if (!bPrinted) {
+                        Toast.makeText(Main.this, getResources().getString(R.string.src_EsWurdenNochKeineArtikelGedruckt), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Main.this, getResources().getString(R.string.src_KeineArtikelVorhanden), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            } else {
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -775,8 +793,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void setHeaderTable(){
         String strTableHeader = "";
-        if(m_iSessionTable != -1){
+        if(!GlobVar.g_bUseMainCash && m_iSessionTable != -1){
             strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable+1);
+        }
+        //if used as main cash register
+        else if(GlobVar.g_bUseMainCash){
+            strTableHeader = getResources().getString(R.string.src_Hauptkasse);
+            m_TextViewTable.setEnabled(false);
+            m_iSessionTable = 0;
         }
         else{
             strTableHeader = getResources().getString(R.string.src_Tisch_emtpy);

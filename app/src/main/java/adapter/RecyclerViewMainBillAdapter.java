@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import global.GlobVar;
 import objects.ObjMainBillProduct;
 
 public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerViewMainBillAdapter.MyViewHolder>{
@@ -91,9 +93,16 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.imageview_paid.setVisibility(View.VISIBLE);
 
         //set image printer
-        String strPrinted = item.getPrinted() + "x";
-        holder.textview_printerQ.setText(strPrinted);
-        holder.imageview_printer.setVisibility(View.VISIBLE);
+        //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            holder.imageview_printer.setVisibility(View.INVISIBLE);
+            holder.textview_printerQ.setVisibility(View.INVISIBLE);
+        }
+        else{
+            holder.imageview_printer.setVisibility(View.VISIBLE);
+            String strPrinted = item.getPrinted() + "x";
+            holder.textview_printerQ.setText(strPrinted);
+        }
     }
 
     @Override
