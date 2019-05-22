@@ -88,7 +88,7 @@ public class CurrCashPosTabProductFragment extends Fragment {
                     //if regular
                     if (!p_bToGo) {
                         if (objBillProduct.getProduct().getName().equals(p_objProductCashPos.getName())
-                                && !objBillProduct.getToGo()) {
+                                && !objBillProduct.getToGo() && objBillProduct.getPaid()) {
                             dSum += objBillProduct.getVK();
                             iCount++;
                         }
@@ -96,7 +96,7 @@ public class CurrCashPosTabProductFragment extends Fragment {
                     //if togo
                     else {
                         if (objBillProduct.getProduct().getName().equals(p_objProductCashPos.getName())
-                                && objBillProduct.getToGo()) {
+                                && objBillProduct.getToGo() && objBillProduct.getPaid()) {
                             dSum += objBillProduct.getVK();
                             p_dTax = 7.0;
                             iCount++;

@@ -853,24 +853,29 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //set list
         for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
             //add new item or update list
-            if(!objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
+            if(!objBillProductAdapter.getCanceled()
                     && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
                 //init variables
                 ObjBillProduct objBillProductSearch = objBillProductAdapter;
                 int iQuantity = 0;
+                int iPaid = 0;
                 int iPrinted = 0;
                 double dPrize = 0.0;
                 boolean bFound = false;
 
                 for(ObjBillProduct objBillProduct : lstObjBillProduct){
                     if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
-                        if(!objBillProduct.getPaid() && !objBillProduct.getCanceled()
+                        if(!objBillProduct.getCanceled()
                                 && !objBillProduct.getReturned() && !objBillProduct.isShown()){
                             iQuantity++;
                             dPrize += objBillProduct.getVK();
                             //if pawn is available
                             if(objBillProduct.getProduct().getbPawn()){
                                 dPrize += objBillProduct.getProduct().getPawn();
+                            }
+
+                            if(objBillProduct.getPaid()){
+                                iPaid++;
                             }
 
                             if(objBillProduct.getPrinted()){
@@ -895,6 +900,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     //only update list
                     if(bExists){
                         objMainBillProductExists.setQuantity(iQuantity);
+                        objMainBillProductExists.setPaid(iPaid);
                         objMainBillProductExists.setPrinted(iPrinted);
                         objMainBillProductExists.setVK(dPrize);
                     }
@@ -903,6 +909,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         ObjMainBillProduct objMainBillProduct  = new ObjMainBillProduct();
                         objMainBillProduct.setProduct(objBillProductSearch.getProduct());
                         objMainBillProduct.setQuantity(iQuantity);
+                        objMainBillProduct.setPaid(iPaid);
                         objMainBillProduct.setPrinted(iPrinted);
                         objMainBillProduct.setVK(dPrize);
 
@@ -917,7 +924,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             boolean bKeepAlive = false;
             for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
                 if(objBillProductAdapter.getProduct() == m_ListObjMainBillProduct.get(i).getProduct()){
-                    if(!objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
+                    if(!objBillProductAdapter.getCanceled()
                             && !objBillProductAdapter.getReturned()){
                         bKeepAlive = true;
                         break;

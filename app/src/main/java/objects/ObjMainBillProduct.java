@@ -3,6 +3,7 @@ package objects;
 public class ObjMainBillProduct {
     private ObjProduct m_objProduct;
     private int m_iQuantity;
+    private int m_iPaid;
     private int m_iPrinted;
     private double m_dVK;
 
@@ -12,6 +13,9 @@ public class ObjMainBillProduct {
     }
     public int getQuantity(){
         return this.m_iQuantity;
+    }
+    public int getPaid(){
+        return this.m_iPaid;
     }
     public int getPrinted(){
         return this.m_iPrinted;
@@ -26,6 +30,9 @@ public class ObjMainBillProduct {
     }
     public void setQuantity(int p_iQuantity){
         this.m_iQuantity = p_iQuantity;
+    }
+    public void setPaid(int p_bPaid){
+        this.m_iPaid = p_bPaid;
     }
     public void setPrinted(int p_bPrinted){
         this.m_iPrinted = p_bPrinted;

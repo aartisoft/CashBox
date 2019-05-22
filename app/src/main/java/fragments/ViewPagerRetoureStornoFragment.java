@@ -150,13 +150,15 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
             if(objBillProduct.getCategory().equals(m_strCategory)){
                 if(objBillProduct.getProduct().getName().equals(m_strProduct)){
+                    //retoure
                     if(m_strTask.equals("returned")) {
-                        if(!objBillProduct.getPaid() && objBillProduct.getPrinted() && !objBillProduct.getReturned()){
+                        if(objBillProduct.getPaid() && !objBillProduct.getReturned()){
                             lstObjBillProducts.add(objBillProduct);
                         }
                     }
+                    //storno
                     else{
-                        if(!objBillProduct.getPaid() && !objBillProduct.getPrinted() && !objBillProduct.getCanceled()){
+                        if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                             lstObjBillProducts.add(objBillProduct);
                         }
                     }
