@@ -741,10 +741,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private void startPayProcess(){
         //if used as main cash register
         if(GlobVar.g_bUseMainCash){
-            Intent intent = new Intent(Main.this, MainCash.class);
-            intent.putExtra("TABLE", 0);
-            intent.putExtra("BILL", m_iSessionBill);
-            startActivity(intent);
+            if(m_iSessionBill != -1){
+                Intent intent = new Intent(Main.this, MainCash.class);
+                intent.putExtra("TABLE", 0);
+                intent.putExtra("BILL", m_iSessionBill);
+                startActivity(intent);
+            }
+            else{
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+            }
         }
         else {
             if (m_iSessionTable != -1 && m_iSessionBill != -1) {
