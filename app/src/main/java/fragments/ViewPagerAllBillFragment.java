@@ -135,13 +135,19 @@ public class ViewPagerAllBillFragment extends Fragment{
     private void setSpinnerTables(){
         //create list tables
         List<String> lstTables = new ArrayList<>();
-        lstTables.add(getResources().getString(R.string.src_AlleTische));
-        for(int i = 0; i <= GlobVar.g_iTables; i++){
-            int iTable = i+1;
-            lstTables.add(getResources().getString(R.string.src_Tisch) + " " + iTable);
+        
+        //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            lstTables.add(getResources().getString(R.string.src_Hauptkasse));
         }
-
-
+        else{
+            lstTables.add(getResources().getString(R.string.src_AlleTische));
+            for(int i = 0; i <= GlobVar.g_iTables; i++){
+                int iTable = i+1;
+                lstTables.add(getResources().getString(R.string.src_Tisch) + " " + iTable);
+            }
+        }
+        
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(m_Context, android.R.layout.simple_spinner_dropdown_item, lstTables);
         m_Spinner_Tables.setAdapter(dataAdapter);
 
