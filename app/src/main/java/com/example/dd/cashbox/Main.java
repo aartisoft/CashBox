@@ -798,18 +798,21 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void setHeaderTable(){
         String strTableHeader = "";
-        if(!GlobVar.g_bUseMainCash && m_iSessionTable != -1){
-            strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable+1);
-        }
-        //if used as main cash register
-        else if(GlobVar.g_bUseMainCash){
+         //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
             strTableHeader = getResources().getString(R.string.src_Hauptkasse);
             m_TextViewTable.setEnabled(false);
             m_iSessionTable = 0;
         }
         else{
-            strTableHeader = getResources().getString(R.string.src_Tisch_emtpy);
-        }
+            if(m_iSessionTable != -1){
+                strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable+1);
+            }
+
+            else{
+                strTableHeader = getResources().getString(R.string.src_Tisch_emtpy);
+            }
+        }    
         m_TextViewTable.setText(strTableHeader);
     }
 
