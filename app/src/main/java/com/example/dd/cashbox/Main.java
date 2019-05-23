@@ -294,7 +294,23 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             m_decorView.setSystemUiVisibility(m_uiOptions);
         }
     }
+    
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
 
+        MenuItem item = menu.findItem(R.id.nav_tische);
+
+       //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            // disabled
+            item.setEnabled(false);
+            item.getIcon().setAlpha(130);
+        } else {
+            item.setEnabled(true);
+            item.getIcon().setAlpha(255); 
+        }
+    }
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -485,6 +501,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(GlobVar.g_bUseMainCash){
             m_fab_print.setClickable(false);
             m_fab_print.setBackgroundColor(getResources().getColor(R.color.colorGrey));
+            //m_fab_print.setalpha
         }
         else{
             m_fab_print.setClickable(true);
