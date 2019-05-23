@@ -153,14 +153,9 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                 int iQuantity = 0;
                 boolean bFound = false;
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
-                    if(!objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid()){
+                    if(!GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid()
+                        || GlobVar.g_bUseMainCash &&  !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPaid()){
                         if (objProduct == objBillProduct.getProduct()) {
-                            dPrize += objBillProduct.getVK();
-                            //if pawn is available
-                            if(objBillProduct.getProduct().getbPawn()){
-                                dPrize += objBillProduct.getProduct().getPawn();
-                            }
-
                             iQuantity++;
                             bFound = true;
                         }
@@ -174,7 +169,8 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                 iQuantity = 0;
                 bFound = false;
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
-                    if(!objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid()){
+                    if(!GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid()
+                        || GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.getPaid()){
                         if (objProduct == objBillProduct.getProduct()) {
                             dPrize += objBillProduct.getVK();
                             //if pawn is available
@@ -191,26 +187,29 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                     strAllArticles += iQuantity + "x " + strArticle  + " - " + m_Context.getResources().getString(R.string.src_offen) + "\n";
                 }
 
-                //not printed
-                iQuantity = 0;
-                bFound = false;
-                for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
-                    if(!objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.getPaid() && !objBillProduct.getPrinted()){
-                        if (objProduct == objBillProduct.getProduct()) {
-                            dPrize += objBillProduct.getVK();
-                            //if pawn is available
-                            if(objBillProduct.getProduct().getbPawn()){
-                                dPrize += objBillProduct.getProduct().getPawn();
-                            }
+                //if used as bon cash register
+                if(!GlobVar.g_bUseMainCash){
+                   //not printed
+                    iQuantity = 0;
+                    bFound = false;
+                    for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
+                        if(!objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.getPaid() && !objBillProduct.getPrinted()){
+                            if (objProduct == objBillProduct.getProduct()) {
+                                dPrize += objBillProduct.getVK();
+                                //if pawn is available
+                                if(objBillProduct.getProduct().getbPawn()){
+                                    dPrize += objBillProduct.getProduct().getPawn();
+                                }
 
-                            iQuantity++;
-                            bFound = true;
+                                iQuantity++;
+                                bFound = true;
+                            }
                         }
                     }
-                }
-                if(bFound){
-                    strAllArticles += iQuantity + "x " + strArticle + " - " + m_Context.getResources().getString(R.string.src_nichtgedruckt) + "\n";
-                }
+                    if(bFound){
+                        strAllArticles += iQuantity + "x " + strArticle + " - " + m_Context.getResources().getString(R.string.src_nichtgedruckt) + "\n";
+                    }
+                }               
 
                 //returned
                 iQuantity = 0;
