@@ -128,6 +128,12 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
         //init session variables
         m_iSessionBillOLD = m_iSessionBill;
+        
+        //set items
+        //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            transferAllItems();
+        }
 
         //set Listener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
@@ -399,29 +405,25 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     private void setHeaderTable(){
         String strTableHeader = "";
-        if(m_iSessionTable != -1){
+        String strTableHeader = "";
+         //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            strTableHeader = getResources().getString(R.string.src_Hauptkasse);
+            m_iSessionTable = 0;
+        }
+        else{
             strTableHeader = getResources().getString(R.string.src_Tisch) + " " + String.valueOf(m_iSessionTable+1);
             m_TextViewTable.setText(strTableHeader);
         }
-        else{
-            //implement failure
-        }
-
     }
 
     private void setHeaderBill(){
         String strBillHeader = "";
-        if(m_iSessionBill != -1){
-            strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
-            m_TextViewBill.setText(strBillHeader);
+        strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
+        m_TextViewBill.setText(strBillHeader);
 
-            //set recyclerview
-            initRecyclerViewMainBillProduct();
-        }
-        else{
-            //implement failure
-        }
-
+        //set recyclerview
+        initRecyclerViewMainBillProduct();     
     }
 
     private void transferAllItems(){
