@@ -226,16 +226,20 @@ public class ViewPagerAllBillFragment extends Fragment{
         //only one table
         if(m_iChoosenTable != -1){
             for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(m_iChoosenTable).size(); iBillCounter++){
-                ObjBill objBill = GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter);
-                m_List.add(objBill);
+                if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
+                    ObjBill objBill = GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter);
+                    m_List.add(objBill);
+                }
             }
         }
         //all tables
         else{
             for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTableBills.size(); iTblCounter++){
                 for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(iTblCounter).size(); iBillCounter++){
-                    ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
-                    m_List.add(objBill);
+                    if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
+                        ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
+                        m_List.add(objBill);
+                    }
                 }
             }
         }
@@ -253,8 +257,10 @@ public class ViewPagerAllBillFragment extends Fragment{
                     }
                 }
                 if(bOpen){
-                    ObjBill objBill = GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter);
-                    m_List.add(objBill);
+                    if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
+                        ObjBill objBill = GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter);
+                        m_List.add(objBill);
+                    }
                 }
             }
         }
@@ -270,8 +276,10 @@ public class ViewPagerAllBillFragment extends Fragment{
                         }
                     }
                     if(bOpen){
-                        ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
-                        m_List.add(objBill);
+                        if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
+                            ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
+                            m_List.add(objBill);
+                        }
                     }
                 }
             }
@@ -290,8 +298,10 @@ public class ViewPagerAllBillFragment extends Fragment{
                     }
                 }
                 if(bPaid){
-                    ObjBill objBill = GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter);
-                    m_List.add(objBill);
+                    if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
+                        ObjBill objBill = GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter);
+                        m_List.add(objBill);
+                    }
                 }
             }
         }
@@ -307,8 +317,10 @@ public class ViewPagerAllBillFragment extends Fragment{
                         }
                     }
                     if(bPaid){
-                        ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
-                        m_List.add(objBill);
+                        if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
+                            ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
+                            m_List.add(objBill);
+                        }
                     }
                 }
             }
