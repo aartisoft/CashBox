@@ -153,13 +153,13 @@ public class EpsonPrintBill {
     }
 
 
-    public boolean runPrintBillSequence(String[] p_arrBillText) {
+    public boolean runPrintBillSequence(List<String[]> p_lstBillText) {
 
     	//init member variables
     	m_bPrintSuccess = false;
     	m_bPrintJobDone = false;
     	
-        if (!createBillJob(p_arrBillText)) {
+        if (!createBillJob(p_lstBillText)) {
             return false;
         }
         Log.e("createBillJob", "ok");
@@ -399,7 +399,7 @@ public class EpsonPrintBill {
         m_PrinterWarning = warningsMsg;
     }
 
-    public boolean createBillJob(String[] arrBillText){
+    public boolean createBillJob(List<String[]> lstBillText){
 
         if (m_Printer == null) {
             return false;
