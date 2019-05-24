@@ -6,4 +6,9 @@
         android:orderInCategory="100"
         android:title="@string/src_AlleBelege"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/main_usermenu_printbill"
+        android:orderInCategory="100"
+        android:title="@string/src_BelegDrucken"
+        app:showAsAction="never" />
 </menu>
