@@ -702,17 +702,78 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private void addPrintJobBill(){
         //TODO
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
-            boolean bPrinted = false;
-            GlobVar.g_bPrintQueueFilling = true;
-            
-            ObjPrintJob objPrintJob = new ObjPrintJob();
-            objPrintJob.setContext(m_Context);
-            objPrintJob.setPrinter(GlobVar.g_objPrinter);
-            objPrintJob.setbNormalBill(true);
-            
-            
+            if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
+                ObjBill objBill = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer());
+                boolean bPrinted = false;
+                GlobVar.g_bPrintQueueFilling = true;
+
+                ObjPrintJob objPrintJob = new ObjPrintJob();
+                objPrintJob.setContext(m_Context);
+                objPrintJob.setPrinter(GlobVar.g_objPrinter);
+                objPrintJob.setbNormalBill(true);
+
+                //set bill text
+                List<String[]> lstBillText = new ArrayList<>();
+                lstBillText.add(GlobVar.g_ObjSession.getHostName());
+                lstBillText.add(GlobVar.g_ObjSession.getPartyName());
+                lstBillText.add(GlobVar.g_ObjSession.getPartyDate());
+                lstBillText.add(objBill.getBillNr());
+                
+                String str_Products = "";
+                int iCount = 0;
+                double dSum = 0.0;
+                double dTax = 0.0;
+                for(ObjBillProduct objBillProduct : objBill.m_lstProducts){
+                    for(ObjBillProduct objBillProductTmp : objBill.m_lstProducts){
+                        if(objBillProduct == objBillProductTmp && !objBillProductTmp.getPayTransit()){
+                            //7% tax
+                            if(objBillProductTmp.getProduct().getTax() == "7.0"){
+                                dSum += objBillProductTmp.getVK();
+                                dTax = objBillProductTmp.getProduct().getTax();
+                                
+                                iCount++;
+                                objBillProductTmp.setPayTransit(true);
+                            }
+                            //7% tax
+                            else if(objBillProductTmp.getProduct().getTax() == "19.0"){
+                                dSum += objBillProductTmp.getVK();
+                                dTax = objBillProductTmp.getProduct().getTax();
+                                
+                                iCount++;
+                                objBillProductTmp.setPayTransit(true);
+                            }
+                            //togo
+                            else {
+                                dSum += objBillProductTmp.getVK();
+                                dTax = objBillProductTmp.getProduct().getTax();
+                                
+                                iCount++;
+                                objBillProductTmp.setPayTransit(true);
+                            }
+                        }
+                    }
+                    
+                    if(iCount != 0){
+                        double dSum = getAllTip();
+                        DecimalFormat df = new DecimalFormat("0.00");
+                        String strOutput = df.format(dSum) + "€";
+                        
+                        //19%
+                        if(!objBillProduct.getToGo() || dTax == 19.0){
+                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + " " + strOutput + "  A";
+                        }
+                        //7%
+                        else{
+                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + " " + strOutput + "  B";
+                        }
+                    }
+                }
+            }
+            else{
+            //TODO
+            }
         }
-    }
+    }                                             
 
     public void createNewBill(){
         if(m_iSessionTable != -1) {
