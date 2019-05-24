@@ -595,20 +595,20 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     String todayAsString = df.format(date);
 
                                     //set bill text
-                                    String[] arrBillText = new String[7];
-                                    arrBillText[0] = GlobVar.g_ObjSession.getHostName();
-                                    arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
-                                    arrBillText[2] = todayAsString;
-                                    arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
+                                    public List<String[]> lstBillText = new ArrayList<>();
+                                    lstBillText.add(GlobVar.g_ObjSession.getHostName());
+                                    lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
+                                    lstBillText.add(todayAsString;
+                                    lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
 
                                     String strArticle = "1x " + objBillProduct.getProduct().getName();
                                     if(objBillProduct.getProduct().getbPawn()){
                                         strArticle += "*";
                                     }
-                                    arrBillText[4] = strArticle;
-                                    arrBillText[5] = objBillProduct.getAddInfo();
-                                    arrBillText[6] = "";
-                                    objPrintJob.setBillText(arrBillText);
+                                    lstBillText.add(strArticle);
+                                    lstBillText.add(objBillProduct.getAddInfo());
+                                    lstBillText.add("");
+                                    objPrintJob.g_lstBillText = lstBillText;
 
                                     GlobVar.g_lstPrintJob.add(objPrintJob);
                                 }
@@ -625,22 +625,22 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     String todayAsString = df.format(date);
 
                                     //set bill text
-                                    String[] arrBillText = new String[7];
-                                    arrBillText[0] = GlobVar.g_ObjSession.getHostName();
-                                    arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
-                                    arrBillText[2] = todayAsString;
-                                    arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
+                                    public List<String[]> lstBillText = new ArrayList<>();
+                                    lstBillText.add(GlobVar.g_ObjSession.getHostName());
+                                    lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
+                                    lstBillText.add(todayAsString;
+                                    lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
 
                                     DecimalFormat dfprize = new DecimalFormat("0.00");
                                     String strPawn = "1x " + getResources().getString(R.string.src_Pfand);
                                     String strPawnPrize = dfprize.format(objBillProduct.getProduct().getPawn());
                                     strPawnPrize = strPawnPrize + "EUR";
-                                    arrBillText[4] = strPawn + " - " + strPawnPrize;
-                                    objPrintJob.setBillText(arrBillText);
-
-                                    arrBillText[5] = "";
-                                    arrBillText[6] = objBillProduct.getProduct().getName();
-
+                                    lstBillText.add(strPawn + " - " + strPawnPrize;
+                                  
+                                    lstBillText.add("");
+                                    lstBillText.add(objBillProduct.getProduct().getName());
+                                    objPrintJob.g_lstBillText = lstBillText;
+                                                    
                                     GlobVar.g_lstPrintJob.add(objPrintJob);
                                 }
                                 //set printed
@@ -661,20 +661,20 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         String todayAsString = df.format(date);
 
                         //set bill text
-                        String[] arrBillText = new String[7];
-                        arrBillText[0] = GlobVar.g_ObjSession.getHostName();
-                        arrBillText[1] = GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
-                        arrBillText[2] = todayAsString;
-                        arrBillText[3] = "Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
+                        public List<String[]> lstBillText = new ArrayList<>();
+                        lstBillText.add(GlobVar.g_ObjSession.getHostName());
+                        lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
+                        lstBillText.add(todayAsString);
+                        lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
 
                         String strArticle = iQuantity + "x " + objProduct.getName();
                         if(objProduct.getbPawn()){
                             strArticle += "*";
                         }
-                        arrBillText[4] = strArticle;
-                        arrBillText[5] = "";
-                        arrBillText[6] = "";
-                        objPrintJob.setBillText(arrBillText);
+                        lstBillText.add(strArticle);
+                        lstBillText.add("");
+                        lstBillText.add("");
+                        objPrintJob.g_lstBillText = lstBillText;
 
                         GlobVar.g_lstPrintJob.add(objPrintJob);
                     }
