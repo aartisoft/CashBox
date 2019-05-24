@@ -10,6 +10,9 @@ public class ObjPrintJob {
     private Context m_Context;
     private ObjPrinter m_printer;
     private String[] m_arrBillText = new String[7];
+    private boolean m_bBon = false;
+    private boolean m_bNormalBill = false;
+    private boolean m_bEcBill = false;
     private boolean m_bPrinted = false;
     public List<String[]> g_lstBillText = new ArrayList<>();
 
@@ -26,21 +29,39 @@ public class ObjPrintJob {
     public String[] getBillText() {
         return m_arrBillText;
     }
+    public boolean getbBon() {
+        return m_bBon;
+    }
+    public boolean getbNormalBill() {
+        return m_bNormalBill;
+    }
+    public boolean getbEcBill() {
+        return m_bEcBill;
+    }
     public boolean getPrinted() {
         return m_bPrinted;
     }
 
     //setter
-    public void setContext(Context m_Context) {
-        this.m_Context = m_Context;
+    public void setContext(Context p_Context) {
+        this.m_Context = p_Context;
     }
-    public void setPrinter(ObjPrinter m_printer) {
-        this.m_printer = m_printer;
+    public void setPrinter(ObjPrinter p_printer) {
+        this.m_printer = p_printer;
     }
-    public void setBillText(String[] m_arrBillText) {
-        this.m_arrBillText = m_arrBillText;
+    public void setBillText(String[] p_arrBillText) {
+        this.m_arrBillText = p_arrBillText;
     }
-    public void setPrinted(boolean m_bPrinted) {
-        this.m_bPrinted = m_bPrinted;
+    public void setbBon(boolean p_bBon) {
+        this.m_bBon = p_bBon;
+    }
+    public void setbNormalBill(boolean p_bNormalBill) {
+        this.m_bNormalBill = p_bNormalBill;
+    }
+    public void setbEcBill(boolean p_bEcBill) {
+        this.m_bEcBill = p_bEcBill;
+    }
+    public void setPrinted(boolean p_bPrinted) {
+        this.m_bPrinted = p_bPrinted;
     }
 }
