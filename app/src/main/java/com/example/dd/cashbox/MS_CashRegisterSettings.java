@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import global.GlobVar;
 
@@ -79,12 +80,22 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
     private CompoundButton.OnCheckedChangeListener pawnOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener(){
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(isChecked){
-                GlobVar.g_bUseMainCash = true;
+            //setting is only available if cash register has not been used yet
+            if(GlobVar.g_lstTableBills.isEmpty()){
+                if(isChecked){
+                    GlobVar.g_bUseMainCash = true;
+                }
+                else{
+                    GlobVar.g_bUseMainCash = false;
+                }
             }
             else{
-                GlobVar.g_bUseMainCash = false;
+                //reset switch
+                m_switchUseMainCash.setChecked(GlobVar.g_bUseMainCash);
+
+                Toast.makeText(MS_CashRegisterSettings.this, getResources().getString(R.string.src_KasseMussFuerDieseUmstellungUnbenutztSein), Toast.LENGTH_SHORT).show();
             }
+            
         }
     };
 

@@ -460,10 +460,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(GlobVar.g_bUseMainCash){
             // disabled
             m_MenuItemTables.setEnabled(false);
-            m_MenuItemTables.getIcon().setAlpha(130);
+            m_MenuItemTables.setVisible(false);
         } else {
             m_MenuItemTables.setEnabled(true);
-            m_MenuItemTables.getIcon().setAlpha(255);
+            m_MenuItemTables.setVisible(true);
         }
     }
 
@@ -504,21 +504,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_fab_newbill.setClickable(true);
 
         //Floating Action Button 2
-        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) m_fab_print.getLayoutParams();
-        layoutParams2.leftMargin += (int) (m_fab_print.getWidth() * 1.5);
-        layoutParams2.bottomMargin += (int) (m_fab_print.getHeight() * 1.5);
-        m_fab_print.setLayoutParams(layoutParams2);
-        m_fab_print.startAnimation(m_animShowFabPrint);
-        //if used as main cash register
-        if(GlobVar.g_bUseMainCash){
-            m_fab_print.setClickable(false);
-            m_fab_print.setBackgroundColor(getResources().getColor(R.color.colorGrey));
-            m_fab_print.setAlpha(130);
+        if(!GlobVar.g_bUseMainCash){
+            FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) m_fab_print.getLayoutParams();
+            layoutParams2.leftMargin += (int) (m_fab_print.getWidth() * 1.5);
+            layoutParams2.bottomMargin += (int) (m_fab_print.getHeight() * 1.5);
+            m_fab_print.setLayoutParams(layoutParams2);
+            m_fab_print.startAnimation(m_animShowFabPrint);
         }
-        else{
-            m_fab_print.setClickable(true);
-            m_fab_print.setAlpha(255);
-        }
+
 
         //Floating Action Button 3
         FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) m_fab_pay.getLayoutParams();
@@ -788,6 +781,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     public void createNewBill(){
         if(m_iSessionTable != -1) {
+            //init main cash register with one table
+            if(GlobVar.g_bUseMainCash){
+                if(GlobVar.g_lstTableBills.isEmpty()){
+                    List<ObjBill> lstBill = new ArrayList<ObjBill>();
+                    GlobVar.g_lstTableBills.add(lstBill);
+                }
+            }
+
             //only add new bill if last one is not empty
             if (m_iSessionBill != -1) {
                 if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
@@ -917,13 +918,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             strTableHeader = getResources().getString(R.string.src_Hauptkasse);
             m_TextViewTable.setEnabled(false);
 
-            //TODO
             //init main cash register with one table
             m_iSessionTable = 0;
-            if(GlobVar.g_lstTableBills.isEmpty()){
-                List<ObjBill> lstBill = new ArrayList<ObjBill>();
-                GlobVar.g_lstTableBills.add(lstBill);
-            }
         }
         else{
             if(m_iSessionTable != -1){

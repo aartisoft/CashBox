@@ -166,6 +166,7 @@
     <string name="src_AlsHauptkasseBenutzen">Als Hauptkasse benutzen</string>
     <string name="src_Hauptkasse">Hauptkasse</string>
     <string name="src_BelegDrucken">Beleg drucken</string>
+    <string name="src_KasseMussFuerDieseUmstellungUnbenutztSein">Kasse muss für diese Umstellung unbenutzt sein!</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
