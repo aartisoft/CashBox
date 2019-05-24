@@ -299,18 +299,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        MenuItem item = menu.findItem(R.id.nav_tische);
-
-       //if used as main cash register
-        if(GlobVar.g_bUseMainCash){
-            // disabled
-            item.setEnabled(false);
-            item.getIcon().setAlpha(130);
-        } else {
-            item.setEnabled(true);
-            item.getIcon().setAlpha(255); 
-        }
-        return false;
+        return true;
     }
     
     @Override
@@ -345,6 +334,19 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_MenuItemPrintBill = menu.findItem(R.id.main_usermenu_printbill);
         m_MenuItemAllBills.setEnabled(true);
         m_MenuItemPrintBill.setEnabled(true);
+
+        MenuItem item = m_Menu.findItem(R.id.nav_tische);
+
+        //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            // disabled
+            //item.setEnabled(false);
+            //item.getIcon().setAlpha(130);
+        } else {
+            item.setEnabled(true);
+            item.getIcon().setAlpha(255);
+        }
+
         return true;
     }
 
