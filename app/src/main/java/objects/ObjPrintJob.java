@@ -16,7 +16,7 @@ public class ObjPrintJob {
     private boolean m_bNormalBill = false;
     private boolean m_bEcBill = false;
     private boolean m_bPrinted = false;
-    public List<String[]> g_lstBillText = new ArrayList<>();
+    public List<String> g_lstBillText = new ArrayList<>();
 
     //constructor
     public ObjPrintJob(){}

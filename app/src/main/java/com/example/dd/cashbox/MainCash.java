@@ -405,7 +405,6 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     private void setHeaderTable(){
         String strTableHeader = "";
-        String strTableHeader = "";
          //if used as main cash register
         if(GlobVar.g_bUseMainCash){
             strTableHeader = getResources().getString(R.string.src_Hauptkasse);

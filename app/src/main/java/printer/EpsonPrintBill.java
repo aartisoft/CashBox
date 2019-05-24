@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import objects.ObjPrintJob;
 import objects.ObjPrinter;
 
 
@@ -399,8 +400,8 @@ public class EpsonPrintBill {
         m_PrinterWarning = warningsMsg;
     }
 
-    public boolean createBillJob(p_objPrintJob){
-        List<String[]> lstBillText = p_objPrintJob.g_lstBillText;
+    public boolean createBillJob(ObjPrintJob p_objPrintJob){
+        List<String> lstBillText = p_objPrintJob.g_lstBillText;
         
         if (m_Printer == null) {
             return false;
@@ -410,7 +411,7 @@ public class EpsonPrintBill {
         StringBuilder textData = new StringBuilder();
         try {
             //print pawn bon
-            if(!arrBillText[6].equals("")){
+            if(p_objPrintJob.getbBonPawn()){
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
                 m_Printer.addTextSize(1, 1);
                 textData.append(p_objPrintJob.g_lstBillText.get(0) + "\n");
@@ -440,7 +441,7 @@ public class EpsonPrintBill {
 
                 m_Printer.addCut(Printer.CUT_FEED);
             }
-            else{
+            else if (p_objPrintJob.getbBon()){
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
                 m_Printer.addTextSize(1, 1);
                 textData.append(p_objPrintJob.g_lstBillText.get(0) + "\n");

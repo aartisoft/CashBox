@@ -596,11 +596,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     String todayAsString = df.format(date);
 
                                     //set bill text
-                                    List<String[]> lstBillText = new ArrayList<>();
+                                    List<String> lstBillText = new ArrayList<>();
                                     lstBillText.add(GlobVar.g_ObjSession.getHostName());
-                                    lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
-                                    lstBillText.add(todayAsString;
-                                    lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName();
+                                    lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
+                                    lstBillText.add(todayAsString);
+                                    lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
 
                                     String strArticle = "1x " + objBillProduct.getProduct().getName();
                                     if(objBillProduct.getProduct().getbPawn()){
@@ -626,17 +626,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     String todayAsString = df.format(date);
 
                                     //set bill text
-                                    List<String[]> lstBillText = new ArrayList<>();
+                                    List<String> lstBillText = new ArrayList<>();
                                     lstBillText.add(GlobVar.g_ObjSession.getHostName());
                                     lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
-                                    lstBillText.add(todayAsString;
+                                    lstBillText.add(todayAsString);
                                     lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
 
                                     DecimalFormat dfprize = new DecimalFormat("0.00");
                                     String strPawn = "1x " + getResources().getString(R.string.src_Pfand);
                                     String strPawnPrize = dfprize.format(objBillProduct.getProduct().getPawn());
                                     strPawnPrize = strPawnPrize + "EUR";
-                                    lstBillText.add(strPawn + " - " + strPawnPrize;
+                                    lstBillText.add(strPawn + " - " + strPawnPrize);
                                   
                                     lstBillText.add("");
                                     lstBillText.add(objBillProduct.getProduct().getName());
@@ -663,7 +663,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         String todayAsString = df.format(date);
 
                         //set bill text
-                        List<String[]> lstBillText = new ArrayList<>();
+                        List<String> lstBillText = new ArrayList<>();
                         lstBillText.add(GlobVar.g_ObjSession.getHostName());
                         lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
                         lstBillText.add(todayAsString);
@@ -713,11 +713,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 objPrintJob.setbNormalBill(true);
 
                 //set bill text
-                List<String[]> lstBillText = new ArrayList<>();
+                List<String> lstBillText = new ArrayList<>();
                 lstBillText.add(GlobVar.g_ObjSession.getHostName());
                 lstBillText.add(GlobVar.g_ObjSession.getPartyName());
                 lstBillText.add(GlobVar.g_ObjSession.getPartyDate());
-                lstBillText.add(objBill.getBillNr());
+                lstBillText.add(String.valueOf(objBill.getBillNr()));
                 
                 String str_Products = "";
                 int iCount = 0;
@@ -727,7 +727,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     for(ObjBillProduct objBillProductTmp : objBill.m_lstProducts){
                         if(objBillProduct == objBillProductTmp && !objBillProductTmp.getPayTransit()){
                             //7% tax
-                            if(objBillProductTmp.getProduct().getTax() == "7.0"){
+                            if(objBillProductTmp.getProduct().getTax() == 7.0){
                                 dSum += objBillProductTmp.getVK();
                                 dTax = objBillProductTmp.getProduct().getTax();
                                 
@@ -735,7 +735,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                 objBillProductTmp.setPayTransit(true);
                             }
                             //7% tax
-                            else if(objBillProductTmp.getProduct().getTax() == "19.0"){
+                            else if(objBillProductTmp.getProduct().getTax() == 19.0){
                                 dSum += objBillProductTmp.getVK();
                                 dTax = objBillProductTmp.getProduct().getTax();
                                 
@@ -754,7 +754,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     }
                     
                     if(iCount != 0){
-                        double dSum = getAllTip();
                         DecimalFormat df = new DecimalFormat("0.00");
                         String strOutput = df.format(dSum) + "€";
                         
