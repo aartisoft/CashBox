@@ -43,6 +43,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
     private TextView m_TextViewTitle;
     private EditText m_EditTextName;
     private EditText m_EditTextColor;
+    private TextView m_TextViewPrinter;
     private Spinner m_Spinner_Printer;
     private SwitchCompat m_Switch;
     private View m_decorView;
@@ -64,6 +65,7 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
         m_Context = this;
         m_TextViewTitle = findViewById(R.id.editcategory_add_tititle);
         m_EditTextColor = findViewById(R.id.editcategory_add_tvcolor);
+        m_TextViewPrinter = findViewById(R.id.editcategory_add_tvprinter);
         m_Spinner_Printer = findViewById(R.id.editcategory_add_spinnerprinter);
         m_fab = findViewById(R.id.editcategory_add_fab);
         m_EditTextName = findViewById(R.id.editcategory_add_tvname);
@@ -82,7 +84,14 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
         m_TextViewTitle.setText(R.string.src_KategorieErstellen);
 
         //set Spinner Printer
-        setSpinnerPrinter();
+        //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            m_TextViewPrinter.setVisibility(View.INVISIBLE);
+            m_Spinner_Printer.setVisibility(View.INVISIBLE);
+        }
+        else{
+            setSpinnerPrinter();
+        }
 
         //set color
         m_EditTextColor.setBackgroundColor(-1697699555);

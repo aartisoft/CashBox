@@ -17,6 +17,7 @@ import com.example.dd.cashbox.R;
 
 import java.util.List;
 
+import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjPrinter;
 
@@ -71,17 +72,24 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
         final ObjCategory item = categoryList.get(position);
         holder.textview_itemname.setText((item).getName());
 
-        //get printername
-        ObjPrinter printer = (item).getPrinter();
-        String printername;
-        if(printer != null){
-            printername = printer.getDeviceName() + " - " + printer.getMacAddress();
+
+        //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            holder.textview_printername.setVisibility(View.INVISIBLE);
         }
         else{
-            printername = context.getResources().getString(R.string.src_KeinDruckerHinzugefuegt);
-        }
+            //get printername
+            ObjPrinter printer = (item).getPrinter();
+            String printername;
+            if(printer != null){
+                printername = printer.getDeviceName() + " - " + printer.getMacAddress();
+            }
+            else{
+                printername = context.getResources().getString(R.string.src_KeinDruckerHinzugefuegt);
+            }
 
-        holder.textview_printername.setText(printername);
+            holder.textview_printername.setText(printername);
+        }
 
         //get status
         boolean bstatus = (item).getEnabled();

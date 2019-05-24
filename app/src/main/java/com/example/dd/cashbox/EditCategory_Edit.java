@@ -44,6 +44,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     private TextView m_TextViewTitle;
     private EditText m_EditTextName;
     private EditText m_EditTextColor;
+    private TextView m_TextViewPrinter;
     private Spinner m_Spinner_Printer;
     private SwitchCompat m_Switch;
     private View m_decorView;
@@ -67,6 +68,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
         //init variables
         m_Context = this;
         m_TextViewTitle = findViewById(R.id.editcategory_add_tititle);
+        m_TextViewPrinter = findViewById(R.id.editcategory_add_tvprinter);
         m_Spinner_Printer = findViewById(R.id.editcategory_add_spinnerprinter);
         m_fab = findViewById(R.id.editcategory_add_fab);
         m_EditTextName = findViewById(R.id.editcategory_add_tvname);
@@ -245,7 +247,17 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                 m_EditTextName.setText(category.getName());
                 m_strCategoryName = category.getName();
                 m_EditTextColor.setBackgroundColor(category.getProdColor());
-                setSpinnerPrinter(category.getPrinter());
+
+                //if used as main cash register
+                if(GlobVar.g_bUseMainCash){
+                    m_TextViewPrinter.setVisibility(View.INVISIBLE);
+                    m_Spinner_Printer.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    setSpinnerPrinter(category.getPrinter());
+                }
+
+
                 m_Switch.setChecked(category.getEnabled());
 
                 //set global variables
