@@ -309,6 +309,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             item.setEnabled(true);
             item.getIcon().setAlpha(255); 
         }
+        return false;
     }
     
     @Override
