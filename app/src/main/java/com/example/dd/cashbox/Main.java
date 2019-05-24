@@ -70,6 +70,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private View m_decorView;
     private Menu m_Menu;
     private MenuItem m_MenuItemAllBills;
+    private MenuItem m_MenuItemPrintBill;
     private NavigationView m_navigationView;
     private DrawerLayout m_DrawerLayout;
     private TabLayout m_TabLayout;
@@ -318,12 +319,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             case android.R.id.home:
                 m_DrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-
+                
             case R.id.main_usermenu_allbills:
                 Intent intent = new Intent(Main.this, AllBills.class);
                 intent.putExtra("TABLE", m_iSessionTable);
                 intent.putExtra("BILL", m_iSessionBill);
                 startActivity(intent);
+                return true;
+                
+            case R.id.main_usermenu_printbill:
+                addPrintJobBill();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -337,7 +342,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //init menu variables
         m_Menu = menu;
         m_MenuItemAllBills = menu.findItem(R.id.main_usermenu_allbills);
+        m_MenuItemPrintBill = menu.findItem(R.id.main_usermenu_printbill);
         m_MenuItemAllBills.setEnabled(true);
+        m_MenuItemPrintBill.setEnabled(true);
         return true;
     }
 
@@ -688,6 +695,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         else{
             Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
         }
+    }
+    
+    private void addPrintJobBill(){
+     //TODO   
     }
 
     public void createNewBill(){
