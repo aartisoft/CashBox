@@ -123,7 +123,7 @@ public class PrintJobQueue{
                                     //try 10 times to print data
                                     do{
                                         //Log.e("Printer ",m_lstPrinterJob.get(iPrintJobCounter).getBillText()[8]);
-                                        m_bPrintStatus = m_EpsonPrintBill.runPrintBillSequence(m_lstPrinterJob.get(iPrintJobCounter).g_lstBillText);
+                                        m_bPrintStatus = m_EpsonPrintBill.runPrintBillSequence(m_lstPrinterJob.get(iPrintJobCounter));
 
                                         //if printing process was successfull
                                         if(m_bPrintStatus){
