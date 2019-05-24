@@ -588,6 +588,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     ObjPrintJob objPrintJob = new ObjPrintJob();
                                     objPrintJob.setContext(m_Context);
                                     objPrintJob.setPrinter(objPrinter);
+                                    objPrintJob.setbBonExtra(true);
 
                                     String pattern = "dd/MM/yyyy HH:mm:ss";
                                     DateFormat df = new SimpleDateFormat(pattern);
@@ -607,7 +608,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     }
                                     lstBillText.add(strArticle);
                                     lstBillText.add(objBillProduct.getAddInfo());
-                                    lstBillText.add("");
                                     objPrintJob.g_lstBillText = lstBillText;
 
                                     GlobVar.g_lstPrintJob.add(objPrintJob);
@@ -618,6 +618,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     ObjPrintJob objPrintJob = new ObjPrintJob();
                                     objPrintJob.setContext(m_Context);
                                     objPrintJob.setPrinter(objPrinter);
+                                    objPrintJob.setbBonPawn(true);
 
                                     String pattern = "dd/MM/yyyy HH:mm:ss";
                                     DateFormat df = new SimpleDateFormat(pattern);
@@ -654,6 +655,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         ObjPrintJob objPrintJob = new ObjPrintJob();
                         objPrintJob.setContext(m_Context);
                         objPrintJob.setPrinter(objPrinter);
+                        objPrintJob.setbBon(true);
 
                         String pattern = "dd/MM/yyyy HH:mm:ss";
                         DateFormat df = new SimpleDateFormat(pattern);
