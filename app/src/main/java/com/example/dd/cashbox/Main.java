@@ -595,7 +595,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     String todayAsString = df.format(date);
 
                                     //set bill text
-                                    public List<String[]> lstBillText = new ArrayList<>();
+                                    List<String[]> lstBillText = new ArrayList<>();
                                     lstBillText.add(GlobVar.g_ObjSession.getHostName());
                                     lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate();
                                     lstBillText.add(todayAsString;
@@ -625,7 +625,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     String todayAsString = df.format(date);
 
                                     //set bill text
-                                    public List<String[]> lstBillText = new ArrayList<>();
+                                    List<String[]> lstBillText = new ArrayList<>();
                                     lstBillText.add(GlobVar.g_ObjSession.getHostName());
                                     lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
                                     lstBillText.add(todayAsString;
@@ -661,7 +661,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         String todayAsString = df.format(date);
 
                         //set bill text
-                        public List<String[]> lstBillText = new ArrayList<>();
+                        List<String[]> lstBillText = new ArrayList<>();
                         lstBillText.add(GlobVar.g_ObjSession.getHostName());
                         lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
                         lstBillText.add(todayAsString);
