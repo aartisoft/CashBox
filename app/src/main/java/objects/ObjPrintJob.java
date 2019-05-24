@@ -12,6 +12,7 @@ public class ObjPrintJob {
     private String[] m_arrBillText = new String[7];
     private boolean m_bBon = false;
     private boolean m_bBonExtra = false;
+    private boolean m_bBonPawn = false;
     private boolean m_bNormalBill = false;
     private boolean m_bEcBill = false;
     private boolean m_bPrinted = false;
@@ -33,8 +34,11 @@ public class ObjPrintJob {
     public boolean getbBon() {
         return m_bBon;
     }
-     public boolean getbBonExtra() {
-        return m_bBon;
+    public boolean getbBonExtra() {
+        return m_bBonExtra;
+    }
+    public boolean getbBonPawn() {
+        return m_bBonPawn;
     }
     public boolean getbNormalBill() {
         return m_bNormalBill;
@@ -61,6 +65,9 @@ public class ObjPrintJob {
     }
     public void setbBonExtra(boolean p_bBonExtra) {
         this.m_bBonExtra = p_bBonExtra;
+    }
+    public void setbBonPawn(boolean p_bBonPawn) {
+        this.m_bBonPawn = p_bBonPawn;
     }
     public void setbNormalBill(boolean p_bNormalBill) {
         this.m_bNormalBill = p_bNormalBill;
