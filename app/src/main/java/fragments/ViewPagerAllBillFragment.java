@@ -236,7 +236,7 @@ public class ViewPagerAllBillFragment extends Fragment{
         else{
             for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTableBills.size(); iTblCounter++){
                 for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(iTblCounter).size(); iBillCounter++){
-                    if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
+                    if(!GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter).m_lstProducts.isEmpty()){
                         ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
                         m_List.add(objBill);
                     }
@@ -276,7 +276,7 @@ public class ViewPagerAllBillFragment extends Fragment{
                         }
                     }
                     if(bOpen){
-                        if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
+                        if(!GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter).m_lstProducts.isEmpty()){
                             ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
                             m_List.add(objBill);
                         }
@@ -317,7 +317,7 @@ public class ViewPagerAllBillFragment extends Fragment{
                         }
                     }
                     if(bPaid){
-                        if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
+                        if(!GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter).m_lstProducts.isEmpty()){
                             ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
                             m_List.add(objBill);
                         }

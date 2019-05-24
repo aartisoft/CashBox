@@ -913,8 +913,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             //TODO
             //init main cash register with one table
             m_iSessionTable = 0;
-            List<ObjBill> lstBill = new ArrayList<ObjBill>();
-            GlobVar.g_lstTableBills.add(lstBill);
+            if(GlobVar.g_lstTableBills.isEmpty()){
+                List<ObjBill> lstBill = new ArrayList<ObjBill>();
+                GlobVar.g_lstTableBills.add(lstBill);
+            }
         }
         else{
             if(m_iSessionTable != -1){
