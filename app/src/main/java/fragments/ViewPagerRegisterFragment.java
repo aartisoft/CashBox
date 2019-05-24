@@ -82,19 +82,11 @@ public class ViewPagerRegisterFragment extends Fragment {
 
             // fragment only available if bill has been choosen
             if(iBillNr != -1){
-                //get printer
-                ObjPrinter objPrinter = getPrinter(objproduct);
-                if(objPrinter != null) {
-                    writeTableBillsList(position, iTable, iBillNr);
-                    //tel main activity there is a new product available
-                    ((Main) getActivity()).raiseNewProduct();
-                }
-                else{
-                    Toast.makeText(view.getContext(), getResources().getString(R.string.src_DerKategorieIstKeinDruckerZugeordnet), Toast.LENGTH_SHORT).show();
-                }
+                writeTableBillsList(position, iTable, iBillNr);
+                //tel main activity there is a new product available
+                ((Main) getActivity()).raiseNewProduct();
             }
-            else
-            {
+            else {
                 Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
             }
         }
@@ -110,25 +102,18 @@ public class ViewPagerRegisterFragment extends Fragment {
 
             // fragment only available if bill has been choosen
             if(iBillNr != -1){
-                //get printer
-                ObjPrinter objPrinter = getPrinter(objproduct);
-                if(objPrinter != null) {
-                    FragmentManager fm = getChildFragmentManager();
-                    RegisterPopUpDialogFragment registerPopUpDialogFragment = RegisterPopUpDialogFragment.newInstance("Register PopUp");
+                FragmentManager fm = getChildFragmentManager();
+                RegisterPopUpDialogFragment registerPopUpDialogFragment = RegisterPopUpDialogFragment.newInstance("Register PopUp");
 
-                    // pass table, bill to fragment
-                    Bundle args = new Bundle();
-                    args.putInt("TABLE", iTable);
-                    args.putInt("BILL", iBillNr);
-                    args.putString("CATEGORY", objproduct.getCategory());
-                    args.putString("PRODUCT", objproduct.getName());
+                // pass table, bill to fragment
+                Bundle args = new Bundle();
+                args.putInt("TABLE", iTable);
+                args.putInt("BILL", iBillNr);
+                args.putString("CATEGORY", objproduct.getCategory());
+                args.putString("PRODUCT", objproduct.getName());
 
-                    registerPopUpDialogFragment.setArguments(args);
-                    registerPopUpDialogFragment.show(fm, "fragment_registerpopup");
-                }
-                else{
-                    Toast.makeText(view.getContext(), getResources().getString(R.string.src_DerKategorieIstKeinDruckerZugeordnet), Toast.LENGTH_SHORT).show();
-                }
+                registerPopUpDialogFragment.setArguments(args);
+                registerPopUpDialogFragment.show(fm, "fragment_registerpopup");
             }
             else
             {
@@ -167,29 +152,7 @@ public class ViewPagerRegisterFragment extends Fragment {
         objbillproduct.setVK(objproduct.getVK());
         objbillproduct.setCategory(objproduct.getCategory());
 
-        //get printer
-        ObjPrinter objPrinter = getPrinter(objproduct);
-        objbillproduct.setPrinter(objPrinter);
-
         //add globally
         GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
-    }
-
-    private ObjPrinter getPrinter(ObjProduct p_objProduct){
-        try{
-            for(ObjCategory objCategory : GlobVar.g_lstCategory){
-                if(p_objProduct.getCategory().equals(objCategory.getName())){
-                    for (ObjPrinter objPrinter : GlobVar.g_lstPrinter) {
-                        if(objCategory.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
-                            return objPrinter;
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-        catch(Exception e){
-            return null;
-        }
     }
 }

@@ -571,7 +571,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
     }
 
-    private void addPrintJob(){
+    private boolean addPrintJob(){
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
             boolean bPrinted = false;
             GlobVar.g_bPrintQueueFilling = true;
@@ -579,112 +579,118 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             //write bill to printqueue
             for(ObjCategory objCategory : GlobVar.g_lstCategory){
                 ObjPrinter objPrinter = objCategory.getPrinter();
-                for(ObjProduct objProduct : objCategory.getListProduct()){
-                    int iQuantity = 0;
-                    for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
-                        if(objProduct == objBillProduct.getProduct()){
-                            if(!objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled() && !objBillProduct.getPaid()){
-                                //if billproduct has no extra info
-                                if(objBillProduct.getAddInfo().equals("")){
-                                    iQuantity++;
-                                }
-                                //if billproduct has extrainfo
-                                else{
-                                    ObjPrintJob objPrintJob = new ObjPrintJob();
-                                    objPrintJob.setContext(m_Context);
-                                    objPrintJob.setPrinter(objPrinter);
-                                    objPrintJob.setbBonExtra(true);
-
-                                    String pattern = "dd/MM/yyyy HH:mm:ss";
-                                    DateFormat df = new SimpleDateFormat(pattern);
-                                    Date date = Calendar.getInstance().getTime();
-                                    String todayAsString = df.format(date);
-
-                                    //set bill text
-                                    List<String> lstBillText = new ArrayList<>();
-                                    lstBillText.add(GlobVar.g_ObjSession.getHostName());
-                                    lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
-                                    lstBillText.add(todayAsString);
-                                    lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
-
-                                    String strArticle = "1x " + objBillProduct.getProduct().getName();
-                                    if(objBillProduct.getProduct().getbPawn()){
-                                        strArticle += "*";
+                if(objPrinter != null){
+                    for(ObjProduct objProduct : objCategory.getListProduct()){
+                        int iQuantity = 0;
+                        for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+                            if(objProduct == objBillProduct.getProduct()){
+                                if(!objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled() && !objBillProduct.getPaid()){
+                                    //if billproduct has no extra info
+                                    if(objBillProduct.getAddInfo().equals("")){
+                                        iQuantity++;
                                     }
-                                    lstBillText.add(strArticle);
-                                    lstBillText.add(objBillProduct.getAddInfo());
-                                    objPrintJob.g_lstBillText = lstBillText;
+                                    //if billproduct has extrainfo
+                                    else{
+                                        ObjPrintJob objPrintJob = new ObjPrintJob();
+                                        objPrintJob.setContext(m_Context);
+                                        objPrintJob.setPrinter(objPrinter);
+                                        objPrintJob.setbBonExtra(true);
 
-                                    GlobVar.g_lstPrintJob.add(objPrintJob);
+                                        String pattern = "dd/MM/yyyy HH:mm:ss";
+                                        DateFormat df = new SimpleDateFormat(pattern);
+                                        Date date = Calendar.getInstance().getTime();
+                                        String todayAsString = df.format(date);
+
+                                        //set bill text
+                                        List<String> lstBillText = new ArrayList<>();
+                                        lstBillText.add(GlobVar.g_ObjSession.getHostName());
+                                        lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
+                                        lstBillText.add(todayAsString);
+                                        lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
+
+                                        String strArticle = "1x " + objBillProduct.getProduct().getName();
+                                        if(objBillProduct.getProduct().getbPawn()){
+                                            strArticle += "*";
+                                        }
+                                        lstBillText.add(strArticle);
+                                        lstBillText.add(objBillProduct.getAddInfo());
+                                        objPrintJob.g_lstBillText = lstBillText;
+
+                                        GlobVar.g_lstPrintJob.add(objPrintJob);
+                                    }
+
+                                    //print pawn bon
+                                    if(objBillProduct.getProduct().getbPawn()){
+                                        ObjPrintJob objPrintJob = new ObjPrintJob();
+                                        objPrintJob.setContext(m_Context);
+                                        objPrintJob.setPrinter(objPrinter);
+                                        objPrintJob.setbBonPawn(true);
+
+                                        String pattern = "dd/MM/yyyy HH:mm:ss";
+                                        DateFormat df = new SimpleDateFormat(pattern);
+                                        Date date = Calendar.getInstance().getTime();
+                                        String todayAsString = df.format(date);
+
+                                        //set bill text
+                                        List<String> lstBillText = new ArrayList<>();
+                                        lstBillText.add(GlobVar.g_ObjSession.getHostName());
+                                        lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
+                                        lstBillText.add(todayAsString);
+                                        lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
+
+                                        DecimalFormat dfprize = new DecimalFormat("0.00");
+                                        String strPawn = "1x " + getResources().getString(R.string.src_Pfand);
+                                        String strPawnPrize = dfprize.format(objBillProduct.getProduct().getPawn());
+                                        strPawnPrize = strPawnPrize + "EUR";
+                                        lstBillText.add(strPawn + " - " + strPawnPrize);
+
+                                        lstBillText.add("");
+                                        lstBillText.add(objBillProduct.getProduct().getName());
+                                        objPrintJob.g_lstBillText = lstBillText;
+
+                                        GlobVar.g_lstPrintJob.add(objPrintJob);
+                                    }
+                                    //set printed
+                                    objBillProduct.setPrinted(true);
+                                    objBillProduct.setSqlChanged(true);
+                                    bPrinted = true;
                                 }
-
-                                //print pawn bon
-                                if(objBillProduct.getProduct().getbPawn()){
-                                    ObjPrintJob objPrintJob = new ObjPrintJob();
-                                    objPrintJob.setContext(m_Context);
-                                    objPrintJob.setPrinter(objPrinter);
-                                    objPrintJob.setbBonPawn(true);
-
-                                    String pattern = "dd/MM/yyyy HH:mm:ss";
-                                    DateFormat df = new SimpleDateFormat(pattern);
-                                    Date date = Calendar.getInstance().getTime();
-                                    String todayAsString = df.format(date);
-
-                                    //set bill text
-                                    List<String> lstBillText = new ArrayList<>();
-                                    lstBillText.add(GlobVar.g_ObjSession.getHostName());
-                                    lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
-                                    lstBillText.add(todayAsString);
-                                    lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
-
-                                    DecimalFormat dfprize = new DecimalFormat("0.00");
-                                    String strPawn = "1x " + getResources().getString(R.string.src_Pfand);
-                                    String strPawnPrize = dfprize.format(objBillProduct.getProduct().getPawn());
-                                    strPawnPrize = strPawnPrize + "EUR";
-                                    lstBillText.add(strPawn + " - " + strPawnPrize);
-                                  
-                                    lstBillText.add("");
-                                    lstBillText.add(objBillProduct.getProduct().getName());
-                                    objPrintJob.g_lstBillText = lstBillText;
-                                                    
-                                    GlobVar.g_lstPrintJob.add(objPrintJob);
-                                }
-                                //set printed
-                                objBillProduct.setPrinted(true);
-                                objBillProduct.setSqlChanged(true);
-                                bPrinted = true;
                             }
                         }
-                    }
-                    if(iQuantity != 0){
-                        ObjPrintJob objPrintJob = new ObjPrintJob();
-                        objPrintJob.setContext(m_Context);
-                        objPrintJob.setPrinter(objPrinter);
-                        objPrintJob.setbBon(true);
+                        if(iQuantity != 0){
+                            ObjPrintJob objPrintJob = new ObjPrintJob();
+                            objPrintJob.setContext(m_Context);
+                            objPrintJob.setPrinter(objPrinter);
+                            objPrintJob.setbBon(true);
 
-                        String pattern = "dd/MM/yyyy HH:mm:ss";
-                        DateFormat df = new SimpleDateFormat(pattern);
-                        Date date = Calendar.getInstance().getTime();
-                        String todayAsString = df.format(date);
+                            String pattern = "dd/MM/yyyy HH:mm:ss";
+                            DateFormat df = new SimpleDateFormat(pattern);
+                            Date date = Calendar.getInstance().getTime();
+                            String todayAsString = df.format(date);
 
-                        //set bill text
-                        List<String> lstBillText = new ArrayList<>();
-                        lstBillText.add(GlobVar.g_ObjSession.getHostName());
-                        lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
-                        lstBillText.add(todayAsString);
-                        lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
+                            //set bill text
+                            List<String> lstBillText = new ArrayList<>();
+                            lstBillText.add(GlobVar.g_ObjSession.getHostName());
+                            lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
+                            lstBillText.add(todayAsString);
+                            lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
 
-                        String strArticle = iQuantity + "x " + objProduct.getName();
-                        if(objProduct.getbPawn()){
-                            strArticle += "*";
+                            String strArticle = iQuantity + "x " + objProduct.getName();
+                            if(objProduct.getbPawn()){
+                                strArticle += "*";
+                            }
+                            lstBillText.add(strArticle);
+                            lstBillText.add("");
+                            lstBillText.add("");
+                            objPrintJob.g_lstBillText = lstBillText;
+
+                            GlobVar.g_lstPrintJob.add(objPrintJob);
                         }
-                        lstBillText.add(strArticle);
-                        lstBillText.add("");
-                        lstBillText.add("");
-                        objPrintJob.g_lstBillText = lstBillText;
-
-                        GlobVar.g_lstPrintJob.add(objPrintJob);
                     }
+                }
+                else{
+                    Toast.makeText(Main.this, getResources().getString(R.string.src_KeineDruckerausgewaehlt), Toast.LENGTH_SHORT).show();
+                    return false;
                 }
             }
 
@@ -702,6 +708,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         else{
             Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
         }
+        return true;
     }
     
     private void addPrintJobBill(){

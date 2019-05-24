@@ -24,6 +24,9 @@
             app:tabPaddingBottom="2dp"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorColor="@color/colorPrimary3"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
             android:layout_above ="@+id/am_register_viewpager">
         </com.google.android.material.tabs.TabLayout>
 

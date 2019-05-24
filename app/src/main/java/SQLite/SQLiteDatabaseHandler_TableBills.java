@@ -144,11 +144,11 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         objBillProduct.setAddInfo(cursor.getString(9));
 
         //set printer
-        for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
+        /*for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
             if(objprinter.getMacAddress().equals(cursor.getString(10))){
                 objBillProduct.setPrinter(objprinter);
             }
-        }
+        }*/
 
         //set printed
         boolean b_Printed = true;
@@ -219,7 +219,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 values.put(KEY_OBJID, objproduct.getID());
                 values.put(KEY_VK, objproduct.getVK());
                 values.put(KEY_ADDINFO, objproduct.getAddInfo());
-                values.put(KEY_PRINTERMAC, objproduct.getPrinter().getMacAddress());
+                //values.put(KEY_PRINTERMAC, getPrinter(objproduct.getProduct()).getMacAddress());
 
                 int key_printed = objproduct.getPrinted() ? 1 : 0;
                 values.put(KEY_PRINTED, key_printed);
@@ -280,6 +280,24 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
                 GlobVar.g_lstTableBills.get(p_iTable).get(iBill).setSqlChanged(false);
             }
+        }
+    }
+
+    private ObjPrinter getPrinter(ObjProduct p_objProduct){
+        try{
+            for(ObjCategory objCategory : GlobVar.g_lstCategory){
+                if(p_objProduct.getCategory().equals(objCategory.getName())){
+                    for (ObjPrinter objPrinter : GlobVar.g_lstPrinter) {
+                        if(objCategory.getPrinter().getMacAddress().equals(objPrinter.getMacAddress())){
+                            return objPrinter;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        catch(Exception e){
+            return null;
         }
     }
 }

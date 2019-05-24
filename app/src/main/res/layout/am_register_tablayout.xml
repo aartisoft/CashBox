@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:height="80dp"
-        android:width="100dp"
+        android:width="110dp"
         android:background="@color/colorPrimary3"
         android:text="Kategorie 1"
         android:textColor="@color/colorWhite"
