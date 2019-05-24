@@ -513,10 +513,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(GlobVar.g_bUseMainCash){
             m_fab_print.setClickable(false);
             m_fab_print.setBackgroundColor(getResources().getColor(R.color.colorGrey));
-            //m_fab_print.setalpha
+            m_fab_print.setAlpha(130);
         }
         else{
             m_fab_print.setClickable(true);
+            m_fab_print.setAlpha(255);
         }
 
         //Floating Action Button 3
