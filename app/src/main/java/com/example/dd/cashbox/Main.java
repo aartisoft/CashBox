@@ -71,6 +71,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private Menu m_Menu;
     private MenuItem m_MenuItemAllBills;
     private MenuItem m_MenuItemPrintBill;
+    private MenuItem m_MenuItemTables;
     private NavigationView m_navigationView;
     private DrawerLayout m_DrawerLayout;
     private TabLayout m_TabLayout;
@@ -170,6 +171,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //set main register
         setRegister();
+
+        //set open drawer
+        setOpenDrawer();
 
         //open Drawer
         if(m_iSessionId == 1){
@@ -297,12 +301,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
     
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        return true;
-    }
-    
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -335,20 +333,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_MenuItemAllBills.setEnabled(true);
         m_MenuItemPrintBill.setEnabled(true);
 
-        MenuItem item = m_Menu.findItem(R.id.nav_tische);
-
-        //if used as main cash register
-        if(GlobVar.g_bUseMainCash){
-            // disabled
-            //item.setEnabled(false);
-            //item.getIcon().setAlpha(130);
-        } else {
-            item.setEnabled(true);
-            item.getIcon().setAlpha(255);
-        }
-
         return true;
     }
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -462,6 +449,21 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
         catch(SQLiteException se){
             Log.e(getClass().getSimpleName(), "Could not create or open the database");
+        }
+    }
+
+    private void setOpenDrawer(){
+        Menu menuNav = m_navigationView.getMenu();
+        m_MenuItemTables = menuNav.findItem(R.id.nav_tische);
+
+        //if used as main cash register
+        if(GlobVar.g_bUseMainCash){
+            // disabled
+            m_MenuItemTables.setEnabled(false);
+            m_MenuItemTables.getIcon().setAlpha(130);
+        } else {
+            m_MenuItemTables.setEnabled(true);
+            m_MenuItemTables.getIcon().setAlpha(255);
         }
     }
 
@@ -906,7 +908,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(GlobVar.g_bUseMainCash){
             strTableHeader = getResources().getString(R.string.src_Hauptkasse);
             m_TextViewTable.setEnabled(false);
+
+            //TODO
+            //init main cash register with one table
             m_iSessionTable = 0;
+            List<ObjBill> lstBill = new ArrayList<ObjBill>();
+            GlobVar.g_lstTableBills.add(lstBill);
         }
         else{
             if(m_iSessionTable != -1){
