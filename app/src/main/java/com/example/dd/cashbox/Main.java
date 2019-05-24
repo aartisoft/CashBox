@@ -700,7 +700,18 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
     
     private void addPrintJobBill(){
-     //TODO   
+        //TODO
+        if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+            boolean bPrinted = false;
+            GlobVar.g_bPrintQueueFilling = true;
+            
+            ObjPrintJob objPrintJob = new ObjPrintJob();
+            objPrintJob.setContext(m_Context);
+            objPrintJob.setPrinter(GlobVar.g_objPrinter);
+            objPrintJob.setbNormalBill(true);
+            
+            
+        }
     }
 
     public void createNewBill(){
