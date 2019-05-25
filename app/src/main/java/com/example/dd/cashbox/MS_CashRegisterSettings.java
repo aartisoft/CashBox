@@ -1,5 +1,6 @@
 package com.example.dd.cashbox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -21,12 +22,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import SQLite.SQLiteDatabaseHandler_Session;
 import global.GlobVar;
 import objects.ObjPrinter;
 
 public class MS_CashRegisterSettings extends AppCompatActivity {
 
     private View m_decorView;
+    private Context m_Context;
     private SwitchCompat m_switchUseMainCash;
     private TextView m_TextViewPrinter;
     private Spinner m_Spinner_Printer;
@@ -43,6 +46,7 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
         setContentView(R.layout.activity_ms_cashregistersettings);
 
         //init variables
+        m_Context = this;
         m_decorView = getWindow().getDecorView();
         m_TextViewPrinter = findViewById(R.id.ms_cashregistersett_tvprinter);
         m_Spinner_Printer = findViewById(R.id.ms_cashregistersett_spinnerprinter);
@@ -118,6 +122,7 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
 
             //save printer globally
             GlobVar.g_objPrinter = foundPrinter;
+            updateDatabase();
 
         }
 
@@ -137,11 +142,15 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
                     m_TextViewPrinter.setVisibility(View.VISIBLE);
                     m_Spinner_Printer.setVisibility(View.VISIBLE);
                     setSpinnerPrinter();
+
+                    updateDatabase();
                 }
                 else{
                     GlobVar.g_bUseMainCash = false;
                     m_TextViewPrinter.setVisibility(View.GONE);
                     m_Spinner_Printer.setVisibility(View.GONE);
+
+                    updateDatabase();
                 }
             }
             else{
@@ -220,5 +229,10 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
                 m_Spinner_Printer.setAdapter(dataAdapter);
             }
         }
+    }
+
+    private void updateDatabase(){
+        SQLiteDatabaseHandler_Session db_session = new SQLiteDatabaseHandler_Session(m_Context);
+        db_session.saveSession();
     }
 }

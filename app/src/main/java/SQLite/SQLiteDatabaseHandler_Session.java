@@ -12,6 +12,7 @@ import java.util.List;
 import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjPrinter;
+import objects.ObjProduct;
 import objects.ObjSession;
 
 public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
@@ -24,9 +25,10 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
     private static final String KEY_HOSTNAME = "hostname";
     private static final String KEY_PARTYNAME = "partyname";
     private static final String KEY_PARYTDATE = "partydate";
+    private static final String KEY_USEMAINCASH = "usemaincash";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_CASHIERNAME, KEY_HOSTNAME, KEY_PARTYNAME,
-            KEY_PARYTDATE };
+            KEY_PARYTDATE, KEY_USEMAINCASH };
 
     public SQLiteDatabaseHandler_Session(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,7 +38,7 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE Session ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "cashiername TEXT, "
-                + "hostname TEXT, " + "partyname TEXT, " + "partydate TEXT)";
+                + "hostname TEXT, " + "partyname TEXT, " + "partydate TEXT, " + "usemaincash INTEGER )";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -58,30 +60,76 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
                 null, // g. order by
                 null); // h. limit
 
-        if (cursor != null)
-            cursor.moveToFirst();
+        if (cursor.moveToFirst()) {
+            do {
+                if (cursor.getCount() > 0) {
+                    ObjSession objSession = new ObjSession();
+                    objSession.setCashierName(cursor.getString(0));
+                    objSession.setHostName(cursor.getString(1));
+                    objSession.setPartyName(cursor.getString(2));
+                    objSession.setPartyDate(cursor.getString(3));
 
-        ObjSession objSession = new ObjSession();
-        objSession.setCashierName(cursor.getString(0));
-        objSession.setHostName(cursor.getString(1));
-        objSession.setPartyName(cursor.getString(2));
-        objSession.setPartyDate(cursor.getString(3));
+                    //set usemaincash
+                    boolean b_UseMainCash = true;
+                    if (cursor.getString(4).equals("0")) {
+                        b_UseMainCash = false;
+                    }
+                    GlobVar.g_bUseMainCash = b_UseMainCash;
 
-        //save globally
-        GlobVar.g_ObjSession = objSession;
+                    //save globally
+                    if (GlobVar.g_ObjSession == null) {
+                        GlobVar.g_ObjSession = objSession;
+                    }
+                }
+            } while (cursor.moveToNext());
+        }
     }
 
     public void saveSession() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(KEY_CASHIERNAME, GlobVar.g_ObjSession.getCashierName());
-        values.put(KEY_HOSTNAME, GlobVar.g_ObjSession.getHostName());
-        values.put(KEY_PARTYNAME, GlobVar.g_ObjSession.getPartyName());
-        values.put(KEY_PARYTDATE, GlobVar.g_ObjSession.getPartyDate());
+        String query = "SELECT  * FROM " + TABLE_NAME;
+        SQLiteDatabase db_read = this.getWritableDatabase();
+        Cursor cursor = db_read.rawQuery(query, null);
 
-        // insert
-        db.insert(TABLE_NAME,null, values);
-        db.close();
+
+        //session already saved --> update
+        if(cursor.getCount() > 0){
+            db_read.close();
+
+            SQLiteDatabase db_write = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(KEY_CASHIERNAME, GlobVar.g_ObjSession.getCashierName());
+            values.put(KEY_HOSTNAME, GlobVar.g_ObjSession.getHostName());
+            values.put(KEY_PARTYNAME, GlobVar.g_ObjSession.getPartyName());
+            values.put(KEY_PARYTDATE, GlobVar.g_ObjSession.getPartyDate());
+
+            int key_usemaincash = GlobVar.g_bUseMainCash ? 1 : 0;
+            values.put(KEY_USEMAINCASH, key_usemaincash);
+
+            int i = db_write.update(TABLE_NAME, // table
+                    values, // column/value
+                    "name = ? ", // selections
+                    new String[] { "Session" });
+
+            db_write.close();
+        }
+        //write session
+        else{
+            db_read.close();
+
+            SQLiteDatabase db_write = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(KEY_CASHIERNAME, GlobVar.g_ObjSession.getCashierName());
+            values.put(KEY_HOSTNAME, GlobVar.g_ObjSession.getHostName());
+            values.put(KEY_PARTYNAME, GlobVar.g_ObjSession.getPartyName());
+            values.put(KEY_PARYTDATE, GlobVar.g_ObjSession.getPartyDate());
+
+            int key_usemaincash = GlobVar.g_bUseMainCash ? 1 : 0;
+            values.put(KEY_USEMAINCASH, key_usemaincash);
+
+            // insert
+            db_write.insert(TABLE_NAME,null, values);
+            db_write.close();
+        }
     }
 
     public void deleteSession() {
