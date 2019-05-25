@@ -50,49 +50,41 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
     }
 
     public void getSession() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, // a. table
-                COLUMNS, // b. column names
-                " id = ?", // c. selections
-                new String[] { String.valueOf(0) }, // d. selections args
-                null, // e. group by
-                null, // f. having
-                null, // g. order by
-                null); // h. limit
+        String query = "SELECT  * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-                if (cursor.getCount() > 0) {
-                    ObjSession objSession = new ObjSession();
-                    objSession.setCashierName(cursor.getString(0));
-                    objSession.setHostName(cursor.getString(1));
-                    objSession.setPartyName(cursor.getString(2));
-                    objSession.setPartyDate(cursor.getString(3));
+                ObjSession objSession = new ObjSession();
+                objSession.setCashierName(cursor.getString(1));
+                objSession.setHostName(cursor.getString(2));
+                objSession.setPartyName(cursor.getString(3));
+                objSession.setPartyDate(cursor.getString(4));
 
-                    //set usemaincash
-                    boolean b_UseMainCash = true;
-                    if (cursor.getString(4).equals("0")) {
-                        b_UseMainCash = false;
-                    }
-                    GlobVar.g_bUseMainCash = b_UseMainCash;
+                //set usemaincash
+                boolean b_UseMainCash = true;
+                if (cursor.getString(5).equals("0")) {
+                    b_UseMainCash = false;
+                }
+                GlobVar.g_bUseMainCash = b_UseMainCash;
 
-                    //save globally
-                    if (GlobVar.g_ObjSession == null) {
-                        GlobVar.g_ObjSession = objSession;
-                    }
+                //save globally
+                if (GlobVar.g_ObjSession == null) {
+                    GlobVar.g_ObjSession = objSession;
                 }
             } while (cursor.moveToNext());
         }
     }
 
     public void saveSession() {
-        String query = "SELECT  * FROM " + TABLE_NAME;
+        String query = "SELECT COUNT(*) FROM " + TABLE_NAME;
         SQLiteDatabase db_read = this.getWritableDatabase();
         Cursor cursor = db_read.rawQuery(query, null);
 
 
         //session already saved --> update
-        if(cursor.getCount() > 0){
+        if(cursor != null && cursor.moveToFirst() && cursor.getInt (0) == 0){
             db_read.close();
 
             SQLiteDatabase db_write = this.getWritableDatabase();
