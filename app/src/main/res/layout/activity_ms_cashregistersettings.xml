@@ -27,7 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,7 +34,6 @@
             android:text="@string/src_AlsHauptkasseBenutzen"
             android:textColor="@color/colorBlack"
             android:textSize="16dp"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -47,7 +45,28 @@
                 android:layout_marginRight="15dp"
                 android:text=""
                 android:theme="@style/Color1SwitchStyle"/>
-
         </RelativeLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/ms_cashregistersett_tvprinter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/src_Drucker"
+        android:textColorHint="@color/colorGrey"
+        android:textColor="@color/colorGrey"
+        android:textSize="15dp">
+    </TextView>
+    <Spinner
+        android:id="@+id/ms_cashregistersett_spinnerprinter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        style="@android:style/Widget.Holo.Light.Spinner"
+        android:spinnerMode="dialog"/>
 </LinearLayout>

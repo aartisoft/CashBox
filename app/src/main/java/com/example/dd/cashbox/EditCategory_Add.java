@@ -86,8 +86,8 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
         //set Spinner Printer
         //if used as main cash register
         if(GlobVar.g_bUseMainCash){
-            m_TextViewPrinter.setVisibility(View.INVISIBLE);
-            m_Spinner_Printer.setVisibility(View.INVISIBLE);
+            m_TextViewPrinter.setVisibility(View.GONE);
+            m_Spinner_Printer.setVisibility(View.GONE);
         }
         else{
             setSpinnerPrinter();
