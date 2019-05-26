@@ -20,6 +20,8 @@ public abstract class GlobVar extends Application {
     public static List<List<ObjBill>> g_lstTableBills = new ArrayList<List<ObjBill>>();
     public static int g_iTables = -1;
     public static int g_iBillNr = -1;
+    public static int g_iSessionTable = -1;
+    public static int g_iSessionBill = -1;
     public static List<ObjPrintJob> g_lstPrintJob = new ArrayList<>();
     public static boolean g_bPrintQueueStarted = false;
     public static boolean g_bPrintQueueFilling = false;

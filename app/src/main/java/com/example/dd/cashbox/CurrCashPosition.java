@@ -23,6 +23,7 @@ import fragments.CurrCashPosTabProductFragment;
 import fragments.CurrCashPosTabSummaryFragment;
 import fragments.ViewPagerAllBillFragment;
 import fragments.ViewPagerCurrCashPosTabs;
+import global.GlobVar;
 
 public class CurrCashPosition extends AppCompatActivity {
 
@@ -48,8 +49,8 @@ public class CurrCashPosition extends AppCompatActivity {
         setContentView(R.layout.activity_currentcashposition);
 
         //get intent variables
-        m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
-        m_iSessionBill = getIntent().getIntExtra("BILL", -1);
+        m_iSessionTable = GlobVar.g_iSessionTable;
+        m_iSessionBill = GlobVar.g_iSessionBill;
 
         //init variables
         m_Context = this;
@@ -77,8 +78,8 @@ public class CurrCashPosition extends AppCompatActivity {
             case android.R.id.home:
 
                 Intent intent = new Intent(CurrCashPosition.this, MenuCashPosition.class);
-                intent.putExtra("BILL", m_iSessionBill);
-                intent.putExtra("TABLE", m_iSessionTable);
+                GlobVar.g_iSessionTable = m_iSessionTable;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 startActivity(intent);
                 finish();
                 return true;

@@ -59,8 +59,8 @@ public class AllBills extends AppCompatActivity {
         setContentView(R.layout.activity_allbills);
 
         //get intent variables
-        m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
-        m_iSessionBill = getIntent().getIntExtra("BILL", -1);
+        m_iSessionTable = GlobVar.g_iSessionTable;
+        m_iSessionBill = GlobVar.g_iSessionBill;
 
         //init variables
         m_Context = this;
@@ -89,8 +89,6 @@ public class AllBills extends AppCompatActivity {
             case android.R.id.home:
 
                 Intent intent = new Intent(AllBills.this, Main.class);
-                intent.putExtra("BILL", m_iSessionBill);
-                intent.putExtra("TABLE", m_iSessionTable);
                 startActivity(intent);
                 finish();
                 return true;
@@ -150,8 +148,8 @@ public class AllBills extends AppCompatActivity {
 
     public void openBill(int iTable, int iBillnr){
         Intent intent = new Intent(AllBills.this, Main.class);
-        intent.putExtra("BILL", iBillnr);
-        intent.putExtra("TABLE", iTable-1);
+        GlobVar.g_iSessionTable = iBillnr;
+        GlobVar.g_iSessionBill = iTable-1;
         startActivity(intent);
     }
 }

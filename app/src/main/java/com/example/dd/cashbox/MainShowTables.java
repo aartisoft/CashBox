@@ -37,7 +37,7 @@ public class MainShowTables extends AppCompatActivity {
         setContentView(R.layout.activity_main_showtables);
 
         //get intent variables
-        m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
+        m_iSessionTable = GlobVar.g_iSessionTable;
 
         //init variables
         m_Context = this;
@@ -67,8 +67,8 @@ public class MainShowTables extends AppCompatActivity {
 
 
             Intent intent = new Intent(MainShowTables.this, Main.class);
-            intent.putExtra("TABLE", position);
-            intent.putExtra("BILL", -1);
+            GlobVar.g_iSessionTable = position;
+            GlobVar.g_iSessionBill = -1;
             startActivity(intent);
         }
     };
@@ -79,7 +79,7 @@ public class MainShowTables extends AppCompatActivity {
             case android.R.id.home:
 
                 Intent intent = new Intent(MainShowTables.this, Main.class);
-                intent.putExtra("TABLE", m_iSessionTable);
+                GlobVar.g_iSessionTable = m_iSessionTable;
                 startActivity(intent);
                 finish();
                 return true;

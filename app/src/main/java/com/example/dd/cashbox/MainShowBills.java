@@ -41,8 +41,8 @@ public class MainShowBills extends AppCompatActivity {
         setContentView(R.layout.activity_main_showbills);
 
         //get intent variables
-        m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
-        m_iSessionBill = getIntent().getIntExtra("BILL", -1);
+        m_iSessionTable = GlobVar.g_iSessionTable;
+        m_iSessionBill = GlobVar.g_iSessionBill;
 
         //init variables
         m_Context = this;
@@ -76,8 +76,8 @@ public class MainShowBills extends AppCompatActivity {
                 ObjBill objBill = m_listViewBillAdapter.getObjBill(groupPosition);
 
                 Intent intent = new Intent(MainShowBills.this, Main.class);
-                intent.putExtra("BILL", objBill.getBillNr());
-                intent.putExtra("TABLE", m_iSessionTable);
+                GlobVar.g_iSessionBill = objBill.getBillNr();
+                GlobVar.g_iSessionTable = m_iSessionBill;
                 startActivity(intent);
                 return true;
             }
@@ -91,8 +91,8 @@ public class MainShowBills extends AppCompatActivity {
             case android.R.id.home:
 
                 Intent intent = new Intent(MainShowBills.this, Main.class);
-                intent.putExtra("BILL", m_iSessionBill);
-                intent.putExtra("TABLE", m_iSessionTable);
+                GlobVar.g_iSessionTable = m_iSessionTable;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 startActivity(intent);
                 finish();
                 return true;
@@ -129,8 +129,8 @@ public class MainShowBills extends AppCompatActivity {
         ObjBill objBill = m_listViewBillAdapter.getObjBill(position);
 
         Intent intent = new Intent(MainShowBills.this, Main.class);
-        intent.putExtra("BILL", objBill.getBillNr());
-        intent.putExtra("TABLE", m_iSessionTable);
+        GlobVar.g_iSessionTable = m_iSessionTable;
+        GlobVar.g_iSessionBill = objBill.getBillNr();
         startActivity(intent);
     }
 

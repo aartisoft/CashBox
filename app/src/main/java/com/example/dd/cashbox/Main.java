@@ -115,8 +115,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //activity variables
         m_iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
-        m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
-        m_iSessionBill = getIntent().getIntExtra("BILL", -1);
+        m_iSessionTable = GlobVar.g_iSessionTable;
+        m_iSessionBill = GlobVar.g_iSessionBill;
 
         //init variables
         m_Context = this;
@@ -247,7 +247,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         public void onClick(View v) {
             if(GlobVar.g_iTables != -1) {
                 Intent intent = new Intent(Main.this, MainShowTables.class);
-                intent.putExtra("TABLE", m_iSessionTable);
+                GlobVar.g_iSessionTable = m_iSessionTable;
                 startActivity(intent);
             }
             else{
@@ -262,8 +262,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 if(GlobVar.g_lstTableBills.size() > 0 && GlobVar.g_lstTableBills.get(m_iSessionTable).size() > 0 && billsToShow())
                 {
                     Intent intent = new Intent(Main.this, MainShowBills.class);
-                    intent.putExtra("TABLE", m_iSessionTable);
-                    intent.putExtra("BILL", m_iSessionBill);
+                    GlobVar.g_iSessionTable = m_iSessionTable;
+                    GlobVar.g_iSessionBill = m_iSessionBill;
                     startActivity(intent);
                 }
                 else{
@@ -311,8 +311,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 
             case R.id.main_usermenu_allbills:
                 Intent intent = new Intent(Main.this, AllBills.class);
-                intent.putExtra("TABLE", m_iSessionTable);
-                intent.putExtra("BILL", m_iSessionBill);
+                GlobVar.g_iSessionTable = m_iSessionTable;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 startActivity(intent);
                 return true;
                 
@@ -865,8 +865,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(GlobVar.g_bUseMainCash){
             if(m_iSessionBill != -1){
                 Intent intent = new Intent(Main.this, MainCash.class);
-                intent.putExtra("TABLE", 0);
-                intent.putExtra("BILL", m_iSessionBill);
+                GlobVar.g_iSessionTable = 0;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 startActivity(intent);
             }
             else{
@@ -891,8 +891,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 }
                 if (bFound) {
                     Intent intent = new Intent(Main.this, MainCash.class);
-                    intent.putExtra("TABLE", m_iSessionTable);
-                    intent.putExtra("BILL", m_iSessionBill);
+                    GlobVar.g_iSessionTable = m_iSessionTable;
+                    GlobVar.g_iSessionBill = m_iSessionBill;
                     startActivity(intent);
                 } else {
                     if (!bPrinted) {

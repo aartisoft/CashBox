@@ -91,8 +91,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         setContentView(R.layout.activity_main_cash);
 
         //get intent variables
-        m_iSessionTable = getIntent().getIntExtra("TABLE", -1);
-        m_iSessionBill = getIntent().getIntExtra("BILL", -1);
+        m_iSessionTable = GlobVar.g_iSessionTable;
+        m_iSessionBill = GlobVar.g_iSessionBill;
 
         //init variables
         m_Context = this;
@@ -201,8 +201,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
                 setPayTransitFalse();
 
                 Intent intent = new Intent(MainCash.this, Main.class);
-                intent.putExtra("BILL", m_iSessionBill);
-                intent.putExtra("TABLE", m_iSessionTable);
+                GlobVar.g_iSessionTable = m_iSessionTable;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 startActivity(intent);
                 finish();
                 return true;
@@ -240,8 +240,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
                 Intent intent = new Intent(MainCash.this, Main.class);
                 intent = new Intent(MainCash.this, Main.class);
-                intent.putExtra("BILL", m_iSessionBill);
-                intent.putExtra("TABLE", m_iSessionTable);
+                GlobVar.g_iSessionTable = m_iSessionTable;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 startActivity(intent);
                 finish();
                 break;
@@ -263,14 +263,14 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
                 Intent intent = new Intent(MainCash.this, Main.class);
                 intent = new Intent(MainCash.this, Main.class);
-                intent.putExtra("TABLE", m_iSessionTable);
+                GlobVar.g_iSessionTable = m_iSessionTable;
 
                 //if bill is completely empty, then close it
                 if (isBillEmpty(m_iSessionBillOLD)) {
-                    intent.putExtra("BILL", -2);
+                    GlobVar.g_iSessionBill = -1;
                 }
                 else {
-                    intent.putExtra("BILL", m_iSessionBillOLD);
+                    GlobVar.g_iSessionBill = m_iSessionBillOLD;
                 }
 
                 startActivity(intent);
