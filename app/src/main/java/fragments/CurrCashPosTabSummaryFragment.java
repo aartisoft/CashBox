@@ -141,7 +141,7 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
             for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
                 for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
-                    if(objBillProduct.getReturned()){
+                    if(objBillProduct.getReturned() && objBillProduct.getPaid()){
                         dSum += objBillProduct.getVK();
                     }
                 }

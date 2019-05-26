@@ -272,6 +272,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
             }
 
             if(GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getSqlChanged()){
+                values = new ContentValues();
                 values.put(KEY_TIP, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getTip());
 
                 int i = db.update(TABLE_NAME, // table

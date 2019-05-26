@@ -1030,8 +1030,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         if(!objBillProduct.isShown()){
                             iQuantity++;
 
-                            if(!objBillProduct.getReturned()
-                                    && !objBillProduct.getCanceled()){
+                            if(objBillProduct.getReturned() || objBillProduct.getCanceled()){
                                 iQuantity--;
                             }
 

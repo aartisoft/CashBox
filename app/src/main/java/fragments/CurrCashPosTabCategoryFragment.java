@@ -73,7 +73,7 @@ public class CurrCashPosTabCategoryFragment extends Fragment {
             for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
                 for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
                     if(objBillProduct.getCategory().equals(p_strCategory) && objBillProduct.getPaid()
-                        && !!objBillProduct.getReturned() && !objBillProduct.getCanceled()){
+                        && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
                         dSum += objBillProduct.getVK();
                     }
                 }
