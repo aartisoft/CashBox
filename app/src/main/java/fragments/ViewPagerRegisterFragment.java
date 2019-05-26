@@ -35,6 +35,8 @@ public class ViewPagerRegisterFragment extends Fragment {
 
     int m_position;
     private GridView m_GridView;
+    private int m_iSessionTable = -1;
+    private int m_iSessionBill = -1;
     private GridViewProductAdapter m_gridViewProductAdapter;
 
     public static Fragment getInstance(int position) {
@@ -75,19 +77,24 @@ public class ViewPagerRegisterFragment extends Fragment {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            int iTable = ((Main) getActivity()).getVarTable();
-            int iBillNr = ((Main) getActivity()).getVarBill();
+            m_iSessionTable = ((Main) getActivity()).getVarTable();
+            m_iSessionBill = ((Main) getActivity()).getVarBill();
             ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
 
-            // fragment only available if bill has been choosen
-            if(iBillNr != -1){
-                writeTableBillsList(position, iTable, iBillNr);
-                //tel main activity there is a new product available
-                ((Main) getActivity()).raiseNewProduct();
+            //bill closed?
+            if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
+                // fragment only available if bill has been choosen
+                if(m_iSessionBill != -1){
+                    writeTableBillsList(position, m_iSessionTable, m_iSessionBill);
+                    //tel main activity there is a new product available
+                    ((Main) getActivity()).raiseNewProduct();
+                }
+                else {
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+                }
             }
-            else {
-                Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+            else{
+                Toast.makeText(view.getContext(), getResources().getString(R.string.src_BelegWurdeGeschlossenUndKannNichtBearbeitetWerden), Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -96,28 +103,34 @@ public class ViewPagerRegisterFragment extends Fragment {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            int iTable = ((Main) getActivity()).getVarTable();
-            int iBillNr = ((Main) getActivity()).getVarBill();
+            m_iSessionTable = ((Main) getActivity()).getVarTable();
+            m_iSessionBill = ((Main) getActivity()).getVarBill();
             ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
 
-            // fragment only available if bill has been choosen
-            if(iBillNr != -1){
-                FragmentManager fm = getChildFragmentManager();
-                RegisterPopUpDialogFragment registerPopUpDialogFragment = RegisterPopUpDialogFragment.newInstance("Register PopUp");
+            //bill closed?
+            if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
+                // fragment only available if bill has been choosen
+                if(m_iSessionBill != -1){
+                    FragmentManager fm = getChildFragmentManager();
+                    RegisterPopUpDialogFragment registerPopUpDialogFragment = RegisterPopUpDialogFragment.newInstance("Register PopUp");
 
-                // pass table, bill to fragment
-                Bundle args = new Bundle();
-                args.putInt("TABLE", iTable);
-                args.putInt("BILL", iBillNr);
-                args.putString("CATEGORY", objproduct.getCategory());
-                args.putString("PRODUCT", objproduct.getName());
+                    // pass table, bill to fragment
+                    Bundle args = new Bundle();
+                    args.putInt("TABLE", m_iSessionTable);
+                    args.putInt("BILL", m_iSessionBill);
+                    args.putString("CATEGORY", objproduct.getCategory());
+                    args.putString("PRODUCT", objproduct.getName());
 
-                registerPopUpDialogFragment.setArguments(args);
-                registerPopUpDialogFragment.show(fm, "fragment_registerpopup");
+                    registerPopUpDialogFragment.setArguments(args);
+                    registerPopUpDialogFragment.show(fm, "fragment_registerpopup");
+                }
+                else
+                {
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+                }
             }
-            else
-            {
-                Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+            else{
+                Toast.makeText(view.getContext(), getResources().getString(R.string.src_BelegWurdeGeschlossenUndKannNichtBearbeitetWerden), Toast.LENGTH_SHORT).show();
             }
 
             return true;
@@ -154,5 +167,17 @@ public class ViewPagerRegisterFragment extends Fragment {
 
         //add globally
         GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
+    }
+
+    private int getBillListPointer(){
+        //get bill
+        int iBill = 0;
+        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+            if(objBill.getBillNr() == m_iSessionBill){
+                return iBill;
+            }
+            iBill++;
+        }
+        return 0;
     }
 }

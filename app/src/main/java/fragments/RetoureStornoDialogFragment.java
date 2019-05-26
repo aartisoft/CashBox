@@ -66,8 +66,8 @@ public class RetoureStornoDialogFragment extends DialogFragment {
         //activity variables
         m_strCategory = getArguments().getString("CATEGORY");
         m_strProduct = getArguments().getString("PRODUCT");
-        m_iSessionTable = getArguments().getInt("TABLE", -1);
-        m_iSessionBill = getArguments().getInt("BILL", -1);
+        m_iSessionTable = GlobVar.g_iSessionTable;
+        m_iSessionBill = GlobVar.g_iSessionBill;
 
         //set UI
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);

@@ -647,6 +647,11 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).setTip(dTip);
         GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).setSqlChanged(true);
 
+        //if bill is completely empty, then close it
+        if (isBillEmpty(m_iSessionBillOLD)) {
+            GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).setClosed(true);
+        }
+
         //update database
         SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
         db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);

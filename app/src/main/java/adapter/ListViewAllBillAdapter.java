@@ -116,7 +116,6 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
         final View.OnClickListener ChooseListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OnClickView.ivChoose.setImageDrawable(m_Context.getResources().getDrawable(R.drawable.ic_add_circle_outline_greydark_24dp));
                 ((AllBills)m_Context).openBill(m_List.get(OnClickPosition).getTable(), m_List.get(OnClickPosition).getBillNr());
 
             }

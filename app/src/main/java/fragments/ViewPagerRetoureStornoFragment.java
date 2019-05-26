@@ -102,10 +102,16 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
             }
 
             if(bChecked){
-                getPrize();
+                //bill closed?
+                if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
+                    getPrize();
 
-                //show popupwindow
-                showPopUpWIndowOk();
+                    //show popupwindow
+                    showPopUpWIndowOk();
+                }
+                else{
+                    Toast.makeText(m_Context, getResources().getString(R.string.src_BelegWurdeGeschlossenUndKannNichtBearbeitetWerden), Toast.LENGTH_SHORT).show();
+                }
             }
             else{
                 Toast.makeText(m_Context, getResources().getString(R.string.src_KeineProduktAusgewaehlt), Toast.LENGTH_SHORT).show();

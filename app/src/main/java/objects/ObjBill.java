@@ -11,6 +11,7 @@ public class ObjBill {
     private double m_dTip = 0.0;
     public List<ObjBillProduct> m_lstProducts = new ArrayList<ObjBillProduct>();
     private boolean m_bSqlChanged;
+    private boolean m_bClosed = false;
 
     //getter
     public int getBillNr(){
@@ -27,6 +28,9 @@ public class ObjBill {
     }
     public double getTip(){
         return this.m_dTip;
+    }
+    public boolean getClosed() {
+        return m_bClosed;
     }
     public boolean getSqlChanged() {
         return m_bSqlChanged;
@@ -48,6 +52,9 @@ public class ObjBill {
     }
     public void setTip(double p_dTip){
         this.m_dTip = p_dTip;
+    }
+    public void setClosed(boolean m_bClosed) {
+        this.m_bClosed = m_bClosed;
     }
     public void setSqlChanged(boolean m_bSqlChanged) {
         this.m_bSqlChanged = m_bSqlChanged;
