@@ -110,7 +110,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                     showPopUpWIndowOk();
                 }
                 else{
-                    Toast.makeText(m_Context, getResources().getString(R.string.src_BelegWurdeGeschlossenUndKannNichtBearbeitetWerden), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(m_Context, getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
                 }
             }
             else{

@@ -172,7 +172,7 @@
     <string name="src_Retouren">Retouren</string>
     <string name="src_Stornierungen">Stornierungen</string>
     <string name="src_Stornierung">Stornierung</string>
-    <string name="src_BelegWurdeGeschlossenUndKannNichtBearbeitetWerden">Beleg wurde geschlossen und kann nicht bearbeitet werden</string>
+    <string name="src_BelegBereitsGeschlossen">Beleg bereits geschlossen</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

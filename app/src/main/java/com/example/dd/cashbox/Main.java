@@ -712,7 +712,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             }
         }
         else{
-            Toast.makeText(m_Context, getResources().getString(R.string.src_BelegWurdeGeschlossenUndKannNichtBearbeitetWerden), Toast.LENGTH_SHORT).show();
+            Toast.makeText(m_Context, getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
         }
 
         return true;
@@ -916,7 +916,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             }
         }
         else {
-            Toast.makeText(m_Context, getResources().getString(R.string.src_BelegWurdeGeschlossenUndKannNichtBearbeitetWerden), Toast.LENGTH_SHORT).show();
+            Toast.makeText(m_Context, getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
         }
     }
 

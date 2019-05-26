@@ -148,8 +148,8 @@ public class AllBills extends AppCompatActivity {
 
     public void openBill(int iTable, int iBillnr){
         Intent intent = new Intent(AllBills.this, Main.class);
-        GlobVar.g_iSessionTable = iBillnr;
-        GlobVar.g_iSessionBill = iTable-1;
+        GlobVar.g_iSessionTable = iTable-1;
+        GlobVar.g_iSessionBill = iBillnr;
         startActivity(intent);
     }
 }

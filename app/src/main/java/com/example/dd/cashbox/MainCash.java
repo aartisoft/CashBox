@@ -267,7 +267,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
                 //if bill is completely empty, then close it
                 if (isBillEmpty(m_iSessionBillOLD)) {
-                    GlobVar.g_iSessionBill = -1;
+                    GlobVar.g_iSessionBill = -2;
                 }
                 else {
                     GlobVar.g_iSessionBill = m_iSessionBillOLD;

@@ -15,7 +15,6 @@ import com.example.dd.cashbox.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -27,8 +26,6 @@ import androidx.fragment.app.FragmentManager;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
-import objects.ObjCategory;
-import objects.ObjPrinter;
 import objects.ObjProduct;
 
 public class ViewPagerRegisterFragment extends Fragment {
@@ -94,7 +91,7 @@ public class ViewPagerRegisterFragment extends Fragment {
                 }
             }
             else{
-                Toast.makeText(view.getContext(), getResources().getString(R.string.src_BelegWurdeGeschlossenUndKannNichtBearbeitetWerden), Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -130,7 +127,7 @@ public class ViewPagerRegisterFragment extends Fragment {
                 }
             }
             else{
-                Toast.makeText(view.getContext(), getResources().getString(R.string.src_BelegWurdeGeschlossenUndKannNichtBearbeitetWerden), Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
             }
 
             return true;
