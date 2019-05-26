@@ -78,8 +78,8 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         hashMap = new HashMap<>();
         hashMap.put("typ", getResources().getString(R.string.src_Gesamt));
         //get sum
-        double dSumAll = getAllIncomeSum();
-        String strSumAll = df.format(dSum);
+        double dSumAll = getRevenueSum();
+        String strSumAll = df.format(dSumAll);
         hashMap.put("value", strSumAll + " €");
         lstViewAttr.add(hashMap);
 
@@ -128,6 +128,20 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
             for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
                 for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
                     if(objBillProduct.getPaid()){
+                        dSum += objBillProduct.getVK();
+                    }
+                }
+            }
+        }
+        return dSum;
+    }
+
+    private double getRevenueSum(){
+        double dSum = 0.0;
+        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
+                for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
+                    if(objBillProduct.getPaid() && !objBillProduct.getReturned()){
                         dSum += objBillProduct.getVK();
                     }
                 }
