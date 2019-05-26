@@ -27,6 +27,8 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         public TextView textview_prize;
         public TextView textview_paidQ;
         public ImageView imageview_paid;
+        public TextView textview_canceledQ;
+        public TextView textview_returnedQ;
         public TextView textview_printerQ;
         public ImageView imageview_printer;
         public View mCardView;
@@ -38,6 +40,8 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
             textview_prize = view.findViewById(R.id.am_bill_rv_prize);
             textview_paidQ = view.findViewById(R.id.am_bill_rv_paid_tv);
             imageview_paid = view.findViewById(R.id.am_bill_rv_paid_iv);
+            textview_canceledQ = view.findViewById(R.id.am_bill_rv_storno_tv);
+            textview_returnedQ = view.findViewById(R.id.am_bill_rv_retoure_tv);
             textview_printerQ = view.findViewById(R.id.am_bill_rv_printer_tv);
             imageview_printer = view.findViewById(R.id.am_bill_rv_printerimage);
 
@@ -88,9 +92,17 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.textview_prize.setText(strVK);
 
         //set image paid
-        String strPaid = item.getPaid() + "x";
+        String strPaid = item.getPaid() + "x B";
         holder.textview_paidQ.setText(strPaid);
-        holder.imageview_paid.setVisibility(View.VISIBLE);
+        holder.imageview_paid.setVisibility(View.GONE);
+
+        //set canceled
+        String strCanceled = item.getPaid() + "x S";
+        holder.textview_canceledQ.setText(strCanceled);
+
+        //set returned
+        String strReturned = item.getPaid() + "x R";
+        holder.textview_returnedQ.setText(strReturned);
 
         //set image printer
         //if used as main cash register

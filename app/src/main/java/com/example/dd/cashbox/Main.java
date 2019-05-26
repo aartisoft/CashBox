@@ -259,7 +259,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         @Override
         public void onClick(View v) {
             if(m_iSessionTable != -1){
-                if(GlobVar.g_lstTableBills.get(m_iSessionTable).size() > 0 && billsToShow())
+                if(GlobVar.g_lstTableBills.size() > 0 && GlobVar.g_lstTableBills.get(m_iSessionTable).size() > 0 && billsToShow())
                 {
                     Intent intent = new Intent(Main.this, MainShowBills.class);
                     intent.putExtra("TABLE", m_iSessionTable);
@@ -425,7 +425,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
                 //read tables
                 SQLiteDatabaseHandler_Tables db_tables = new SQLiteDatabaseHandler_Tables(m_Context);
-                GlobVar.g_iTables = db_tables.getTables();
+                //if used as main cash register
+                if(GlobVar.g_bUseMainCash){
+                    GlobVar.g_iTables = 1;
+                }
+                else {
+                    GlobVar.g_iTables = db_tables.getTables();
+                }
 
                 //read tablebills
                 SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);

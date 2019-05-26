@@ -74,6 +74,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
 
         //init global list
+        //if used as main cash register
         for (int iTables = 0; iTables <= GlobVar.g_iTables; iTables++){
             List<ObjBill> lstBill = new ArrayList<ObjBill>();
             GlobVar.g_lstTableBills.add(lstBill);

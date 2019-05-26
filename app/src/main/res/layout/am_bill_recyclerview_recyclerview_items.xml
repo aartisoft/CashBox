@@ -67,7 +67,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:src="@drawable/ic_check_black_16dp" />
+                android:src="@drawable/givemoney_black_16dp" />
+
+            <TextView
+                android:id="@+id/am_bill_rv_storno_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                tools:text="2x S" />
+
+            <TextView
+                android:id="@+id/am_bill_rv_retoure_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                tools:text="2x R" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
