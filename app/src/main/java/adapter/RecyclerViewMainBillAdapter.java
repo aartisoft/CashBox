@@ -92,16 +92,16 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.textview_prize.setText(strVK);
 
         //set image paid
-        String strPaid = item.getPaid() + "x B";
+        String strPaid = item.getPaid() + "xB";
         holder.textview_paidQ.setText(strPaid);
         holder.imageview_paid.setVisibility(View.GONE);
 
         //set canceled
-        String strCanceled = item.getPaid() + "x S";
+        String strCanceled = item.getCanceled() + "xS";
         holder.textview_canceledQ.setText(strCanceled);
 
         //set returned
-        String strReturned = item.getPaid() + "x R";
+        String strReturned = item.getReturned() + "xR";
         holder.textview_returnedQ.setText(strReturned);
 
         //set image printer

@@ -140,15 +140,15 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                 if(objBillProduct.getProduct().getName().equals(m_strProduct)){
                     //retoure
                     if(m_strTask.equals("returned")) {
-                        if(GlobVar.g_bUseMainCash && objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()
-                            || (!GlobVar.g_bUseMainCash && objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled())){
+                        if(!GlobVar.g_bUseMainCash && objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()
+                            || (GlobVar.g_bUseMainCash && objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled())){
                             lstObjBillProducts.add(objBillProduct);
                         }
                     }
                     //storno
                     else{
-                        if(GlobVar.g_bUseMainCash && !objBillProduct.getPaid() && !objBillProduct.getPrinted() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()
-                            || (!GlobVar.g_bUseMainCash && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())){
+                        if(!GlobVar.g_bUseMainCash && !objBillProduct.getPaid() && !objBillProduct.getPrinted() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()
+                            || (GlobVar.g_bUseMainCash && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())){
                             lstObjBillProducts.add(objBillProduct);
                         }
                     }

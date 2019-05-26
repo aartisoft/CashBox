@@ -1014,20 +1014,20 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //set list
         for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
             //add new item or update list
-            if(!objBillProductAdapter.getCanceled()
-                    && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown()){
+            if(!objBillProductAdapter.isShown()){
                 //init variables
                 ObjBillProduct objBillProductSearch = objBillProductAdapter;
                 int iQuantity = 0;
                 int iPaid = 0;
                 int iPrinted = 0;
+                int iCanceled = 0;
+                int iReturned = 0;
                 double dPrize = 0.0;
                 boolean bFound = false;
 
                 for(ObjBillProduct objBillProduct : lstObjBillProduct){
                     if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
-                        if(!objBillProduct.getCanceled()
-                                && !objBillProduct.getReturned() && !objBillProduct.isShown()){
+                        if(!objBillProduct.isShown()){
                             iQuantity++;
                             dPrize += objBillProduct.getVK();
                             //if pawn is available
@@ -1035,13 +1035,23 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                 dPrize += objBillProduct.getProduct().getPawn();
                             }
 
-                            if(objBillProduct.getPaid()){
+                            if(objBillProduct.getPaid() && !objBillProduct.getReturned()
+                                && objBillProduct.getCanceled()){
                                 iPaid++;
                             }
 
                             if(objBillProduct.getPrinted()){
                                 iPrinted++;
                             }
+
+                            if(objBillProduct.getCanceled()){
+                                iCanceled++;
+                            }
+
+                            if(objBillProduct.getReturned()){
+                                iReturned++;
+                            }
+
                             objBillProduct.setShown(true);
                             bFound = true;
                         }
@@ -1063,6 +1073,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         objMainBillProductExists.setQuantity(iQuantity);
                         objMainBillProductExists.setPaid(iPaid);
                         objMainBillProductExists.setPrinted(iPrinted);
+                        objMainBillProductExists.setCanceled(iCanceled);
+                        objMainBillProductExists.setReturned(iReturned);
                         objMainBillProductExists.setVK(dPrize);
                     }
                     //add new item
@@ -1072,6 +1084,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         objMainBillProduct.setQuantity(iQuantity);
                         objMainBillProduct.setPaid(iPaid);
                         objMainBillProduct.setPrinted(iPrinted);
+                        objMainBillProduct.setCanceled(iCanceled);
+                        objMainBillProduct.setReturned(iReturned);
                         objMainBillProduct.setVK(dPrize);
 
                         this.m_ListObjMainBillProduct.add(objMainBillProduct);
@@ -1085,11 +1099,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             boolean bKeepAlive = false;
             for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
                 if(objBillProductAdapter.getProduct() == m_ListObjMainBillProduct.get(i).getProduct()){
-                    if(!objBillProductAdapter.getCanceled()
-                            && !objBillProductAdapter.getReturned()){
+                    //if(!objBillProductAdapter.getCanceled()
+                      //      && !objBillProductAdapter.getReturned()){
                         bKeepAlive = true;
                         break;
-                    }
+                   // }
                 }
             }
             if(!bKeepAlive){
