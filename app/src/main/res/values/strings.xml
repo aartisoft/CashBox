@@ -153,6 +153,7 @@
     <string name="src_Gesamt">Gesamt</string>
     <string name="src_Start">Start</string>
     <string name="src_VerkaeufeMit">Verkäufe mit</string>
+    <string name="src_VerkaufMit">Verkauf mit</string>
     <string name="src_MwSt">MwSt.</string>
     <string name="src_Benutzerkonten">Benutzerkonten</string>
     <string name="src_Abonnementverwaltung">Abonnementverwaltung</string>
@@ -168,6 +169,9 @@
     <string name="src_BelegDrucken">Beleg drucken</string>
     <string name="src_KasseMussFuerDieseUmstellungUnbenutztSein">Kasse muss für diese Umstellung unbenutzt sein!</string>
     <string name="src_OffSumme">Off. Summe</string>
+    <string name="src_Retouren">Retouren</string>
+    <string name="src_Stornierungen">Stornierungen</string>
+    <string name="src_Stornierung">Stornierung</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

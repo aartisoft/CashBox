@@ -14,10 +14,8 @@ import com.example.dd.cashbox.R;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import adapter.ListViewCurrCashPositionAdapter;
 import adapter.ListViewCurrCashPositionProductAdapter;
 import global.GlobVar;
 import objects.ObjBillProduct;
@@ -58,7 +56,7 @@ public class CurrCashPosTabProductFragment extends Fragment {
                 //init object regular
                 ObjProductCashPos objProductCashPos = new ObjProductCashPos();
                 objProductCashPos.setName(objProduct.getName());
-                objProductCashPos = getProductInfo(objProductCashPos, objProduct.getTax(), false);
+                objProductCashPos = getProductInfoTax(objProductCashPos, objProduct.getTax(), false);
                 if(objProductCashPos != null){
                     lstProduct.add(objProductCashPos);
                 }
@@ -66,7 +64,23 @@ public class CurrCashPosTabProductFragment extends Fragment {
                 //init object togo
                 objProductCashPos = new ObjProductCashPos();
                 objProductCashPos.setName(objProduct.getName());
-                objProductCashPos = getProductInfo(objProductCashPos, objProduct.getTax(), true);
+                objProductCashPos = getProductInfoTax(objProductCashPos, objProduct.getTax(), true);
+                if(objProductCashPos != null){
+                    lstProduct.add(objProductCashPos);
+                }
+
+                //init object retoure
+                objProductCashPos = new ObjProductCashPos();
+                objProductCashPos.setName(objProduct.getName());
+                objProductCashPos = getProductInfoRetoure(objProductCashPos);
+                if(objProductCashPos != null){
+                    lstProduct.add(objProductCashPos);
+                }
+
+                //init object storno
+                objProductCashPos = new ObjProductCashPos();
+                objProductCashPos.setName(objProduct.getName());
+                objProductCashPos = getProductInfoStorno(objProductCashPos);
                 if(objProductCashPos != null){
                     lstProduct.add(objProductCashPos);
                 }
@@ -77,7 +91,7 @@ public class CurrCashPosTabProductFragment extends Fragment {
         m_lvsumincome.setAdapter(m_adapterlvsumincome);
     }
 
-    private ObjProductCashPos getProductInfo(ObjProductCashPos p_objProductCashPos, double p_dTax, boolean p_bToGo){
+    private ObjProductCashPos getProductInfoTax(ObjProductCashPos p_objProductCashPos, double p_dTax, boolean p_bToGo){
         double dSum = 0.0;
         int iCount = 0;
         DecimalFormat df = new DecimalFormat("0.00");
@@ -112,8 +126,93 @@ public class CurrCashPosTabProductFragment extends Fragment {
             p_objProductCashPos.setVK(strOutput + " €");
 
             //set info
-            String strInfo = iCount + " " + m_Context.getResources().getString(R.string.src_VerkaeufeMit)
-                    + " " + p_dTax + "%" + " " + m_Context.getResources().getString(R.string.src_MwSt);
+            String strInfo;
+            if(iCount > 1){
+                strInfo = iCount + " " + m_Context.getResources().getString(R.string.src_VerkaeufeMit)
+                                    + " " + p_dTax + "%" + " " + m_Context.getResources().getString(R.string.src_MwSt);
+            }
+            else{
+                strInfo = iCount + " " + m_Context.getResources().getString(R.string.src_VerkaufMit)
+                        + " " + p_dTax + "%" + " " + m_Context.getResources().getString(R.string.src_MwSt);
+            }
+
+
+            p_objProductCashPos.setInfo(strInfo);
+
+            return p_objProductCashPos;
+        }
+        return null;
+    }
+
+    private ObjProductCashPos getProductInfoRetoure(ObjProductCashPos p_objProductCashPos){
+        double dSum = 0.0;
+        int iCount = 0;
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++) {
+            for (int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++) {
+                for (ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts) {
+                    if (objBillProduct.getProduct().getName().equals(p_objProductCashPos.getName())
+                            && objBillProduct.getReturned()) {
+                        dSum += objBillProduct.getVK();
+                        iCount++;
+                    }
+                }
+            }
+        }
+
+        if(iCount != 0){
+            //set sum
+            String strOutput = df.format(dSum);
+            p_objProductCashPos.setVK("-" + strOutput + " €");
+
+            //set info
+            String strInfo;
+            if(iCount > 1){
+                strInfo = iCount + " " + m_Context.getResources().getString(R.string.src_Retouren);
+            }
+            else{
+                strInfo = iCount + " " + m_Context.getResources().getString(R.string.src_Retoure);
+            }
+            p_objProductCashPos.setInfo(strInfo);
+
+            return p_objProductCashPos;
+        }
+        return null;
+    }
+
+    private ObjProductCashPos getProductInfoStorno(ObjProductCashPos p_objProductCashPos){
+        double dSum = 0.0;
+        int iCount = 0;
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++) {
+            for (int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++) {
+                for (ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts) {
+                    if (objBillProduct.getProduct().getName().equals(p_objProductCashPos.getName())
+                            && objBillProduct.getCanceled()) {
+                        dSum += objBillProduct.getVK();
+                        iCount++;
+                    }
+                }
+            }
+        }
+
+        if(iCount != 0){
+            //set sum
+            String strOutput = df.format(dSum);
+            //p_objProductCashPos.setVK("-" + strOutput + " €");
+            p_objProductCashPos.setVK("0,00€");
+
+            //set info
+            String strInfo;
+            if(iCount > 1){
+                strInfo = iCount + " " + m_Context.getResources().getString(R.string.src_Stornierungen);
+            }
+            else{
+                strInfo = iCount + " " + m_Context.getResources().getString(R.string.src_Stornierung);
+            }
+
             p_objProductCashPos.setInfo(strInfo);
 
             return p_objProductCashPos;

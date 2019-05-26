@@ -68,6 +68,14 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
         lstViewAttr.add(hashMap);
 
         hashMap = new HashMap<>();
+        hashMap.put("typ", getResources().getString(R.string.src_Retoure));
+        //get sum
+        dSum = getRetoureSum();
+        strOutput = df.format(dSum);
+        hashMap.put("value", "-" + strOutput + " €");
+        lstViewAttr.add(hashMap);
+
+        hashMap = new HashMap<>();
         hashMap.put("typ", getResources().getString(R.string.src_Gesamt));
         //get sum
         double dSumAll = getAllIncomeSum();
@@ -120,6 +128,20 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
             for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
                 for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
                     if(objBillProduct.getPaid()){
+                        dSum += objBillProduct.getVK();
+                    }
+                }
+            }
+        }
+        return dSum;
+    }
+
+    private double getRetoureSum(){
+        double dSum = 0.0;
+        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
+                for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
+                    if(objBillProduct.getReturned()){
                         dSum += objBillProduct.getVK();
                     }
                 }
