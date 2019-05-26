@@ -1029,14 +1029,23 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
                         if(!objBillProduct.isShown()){
                             iQuantity++;
-                            dPrize += objBillProduct.getVK();
+
+                            if(!objBillProduct.getReturned()
+                                    && !objBillProduct.getCanceled()){
+                                iQuantity--;
+                            }
+
+                            if(!objBillProduct.getReturned() && !objBillProduct.getCanceled()) {
+                                dPrize += objBillProduct.getVK();
+                            }
+
                             //if pawn is available
                             if(objBillProduct.getProduct().getbPawn()){
                                 dPrize += objBillProduct.getProduct().getPawn();
                             }
 
                             if(objBillProduct.getPaid() && !objBillProduct.getReturned()
-                                && objBillProduct.getCanceled()){
+                                && !objBillProduct.getCanceled()){
                                 iPaid++;
                             }
 
