@@ -218,6 +218,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 //this.deleteDatabase("PrintersDB");
                 this.deleteDatabase("TableBillsDB");
                 this.deleteDatabase("TablesDB");
+                this.deleteDatabase("SessionDB");
                 Toast.makeText(Main.this, getResources().getString(R.string.src_KasseWurdeVollstaendigGeloescht), Toast.LENGTH_SHORT).show();
                 break;
 
@@ -386,6 +387,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private void readSQLiteDB(){
         try{
             if(GlobVar.g_bReadSQL){
+                //read printers
+                SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
+                if(GlobVar.g_lstPrinter.isEmpty()){
+                    GlobVar.g_lstPrinter = db_printer.allPrinters();
+                }
+
                 //read session --> comes from server database or start screen (has to be implemented)
                 SQLiteDatabaseHandler_Session db_session = new SQLiteDatabaseHandler_Session(m_Context);
                 db_session.getSession();
@@ -394,12 +401,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 GlobVar.g_ObjSession.setHostName("Musikverein Illingen e.V.");
                 GlobVar.g_ObjSession.setPartyName("Scheunenfest");
                 GlobVar.g_ObjSession.setPartyDate("24.05.2019");
-
-                //read printers
-                SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
-                if(GlobVar.g_lstPrinter.isEmpty()){
-                    GlobVar.g_lstPrinter = db_printer.allPrinters();
-                }
 
                 //read categories
                 SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);

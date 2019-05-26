@@ -26,9 +26,10 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
     private static final String KEY_PARTYNAME = "partyname";
     private static final String KEY_PARYTDATE = "partydate";
     private static final String KEY_USEMAINCASH = "usemaincash";
+    private static final String KEY_PRINTERMAC = "printermac";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_CASHIERNAME, KEY_HOSTNAME, KEY_PARTYNAME,
-            KEY_PARYTDATE, KEY_USEMAINCASH };
+            KEY_PARYTDATE, KEY_USEMAINCASH, KEY_PRINTERMAC };
 
     public SQLiteDatabaseHandler_Session(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,7 +39,8 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE Session ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "cashiername TEXT, "
-                + "hostname TEXT, " + "partyname TEXT, " + "partydate TEXT, " + "usemaincash INTEGER )";
+                + "hostname TEXT, " + "partyname TEXT, " + "partydate TEXT, " + "usemaincash INTEGER, "
+                + "printermac TEXT )";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -69,6 +71,13 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
                 }
                 GlobVar.g_bUseMainCash = b_UseMainCash;
 
+                //set printer
+                for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
+                    if(objprinter.getMacAddress().equals(cursor.getString(6))){
+                        GlobVar.g_objPrinter = objprinter;
+                    }
+                }
+
                 //save globally
                 if (GlobVar.g_ObjSession == null) {
                     GlobVar.g_ObjSession = objSession;
@@ -84,7 +93,7 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
 
 
         //session already saved --> update
-        if(cursor != null && cursor.moveToFirst() && cursor.getInt (0) == 0){
+        if(cursor != null && cursor.moveToFirst() && cursor.getInt (0) != 0){
             db_read.close();
 
             SQLiteDatabase db_write = this.getWritableDatabase();
@@ -97,10 +106,19 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
             int key_usemaincash = GlobVar.g_bUseMainCash ? 1 : 0;
             values.put(KEY_USEMAINCASH, key_usemaincash);
 
+            //write printer
+            if(GlobVar.g_objPrinter != null){
+                values.put(KEY_PRINTERMAC, GlobVar.g_objPrinter.getMacAddress());
+            }
+            else{
+                values.put(KEY_PRINTERMAC, "");
+            }
+
+
             int i = db_write.update(TABLE_NAME, // table
                     values, // column/value
-                    "name = ? ", // selections
-                    new String[] { "Session" });
+                    "id = ? ", // selections
+                    new String[] { String.valueOf(1) });
 
             db_write.close();
         }
@@ -117,6 +135,14 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
 
             int key_usemaincash = GlobVar.g_bUseMainCash ? 1 : 0;
             values.put(KEY_USEMAINCASH, key_usemaincash);
+
+            //write printer
+            if(GlobVar.g_objPrinter != null){
+                values.put(KEY_PRINTERMAC, GlobVar.g_objPrinter.getMacAddress());
+            }
+            else{
+                values.put(KEY_PRINTERMAC, "");
+            }
 
             // insert
             db_write.insert(TABLE_NAME,null, values);
