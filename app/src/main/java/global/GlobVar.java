@@ -30,6 +30,7 @@ public abstract class GlobVar extends Application {
 
     //setting variables
     public static ObjSession g_ObjSession = new ObjSession();
+    public static List<ObjUser> g_lstUser = new ArrayList<ObjUser>();
     public static boolean g_bUseMainCash = false;
     public static ObjPrinter g_objPrinter;
 }
