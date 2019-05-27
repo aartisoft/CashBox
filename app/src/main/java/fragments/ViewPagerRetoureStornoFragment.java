@@ -40,12 +40,10 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
     private String m_strTask = "";
     private double m_dPrize = 0.00;
 
-    public static Fragment getInstance(String strCategory, String strProduct, int iSessionTable, int iSessionBill, String strTask) {
+    public static Fragment getInstance(String strCategory, String strProduct, String strTask) {
         Bundle bundle = new Bundle();
         bundle.putString("CATEGORY", strCategory);
         bundle.putString("PRODUCT", strProduct);
-        bundle.putInt("TABLE", iSessionTable);
-        bundle.putInt("BILL", iSessionBill);
         bundle.putString("TASK", strTask);
         ViewPagerRetoureStornoFragment tabFragment = new ViewPagerRetoureStornoFragment();
         tabFragment.setArguments(bundle);
@@ -59,8 +57,8 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         //activity variables
         m_strCategory = getArguments().getString("CATEGORY");
         m_strProduct = getArguments().getString("PRODUCT");
-        m_iSessionTable = getArguments().getInt("TABLE", -1);
-        m_iSessionBill = getArguments().getInt("BILL", -1);
+        m_iSessionTable = GlobVar.g_iSessionTable;
+        m_iSessionBill = GlobVar.g_iSessionBill;
         m_strTask = getArguments().getString("TASK");
     }
 
@@ -153,8 +151,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                     }
                     //storno
                     else{
-                        if(!GlobVar.g_bUseMainCash && !objBillProduct.getPaid() && !objBillProduct.getPrinted() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()
-                            || (GlobVar.g_bUseMainCash && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())){
+                        if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() ){
                             lstObjBillProducts.add(objBillProduct);
                         }
                     }

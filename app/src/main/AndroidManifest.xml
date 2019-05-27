@@ -39,6 +39,7 @@
         <activity android:name=".MenuCashPosition" />
         <activity android:name=".CurrCashPosition" />
         <activity android:name=".MS_CashRegisterSettings" />
+        <activity android:name=".MS_UserAccounts" />
     </application>
 
 </manifest>

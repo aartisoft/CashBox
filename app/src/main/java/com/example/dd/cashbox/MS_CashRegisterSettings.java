@@ -135,7 +135,7 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             //setting is only available if cash register has not been used yet
-            if(GlobVar.g_lstTableBills.isEmpty()){
+            if(GlobVar.g_lstTableBills.size() == 0){
                 if(isChecked){
                     GlobVar.g_bUseMainCash = true;
                     m_TextViewPrinter.setVisibility(View.VISIBLE);

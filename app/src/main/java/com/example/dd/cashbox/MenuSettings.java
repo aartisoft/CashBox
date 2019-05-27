@@ -56,6 +56,10 @@ public class MenuSettings extends AppCompatActivity {
             if (selectedItem.equals(getResources().getString(R.string.src_Druckerverwaltung))) {
                 startActivity(new Intent(MenuSettings.this, MS_AddPrinter.class));
             }
+
+            if (selectedItem.equals(getResources().getString(R.string.src_Benutzerkonten))) {
+                startActivity(new Intent(MenuSettings.this, MS_UserAccounts.class));
+            }
         }
     };
 

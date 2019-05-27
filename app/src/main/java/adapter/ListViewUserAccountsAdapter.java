@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.dd.cashbox.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import objects.ObjPrinterSearch;
 import objects.ObjUser;
@@ -21,9 +22,9 @@ import objects.ObjUser;
 public class ListViewUserAccountsAdapter extends BaseAdapter {
 
     private Context m_Context;
-    ArrayList<ObjUser> m_List;
+    List<ObjUser> m_List;
 
-    public ListViewUserAccountsAdapter(Context context, ArrayList<ObjUser> user) {
+    public ListViewUserAccountsAdapter(Context context, List<ObjUser> user) {
         super();
         this.m_Context = context;
         this.m_List = user;

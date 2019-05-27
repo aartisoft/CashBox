@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/src_DruckerAuswaehlen"
+            android:text="@string/src_Benutzerkonten"
             android:textColor="@color/colorWhite"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
@@ -48,11 +48,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="0dp"
-            android:layout_gravity="bottom|right"
-            app:layout_anchorGravity="bottom|right"
+            android:layout_gravity="bottom|center"
+            app:layout_anchorGravity="bottom|center"
             app:fabSize="normal"
             app:backgroundTint="@color/colorPrimary3"
-            android:src="@drawable/ic_check_white_24dp"
+            android:src="@drawable/ic_add_white_24dp"
             android:scaleType="center"
             android:layout_margin="16dp"
             android:clickable="true"/>
