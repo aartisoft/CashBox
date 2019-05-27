@@ -20,12 +20,12 @@ import objects.ObjPrinterSearch;
 public class ListViewUserAccountsAdapter extends BaseAdapter {
 
     private Context m_Context;
-    ArrayList<ObjPrinterSearch> m_List;
+    ArrayList<ObjUser> m_List;
 
-    public ListViewUserAccountsAdapter(Context context, ArrayList<ObjPrinterSearch> printers) {
+    public ListViewUserAccountsAdapter(Context context, ArrayList<ObjUser> user) {
         super();
         this.m_Context = context;
-        this.m_List = printers;
+        this.m_List = user;
     }
 
     @Override
