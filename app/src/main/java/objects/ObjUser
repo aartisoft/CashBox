@@ -1,0 +1,18 @@
+package objects;
+
+public class ObjUser {
+
+    public ObjUser(){
+    }
+    
+    private String m_strUserName = "";
+
+    public String getUserName() {
+        return m_strUserName;
+    }
+
+
+    public void setUserName(String p_strUserName) {
+        this.m_strUserName = p_strUserName;
+    }
+}
