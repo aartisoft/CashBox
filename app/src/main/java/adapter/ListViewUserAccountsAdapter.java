@@ -16,6 +16,7 @@ import com.example.dd.cashbox.R;
 import java.util.ArrayList;
 
 import objects.ObjPrinterSearch;
+import objects.ObjUser;
 
 public class ListViewUserAccountsAdapter extends BaseAdapter {
 
@@ -43,7 +44,7 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
     public void onItemSelected(int position) {
     }
 
-    public ObjPrinterSearch getObjPrinter(int position){
+    public ObjUser getObjUser(int position){
         return m_List.get(position);
     }
 
@@ -58,8 +59,8 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
             convertView = inflator.inflate(R.layout.ms_ap_search_itemlistrow,  parent, false);
 
             // Lookup view for data population
-            view.txtTarget = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_ip);
-            view.txtName = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_name);
+            view.txtName = (TextView) convertView.findViewById(R.id.activity_ms_ua_ilr_user);
+            //view.txtTarget = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_ip);
             view.cbAdd = (CheckBox)convertView.findViewById(R.id.ms_ap_search_ilr_cb);
 
             view.cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -75,8 +76,8 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
         }
 
         // Populate the data into the template view using the data object
-        view.txtName.setText(m_List.get(position).getDeviceBrand() + " " +  m_List.get(position).getDeviceName());
-        view.txtTarget.setText(m_List.get(position).getIpAddress());
+        view.txtName.setText(m_List.get(position).getUserName());
+        //view.txtTarget.setText(m_List.get(position).getIpAddress());
         view.cbAdd.setChecked(m_List.get(position).isChecked());
 
         // Return the completed view to render on screen

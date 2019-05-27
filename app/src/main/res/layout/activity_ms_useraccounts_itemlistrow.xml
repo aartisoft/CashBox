@@ -11,20 +11,20 @@
         android:layout_marginRight="20dip"
         android:layout_marginLeft="16dip"
         android:gravity="center_vertical"
-        android:src="@drawable/ic_print_black_24dp" />
+        android:src="@drawable/ic_account_circle_grey_24dp" />
 
     <TextView
-        android:id="@+id/activity_ms_ua_ilr_user"
+        android:id="@+id/activity_ms_ua_ilr_user2"
         android:layout_width="fill_parent"
         android:layout_height="26dip"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/activity_ms_ua_ilr_icon"
         android:singleLine="true"
-        android:text="Adresse"
+        android:text="Info"
         android:textSize="12sp"/>
     <TextView
-        android:id="@+id/activity_ms_ua_ilr_user2"
+        android:id="@+id/activity_ms_ua_ilr_user"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/activity_ms_ua_ilr_user"
@@ -33,7 +33,7 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/activity_ms_ua_ilr_icon"
         android:gravity="center_vertical"
-        android:text="Druckername"
+        android:text="Benutzer"
         android:textSize="16sp"/>
     <CheckBox
         android:id="@+id/activity_ms_ua_ilr__cb"

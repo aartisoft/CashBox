@@ -11,6 +11,7 @@ import objects.ObjPrintJob;
 import objects.ObjPrinter;
 import objects.ObjProduct;
 import objects.ObjSession;
+import objects.ObjUser;
 
 public abstract class GlobVar extends Application {
 
