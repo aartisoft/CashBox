@@ -40,10 +40,12 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
     private String m_strTask = "";
     private double m_dPrize = 0.00;
 
-    public static Fragment getInstance(String strCategory, String strProduct, String strTask) {
+    public static Fragment getInstance(String strCategory, String strProduct, int iTable, int iBill,  String strTask) {
         Bundle bundle = new Bundle();
         bundle.putString("CATEGORY", strCategory);
         bundle.putString("PRODUCT", strProduct);
+        bundle.putInt("TABLE", iTable);
+        bundle.putInt("BILL", iBill);
         bundle.putString("TASK", strTask);
         ViewPagerRetoureStornoFragment tabFragment = new ViewPagerRetoureStornoFragment();
         tabFragment.setArguments(bundle);
@@ -53,13 +55,6 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //activity variables
-        m_strCategory = getArguments().getString("CATEGORY");
-        m_strProduct = getArguments().getString("PRODUCT");
-        m_iSessionTable = GlobVar.g_iSessionTable;
-        m_iSessionBill = GlobVar.g_iSessionBill;
-        m_strTask = getArguments().getString("TASK");
     }
 
     @Override
@@ -71,6 +66,13 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //activity variables
+        m_strCategory = getArguments().getString("CATEGORY");
+        m_strProduct = getArguments().getString("PRODUCT");
+        m_iSessionTable = getArguments().getInt("TABLE", -1);
+        m_iSessionBill = getArguments().getInt("BILL", -1);
+        m_strTask = getArguments().getString("TASK");
 
         //set variables
         m_Context = getContext();

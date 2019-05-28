@@ -1183,7 +1183,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     public void showRetoureStornoDialog(String p_strCategory, String p_strProduct) {
         FragmentManager fm = getSupportFragmentManager();
-        RetoureStornoDialogFragment retoureStornoDialogFragment = RetoureStornoDialogFragment.newInstance("Some Title", 11022900);
+        RetoureStornoDialogFragment retoureStornoDialogFragment = RetoureStornoDialogFragment.newInstance();
 
         // pass table, bill to fragment
         Bundle args = new Bundle();

@@ -48,11 +48,9 @@ public class RetoureStornoDialogFragment extends DialogFragment {
         void onFinishRetoureStornoDialog();
     }
 
-    public static RetoureStornoDialogFragment newInstance(String title, int color) {
+    public static RetoureStornoDialogFragment newInstance() {
         m_frag = new RetoureStornoDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
-        args.putInt("color", color);
         m_frag.setArguments(args);
         return m_frag;
     }
@@ -66,8 +64,8 @@ public class RetoureStornoDialogFragment extends DialogFragment {
         //activity variables
         m_strCategory = getArguments().getString("CATEGORY");
         m_strProduct = getArguments().getString("PRODUCT");
-        m_iSessionTable = GlobVar.g_iSessionTable;
-        m_iSessionBill = GlobVar.g_iSessionBill;
+        m_iSessionTable = getArguments().getInt("TABLE", -1);
+        m_iSessionBill = getArguments().getInt("BILL", -1);
 
         //set UI
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -107,9 +105,9 @@ public class RetoureStornoDialogFragment extends DialogFragment {
     private void setTabulator(){
         //setup viewpager
         m_ViewPagerAdapter = new ViewPagerRetoureStornoAdapter(getChildFragmentManager());
-        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_strCategory, m_strProduct, "canceled")
+        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_strCategory, m_strProduct, m_iSessionTable, m_iSessionBill, "canceled")
                                         , getResources().getString(R.string.src_Storno), 1, getContext());
-        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_strCategory, m_strProduct, "returned")
+        m_ViewPagerAdapter.addFragment(new ViewPagerRetoureStornoFragment().getInstance(m_strCategory, m_strProduct, m_iSessionTable, m_iSessionBill, "returned")
                 , getResources().getString(R.string.src_Retoure), 1, getContext());
 
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
