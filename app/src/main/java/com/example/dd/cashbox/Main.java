@@ -955,7 +955,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void setHeaderBill(){
         String strBillHeader = "";
-        if(m_iSessionBill != -1){
+        if(m_iSessionBill != -1 || GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed() ){
 
             strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
 
