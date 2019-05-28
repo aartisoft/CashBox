@@ -407,10 +407,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 SQLiteDatabaseHandler_Session db_session = new SQLiteDatabaseHandler_Session(m_Context);
                 db_session.getSession();
 
-                GlobVar.g_ObjSession.setCashierName("Dominik Diedrich");
-                GlobVar.g_ObjSession.setHostName("Musikverein Illingen e.V.");
-                GlobVar.g_ObjSession.setPartyName("Scheunenfest");
-                GlobVar.g_ObjSession.setPartyDate("24.05.2019");
+                GlobVar.g_ObjSession.setCashierName("Susi");
+                GlobVar.g_ObjSession.setHostName("MV / ASV Mühlacker");
+                GlobVar.g_ObjSession.setPartyName("Fisch trifft Musik");
+                GlobVar.g_ObjSession.setPartyDate("02.06.2019");
 
                 //read categories
                 SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
