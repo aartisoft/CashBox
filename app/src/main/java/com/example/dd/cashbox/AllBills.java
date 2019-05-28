@@ -147,9 +147,28 @@ public class AllBills extends AppCompatActivity {
     }
 
     public void openBill(int iTable, int iBillnr){
+        lastBillEmpty();
+
         Intent intent = new Intent(AllBills.this, Main.class);
         GlobVar.g_iSessionTable = iTable-1;
         GlobVar.g_iSessionBill = iBillnr;
         startActivity(intent);
+    }
+
+    private void lastBillEmpty(){
+        //get bill
+        int iBill = 0;
+        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+            if(objBill.getBillNr() == m_iSessionBill){
+                break;
+            }
+            iBill++;
+        }
+        //set bill counter minus one if last bill was empty
+        if (m_iSessionBill != -1) {
+            if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts.size() == 0) {
+                GlobVar.g_iBillNr--;
+            }
+        }
     }
 }
