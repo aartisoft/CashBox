@@ -347,21 +347,31 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         switch (item.getItemId()) {
             case R.id.nav_cashposition:
                 startActivity(new Intent(this, MenuCashPosition.class));
+                GlobVar.g_iSessionTable = m_iSessionTable;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 return true;
 
             case R.id.nav_artikel:
                 startActivity(new Intent(this, EditCategory.class));
+                GlobVar.g_iSessionTable = m_iSessionTable;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 return true;
 
             case R.id.nav_tische:
                 startActivity(new Intent(this, EditTable.class));
+                GlobVar.g_iSessionTable = m_iSessionTable;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 return true;
 
             case R.id.nav_einstellungen:
                 startActivity(new Intent(this, MenuSettings.class));
+                GlobVar.g_iSessionTable = m_iSessionTable;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 return true;
 
             case R.id.nav_hilfe:
+                GlobVar.g_iSessionTable = m_iSessionTable;
+                GlobVar.g_iSessionBill = m_iSessionBill;
                 return true;
 
             default:
