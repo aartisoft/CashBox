@@ -78,20 +78,21 @@ public class ViewPagerRegisterFragment extends Fragment {
             m_iSessionBill = ((Main) getActivity()).getVarBill();
             ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
 
-            //bill closed?
-            if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
-                // fragment only available if bill has been choosen
-                if(m_iSessionBill != -1){
+
+            // fragment only available if bill has been choosen
+            if(m_iSessionBill != -1){
+                //bill closed?
+                if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
                     writeTableBillsList(position, m_iSessionTable, m_iSessionBill);
                     //tel main activity there is a new product available
                     ((Main) getActivity()).raiseNewProduct();
                 }
-                else {
-                    Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+                else{
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
                 }
             }
-            else{
-                Toast.makeText(view.getContext(), getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
+            else {
+                Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -104,10 +105,11 @@ public class ViewPagerRegisterFragment extends Fragment {
             m_iSessionBill = ((Main) getActivity()).getVarBill();
             ObjProduct objproduct = m_gridViewProductAdapter.getItem(position);
 
-            //bill closed?
-            if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
-                // fragment only available if bill has been choosen
-                if(m_iSessionBill != -1){
+
+            // fragment only available if bill has been choosen
+            if(m_iSessionBill != -1){
+                //bill closed?
+                if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
                     FragmentManager fm = getChildFragmentManager();
                     RegisterPopUpDialogFragment registerPopUpDialogFragment = RegisterPopUpDialogFragment.newInstance("Register PopUp");
 
@@ -121,13 +123,12 @@ public class ViewPagerRegisterFragment extends Fragment {
                     registerPopUpDialogFragment.setArguments(args);
                     registerPopUpDialogFragment.show(fm, "fragment_registerpopup");
                 }
-                else
-                {
-                    Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+                else{
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
                 }
             }
-            else{
-                Toast.makeText(view.getContext(), getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
+            else {
+                Toast.makeText(view.getContext(), getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
             }
 
             return true;
