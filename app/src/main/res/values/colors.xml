@@ -25,12 +25,12 @@
 
     <color name="colorspectrum_1">#F1FC4F</color>
     <color name="colorspectrum_2">#90f965</color>
-    <color name="colorspectrum_3">#68f865</color>
-    <color name="colorspectrum_4">#FB650A</color>
-    <color name="colorspectrum_5">#FFD00A</color>
-    <color name="colorspectrum_6">#FC74F3</color>
-    <color name="colorspectrum_7">#D861FB</color>
-    <color name="colorspectrum_8">#90AAFB</color>
+    <color name="colorspectrum_3">#00F5FF</color>
+    <color name="colorspectrum_4">#EC4235</color>
+    <color name="colorspectrum_5">#AC46AE</color>
+    <color name="colorspectrum_6">#42BC05</color>
+    <color name="colorspectrum_7">#FFBC05</color>
+    <color name="colorspectrum_8">#C80CA4</color>
 
 
     <array name="spectrum_colors">

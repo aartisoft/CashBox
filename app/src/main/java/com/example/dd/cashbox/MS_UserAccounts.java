@@ -127,7 +127,9 @@ public class MS_UserAccounts extends AppCompatActivity {
         //TODO
         //delete if startprocess is implemented
         if(GlobVar.g_lstUser.isEmpty()){
-            GlobVar.g_lstUser.add("TestUser");
+            ObjUser objUser = new ObjUser();
+            objUser.setUserName("TestUser");
+            GlobVar.g_lstUser.add(objUser);
         }
         m_adapter = new ListViewUserAccountsAdapter(this, GlobVar.g_lstUser);
         m_listView.setAdapter(m_adapter);

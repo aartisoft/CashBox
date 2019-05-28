@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textStyle="normal"
-            android:text="@string/src_OffSumme"
+            android:text="∑"
             android:layout_marginLeft="5dp"/>
 
         <RelativeLayout

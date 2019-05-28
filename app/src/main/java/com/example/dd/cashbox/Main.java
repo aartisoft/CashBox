@@ -965,7 +965,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void setHeaderBill(){
         String strBillHeader = "";
-        if(m_iSessionBill != -1 || GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed() ){
+        if(m_iSessionBill != -1){
 
             strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
 
@@ -1053,11 +1053,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         if(!objBillProduct.isShown()){
                             iQuantity++;
 
-                            if(objBillProduct.getReturned() || objBillProduct.getCanceled()){
-                                iQuantity--;
-                            }
-
-                            if(!objBillProduct.getReturned() && !objBillProduct.getCanceled()) {
+                            //show unpaid sum
+                            if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()) {
                                 dPrize += objBillProduct.getVK();
                             }
 
@@ -1154,7 +1151,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts.size() > 0){
             boolean bFound = false;
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts){
-                if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
+                if((!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())
+                    || GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed() ){
                     bFound = true;
                     break;
                 }
