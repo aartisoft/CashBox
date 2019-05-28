@@ -656,7 +656,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                             strPawnPrize = strPawnPrize + "EUR";
                                             lstBillText.add(strPawn + " - " + strPawnPrize);
 
-                                            lstBillText.add("");
                                             lstBillText.add(objBillProduct.getProduct().getName());
                                             objPrintJob.g_lstBillText = lstBillText;
 
@@ -692,8 +691,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     strArticle += "*";
                                 }
                                 lstBillText.add(strArticle);
-                                lstBillText.add("");
-                                lstBillText.add("");
                                 objPrintJob.g_lstBillText = lstBillText;
 
                                 GlobVar.g_lstPrintJob.add(objPrintJob);

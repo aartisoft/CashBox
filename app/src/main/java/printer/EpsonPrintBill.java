@@ -431,17 +431,41 @@ public class EpsonPrintBill {
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
                 m_Printer.addTextSize(1, 2);
                 textData.append(p_objPrintJob.g_lstBillText.get(4) + "\n");
-                textData.append(p_objPrintJob.g_lstBillText.get(5) + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
                 m_Printer.addTextSize(1, 1);
-                textData.append(p_objPrintJob.g_lstBillText.get(6) + "\n");
+                textData.append(p_objPrintJob.g_lstBillText.get(5) + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
 
                 m_Printer.addCut(Printer.CUT_FEED);
             }
             else if (p_objPrintJob.getbBon()){
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append(p_objPrintJob.g_lstBillText.get(0) + "\n");
+                textData.append(p_objPrintJob.g_lstBillText.get(1) + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
+
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append(p_objPrintJob.g_lstBillText.get(2) + "\n");
+                textData.append(p_objPrintJob.g_lstBillText.get(3) + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
+
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 2);
+                textData.append(p_objPrintJob.g_lstBillText.get(4) + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+
+                m_Printer.addCut(Printer.CUT_FEED);
+            }
+            else if (p_objPrintJob.getbBonExtra()){
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
                 m_Printer.addTextSize(1, 1);
                 textData.append(p_objPrintJob.g_lstBillText.get(0) + "\n");
