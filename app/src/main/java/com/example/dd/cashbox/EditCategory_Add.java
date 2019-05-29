@@ -231,8 +231,9 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
 
     private void getData(){
         //check weather all field are filled
-        if(m_EditTextName.getText().toString().equals("") //|| m_ColorPickerView.get
-                || m_Spinner_Printer.getSelectedItem().equals("")){
+        if(m_EditTextName.getText().toString().equals("")
+                || (!GlobVar.g_bUseMainCash && m_Spinner_Printer.getSelectedItem().equals(""))
+                || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && m_Spinner_Printer.getSelectedItem().equals(""))){
             Toast.makeText(EditCategory_Add.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
         }
         else {
@@ -258,19 +259,23 @@ public class EditCategory_Add extends AppCompatActivity implements ChooseColorDi
                     category.setProdColor(1);
                 }
 
-                //get object printer
-                ObjPrinter foundPrinter = new ObjPrinter();
-                foundPrinter = null;
-                String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
-                String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") +1);
-                for(ObjPrinter printer : GlobVar.g_lstPrinter){
-                    if(printer.getMacAddress().equals(macadress)){
-                        foundPrinter = printer;
-                        break;
+                if(!GlobVar.g_bUseMainCash && !GlobVar.g_bUseSyncBon){
+                    //get object printer
+                    ObjPrinter foundPrinter = new ObjPrinter();
+                    foundPrinter = null;
+                    String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
+                    String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") + 1);
+                    for (ObjPrinter printer : GlobVar.g_lstPrinter) {
+                        if (printer.getMacAddress().equals(macadress)) {
+                            foundPrinter = printer;
+                            break;
+                        }
                     }
+                    category.setPrinter(foundPrinter);
                 }
-
-                category.setPrinter(foundPrinter);
+                else{
+                    category.setPrinter(null);
+                }
                 category.setEnabled(m_Switch.isChecked());
 
                 //save category to global and sql
