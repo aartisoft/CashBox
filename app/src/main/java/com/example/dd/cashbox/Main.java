@@ -216,10 +216,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 //this.deleteDatabase("ProductsDB");
                 //this.deleteDatabase("CategoriesDB");
                 //this.deleteDatabase("PrintersDB");
-                this.deleteDatabase("TableBillsDB");
-                this.deleteDatabase("TablesDB");
-                this.deleteDatabase("SessionDB");
-                Toast.makeText(Main.this, getResources().getString(R.string.src_KasseWurdeVollstaendigGeloescht), Toast.LENGTH_SHORT).show();
+                //this.deleteDatabase("TableBillsDB");
+                //this.deleteDatabase("TablesDB");
+                //this.deleteDatabase("SessionDB");
+                //Toast.makeText(Main.this, getResources().getString(R.string.src_KasseWurdeVollstaendigGeloescht), Toast.LENGTH_SHORT).show();
                 break;
 
             default:
@@ -582,9 +582,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private boolean addPrintJob(){
-        //bill closed?
-        if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
-            if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+        if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+            //bill closed?
+            if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
                 boolean bPrinted = false;
                 GlobVar.g_bPrintQueueFilling = true;
 
@@ -715,11 +715,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 GlobVar.g_bPrintQueueFilling = false;
             }
             else{
-                Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+                Toast.makeText(m_Context, getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
             }
         }
         else{
-            Toast.makeText(m_Context, getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
         }
 
         return true;
@@ -875,22 +875,21 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void startPayProcess(){
-        //bill closed?
-        if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
-            //if used as main cash register
-            if(GlobVar.g_bUseMainCash){
-                if(m_iSessionBill != -1){
-                    Intent intent = new Intent(Main.this, MainCash.class);
-                    GlobVar.g_iSessionTable = 0;
-                    GlobVar.g_iSessionBill = m_iSessionBill;
-                    startActivity(intent);
+        if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+            //bill closed?
+            if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
+                if(GlobVar.g_bUseMainCash){
+                    if(m_iSessionBill != -1){
+                        Intent intent = new Intent(Main.this, MainCash.class);
+                        GlobVar.g_iSessionTable = 0;
+                        GlobVar.g_iSessionBill = m_iSessionBill;
+                        startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else{
-                    Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
-                }
-            }
-            else {
-                if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+                else {
                     boolean bFound = false;
                     boolean bPrinted = true;
                     if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
@@ -917,13 +916,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                             Toast.makeText(Main.this, getResources().getString(R.string.src_KeineArtikelVorhanden), Toast.LENGTH_SHORT).show();
                         }
                     }
-                } else {
-                    Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
                 }
+            }
+            else {
+                Toast.makeText(m_Context, getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
             }
         }
         else {
-            Toast.makeText(m_Context, getResources().getString(R.string.src_BelegBereitsGeschlossen), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main.this, getResources().getString(R.string.src_KeinBelegAusgewaehlt), Toast.LENGTH_SHORT).show();
         }
     }
 
