@@ -249,7 +249,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                 m_EditTextColor.setBackgroundColor(category.getProdColor());
 
                 //if used as main cash register
-                if(GlobVar.g_bUseMainCash){
+                if(GlobVar.g_bUseMainCash && !GlobVar.g_bUseSyncBon){
                     m_TextViewPrinter.setVisibility(View.GONE);
                     m_Spinner_Printer.setVisibility(View.GONE);
                 }
@@ -269,7 +269,8 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
     private void getData(){
         //check weather all field are filled
         if(m_EditTextName.getText().toString().equals("")
-                || (!GlobVar.g_bUseMainCash  && m_Spinner_Printer.getSelectedItem().equals(""))){
+                || (!GlobVar.g_bUseMainCash && m_Spinner_Printer.getSelectedItem().equals(""))
+                || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && m_Spinner_Printer.getSelectedItem().equals(""))){
             Toast.makeText(EditCategory_Edit.this, getResources().getString(R.string.src_NichtAlleFelderAusgefuellt), Toast.LENGTH_SHORT).show();
         }
         else {
@@ -299,7 +300,7 @@ public class EditCategory_Edit extends AppCompatActivity implements ChooseColorD
                             category.setProdColor(1);
                         }
 
-                        if(!GlobVar.g_bUseMainCash){
+                        if(!GlobVar.g_bUseMainCash && !GlobVar.g_bUseSyncBon){
                             //get object printer
                             ObjPrinter foundPrinter = new ObjPrinter();
                             foundPrinter = null;

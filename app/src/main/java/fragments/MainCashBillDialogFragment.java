@@ -142,10 +142,9 @@ public class MainCashBillDialogFragment extends DialogFragment {
         for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iTable).get(getBillListPointer()).m_lstProducts){
             if(objBillProduct.getCategory().equals(m_strCategory)){
                 if(objBillProduct.getProduct().getName().equals(m_strProduct)){
-                    if((!GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                            && objBillProduct.getPrinted() && !objBillProduct.getReturned())
-                            || (GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                            && !objBillProduct.getReturned())){
+                    if( ( !GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && objBillProduct.getPrinted() && !objBillProduct.getReturned() )
+                            || ( GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && objBillProduct.getPrinted() && !objBillProduct.getReturned())
+                            || (GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getReturned())){
                         lstObjBillProducts.add(objBillProduct);
                     }
                 }

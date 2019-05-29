@@ -74,7 +74,7 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
 
 
         //if used as main cash register
-        if(GlobVar.g_bUseMainCash){
+        if(GlobVar.g_bUseMainCash && !GlobVar.g_bUseSyncBon){
             holder.textview_printername.setVisibility(View.GONE);
         }
         else{

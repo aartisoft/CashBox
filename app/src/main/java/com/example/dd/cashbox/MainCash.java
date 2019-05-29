@@ -429,10 +429,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     private void transferAllItems(){
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                if ((!GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled()
-                        && !objBillProduct.getReturned() && objBillProduct.getPrinted())
-                        || (GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled()
-                        && !objBillProduct.getReturned())) {
+                if ((!GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted())
+                        || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted())
+                        || (GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())) {
                     objBillProduct.setPayTransit(true);
                 }
             }
@@ -444,10 +443,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     public void transferAllProductItems(ObjMainBillProduct p_objMainCashProduct){
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
             for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
-                if ((!GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted())
-                        || (GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                        && !objBillProduct.getCanceled() && !objBillProduct.getReturned())){
+                if ((!GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted())
+                        || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted())
+                        || (GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())){
                     if(objBillProduct.getProduct() == p_objMainCashProduct.getProduct()){
                         objBillProduct.setPayTransit(true);
                     }
@@ -697,10 +695,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         //set list
         for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
             //add new item or update
-            if((!GlobVar.g_bUseMainCash && objBillProductAdapter.getPrinted() && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
-                    && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown())
-                    || (GlobVar.g_bUseMainCash && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
-                    && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown())){
+            if((!GlobVar.g_bUseMainCash && objBillProductAdapter.getPrinted() && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown())
+                    || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && objBillProductAdapter.getPrinted() && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown())
+                    || (GlobVar.g_bUseMainCash && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown())){
                 //init variables
                 ObjBillProduct objBillProductSearch = objBillProductAdapter;
                 int iQuantity = 0;
@@ -710,10 +707,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
                 for(ObjBillProduct objBillProduct : lstObjBillProduct){
                     if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
-                        if((!GlobVar.g_bUseMainCash && objBillProduct.getPrinted() && !objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                                && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.isShown())
-                                || (GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid()
-                                && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.isShown())){
+                        if((!GlobVar.g_bUseMainCash && objBillProduct.getPrinted() && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.isShown())
+                                || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && objBillProduct.getPrinted() && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.isShown())
+                                || (GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.isShown())){
                             iQuantity++;
                             dPrize += objBillProduct.getVK();
                             //if pawn is available
@@ -765,10 +761,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             boolean bKeepAlive = false;
             for(ObjBillProduct objBillProductAdapter : lstObjBillProduct){
                 if(objBillProductAdapter.getProduct() == m_ListObjMainBillProduct.get(i).getProduct()){
-                    if((!GlobVar.g_bUseMainCash && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
-                            && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && objBillProductAdapter.getPrinted())
-                            || (GlobVar.g_bUseMainCash && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid()
-                            && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned())){
+                    if((!GlobVar.g_bUseMainCash && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && objBillProductAdapter.getPrinted())
+                            || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned() && objBillProductAdapter.getPrinted())
+                            || (GlobVar.g_bUseMainCash && !objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled() && !objBillProductAdapter.getReturned())){
                         bKeepAlive = true;
                         break;
                     }
@@ -834,6 +829,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             //add new item or update
             if((!GlobVar.g_bUseMainCash && objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
                     && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown() && objBillProductAdapter.getPrinted())
+                    || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
+                    && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown() && objBillProductAdapter.getPrinted())
                     || (GlobVar.g_bUseMainCash && objBillProductAdapter.getPayTransit() && !objBillProductAdapter.getPaid() && !objBillProductAdapter.getCanceled()
                     && !objBillProductAdapter.getReturned() && !objBillProductAdapter.isShown())){
                 //init variables
@@ -845,6 +842,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
                 for(ObjBillProduct objBillProduct : lstObjBillProduct){
                     if(objBillProduct.getProduct() == objBillProductSearch.getProduct()){
                         if((!GlobVar.g_bUseMainCash && objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled()
+                                && !objBillProduct.getReturned() && !objBillProduct.isShown() && objBillProductAdapter.getPrinted())
+                                || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled()
                                 && !objBillProduct.getReturned() && !objBillProduct.isShown() && objBillProductAdapter.getPrinted())
                                 || (GlobVar.g_bUseMainCash && objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled()
                                 && !objBillProduct.getReturned() && !objBillProduct.isShown())){

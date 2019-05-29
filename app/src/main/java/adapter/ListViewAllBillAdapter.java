@@ -161,8 +161,9 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                 int iQuantity = 0;
                 boolean bFound = false;
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
-                    if(!GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid()
-                        || GlobVar.g_bUseMainCash &&  !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPaid()){
+                    if((!GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid())
+                            || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid())
+                            || (GlobVar.g_bUseMainCash &&  !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPaid())){
                         if (objProduct == objBillProduct.getProduct()) {
                             iQuantity++;
                             bFound = true;
@@ -177,8 +178,9 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                 iQuantity = 0;
                 bFound = false;
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
-                    if(!GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid()
-                        || GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.getPaid()){
+                    if( ( !GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid() )
+                            || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid() )
+                            || (GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.getPaid())){
                         if (objProduct == objBillProduct.getProduct()) {
                             dPrize += objBillProduct.getVK();
                             //if pawn is available
@@ -196,7 +198,7 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                 }
 
                 //if used as bon cash register
-                if(!GlobVar.g_bUseMainCash){
+                if(!GlobVar.g_bUseMainCash || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon)){
                    //not printed
                     iQuantity = 0;
                     bFound = false;

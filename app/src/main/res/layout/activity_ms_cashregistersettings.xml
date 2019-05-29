@@ -48,6 +48,32 @@
         </RelativeLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+        <TextView
+            android:id="@+id/ms_cashregistersett_tvsyncbon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/src_SynchronisierterBondruck"
+            android:textColor="@color/colorBlack"
+            android:textSize="16dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/ms_cashregistersett_snybonswitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:text=""
+                android:theme="@style/Color1SwitchStyle"/>
+        </RelativeLayout>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/ms_cashregistersett_tvprinter"
         android:layout_width="match_parent"

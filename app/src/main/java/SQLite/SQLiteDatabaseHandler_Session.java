@@ -26,10 +26,11 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
     private static final String KEY_PARTYNAME = "partyname";
     private static final String KEY_PARYTDATE = "partydate";
     private static final String KEY_USEMAINCASH = "usemaincash";
+    private static final String KEY_USESYNCBON = "usesyncbon";
     private static final String KEY_PRINTERMAC = "printermac";
 
     private static final String[] COLUMNS = { KEY_ID, KEY_CASHIERNAME, KEY_HOSTNAME, KEY_PARTYNAME,
-            KEY_PARYTDATE, KEY_USEMAINCASH, KEY_PRINTERMAC };
+            KEY_PARYTDATE, KEY_USEMAINCASH, KEY_USESYNCBON, KEY_PRINTERMAC };
 
     public SQLiteDatabaseHandler_Session(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,7 +41,7 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
         String CREATION_TABLE = "CREATE TABLE Session ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "cashiername TEXT, "
                 + "hostname TEXT, " + "partyname TEXT, " + "partydate TEXT, " + "usemaincash INTEGER, "
-                + "printermac TEXT )";
+                + "usesyncbon INTEGER, " + "printermac TEXT )";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -71,9 +72,16 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
                 }
                 GlobVar.g_bUseMainCash = b_UseMainCash;
 
+                //set usesyncbon
+                boolean b_UseSyncBon = true;
+                if (cursor.getString(6).equals("0")) {
+                    b_UseSyncBon = false;
+                }
+                GlobVar.g_bUseSyncBon = b_UseSyncBon;
+
                 //set printer
                 for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
-                    if(objprinter.getMacAddress().equals(cursor.getString(6))){
+                    if(objprinter.getMacAddress().equals(cursor.getString(7))){
                         GlobVar.g_objPrinter = objprinter;
                     }
                 }
@@ -106,6 +114,9 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
             int key_usemaincash = GlobVar.g_bUseMainCash ? 1 : 0;
             values.put(KEY_USEMAINCASH, key_usemaincash);
 
+            int key_usesyncbon = GlobVar.g_bUseSyncBon ? 1 : 0;
+            values.put(KEY_USESYNCBON, key_usesyncbon);
+
             //write printer
             if(GlobVar.g_objPrinter != null){
                 values.put(KEY_PRINTERMAC, GlobVar.g_objPrinter.getMacAddress());
@@ -135,6 +146,9 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
 
             int key_usemaincash = GlobVar.g_bUseMainCash ? 1 : 0;
             values.put(KEY_USEMAINCASH, key_usemaincash);
+
+            int key_usesyncbon = GlobVar.g_bUseSyncBon ? 1 : 0;
+            values.put(KEY_USESYNCBON, key_usesyncbon);
 
             //write printer
             if(GlobVar.g_objPrinter != null){

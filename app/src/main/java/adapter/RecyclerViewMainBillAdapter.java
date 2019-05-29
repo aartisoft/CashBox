@@ -105,7 +105,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
         //set image printer
         //if used as main cash register
-        if(GlobVar.g_bUseMainCash){
+        if(GlobVar.g_bUseMainCash && !GlobVar.g_bUseSyncBon){
             holder.imageview_printer.setVisibility(View.INVISIBLE);
             holder.textview_printerQ.setVisibility(View.INVISIBLE);
         }
