@@ -174,6 +174,11 @@
     <string name="src_Stornierung">Stornierung</string>
     <string name="src_BelegBereitsGeschlossen">Beleg bereits geschlossen</string>
     <string name="src_SynchronisierterBondruck">Synchronisierter Bondruck</string>
+    <string name="src_EigenschaftenBondruck">Eigenschaften Bondruck</string>
+    <string name="src_KeinBonDruck">Kein Bondruck</string>
+    <string name="src_BondruckMitKassenDrucker">Bondruck mit Kassendrucker</string>
+    <string name="src_BondruckMitKategorienDrucker">Bondruck mit Kategoriendrucker</string>
+    <string name="src_BondruckSynchron">Synchroner Bondruck</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

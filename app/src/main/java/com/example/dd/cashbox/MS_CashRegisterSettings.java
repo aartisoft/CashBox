@@ -28,10 +28,10 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
     private View m_decorView;
     private Context m_Context;
     private SwitchCompat m_switchUseMainCash;
-    private SwitchCompat m_switchUseSyncBon;
-    private TextView m_TextViewSyncBon;
     private TextView m_TextViewPrinter;
     private Spinner m_Spinner_Printer;
+    private TextView m_TextViewBonSett;
+    private Spinner m_Spinner_BonSett;
     private boolean m_bUpdate = false;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -49,10 +49,10 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
         m_Context = this;
         m_decorView = getWindow().getDecorView();
         m_TextViewPrinter = findViewById(R.id.ms_cashregistersett_tvprinter);
-        m_TextViewSyncBon = findViewById(R.id.ms_cashregistersett_tvsyncbon);
         m_Spinner_Printer = findViewById(R.id.ms_cashregistersett_spinnerprinter);
+        m_TextViewBonSett = findViewById(R.id.ms_cashregistersett_tvbonsett);
+        m_Spinner_BonSett = findViewById(R.id.ms_cashregistersett_spinnerbonsett);
         m_switchUseMainCash = findViewById(R.id.ms_cashregistersett_maincashswitch);
-        m_switchUseSyncBon = findViewById(R.id.ms_cashregistersett_snybonswitch);
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
@@ -67,18 +67,19 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
         //set spinnerprinter
         //if used as main cash register
         if(GlobVar.g_bUseMainCash){
+            setSpinnerBonSett();
             setSpinnerPrinter();
         }
         else{
+            m_TextViewBonSett.setVisibility(View.GONE);
+            m_Spinner_BonSett.setVisibility(View.GONE);
             m_TextViewPrinter.setVisibility(View.GONE);
             m_Spinner_Printer.setVisibility(View.GONE);
-            m_TextViewSyncBon.setVisibility(View.GONE);
         }
 
 
         //set listener
         m_switchUseMainCash.setOnCheckedChangeListener(mainCashOnCheckedChangeListener);
-        m_switchUseSyncBon.setOnCheckedChangeListener(syncBonOnCheckedChangeListener);
         m_Spinner_Printer.setOnItemSelectedListener(printeronItemSelectedListener);
     }
 
@@ -144,20 +145,20 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
             if(GlobVar.g_lstTableBills.size() == 0){
                 if(isChecked){
                     GlobVar.g_bUseMainCash = true;
+                    m_TextViewBonSett.setVisibility(View.VISIBLE);
+                    m_Spinner_BonSett.setVisibility(View.VISIBLE);
                     m_TextViewPrinter.setVisibility(View.VISIBLE);
                     m_Spinner_Printer.setVisibility(View.VISIBLE);
-                    m_TextViewSyncBon.setVisibility(View.VISIBLE);
-                    m_switchUseSyncBon.setVisibility(View.VISIBLE);
                     setSpinnerPrinter();
 
                     updateDatabase();
                 }
                 else{
                     GlobVar.g_bUseMainCash = false;
+                    m_TextViewBonSett.setVisibility(View.GONE);
+                    m_Spinner_BonSett.setVisibility(View.GONE);
                     m_TextViewPrinter.setVisibility(View.GONE);
                     m_Spinner_Printer.setVisibility(View.GONE);
-                    m_TextViewSyncBon.setVisibility(View.GONE);
-                    m_switchUseSyncBon.setVisibility(View.GONE);
 
                     updateDatabase();
                 }
@@ -172,51 +173,31 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
         }
     };
 
-    private CompoundButton.OnCheckedChangeListener syncBonOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener(){
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            //setting is only available if cash register has not been used yet
-            if(GlobVar.g_lstTableBills.size() == 0){
-                if(isChecked){
-                    GlobVar.g_bUseSyncBon = true;
-
-                    updateDatabase();
-                }
-                else{
-                    GlobVar.g_bUseSyncBon = false;
-
-                    updateDatabase();
-                }
-            }
-            else{
-                //reset switch
-                m_switchUseMainCash.setChecked(GlobVar.g_bUseMainCash);
-
-                Toast.makeText(MS_CashRegisterSettings.this, getResources().getString(R.string.src_KasseMussFuerDieseUmstellungUnbenutztSein), Toast.LENGTH_SHORT).show();
-            }
-
-        }
-    };
 
     ///////////////////////////// METHODS ///////////////////////////////////////////////////////////////////
     private void setUseMainCash(){
         if(GlobVar.g_bUseMainCash){
             m_switchUseMainCash.setChecked(true);
-            m_TextViewSyncBon.setVisibility(View.VISIBLE);
-            m_switchUseSyncBon.setVisibility(View.VISIBLE);
-
-            if(GlobVar.g_bUseSyncBon){
-                m_switchUseSyncBon.setChecked(true);
-            }
-            else{
-                m_switchUseSyncBon.setChecked(false);
-            }
         }
         else{
             m_switchUseMainCash.setChecked(false);
-            m_switchUseSyncBon.setVisibility(View.GONE);
-            m_TextViewSyncBon.setVisibility(View.GONE);
         }
+    }
+
+    private void setSpinnerBonSett(){
+        m_Spinner_BonSett.setPrompt(getResources().getString(R.string.src_EigenschaftenBondruck));
+
+        List<String> taxes = new ArrayList<>();
+        taxes.add(getResources().getString(R.string.src_KeinBonDruck));
+        taxes.add(getResources().getString(R.string.src_BondruckMitKassenDrucker));
+        taxes.add(getResources().getString(R.string.src_BondruckMitKategorienDrucker));
+        taxes.add(getResources().getString(R.string.src_BondruckSynchron));
+
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, taxes);
+        m_Spinner_BonSett.setAdapter(dataAdapter);
+
+        m_Spinner_BonSett.setSelection(0);
     }
 
     private void setSpinnerPrinter(){

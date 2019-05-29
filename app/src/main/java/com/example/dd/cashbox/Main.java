@@ -216,10 +216,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 //this.deleteDatabase("ProductsDB");
                 //this.deleteDatabase("CategoriesDB");
                 //this.deleteDatabase("PrintersDB");
-                //this.deleteDatabase("TableBillsDB");
-                //this.deleteDatabase("TablesDB");
-                //this.deleteDatabase("SessionDB");
-                //Toast.makeText(Main.this, getResources().getString(R.string.src_KasseWurdeVollstaendigGeloescht), Toast.LENGTH_SHORT).show();
+                this.deleteDatabase("TableBillsDB");
+                this.deleteDatabase("TablesDB");
+                this.deleteDatabase("SessionDB");
+                Toast.makeText(Main.this, getResources().getString(R.string.src_KasseWurdeVollstaendigGeloescht), Toast.LENGTH_SHORT).show();
                 break;
 
             default:
