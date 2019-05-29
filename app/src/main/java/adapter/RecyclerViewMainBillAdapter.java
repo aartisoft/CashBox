@@ -92,16 +92,15 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.textview_prize.setText(strVK);
 
         //set image paid
-        String strPaid = item.getPaid() + "xB";
+        String strPaid = String.valueOf(item.getPaid());
         holder.textview_paidQ.setText(strPaid);
-        holder.imageview_paid.setVisibility(View.GONE);
 
         //set canceled
-        String strCanceled = item.getCanceled() + "xS";
+        String strCanceled = String.valueOf(item.getCanceled());
         holder.textview_canceledQ.setText(strCanceled);
 
         //set returned
-        String strReturned = item.getReturned() + "xR";
+        String strReturned = String.valueOf(item.getReturned());
         holder.textview_returnedQ.setText(strReturned);
 
         //set image printer
@@ -112,7 +111,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         }
         else{
             holder.imageview_printer.setVisibility(View.VISIBLE);
-            String strPrinted = item.getPrinted() + "x";
+            String strPrinted = String.valueOf(item.getPrinted());
             holder.textview_printerQ.setText(strPrinted);
         }
     }
