@@ -5,13 +5,10 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dd.cashbox.R;
 
@@ -20,8 +17,6 @@ import java.util.List;
 import global.GlobVar;
 import objects.ObjCategory;
 import objects.ObjPrinter;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerViewCategoryAdapter.MyViewHolder>{
     private Context context;
@@ -74,7 +69,7 @@ public class RecyclerViewCategoryAdapter extends RecyclerView.Adapter<RecyclerVi
 
 
         //if used as main cash register
-        if(GlobVar.g_bUseMainCash && !GlobVar.g_bUseSyncBon){
+        if(GlobVar.g_bUseMainCash && !GlobVar.g_bUseBonPrint){
             holder.textview_printername.setVisibility(View.GONE);
         }
         else{

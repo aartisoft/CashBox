@@ -474,7 +474,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_MenuItemTables = menuNav.findItem(R.id.nav_tische);
 
         //if used as main cash register
-        if(GlobVar.g_bUseMainCash && !GlobVar.g_bUseSyncBon){
+        if(GlobVar.g_bUseMainCash && !GlobVar.g_bUseBonPrint){
             // disabled
             m_MenuItemTables.setEnabled(false);
             m_MenuItemTables.setVisible(false);
@@ -521,7 +521,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_fab_newbill.setClickable(true);
 
         //Floating Action Button 2
-        if(!GlobVar.g_bUseMainCash || ( GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon )){
+        if(!GlobVar.g_bUseMainCash || ( GlobVar.g_bUseMainCash && GlobVar.g_bUseBonPrint)){
             FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) m_fab_print.getLayoutParams();
             layoutParams2.leftMargin += (int) (m_fab_print.getWidth() * 1.5);
             layoutParams2.bottomMargin += (int) (m_fab_print.getHeight() * 1.5);
@@ -556,7 +556,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_fab_print.setLayoutParams(layoutParams2);
         m_fab_print.startAnimation(m_animHideFabPrint);
         //if used as main cash register
-        if(GlobVar.g_bUseMainCash  && !GlobVar.g_bUseSyncBon){
+        if(GlobVar.g_bUseMainCash  && !GlobVar.g_bUseBonPrint){
             m_fab_print.setClickable(false);
         }
         else{

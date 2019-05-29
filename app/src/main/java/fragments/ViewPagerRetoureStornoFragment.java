@@ -147,7 +147,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
                     //retoure
                     if(m_strTask.equals("returned")) {
                         if( ( !GlobVar.g_bUseMainCash && objBillProduct.getPaid() && objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled() )
-                                || ( GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && objBillProduct.getPaid() && objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled() )
+                                || ( GlobVar.g_bUseMainCash && GlobVar.g_bUseBonPrint && objBillProduct.getPaid() && objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled() )
                                 || (GlobVar.g_bUseMainCash && objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled())){
                             lstObjBillProducts.add(objBillProduct);
                         }

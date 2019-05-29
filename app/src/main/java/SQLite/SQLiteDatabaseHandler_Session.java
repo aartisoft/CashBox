@@ -6,13 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import global.GlobVar;
-import objects.ObjCategory;
 import objects.ObjPrinter;
-import objects.ObjProduct;
 import objects.ObjSession;
 
 public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
@@ -77,7 +72,7 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
                 if (cursor.getString(6).equals("0")) {
                     b_UseSyncBon = false;
                 }
-                GlobVar.g_bUseSyncBon = b_UseSyncBon;
+                GlobVar.g_bUseBonPrint = b_UseSyncBon;
 
                 //set printer
                 for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
@@ -114,7 +109,7 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
             int key_usemaincash = GlobVar.g_bUseMainCash ? 1 : 0;
             values.put(KEY_USEMAINCASH, key_usemaincash);
 
-            int key_usesyncbon = GlobVar.g_bUseSyncBon ? 1 : 0;
+            int key_usesyncbon = GlobVar.g_bUseBonPrint ? 1 : 0;
             values.put(KEY_USESYNCBON, key_usesyncbon);
 
             //write printer
@@ -147,7 +142,7 @@ public class SQLiteDatabaseHandler_Session extends SQLiteOpenHelper {
             int key_usemaincash = GlobVar.g_bUseMainCash ? 1 : 0;
             values.put(KEY_USEMAINCASH, key_usemaincash);
 
-            int key_usesyncbon = GlobVar.g_bUseSyncBon ? 1 : 0;
+            int key_usesyncbon = GlobVar.g_bUseBonPrint ? 1 : 0;
             values.put(KEY_USESYNCBON, key_usesyncbon);
 
             //write printer

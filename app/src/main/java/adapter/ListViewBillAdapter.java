@@ -5,11 +5,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dd.cashbox.MainShowBills;
 import com.example.dd.cashbox.R;
@@ -197,7 +195,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
                 boolean bFound = false;
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
                     if((!GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid() )
-                            || ( GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon  && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid() )
+                            || ( GlobVar.g_bUseMainCash && GlobVar.g_bUseBonPrint && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid() )
                             || ( GlobVar.g_bUseMainCash &&  !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPaid() )){
                         if (objProduct == objBillProduct.getProduct()) {
                             iQuantity++;
@@ -214,7 +212,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
                 bFound = false;
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
                     if(( !GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid() )
-                            || ( GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid())
+                            || ( GlobVar.g_bUseMainCash && GlobVar.g_bUseBonPrint && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid())
                             || ( GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.getPaid() )){
                         if (objProduct == objBillProduct.getProduct()) {
                             dPrize += objBillProduct.getVK();
@@ -233,7 +231,7 @@ public class ListViewBillAdapter extends BaseExpandableListAdapter {
                 }
 
                 //if used as bon cash register
-                if(!GlobVar.g_bUseMainCash || (GlobVar.g_bUseMainCash && GlobVar.g_bUseSyncBon)){
+                if(!GlobVar.g_bUseMainCash || (GlobVar.g_bUseMainCash && GlobVar.g_bUseBonPrint)){
                    //not printed
                     iQuantity = 0;
                     bFound = false;

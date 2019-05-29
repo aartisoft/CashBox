@@ -80,6 +80,7 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
 
         //set listener
         m_switchUseMainCash.setOnCheckedChangeListener(mainCashOnCheckedChangeListener);
+        m_Spinner_BonSett.setOnItemSelectedListener(bonSetOnItemSelectedListener);
         m_Spinner_Printer.setOnItemSelectedListener(printeronItemSelectedListener);
     }
 
@@ -108,6 +109,43 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private Spinner.OnItemSelectedListener bonSetOnItemSelectedListener = new Spinner.OnItemSelectedListener(){
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            //get bon setting
+            int iSpinnerbonset = (int)m_Spinner_BonSett.getSelectedItemId();
+
+            switch(iSpinnerbonset){
+                //no bon print
+                case 0:
+                    GlobVar.g_bUseBonPrint = false;
+                    updateDatabase();
+                    break;
+                case 1:
+                    GlobVar.g_bUseBonPrint = true;
+                    updateDatabase();
+                    break;
+                case 2:
+                    GlobVar.g_bUseBonPrint = true;
+                    updateDatabase();
+                    break;
+                case 3:
+                    GlobVar.g_bUseBonPrint = true;
+                    updateDatabase();
+                    break;
+                default:
+                    break;
+
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     private Spinner.OnItemSelectedListener printeronItemSelectedListener = new Spinner.OnItemSelectedListener(){
 
