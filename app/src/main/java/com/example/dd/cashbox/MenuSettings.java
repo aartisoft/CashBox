@@ -49,6 +49,14 @@ public class MenuSettings extends AppCompatActivity {
             // Get the selected item text from ListView
             String selectedItem = (String) parent.getItemAtPosition(position);
 
+            if (selectedItem.equals(getResources().getString(R.string.src_Benutzerkonten))) {
+                startActivity(new Intent(MenuSettings.this, MS_UserAccounts.class));
+            }
+
+            if (selectedItem.equals(getResources().getString(R.string.src_Kasseninformationen))) {
+                startActivity(new Intent(MenuSettings.this, MS_CashRegisterInfo.class));
+            }
+
             if (selectedItem.equals(getResources().getString(R.string.src_Kasseneinstellungen))) {
                 startActivity(new Intent(MenuSettings.this, MS_CashRegisterSettings.class));
             }
@@ -57,9 +65,6 @@ public class MenuSettings extends AppCompatActivity {
                 startActivity(new Intent(MenuSettings.this, MS_AddPrinter.class));
             }
 
-            if (selectedItem.equals(getResources().getString(R.string.src_Benutzerkonten))) {
-                startActivity(new Intent(MenuSettings.this, MS_UserAccounts.class));
-            }
         }
     };
 

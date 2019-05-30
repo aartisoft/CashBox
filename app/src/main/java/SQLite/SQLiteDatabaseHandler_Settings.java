@@ -65,7 +65,7 @@ public class SQLiteDatabaseHandler_Settings extends SQLiteOpenHelper {
                 objSession.setCashierName(cursor.getString(1));
                 objSession.setHostName(cursor.getString(2));
                 objSession.setPartyName(cursor.getString(3));
-                objSession.setPartyDate(cursor.getString(4));
+                GlobVar.g_ObjSession = objSession;
 
                 //set usemaincash
                 boolean b_UseMainCash = true;
@@ -131,7 +131,6 @@ public class SQLiteDatabaseHandler_Settings extends SQLiteOpenHelper {
             values.put(KEY_CASHIERNAME, GlobVar.g_ObjSession.getCashierName());
             values.put(KEY_HOSTNAME, GlobVar.g_ObjSession.getHostName());
             values.put(KEY_PARTYNAME, GlobVar.g_ObjSession.getPartyName());
-            values.put(KEY_PARYTDATE, GlobVar.g_ObjSession.getPartyDate());
 
             int key_usemaincash = GlobVar.g_bUseMainCash ? 1 : 0;
             values.put(KEY_USEMAINCASH, key_usemaincash);
@@ -173,7 +172,6 @@ public class SQLiteDatabaseHandler_Settings extends SQLiteOpenHelper {
             values.put(KEY_CASHIERNAME, GlobVar.g_ObjSession.getCashierName());
             values.put(KEY_HOSTNAME, GlobVar.g_ObjSession.getHostName());
             values.put(KEY_PARTYNAME, GlobVar.g_ObjSession.getPartyName());
-            values.put(KEY_PARYTDATE, GlobVar.g_ObjSession.getPartyDate());
 
             int key_usemaincash = GlobVar.g_bUseMainCash ? 1 : 0;
             values.put(KEY_USEMAINCASH, key_usemaincash);

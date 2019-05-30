@@ -10,17 +10,18 @@
     android:focusableInTouchMode="true">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/ms_shopinfo_tb"
+        android:id="@+id/ms_cashregister_tb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary3"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
 
         <TextView
-            android:id="@+id/ms_shopinfo_tititle"
+            android:id="@+id/ms_cashregister_tititle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
+            android:text="@string/src_Kasseninformationen"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
     </androidx.appcompat.widget.Toolbar>
@@ -35,7 +36,7 @@
         android:paddingBottom="20dp">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ms_shopinfo_tiname"
+            android:id="@+id/ms_cashregister_tihostname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -43,7 +44,7 @@
             android:textColorHint="@color/colorGrey"
             app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
         <EditText
-            android:id="@+id/ms_shopinfo_tvname"
+            android:id="@+id/ms_cashregister_tvhostname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
@@ -51,7 +52,7 @@
             android:textColor="@color/colorBlack"
             android:textStyle="normal"
             android:textAlignment="textStart"
-            android:hint="@string/src_Name"
+            android:hint="@string/src_Gewerbename"
             android:backgroundTint="@color/colorGrey"
             android:textColorHint="@color/colorGrey"
             android:textSize="15dp"
@@ -62,7 +63,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ms_shopinfo_tiparty"
+            android:id="@+id/ms_cashregister_tipartyname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -71,7 +72,7 @@
             android:textColorHint="@color/colorGrey"
             app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
             <EditText
-                android:id="@+id/ms_shopinfo_tvparty"
+                android:id="@+id/ms_cashregister_tvpartyname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
@@ -79,7 +80,7 @@
                 android:textColor="@color/colorBlack"
                 android:textStyle="normal"
                 android:textAlignment="textStart"
-                android:hint="Verkaufspreis"
+                android:hint="@string/src_Veranstaltung"
                 android:backgroundTint="@color/colorGrey"
                 android:textColorHint="@color/colorGrey"
                 android:textSize="15dp"
@@ -94,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/ms_shopinfo_fab"
+                android:id="@+id/ms_cashregister_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"

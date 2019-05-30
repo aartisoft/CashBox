@@ -179,6 +179,11 @@
     <string name="src_BondruckMitKassenDrucker">Bondruck mit Kassendrucker</string>
     <string name="src_BondruckMitKategorienDrucker">Bondruck mit Kategoriendrucker</string>
     <string name="src_BondruckSynchron">Synchroner Bondruck</string>
+    <string name="src_Kasseninformationen">Kasseninformationen</string>
+    <string name="src_Gewerbename">Gewerbename</string>
+    <string name="src_Veranstaltung">Veranstaltung</string>
+    <string name="src_GewerbenameMussAusgefülltSein">Gewerbename muss ausgefüllt sein!</string>
+    <string name="src_AenderungenWurdenGespeichert">Änderungen wurden gespeichert</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
@@ -200,7 +205,7 @@
 
     <string-array name="menusettings_entries">
         <item>@string/src_Benutzerkonten</item>
-        <item>@string/src_Shopinformation</item>
+        <item>@string/src_Kasseninformationen</item>
         <item>@string/src_Kasseneinstellungen</item>
         <item>@string/src_Druckerverwaltung</item>
         <item>@string/src_Abonnementverwaltung</item>

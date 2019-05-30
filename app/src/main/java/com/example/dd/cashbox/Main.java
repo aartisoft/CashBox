@@ -417,9 +417,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             }
             //TODO Delete
             GlobVar.g_ObjSession.setCashierName("Susi");
-            GlobVar.g_ObjSession.setHostName("MV / ASV Mühlacker");
-            GlobVar.g_ObjSession.setPartyName("Fisch trifft Musik");
-            GlobVar.g_ObjSession.setPartyDate("02.06.2019");
 
 
             //read categories
@@ -962,7 +959,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         tv_cashiername.setText(GlobVar.g_ObjSession.getCashierName());
         tv_hostname.setText(GlobVar.g_ObjSession.getHostName());
-        tv_partyname.setText(GlobVar.g_ObjSession.getPartyName() + " - " + GlobVar.g_ObjSession.getPartyDate());
+        tv_partyname.setText(GlobVar.g_ObjSession.getPartyName());
     }
 
     private void setHeaderTable(){
