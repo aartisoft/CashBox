@@ -474,7 +474,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_MenuItemTables = menuNav.findItem(R.id.nav_tische);
 
         //if used as main cash register
-        if(GlobVar.g_bUseMainCash && !GlobVar.g_bUseBonPrint){
+        if(GlobVar.g_bUseMainCash){
             // disabled
             m_MenuItemTables.setEnabled(false);
             m_MenuItemTables.setVisible(false);

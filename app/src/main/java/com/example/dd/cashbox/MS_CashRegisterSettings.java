@@ -121,18 +121,33 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
                 //no bon print
                 case 0:
                     GlobVar.g_bUseBonPrint = false;
+                    GlobVar.g_bUseBonPrintMain = false;
+                    GlobVar.g_bUseBonPrintCategory = false;
+                    GlobVar.g_bUseBonPrintSync = false;
                     updateDatabase();
                     break;
+                //bon print main
                 case 1:
                     GlobVar.g_bUseBonPrint = true;
+                    GlobVar.g_bUseBonPrintMain = true;
+                    GlobVar.g_bUseBonPrintCategory = false;
+                    GlobVar.g_bUseBonPrintSync = false;
                     updateDatabase();
                     break;
+                //bon print category
                 case 2:
                     GlobVar.g_bUseBonPrint = true;
+                    GlobVar.g_bUseBonPrintMain = false;
+                    GlobVar.g_bUseBonPrintCategory = true;
+                    GlobVar.g_bUseBonPrintSync = false;
                     updateDatabase();
                     break;
+                //bon print synced
                 case 3:
                     GlobVar.g_bUseBonPrint = true;
+                    GlobVar.g_bUseBonPrintMain = false;
+                    GlobVar.g_bUseBonPrintCategory = false;
+                    GlobVar.g_bUseBonPrintSync = true;
                     updateDatabase();
                     break;
                 default:
@@ -188,6 +203,7 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
                     m_TextViewPrinter.setVisibility(View.VISIBLE);
                     m_Spinner_Printer.setVisibility(View.VISIBLE);
                     setSpinnerPrinter();
+                    setSpinnerBonSett();
 
                     updateDatabase();
                 }
@@ -235,7 +251,19 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, taxes);
         m_Spinner_BonSett.setAdapter(dataAdapter);
 
-        m_Spinner_BonSett.setSelection(0);
+
+        if(GlobVar.g_bUseBonPrintMain){
+            m_Spinner_BonSett.setSelection(1);
+        }
+        else if (GlobVar.g_bUseBonPrintCategory) {
+            m_Spinner_BonSett.setSelection(2);
+        }
+        else if (GlobVar.g_bUseBonPrintSync) {
+            m_Spinner_BonSett.setSelection(3);
+        }
+        else{
+            m_Spinner_BonSett.setSelection(0);
+        }
     }
 
     private void setSpinnerPrinter(){
