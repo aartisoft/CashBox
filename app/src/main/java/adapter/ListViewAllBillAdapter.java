@@ -161,7 +161,7 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
                     if((!GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid())
                             || (GlobVar.g_bUseMainCash && GlobVar.g_bUseBonPrint && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && objBillProduct.getPaid())
-                            || (GlobVar.g_bUseMainCash &&  !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPaid())){
+                            || (GlobVar.g_bUseMainCash && !GlobVar.g_bUseBonPrint &&  !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPaid())){
                         if (objProduct == objBillProduct.getProduct()) {
                             iQuantity++;
                             bFound = true;
@@ -178,7 +178,7 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                 for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
                     if( ( !GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid() )
                             || (GlobVar.g_bUseMainCash && GlobVar.g_bUseBonPrint && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted() && !objBillProduct.getPaid() )
-                            || (GlobVar.g_bUseMainCash && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.getPaid())){
+                            || (GlobVar.g_bUseMainCash && !GlobVar.g_bUseBonPrint && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && !objBillProduct.getPaid())){
                         if (objProduct == objBillProduct.getProduct()) {
                             dPrize += objBillProduct.getVK();
                             //if pawn is available
