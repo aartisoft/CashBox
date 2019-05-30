@@ -24,6 +24,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView textview_itemname;
+        public TextView textview_itemcount;
         public TextView textview_prize;
         public TextView textview_paidQ;
         public ImageView imageview_paid;
@@ -37,6 +38,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
             super(view);
 
             textview_itemname = view.findViewById(R.id.am_bill_rv_name);
+            textview_itemcount = view.findViewById(R.id.am_bill_rv_count);
             textview_prize = view.findViewById(R.id.am_bill_rv_prize);
             textview_paidQ = view.findViewById(R.id.am_bill_rv_paid_tv);
             imageview_paid = view.findViewById(R.id.am_bill_rv_paid_iv);
@@ -45,7 +47,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
             textview_printerQ = view.findViewById(R.id.am_bill_rv_printer_tv);
             imageview_printer = view.findViewById(R.id.am_bill_rv_printerimage);
 
-            mCardView = view.findViewById(R.id.editproduct_recyclerview_items);
+            mCardView = view.findViewById(R.id.am_bill_recyclerview_items);
             mCardView.setOnClickListener(this);
         }
 
@@ -66,7 +68,7 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.am_bill_recyclerview_recyclerview_items, parent, false);
+                .inflate(R.layout.am_bill_recyclerview_items, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -79,12 +81,16 @@ public class RecyclerViewMainBillAdapter extends RecyclerView.Adapter<RecyclerVi
         final ObjMainBillProduct item = m_billproductList.get(position);
 
         //set name
-        String strName = item.getQuantity() + "x " + item.getProduct().getName();
+        String strName = item.getProduct().getName();
         //if pawn is available
         if(item.getProduct().getbPawn()){
             strName += "*";
         }
         holder.textview_itemname.setText(strName);
+
+        //set count
+        String strCount = String.valueOf(item.getQuantity()) + "x";
+        holder.textview_itemcount.setText(strCount);
 
         //set prize
         String strVK = df.format(item.getVK());

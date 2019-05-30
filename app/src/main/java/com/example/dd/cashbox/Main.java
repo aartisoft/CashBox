@@ -607,6 +607,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
     }
 
+    //TODO implement bonprint settings after test on sunday
     private boolean addPrintJob(){
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
             //bill closed?
