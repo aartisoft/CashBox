@@ -77,6 +77,13 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
             m_Spinner_Printer.setVisibility(View.GONE);
         }
 
+        //set spinner bonsetting
+        if(GlobVar.g_lstTableBills.size() == 0){
+            m_Spinner_BonSett.setEnabled(true);
+        }
+        else{
+            m_Spinner_BonSett.setEnabled(false);
+        }
 
         //set listener
         m_switchUseMainCash.setOnCheckedChangeListener(mainCashOnCheckedChangeListener);

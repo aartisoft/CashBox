@@ -905,7 +905,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
             //bill closed?
             if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
-                if(GlobVar.g_bUseMainCash){
+                if(GlobVar.g_bUseMainCash && !GlobVar.g_bUseBonPrint){
                     if(m_iSessionBill != -1){
                         Intent intent = new Intent(Main.this, MainCash.class);
                         GlobVar.g_iSessionTable = 0;

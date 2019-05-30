@@ -69,7 +69,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
     }
 
     public void readAllTableBills() {
-
+        boolean bProductsFound = false;
         String query = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -105,6 +105,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                             //if bill already exists in table
                             if (bBillFound) {
                                 GlobVar.g_lstTableBills.get(iTableCounter).get(iBillCounter).m_lstProducts.add(objBillProduct);
+                                bProductsFound = true;
                             }
                             //if bill doesn't exists in table
                             else {
@@ -125,11 +126,17 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                                 objBill.m_lstProducts = new ArrayList<ObjBillProduct>();
                                 objBill.m_lstProducts.add(objBillProduct);
                                 GlobVar.g_lstTableBills.get(iTableCounter).add(objBill);
+                                bProductsFound = true;
                             }
                         }
                     }
                 }
             } while (cursor.moveToNext());
+        }
+
+        //delete init table bills if no products were found
+        if(!bProductsFound){
+            GlobVar.g_lstTableBills = new ArrayList<>();
         }
     }
 

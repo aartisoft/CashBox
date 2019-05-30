@@ -195,9 +195,9 @@ public class ListViewAllBillAdapter extends BaseExpandableListAdapter {
                     strAllArticles += iQuantity + "x " + strArticle  + " - " + m_Context.getResources().getString(R.string.src_offen) + "\n";
                 }
 
+                //not printed
                 //if used as bon cash register
                 if(!GlobVar.g_bUseMainCash || (GlobVar.g_bUseMainCash && GlobVar.g_bUseBonPrint)){
-                   //not printed
                     iQuantity = 0;
                     bFound = false;
                     for(ObjBillProduct objBillProduct : m_List.get(groupPosition).m_lstProducts) {
