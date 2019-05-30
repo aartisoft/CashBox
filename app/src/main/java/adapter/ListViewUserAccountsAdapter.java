@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.dd.cashbox.MS_UserAccounts;
+import com.example.dd.cashbox.MainShowBills;
 import com.example.dd.cashbox.R;
 
 import java.util.ArrayList;
@@ -57,37 +60,38 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             view = new ViewHolder();
-            convertView = inflator.inflate(R.layout.ms_ap_search_itemlistrow,  parent, false);
+            convertView = inflator.inflate(R.layout.activity_ms_useraccounts_itemlistrow,  parent, false);
 
             // Lookup view for data population
-            view.txtName = (TextView) convertView.findViewById(R.id.activity_ms_ua_ilr_user);
-            //view.txtTarget = (TextView) convertView.findViewById(R.id.ms_ap_search_ilr_ip);
-            view.cbAdd = (CheckBox)convertView.findViewById(R.id.ms_ap_search_ilr_cb);
+            view.txtUser = (TextView) convertView.findViewById(R.id.activity_ms_ua_ilr_user);
 
-            view.cbAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    //mCheckStates.put(position, isChecked);
-                    m_List.get(position).setChecked(isChecked);
-                }
-            });
             convertView.setTag(view);
         } else {
                 view = (ViewHolder) convertView.getTag();
         }
 
+        //init onclicklistener
+        view.ivUserSettings = convertView.findViewById(R.id.activity_ms_ua_ilr_iconsett);
+        final ViewHolder OnClickView = view;
+        final int OnClickPosition = position;
+        final View.OnClickListener ChooseListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MS_UserAccounts)m_Context).openUser(OnClickPosition);
+            }
+        };
+        view.ivUserSettings.setOnClickListener(ChooseListener);
+
         // Populate the data into the template view using the data object
-        view.txtName.setText(m_List.get(position).getUserName());
-        //view.txtTarget.setText(m_List.get(position).getIpAddress());
-        view.cbAdd.setChecked(m_List.get(position).isChecked());
+        view.txtUser.setText(m_List.get(position).getUserName());
 
         // Return the completed view to render on screen
         return convertView;
     }
 
     public class ViewHolder {
-        public TextView txtName;
-        public TextView txtTarget;
-        public CheckBox cbAdd;
+        public TextView txtUser;
+        public TextView txtUserInfo;
+        public ImageView ivUserSettings;
     }
 }

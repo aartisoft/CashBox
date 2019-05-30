@@ -10,6 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="20dip"
         android:layout_marginLeft="16dip"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
         android:src="@drawable/ic_account_circle_grey_24dp" />
 
@@ -35,14 +36,18 @@
         android:gravity="center_vertical"
         android:text="Benutzer"
         android:textSize="16sp"/>
-    <CheckBox
-        android:id="@+id/activity_ms_ua_ilr__cb"
+
+    <ImageView
+        android:id="@+id/activity_ms_ua_ilr_iconsett"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="16dip"
-        android:buttonTint="@color/colorPrimary3"
-        android:text=""/>
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_marginRight="20dip"
+        android:layout_marginLeft="16dip"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_vertical"
+        android:src="@drawable/ic_settings_grey_24dp" />
+
 </RelativeLayout>

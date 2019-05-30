@@ -23,8 +23,6 @@ import objects.ObjUser;
 
 public class MS_UserAccounts extends AppCompatActivity {
 
-    private Runnable m_runnable;
-    private final Handler m_handler = new Handler();
     private Context m_Context;
     private ArrayList<ObjUser> m_UserList = null;
     private ListViewUserAccountsAdapter m_adapter;
@@ -43,7 +41,7 @@ public class MS_UserAccounts extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ms_addprinter_search);
+        setContentView(R.layout.activity_ms_useraccounts);
 
         //init variables
         m_Context = this;
@@ -100,6 +98,10 @@ public class MS_UserAccounts extends AppCompatActivity {
 
     ///////////////////////////////////// METHODS //////////////////////////////////////////////////////////////////
 
+    public void openUser(int position){
+
+    }
+
     public void saveUser(){
         for(int i=0;i<m_UserList.size();i++)
         {
@@ -119,7 +121,7 @@ public class MS_UserAccounts extends AppCompatActivity {
     private void initList(){
         //TODO
         //delete if startprocess is implemented
-        if(GlobVar.g_lstUser.isEmpty()){
+        if(GlobVar.g_lstUser.size() == 0){
             ObjUser objUser = new ObjUser();
             objUser.setUserName("TestUser");
             GlobVar.g_lstUser.add(objUser);
