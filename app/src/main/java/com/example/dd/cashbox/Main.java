@@ -9,7 +9,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import SQLite.SQLiteDatabaseHandler_Category;
 import SQLite.SQLiteDatabaseHandler_Product;
-import SQLite.SQLiteDatabaseHandler_Session;
+import SQLite.SQLiteDatabaseHandler_Settings;
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import SQLite.SQLiteDatabaseHandler_Tables;
 import adapter.RecyclerViewMainBillAdapter;
@@ -218,7 +218,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 //this.deleteDatabase("PrintersDB");
                 this.deleteDatabase("TableBillsDB");
                 this.deleteDatabase("TablesDB");
-                this.deleteDatabase("SessionDB");
+                this.deleteDatabase("SettingsDB");
                 Toast.makeText(Main.this, getResources().getString(R.string.src_KasseWurdeVollstaendigGeloescht), Toast.LENGTH_SHORT).show();
                 break;
 
@@ -395,30 +395,46 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void readSQLiteDB(){
-        try{
-            if(GlobVar.g_bReadSQL){
-                //read printers
+        if(GlobVar.g_bReadSQL){
+            //read printers
+            try{
                 SQLiteDatabaseHandler_Printer db_printer = new SQLiteDatabaseHandler_Printer(m_Context);
                 if(GlobVar.g_lstPrinter.isEmpty()){
                     GlobVar.g_lstPrinter = db_printer.allPrinters();
                 }
+            }
+            catch(SQLiteException se){
+                Log.e(getClass().getSimpleName(), "Could not create or open the database printers");
+            }
 
-                //read session --> comes from server database or start screen (has to be implemented)
-                SQLiteDatabaseHandler_Session db_session = new SQLiteDatabaseHandler_Session(m_Context);
-                db_session.getSession();
+            //read settings --> comes from server database or start screen (has to be implemented)
+            try{
+                SQLiteDatabaseHandler_Settings db_settings = new SQLiteDatabaseHandler_Settings(m_Context);
+                db_settings.getSettings();
+            }
+            catch(SQLiteException se){
+                Log.e(getClass().getSimpleName(), "Could not create or open the database settings");
+            }
+            //TODO Delete
+            GlobVar.g_ObjSession.setCashierName("Susi");
+            GlobVar.g_ObjSession.setHostName("MV / ASV Mühlacker");
+            GlobVar.g_ObjSession.setPartyName("Fisch trifft Musik");
+            GlobVar.g_ObjSession.setPartyDate("02.06.2019");
 
-                GlobVar.g_ObjSession.setCashierName("Susi");
-                GlobVar.g_ObjSession.setHostName("MV / ASV Mühlacker");
-                GlobVar.g_ObjSession.setPartyName("Fisch trifft Musik");
-                GlobVar.g_ObjSession.setPartyDate("02.06.2019");
 
-                //read categories
+            //read categories
+            try{
                 SQLiteDatabaseHandler_Category db_category = new SQLiteDatabaseHandler_Category(m_Context);
                 if(GlobVar.g_lstCategory.isEmpty()) {
                     GlobVar.g_lstCategory = db_category.allCategories();
                 }
+            }
+            catch(SQLiteException se){
+                Log.e(getClass().getSimpleName(), "Could not create or open the database category");
+            }
 
-                //read products and add to specific category
+            //read products and add to specific category
+            try{
                 SQLiteDatabaseHandler_Product db_products = new SQLiteDatabaseHandler_Product(m_Context);
                 int indexcounter = 0;
                 for(ObjCategory objcategory : GlobVar.g_lstCategory){
@@ -432,8 +448,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     GlobVar.g_lstCategory.set(indexcounter, category);
                     indexcounter++;
                 }
+            }
+            catch(SQLiteException se){
+                Log.e(getClass().getSimpleName(), "Could not create or open the database products");
+            }
 
-                //read tables
+            //read tables
+            try{
                 SQLiteDatabaseHandler_Tables db_tables = new SQLiteDatabaseHandler_Tables(m_Context);
                 //if used as main cash register
                 if(GlobVar.g_bUseMainCash){
@@ -442,30 +463,35 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 else {
                     GlobVar.g_iTables = db_tables.getTables();
                 }
+            }
+            catch(SQLiteException se){
+                Log.e(getClass().getSimpleName(), "Could not create or open the database tables");
+            }
 
-                //read tablebills
+            //read tablebills
+            try{
                 SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
                 if(GlobVar.g_lstTableBills.isEmpty()) {
                     db_tablebills.readAllTableBills();
                 }
+            }
+            catch(SQLiteException se){
+                Log.e(getClass().getSimpleName(), "Could not create or open the database tablebills");
+            }
 
-                //get highest bill nr
-                int iBillNr = 0;
-                for(List<ObjBill> lstObjBill : GlobVar.g_lstTableBills){
-                    for(ObjBill objBill : lstObjBill){
-                        if(objBill.getBillNr() > iBillNr){
-                            iBillNr = objBill.getBillNr();
-                        }
+            //get highest bill nr
+            int iBillNr = 0;
+            for(List<ObjBill> lstObjBill : GlobVar.g_lstTableBills){
+                for(ObjBill objBill : lstObjBill){
+                    if(objBill.getBillNr() > iBillNr){
+                        iBillNr = objBill.getBillNr();
                     }
                 }
-                GlobVar.g_iBillNr = iBillNr;
-
-                //database read only at start of app
-                GlobVar.g_bReadSQL = false;
             }
-        }
-        catch(SQLiteException se){
-            Log.e(getClass().getSimpleName(), "Could not create or open the database");
+            GlobVar.g_iBillNr = iBillNr;
+
+            //database read only at start of app
+            GlobVar.g_bReadSQL = false;
         }
     }
 

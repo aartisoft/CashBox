@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import SQLite.SQLiteDatabaseHandler_Session;
+import SQLite.SQLiteDatabaseHandler_Settings;
 import global.GlobVar;
 import objects.ObjPrinter;
 
@@ -327,7 +327,7 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
     }
 
     private void updateDatabase(){
-        SQLiteDatabaseHandler_Session db_session = new SQLiteDatabaseHandler_Session(m_Context);
-        db_session.saveSession();
+        SQLiteDatabaseHandler_Settings db_session = new SQLiteDatabaseHandler_Settings(m_Context);
+        db_session.saveSettings();
     }
 }

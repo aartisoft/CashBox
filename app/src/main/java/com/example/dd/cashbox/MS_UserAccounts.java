@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,15 +15,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import SQLite.SQLiteDatabaseHandler_Printer;
-import SQLite.SQLiteDatabaseHandler_Session;
-import adapter.ListViewPrinterSearchAdapter;
+import SQLite.SQLiteDatabaseHandler_Settings;
 import adapter.ListViewUserAccountsAdapter;
 import global.GlobVar;
-import objects.ObjPrinter;
-import objects.ObjPrinterSearch;
 import objects.ObjUser;
-import printer.EpsonDiscover;
 
 
 public class MS_UserAccounts extends AppCompatActivity {
@@ -117,8 +110,8 @@ public class MS_UserAccounts extends AppCompatActivity {
                 GlobVar.g_ObjSession.setCashierName(objUserAdapter.getUserName());
 
                 //save to database
-                SQLiteDatabaseHandler_Session db_session = new SQLiteDatabaseHandler_Session(m_Context);
-                db_session.saveSession();
+                SQLiteDatabaseHandler_Settings db_session = new SQLiteDatabaseHandler_Settings(m_Context);
+                db_session.saveSettings();
             }
         }
     }
