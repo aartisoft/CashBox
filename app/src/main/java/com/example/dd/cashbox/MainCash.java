@@ -75,6 +75,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     private int m_iSessionBill = -1;
     private int m_iSessionBillOLD = -1;
     private boolean m_bBillSplit = false;
+    private boolean m_bKeyboardClosed = true;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -163,9 +164,11 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
             if (keypadHeight > screenHeight * 0.1) {
                 // keyboard is opened
+                m_bKeyboardClosed = false;
             }
             else {
                 //keyboard is closed
+                m_bKeyboardClosed = true;
                 m_decorView.setSystemUiVisibility(m_uiOptions);
             }
         }
@@ -322,24 +325,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                m_EdtWantsToPay.setCursorVisible(false);
-
-                String strWantsToPay = "0,0";
-                strWantsToPay = m_EdtWantsToPay.getText().toString();
-
-
-                if(strWantsToPay.equals("")){
-                    strWantsToPay = "0,0";
-                }
-                strWantsToPay = strWantsToPay.replace(",", ".");
-                m_dWantsToPay = Double.parseDouble(strWantsToPay);
-
-                setChangeSum();
-
-                //set edittext
-                DecimalFormat df = new DecimalFormat("0.00");
-                String strOutput = df.format(m_dWantsToPay);
-                m_EdtWantsToPay.setText(strOutput);
+                wantsToPayOnKey();
             }
             return false;
         }
@@ -350,23 +336,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                m_EdtPays.setCursorVisible(false);
-
-                String strPays = "0,0";
-                strPays = m_EdtPays.getText().toString();
-
-                if(strPays.equals("")){
-                    strPays = "0,0";
-                }
-                strPays = strPays.replace(",", ".");
-                m_dPays = Double.parseDouble(strPays);
-
-                setChangeSum();
-
-                //set edittext
-                DecimalFormat df = new DecimalFormat("0.00");
-                String strOutput = df.format(m_dPays);
-                m_EdtPays.setText(strOutput);
+                paysOnKey();
             }
             return false;
         }
@@ -377,6 +347,47 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         updateListObjMainBillProduct();
         updateListObjMainCashBillProduct();
         setOpenTransitSum();
+    }
+
+    private void wantsToPayOnKey(){
+        m_EdtWantsToPay.setCursorVisible(false);
+
+        String strWantsToPay = "0,0";
+        strWantsToPay = m_EdtWantsToPay.getText().toString();
+
+
+        if(strWantsToPay.equals("")){
+            strWantsToPay = "0,0";
+        }
+        strWantsToPay = strWantsToPay.replace(",", ".");
+        m_dWantsToPay = Double.parseDouble(strWantsToPay);
+
+        setChangeSum();
+
+        //set edittext
+        DecimalFormat df = new DecimalFormat("0.00");
+        String strOutput = df.format(m_dWantsToPay);
+        m_EdtWantsToPay.setText(strOutput);
+    }
+
+    private void paysOnKey(){
+        m_EdtPays.setCursorVisible(false);
+
+        String strPays = "0,0";
+        strPays = m_EdtPays.getText().toString();
+
+        if(strPays.equals("")){
+            strPays = "0,0";
+        }
+        strPays = strPays.replace(",", ".");
+        m_dPays = Double.parseDouble(strPays);
+
+        setChangeSum();
+
+        //set edittext
+        DecimalFormat df = new DecimalFormat("0.00");
+        String strOutput = df.format(m_dPays);
+        m_EdtPays.setText(strOutput);
     }
 
     public void delTransitItems(String p_strCategory, String p_strProduct){
