@@ -76,7 +76,9 @@ public class ListViewMainCashBillPayAdapter extends BaseAdapter {
         if(m_List.get(position).getProduct().getbPawn()){
             strName += "*";
         }
-        view.txtArticle.setText(strName);
+        //add line break
+        String parsedStr = strName.replaceAll("(.{20})", "$1\n");
+        view.txtArticle.setText(parsedStr);
 
         //set vk
         DecimalFormat df = new DecimalFormat("0.00");
