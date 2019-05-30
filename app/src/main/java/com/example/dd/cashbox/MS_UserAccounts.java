@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import SQLite.SQLiteDatabaseHandler_Settings;
 import adapter.ListViewUserAccountsAdapter;
 import fragments.AddNewUserDialogFragment;
+import fragments.EditUserDialogFragment;
 import fragments.RetoureStornoDialogFragment;
 import global.GlobVar;
 import objects.ObjUser;
@@ -105,8 +106,16 @@ public class MS_UserAccounts extends AppCompatActivity {
     ///////////////////////////////////// METHODS //////////////////////////////////////////////////////////////////
 
     public void openUser(int position){
+        FragmentManager fm = getSupportFragmentManager();
+        EditUserDialogFragment editUserDialogFragment = EditUserDialogFragment.newInstance();
 
+        Bundle args = new Bundle();
+        args.putInt("USER", position);
+
+        editUserDialogFragment.setArguments(args);
+        editUserDialogFragment.show(fm, "fragment_edituser");
     }
+
 
     public void saveUser(){
         for(int i=0;i<m_UserList.size();i++)
@@ -124,7 +133,7 @@ public class MS_UserAccounts extends AppCompatActivity {
         }
     }
 
-    private void initList(){
+    public void initList(){
         //TODO
         //delete if startprocess is implemented
         if(GlobVar.g_lstUser.size() == 0){

@@ -64,6 +64,7 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
 
             // Lookup view for data population
             view.txtUser = (TextView) convertView.findViewById(R.id.activity_ms_ua_ilr_user);
+            view.txtUserInfo = (TextView) convertView.findViewById(R.id.activity_ms_ua_ilr_user2);
 
             convertView.setTag(view);
         } else {
@@ -84,6 +85,13 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
 
         // Populate the data into the template view using the data object
         view.txtUser.setText(m_List.get(position).getUserName());
+
+        if(m_List.get(position).isChecked()){
+            view.txtUserInfo.setText(convertView.getResources().getString(R.string.src_Aktiv));
+        }
+        else{
+            view.txtUserInfo.setText("");
+        }
 
         // Return the completed view to render on screen
         return convertView;
