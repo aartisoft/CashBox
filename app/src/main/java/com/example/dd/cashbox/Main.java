@@ -640,7 +640,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                             //set bill text
                                             List<String> lstBillText = new ArrayList<>();
                                             lstBillText.add(GlobVar.g_ObjSession.getHostName());
-                                            lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
+                                            lstBillText.add(GlobVar.g_ObjSession.getPartyName());
                                             lstBillText.add(todayAsString);
                                             lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
 
@@ -670,7 +670,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                             //set bill text
                                             List<String> lstBillText = new ArrayList<>();
                                             lstBillText.add(GlobVar.g_ObjSession.getHostName());
-                                            lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
+                                            lstBillText.add(GlobVar.g_ObjSession.getPartyName());
                                             lstBillText.add(todayAsString);
                                             lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
 
@@ -706,7 +706,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                 //set bill text
                                 List<String> lstBillText = new ArrayList<>();
                                 lstBillText.add(GlobVar.g_ObjSession.getHostName());
-                                lstBillText.add(GlobVar.g_ObjSession.getPartyName() + " / " + GlobVar.g_ObjSession.getPartyDate());
+                                lstBillText.add(GlobVar.g_ObjSession.getPartyName());
                                 lstBillText.add(todayAsString);
                                 lstBillText.add("Tisch " + String.valueOf(m_iSessionTable + 1) + " - " + "Beleg " + String.valueOf(m_iSessionBill) + " - " + GlobVar.g_ObjSession.getCashierName());
 
@@ -1170,22 +1170,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //set infotext mainbill
         if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts.size() > 0){
-            boolean bFound = false;
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts){
-                if((!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())
-                    || GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed() ){
-                    bFound = true;
-                    break;
-                }
-            }
-            if(bFound){
-                m_ViewNoBill.setVisibility(View.INVISIBLE);
-                m_ViewEmptyBill.setVisibility(View.INVISIBLE);
-            }
-            else{
-                m_ViewNoBill.setVisibility(View.INVISIBLE);
-                m_ViewEmptyBill.setVisibility(View.VISIBLE);
-            }
+            m_ViewNoBill.setVisibility(View.INVISIBLE);
+            m_ViewEmptyBill.setVisibility(View.INVISIBLE);
         }
         else{
             m_ViewNoBill.setVisibility(View.INVISIBLE);
