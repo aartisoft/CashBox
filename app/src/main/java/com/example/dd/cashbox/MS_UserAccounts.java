@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 
 import SQLite.SQLiteDatabaseHandler_Settings;
 import adapter.ListViewUserAccountsAdapter;
+import fragments.AddNewUserDialogFragment;
+import fragments.RetoureStornoDialogFragment;
 import global.GlobVar;
 import objects.ObjUser;
 
@@ -92,7 +95,10 @@ public class MS_UserAccounts extends AppCompatActivity {
     private View.OnClickListener fabOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            FragmentManager fm = getSupportFragmentManager();
+            AddNewUserDialogFragment addNewUserDialogFragment = AddNewUserDialogFragment.newInstance();
 
+            addNewUserDialogFragment.show(fm, "fragment_addnewuser");
         }
     };
 
