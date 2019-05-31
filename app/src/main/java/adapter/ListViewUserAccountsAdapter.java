@@ -101,5 +101,6 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
         public TextView txtUser;
         public TextView txtUserInfo;
         public ImageView ivUserSettings;
+        public CheckBox cbUserDelete;
     }
 }
