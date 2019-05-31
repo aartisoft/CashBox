@@ -86,7 +86,7 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
         // Populate the data into the template view using the data object
         view.txtUser.setText(m_List.get(position).getUserName());
 
-        if(m_List.get(position).isChecked()){
+        if(m_List.get(position).isActive()){
             view.txtUserInfo.setText(convertView.getResources().getString(R.string.src_Aktiv));
         }
         else{

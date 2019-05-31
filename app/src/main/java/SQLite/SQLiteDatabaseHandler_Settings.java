@@ -18,10 +18,8 @@ public class SQLiteDatabaseHandler_Settings extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "SettingsDB";
     private static final String TABLE_NAME = "Settings";
     private static final String KEY_ID = "id";
-    private static final String KEY_CASHIERNAME = "cashiername";
     private static final String KEY_HOSTNAME = "hostname";
     private static final String KEY_PARTYNAME = "partyname";
-    private static final String KEY_PARYTDATE = "partydate";
     private static final String KEY_USEMAINCASH = "usemaincash";
     private static final String KEY_USESYNCBON = "usesyncbon";
     private static final String KEY_USEBONPRINTMAIN = "usebonprintmain";
@@ -29,8 +27,8 @@ public class SQLiteDatabaseHandler_Settings extends SQLiteOpenHelper {
     private static final String KEY_USEBONPRINTSYNC = "usebonprintsync";
     private static final String KEY_PRINTERMAC = "printermac";
 
-    private static final String[] COLUMNS = { KEY_ID, KEY_CASHIERNAME, KEY_HOSTNAME,
-            KEY_PARTYNAME, KEY_PARYTDATE, KEY_USEMAINCASH, KEY_USESYNCBON, KEY_USEBONPRINTMAIN,
+    private static final String[] COLUMNS = { KEY_ID, KEY_HOSTNAME,
+            KEY_PARTYNAME, KEY_USEMAINCASH, KEY_USESYNCBON, KEY_USEBONPRINTMAIN,
             KEY_USEBONPRINTCATEGORY, KEY_USEBONPRINTSYNC, KEY_PRINTERMAC };
 
     public SQLiteDatabaseHandler_Settings(Context context){
@@ -40,8 +38,8 @@ public class SQLiteDatabaseHandler_Settings extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE Settings ( "
-                + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "cashiername TEXT, "
-                + "hostname TEXT, " + "partyname TEXT, " + "partydate TEXT, " + "usemaincash INTEGER, "
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "hostname TEXT, " + "partyname TEXT, " + "usemaincash INTEGER, "
                 + "usesyncbon INTEGER, " + "usebonprintmain INTEGER, " + "usebonprintcategory INTEGER, "
                 + "usebonprintsync INTEGER, " + "printermac TEXT )";
 
@@ -62,49 +60,48 @@ public class SQLiteDatabaseHandler_Settings extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 ObjSession objSession = new ObjSession();
-                objSession.setCashierName(cursor.getString(1));
-                objSession.setHostName(cursor.getString(2));
-                objSession.setPartyName(cursor.getString(3));
+                objSession.setHostName(cursor.getString(1));
+                objSession.setPartyName(cursor.getString(2));
                 GlobVar.g_ObjSession = objSession;
 
                 //set usemaincash
                 boolean b_UseMainCash = true;
-                if (cursor.getString(5).equals("0")) {
+                if (cursor.getString(3).equals("0")) {
                     b_UseMainCash = false;
                 }
                 GlobVar.g_bUseMainCash = b_UseMainCash;
 
                 //set useprintbon
                 boolean b_UseSyncBon = true;
-                if (cursor.getString(6).equals("0")) {
+                if (cursor.getString(3).equals("0")) {
                     b_UseSyncBon = false;
                 }
                 GlobVar.g_bUseBonPrint = b_UseSyncBon;
 
                 //set usebonprintmain
                 boolean b_UseBonPrintMain = true;
-                if (cursor.getString(7).equals("0")) {
+                if (cursor.getString(5).equals("0")) {
                     b_UseBonPrintMain = false;
                 }
                 GlobVar.g_bUseBonPrintMain = b_UseBonPrintMain;
 
                 //set usebonprintcategory
                 boolean b_UseBonPrintCategory = true;
-                if (cursor.getString(8).equals("0")) {
+                if (cursor.getString(6).equals("0")) {
                     b_UseBonPrintCategory = false;
                 }
                 GlobVar.g_bUseBonPrintCategory = b_UseBonPrintCategory;
 
                 //set usebonprintsync
                 boolean b_UseBonPrintSync = true;
-                if (cursor.getString(9).equals("0")) {
+                if (cursor.getString(7).equals("0")) {
                     b_UseBonPrintSync = false;
                 }
                 GlobVar.g_bUseBonPrintSync = b_UseBonPrintSync;
 
                 //set printer
                 for(ObjPrinter objprinter : GlobVar.g_lstPrinter){
-                    if(objprinter.getMacAddress().equals(cursor.getString(10))){
+                    if(objprinter.getMacAddress().equals(cursor.getString(8))){
                         GlobVar.g_objPrinter = objprinter;
                     }
                 }
@@ -128,7 +125,6 @@ public class SQLiteDatabaseHandler_Settings extends SQLiteOpenHelper {
 
             SQLiteDatabase db_write = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put(KEY_CASHIERNAME, GlobVar.g_ObjSession.getCashierName());
             values.put(KEY_HOSTNAME, GlobVar.g_ObjSession.getHostName());
             values.put(KEY_PARTYNAME, GlobVar.g_ObjSession.getPartyName());
 
@@ -169,7 +165,6 @@ public class SQLiteDatabaseHandler_Settings extends SQLiteOpenHelper {
 
             SQLiteDatabase db_write = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put(KEY_CASHIERNAME, GlobVar.g_ObjSession.getCashierName());
             values.put(KEY_HOSTNAME, GlobVar.g_ObjSession.getHostName());
             values.put(KEY_PARTYNAME, GlobVar.g_ObjSession.getPartyName());
 

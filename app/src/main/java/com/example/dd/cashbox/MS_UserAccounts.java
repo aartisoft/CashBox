@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 import SQLite.SQLiteDatabaseHandler_Settings;
+import SQLite.SQLiteDatabaseHandler_UserAccounts;
 import adapter.ListViewUserAccountsAdapter;
 import fragments.AddNewUserDialogFragment;
 import fragments.EditUserDialogFragment;
@@ -116,31 +117,7 @@ public class MS_UserAccounts extends AppCompatActivity {
         editUserDialogFragment.show(fm, "fragment_edituser");
     }
 
-
-    public void saveUser(){
-        for(int i=0;i<m_UserList.size();i++)
-        {
-            //get Object from adapter
-            ObjUser objUserAdapter = m_adapter.getObjUser(i);
-            if(m_UserList.get(i).isChecked()==true) {
-                //save user
-                GlobVar.g_ObjSession.setCashierName(objUserAdapter.getUserName());
-
-                //save to database
-                SQLiteDatabaseHandler_Settings db_session = new SQLiteDatabaseHandler_Settings(m_Context);
-                db_session.saveSettings();
-            }
-        }
-    }
-
     public void initList(){
-        //TODO
-        //delete if startprocess is implemented
-        if(GlobVar.g_lstUser.size() == 0){
-            ObjUser objUser = new ObjUser();
-            objUser.setUserName("TestUser");
-            GlobVar.g_lstUser.add(objUser);
-        }
         m_adapter = new ListViewUserAccountsAdapter(this, GlobVar.g_lstUser);
         m_listView.setAdapter(m_adapter);
     }

@@ -1,17 +1,11 @@
 package fragments;
 
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
@@ -23,6 +17,7 @@ import com.example.dd.cashbox.MS_UserAccounts;
 import com.example.dd.cashbox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import SQLite.SQLiteDatabaseHandler_UserAccounts;
 import global.GlobVar;
 import objects.ObjUser;
 
@@ -97,13 +92,17 @@ public class EditUserDialogFragment extends DialogFragment {
         @Override
         public void onClick(View v) {
            for(ObjUser objUser : GlobVar.g_lstUser){
-               objUser.setChecked(false);
+               objUser.setActive(false);
            }
 
             if(m_bActive){
-                GlobVar.g_lstUser.get(m_iPositionUser).setChecked(true);
+                GlobVar.g_lstUser.get(m_iPositionUser).setActive(true);
                 GlobVar.g_ObjSession.setCashierName(GlobVar.g_lstUser.get(m_iPositionUser).getUserName());
             }
+
+            //update database
+            SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
+            db_useraccounts.updateUser();
 
             ((MS_UserAccounts)m_Context).initList();
             m_frag.dismiss();

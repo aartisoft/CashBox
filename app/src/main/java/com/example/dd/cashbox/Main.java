@@ -12,6 +12,7 @@ import SQLite.SQLiteDatabaseHandler_Product;
 import SQLite.SQLiteDatabaseHandler_Settings;
 import SQLite.SQLiteDatabaseHandler_TableBills;
 import SQLite.SQLiteDatabaseHandler_Tables;
+import SQLite.SQLiteDatabaseHandler_UserAccounts;
 import adapter.RecyclerViewMainBillAdapter;
 import adapter.ViewPagerAdapter;
 import androidx.core.view.GravityCompat;
@@ -415,9 +416,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             catch(SQLiteException se){
                 Log.e(getClass().getSimpleName(), "Could not create or open the database settings");
             }
-            //TODO Delete
-            GlobVar.g_ObjSession.setCashierName("Susi");
 
+            //read useraccounts
+            try{
+                SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
+                if(GlobVar.g_lstUser.isEmpty()){
+                    db_useraccounts.getUser();
+                }
+            }
+            catch(SQLiteException se){
+                Log.e(getClass().getSimpleName(), "Could not create or open the database useraccounts");
+            }
 
             //read categories
             try{

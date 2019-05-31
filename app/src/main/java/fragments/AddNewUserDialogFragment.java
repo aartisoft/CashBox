@@ -31,6 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import SQLite.SQLiteDatabaseHandler_Settings;
+import SQLite.SQLiteDatabaseHandler_UserAccounts;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
@@ -125,6 +127,14 @@ public class AddNewUserDialogFragment extends DialogFragment {
                 ObjUser objUser = new ObjUser();
                 objUser.setUserName(m_edtName.getText().toString());
                 GlobVar.g_lstUser.add(objUser);
+
+                //save to database
+                SQLiteDatabaseHandler_Settings db_session = new SQLiteDatabaseHandler_Settings(m_Context);
+                db_session.saveSettings();
+
+                SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
+                db_useraccounts.addUser(objUser);
+                db_useraccounts.updateUser();
 
                 m_frag.dismiss();
             }
