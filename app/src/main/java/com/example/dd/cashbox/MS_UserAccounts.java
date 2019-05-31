@@ -69,12 +69,14 @@ public class MS_UserAccounts extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        m_fabdel.hide();
 
         //init list
         initList();
 
         //init Listener
         m_fab.setOnClickListener(fabOnClickListener);
+        m_fabdel.setOnClickListener(fabdelOnClickListener);
     }
 
     ///////////////////////////////////// LISTENER //////////////////////////////////////////////////////////////////
@@ -103,6 +105,11 @@ public class MS_UserAccounts extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                //set all users state delete
+                for(ObjUser objUser : GlobVar.g_lstUser){
+                    objUser.setDelete(true);
+                }
+
                 Intent intent = new Intent(MS_UserAccounts.this, MenuSettings.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -110,11 +117,13 @@ public class MS_UserAccounts extends AppCompatActivity {
                 return true;
 
             case R.id.ms_useraccounts_edituser_usermenu_deluser:
+                //set all users state delete
                 for(ObjUser objUser : GlobVar.g_lstUser){
                     objUser.setDelete(true);
-
-
                 }
+
+                m_fabdel.show();
+                m_fab.hide();
                 m_adapter.notifyDataSetChanged();
 
             default:
@@ -129,6 +138,22 @@ public class MS_UserAccounts extends AppCompatActivity {
             AddNewUserDialogFragment addNewUserDialogFragment = AddNewUserDialogFragment.newInstance();
 
             addNewUserDialogFragment.show(fm, "fragment_addnewuser");
+        }
+    };
+
+    private View.OnClickListener fabdelOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getCheckedUser();
+
+            m_fabdel.hide();
+            m_fab.show();
+
+            //set all users state normal
+            for(ObjUser objUser : GlobVar.g_lstUser){
+                objUser.setDelete(false);
+            }
+            m_adapter.notifyDataSetChanged();
         }
     };
 
@@ -151,19 +176,22 @@ public class MS_UserAccounts extends AppCompatActivity {
     }
 
     public void getCheckedUser(){
-        for(int i=0;i<GlobVar.g_lstUser.size();i++) {
+        for(int i=GlobVar.g_lstUser.size(); i-- > 0;) {
             //get Object from adapter
             ObjUser objUserAdapter = m_adapter.getObjUser(i);
             if(objUserAdapter.isChecked()) {
                 deleteUser(i);
             }
         }
+
+        m_adapter.notifyDataSetChanged();
     }
 
     private void deleteUser(int position){
         //update database
         SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
         db_useraccounts.deleteUser(GlobVar.g_lstUser.get(position));
-        m_adapter.notifyDataSetChanged();
+
+        GlobVar.g_lstUser.remove(position);
     }
 }
