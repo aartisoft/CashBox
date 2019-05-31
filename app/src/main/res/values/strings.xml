@@ -187,6 +187,9 @@
     <string name="src_BitteNamenAngeben">Bitte Namen angeben!</string>
     <string name="src_NeuerNutzer">Neuer Nutzer</string>
     <string name="src_Nutzername">Nutzername</string>
+    <string name="src_NutzerEntfernen">Nutzer entfernen</string>
+    <string name="src_NutzerEntfernt">Nutzer entfernt</string>
+    <string name="src_NutzerExistiertBereits">Nutzer existiert bereits</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

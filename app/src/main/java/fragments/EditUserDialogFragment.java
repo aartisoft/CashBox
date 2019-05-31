@@ -1,19 +1,29 @@
 package fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.dd.cashbox.AllBills;
+import com.example.dd.cashbox.MS_CashRegisterInfo;
 import com.example.dd.cashbox.MS_UserAccounts;
+import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,6 +33,7 @@ import objects.ObjUser;
 
 public class EditUserDialogFragment extends DialogFragment {
 
+    private TextView m_TextViewTitle;
     private SwitchCompat m_SwitchActive;
     private FloatingActionButton m_fab;
     private boolean m_bActive = false;
@@ -55,9 +66,15 @@ public class EditUserDialogFragment extends DialogFragment {
         toolbar.setNavigationOnClickListener(tbOnClickListener);
 
         //set variables
+        m_TextViewTitle = view.findViewById(R.id.fragment_edituser_tvTitle);
         m_SwitchActive = view.findViewById(R.id.fragment_edituser_switch);
         m_fab = view.findViewById(R.id.fragment_edituser_fab);
 
+        //set toolbar title
+        setToolbarTitle();
+
+        //init switch active
+        initSwitchActive();
 
         //set listener
         m_SwitchActive.setOnCheckedChangeListener(activeOnCheckedChangeListener);
@@ -70,6 +87,7 @@ public class EditUserDialogFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
 
     View.OnClickListener tbOnClickListener = new View.OnClickListener() {
 
@@ -112,4 +130,27 @@ public class EditUserDialogFragment extends DialogFragment {
 
     ///////////////////////////////////// METHODS ////////////////////////////////////////////////////////////////////////
 
+    private void setToolbarTitle(){
+        String strUserName = GlobVar.g_lstUser.get(m_iPositionUser).getUserName();
+        m_TextViewTitle.setText(strUserName);
+    }
+
+    private void initSwitchActive(){
+        if(GlobVar.g_lstUser.get(m_iPositionUser).isActive()){
+            m_SwitchActive.setChecked(true);
+            m_SwitchActive.setEnabled(false);
+            m_fab.setEnabled(false);
+            m_fab.setAlpha(120);
+        }
+    }
+
+    private void deleteUser(){
+        //update database
+        SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
+        db_useraccounts.deleteUser(GlobVar.g_lstUser.get(m_iPositionUser));
+
+        Toast.makeText(m_Context, getResources().getString(R.string.src_NutzerEntfernt), Toast.LENGTH_SHORT).show();
+
+        m_frag.dismiss();
+    }
 }

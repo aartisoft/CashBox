@@ -124,19 +124,24 @@ public class AddNewUserDialogFragment extends DialogFragment {
         @Override
         public void onClick(View v) {
             if(!m_edtName.getText().toString().equals("")){
-                ObjUser objUser = new ObjUser();
-                objUser.setUserName(m_edtName.getText().toString());
-                GlobVar.g_lstUser.add(objUser);
+                if(!userExists(m_edtName.getText().toString())){
+                    ObjUser objUser = new ObjUser();
+                    objUser.setUserName(m_edtName.getText().toString());
+                    GlobVar.g_lstUser.add(objUser);
 
-                //save to database
-                SQLiteDatabaseHandler_Settings db_session = new SQLiteDatabaseHandler_Settings(m_Context);
-                db_session.saveSettings();
+                    //save to database
+                    SQLiteDatabaseHandler_Settings db_session = new SQLiteDatabaseHandler_Settings(m_Context);
+                    db_session.saveSettings();
 
-                SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
-                db_useraccounts.addUser(objUser);
-                db_useraccounts.updateUser();
+                    SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
+                    db_useraccounts.addUser(objUser);
+                    db_useraccounts.updateUser();
 
-                m_frag.dismiss();
+                    m_frag.dismiss();
+                }
+                else{
+                    Toast.makeText(m_Context, getResources().getString(R.string.src_NutzerExistiertBereits), Toast.LENGTH_SHORT).show();
+                }
             }
             else{
                 Toast.makeText(m_Context, getResources().getString(R.string.src_BitteNamenAngeben), Toast.LENGTH_SHORT).show();
@@ -146,5 +151,12 @@ public class AddNewUserDialogFragment extends DialogFragment {
 
 
     ///////////////////////////////////// METHODS ////////////////////////////////////////////////////////////////////////
-
+    private boolean userExists(String p_strUserName){
+        for(ObjUser objUser : GlobVar.g_lstUser){
+            if(objUser.equals(p_strUserName)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

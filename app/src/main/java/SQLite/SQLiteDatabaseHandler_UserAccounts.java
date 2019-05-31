@@ -62,11 +62,11 @@ public class SQLiteDatabaseHandler_UserAccounts extends SQLiteOpenHelper {
         }
     }
 
-    public void addUser(ObjUser o_objUser){
+    public void addUser(ObjUser p_objUser){
         SQLiteDatabase db_write = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_USER, o_objUser.getUserName());
+        values.put(KEY_USER, p_objUser.getUserName());
 
         // insert
         db_write.insert(TABLE_NAME,null, values);
@@ -90,5 +90,12 @@ public class SQLiteDatabaseHandler_UserAccounts extends SQLiteOpenHelper {
         }
 
         db_write.close();
+    }
+
+    public void deleteUser(ObjUser p_objUser) {
+        // Get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, "user = ?", new String[] { p_objUser.getUserName() });
+        db.close();
     }
 }
