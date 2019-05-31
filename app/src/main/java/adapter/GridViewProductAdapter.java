@@ -45,7 +45,6 @@ public class GridViewProductAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(m_Context);
             convertView = layoutInflater.inflate(R.layout.fragment_tabregister_layout, null);

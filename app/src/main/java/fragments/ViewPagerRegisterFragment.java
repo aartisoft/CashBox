@@ -15,8 +15,10 @@ import com.example.dd.cashbox.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import adapter.GridViewProductAdapter;
 import androidx.annotation.Nullable;
@@ -34,6 +36,7 @@ public class ViewPagerRegisterFragment extends Fragment {
     private GridView m_GridView;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
+    private List<ObjProduct> m_lstProductsAdapter = new ArrayList<>();
     private GridViewProductAdapter m_gridViewProductAdapter;
 
     public static Fragment getInstance(int position) {
@@ -61,8 +64,17 @@ public class ViewPagerRegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         m_GridView = view.findViewById(R.id.fragment_tagregister_gridview);
 
+
+        //set productlistadapter
+        m_lstProductsAdapter = new ArrayList<>();
+        for(ObjProduct objProduct : GlobVar.g_lstCategory.get(m_position).getListProduct()){
+            if(objProduct.getEnabled()){
+                m_lstProductsAdapter.add(objProduct);
+            }
+        }
+
         m_gridViewProductAdapter = new GridViewProductAdapter(getActivity().getApplicationContext(),
-                                    GlobVar.g_lstCategory.get(m_position).getListProduct(), GlobVar.g_lstCategory.get(m_position).getProdColor());
+                                    m_lstProductsAdapter, GlobVar.g_lstCategory.get(m_position).getProdColor());
         m_GridView.setAdapter(m_gridViewProductAdapter);
 
         //set Listener
