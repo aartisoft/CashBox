@@ -70,12 +70,13 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
             view.cbUserDelete = (CheckBox)convertView.findViewById(R.id.activity_ms_ua_ilr_cb);
             view.ivUserSettings = convertView.findViewById(R.id.activity_ms_ua_ilr_iconsett);
 
+
             convertView.setTag(view);
         } else {
                 view = (ViewHolder) convertView.getTag();
         }
 
-        //init checkbox listener
+        //set checkbox/settings icon
         if(m_List.get(position).isDelete()){
             view.cbUserDelete.setVisibility(View.VISIBLE);
             view.ivUserSettings.setVisibility(View.GONE);
@@ -85,6 +86,7 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
             view.ivUserSettings.setVisibility(View.VISIBLE);
         }
 
+        //init checkbox listener
         view.cbUserDelete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

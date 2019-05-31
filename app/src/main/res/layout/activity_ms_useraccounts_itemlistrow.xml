@@ -59,6 +59,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="16dip"
         android:buttonTint="@color/colorGrey"
+        android:checked="false"
         android:text=""/>
 
 </RelativeLayout>
