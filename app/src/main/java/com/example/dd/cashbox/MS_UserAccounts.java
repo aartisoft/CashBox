@@ -41,6 +41,8 @@ public class MS_UserAccounts extends AppCompatActivity {
     private View m_decorView;
     private Menu m_Menu;
     private MenuItem m_MenuItemUserDel;
+    private Toolbar m_toolbar;
+    private boolean m_bDeleteModus = false;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -65,8 +67,8 @@ public class MS_UserAccounts extends AppCompatActivity {
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
-        Toolbar toolbar = findViewById(R.id.activity_ms_useraccounts_tb);
-        setSupportActionBar(toolbar);
+        m_toolbar = findViewById(R.id.activity_ms_useraccounts_tb);
+        setSupportActionBar(m_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         m_fabdel.hide();
@@ -105,23 +107,42 @@ public class MS_UserAccounts extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //set all users state delete
-                for(ObjUser objUser : GlobVar.g_lstUser){
-                    objUser.setDelete(true);
+                if(m_bDeleteModus){
+                    //set all users state normal
+                    for(ObjUser objUser : GlobVar.g_lstUser){
+                        objUser.setDelete(false);
+                        objUser.setChecked(false);
+                    }
+                    m_adapter.notifyDataSetChanged();
+
+                    m_fabdel.hide();
+                    m_fab.show();
+                    m_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+                    m_bDeleteModus = false;
+                }
+                else{
+                    //set all users state delete
+                    for(ObjUser objUser : GlobVar.g_lstUser){
+                        objUser.setDelete(true);
+                    }
+
+                    Intent intent = new Intent(MS_UserAccounts.this, MenuSettings.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
                 }
 
-                Intent intent = new Intent(MS_UserAccounts.this, MenuSettings.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
                 return true;
 
             case R.id.ms_useraccounts_edituser_usermenu_deluser:
+                m_bDeleteModus = true;
+
                 //set all users state delete
                 for(ObjUser objUser : GlobVar.g_lstUser){
                     objUser.setDelete(true);
                 }
 
+                m_toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
                 m_fabdel.show();
                 m_fab.hide();
                 m_adapter.notifyDataSetChanged();
@@ -148,10 +169,12 @@ public class MS_UserAccounts extends AppCompatActivity {
 
             m_fabdel.hide();
             m_fab.show();
+            m_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 
             //set all users state normal
             for(ObjUser objUser : GlobVar.g_lstUser){
                 objUser.setDelete(false);
+                objUser.setChecked(false);
             }
             m_adapter.notifyDataSetChanged();
         }
