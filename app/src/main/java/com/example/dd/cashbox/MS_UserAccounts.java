@@ -147,7 +147,7 @@ public class MS_UserAccounts extends AppCompatActivity implements PopUpWindowCan
 
             // pass text to fragment
             Bundle args = new Bundle();
-            String strText = getResources().getString(R.string.src_BelegWirklichSplitten) + "\n";
+            String strText = getResources().getString(R.string.src_NutzerWirklichEntfernen) + "\n";
             args.putString("TEXT", strText);
             args.putString("TASK", "delete");
 
@@ -160,7 +160,6 @@ public class MS_UserAccounts extends AppCompatActivity implements PopUpWindowCan
     public void onOkResult(String p_strTASK) {
         deleteUser();
         setNormalMode();
-        Toast.makeText(MS_UserAccounts.this, getResources().getString(R.string.src_NutzerEntfernt), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -187,20 +186,38 @@ public class MS_UserAccounts extends AppCompatActivity implements PopUpWindowCan
     }
 
     public void deleteUser(){
-        SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
-
-        for(int i=GlobVar.g_lstUser.size(); i-- > 0;) {
+        //check wheater active user is checked to delete
+        boolean bDelete = true;
+        for(int i = 0; i < GlobVar.g_lstUser.size(); i++){
             //get Object from adapter
             ObjUser objUserAdapter = m_adapter.getObjUser(i);
-            if(objUserAdapter.isChecked()) {
-                //update database
-                db_useraccounts.deleteUser(GlobVar.g_lstUser.get(i));
-
-                GlobVar.g_lstUser.remove(i);
+            if(objUserAdapter.isChecked() && objUserAdapter.isActive()) {
+                bDelete = false;
+                break;
             }
         }
 
-        m_adapter.notifyDataSetChanged();
+        if(bDelete){
+            SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
+
+            for(int i=GlobVar.g_lstUser.size(); i-- > 0;) {
+                //get Object from adapter
+                ObjUser objUserAdapter = m_adapter.getObjUser(i);
+                if(objUserAdapter.isChecked()) {
+                    //update database
+                    db_useraccounts.deleteUser(GlobVar.g_lstUser.get(i));
+
+                    GlobVar.g_lstUser.remove(i);
+                }
+            }
+
+            Toast.makeText(MS_UserAccounts.this, getResources().getString(R.string.src_NutzerEntfernt), Toast.LENGTH_SHORT).show();
+            m_adapter.notifyDataSetChanged();
+        }
+        else{
+            setNormalMode();
+            Toast.makeText(MS_UserAccounts.this, getResources().getString(R.string.src_AktiveNutzerKoennenNichtEntferntWerden), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setNormalMode(){
