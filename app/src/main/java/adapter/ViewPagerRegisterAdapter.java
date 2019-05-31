@@ -17,14 +17,14 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import fragments.ViewPagerRegisterFragment;
 import objects.ObjCategory;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerRegisterAdapter extends FragmentPagerAdapter {
 
     private List<String> m_lstTitle = new ArrayList<String>();
     private List<Integer> m_lstColor = new ArrayList<Integer>();
     private final List<Fragment> m_FragmentList = new ArrayList<>();
     private Context m_Context;
 
-    public ViewPagerAdapter(FragmentManager manager) {
+    public ViewPagerRegisterAdapter(FragmentManager manager) {
         super(manager);
     }
 

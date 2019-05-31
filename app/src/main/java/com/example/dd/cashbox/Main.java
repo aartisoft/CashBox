@@ -14,7 +14,7 @@ import SQLite.SQLiteDatabaseHandler_TableBills;
 import SQLite.SQLiteDatabaseHandler_Tables;
 import SQLite.SQLiteDatabaseHandler_UserAccounts;
 import adapter.RecyclerViewMainBillAdapter;
-import adapter.ViewPagerAdapter;
+import adapter.ViewPagerRegisterAdapter;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
@@ -78,7 +78,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private DrawerLayout m_DrawerLayout;
     private TabLayout m_TabLayout;
     private ViewPager m_ViewPager;
-    private ViewPagerAdapter m_ViewPagerAdapter;
+    private ViewPagerRegisterAdapter m_ViewPagerAdapter;
     private TextView m_TextViewTable;
     private TextView m_TextViewBill;
     private TextView m_TextViewOpenSum;
@@ -518,13 +518,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void setTabulator(){
         //setup viewpager
-        m_ViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        m_ViewPagerAdapter = new ViewPagerRegisterAdapter(getSupportFragmentManager());
         int position = 0;
         for(ObjCategory objCategory : GlobVar.g_lstCategory){
             if(objCategory.getEnabled()){
                 m_ViewPagerAdapter.addFragment(new ViewPagerRegisterFragment().getInstance(position), objCategory.getName(), objCategory.getProdColor(), m_Context);
-                position++;
             }
+            position++;
         }
         m_ViewPager.setAdapter(m_ViewPagerAdapter);
 

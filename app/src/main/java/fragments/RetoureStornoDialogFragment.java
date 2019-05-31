@@ -6,26 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.dd.cashbox.R;
 import com.google.android.material.tabs.TabLayout;
 
-import SQLite.SQLiteDatabaseHandler_TableBills;
-import adapter.ViewPagerAdapter;
 import adapter.ViewPagerRetoureStornoAdapter;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
-import objects.ObjCategory;
 
 public class RetoureStornoDialogFragment extends DialogFragment {
 
