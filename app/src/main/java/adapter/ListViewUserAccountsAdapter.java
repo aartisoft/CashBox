@@ -66,10 +66,32 @@ public class ListViewUserAccountsAdapter extends BaseAdapter {
             view.txtUser = (TextView) convertView.findViewById(R.id.activity_ms_ua_ilr_user);
             view.txtUserInfo = (TextView) convertView.findViewById(R.id.activity_ms_ua_ilr_user2);
 
+            //set checkbox
+            view.cbUserDelete = (CheckBox)convertView.findViewById(R.id.activity_ms_ua_ilr_cb);
+            view.ivUserSettings = convertView.findViewById(R.id.activity_ms_ua_ilr_iconsett);
+
             convertView.setTag(view);
         } else {
                 view = (ViewHolder) convertView.getTag();
         }
+
+        //init checkbox listener
+        if(m_List.get(position).isDelete()){
+            view.cbUserDelete.setVisibility(View.VISIBLE);
+            view.ivUserSettings.setVisibility(View.GONE);
+        }
+        else{
+            view.cbUserDelete.setVisibility(View.GONE);
+            view.ivUserSettings.setVisibility(View.VISIBLE);
+        }
+
+        view.cbUserDelete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //mCheckStates.put(position, isChecked);
+                m_List.get(position).setChecked(isChecked);
+            }
+        });
 
         //init onclicklistener
         view.ivUserSettings = convertView.findViewById(R.id.activity_ms_ua_ilr_iconsett);

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/ms_useraccounts_edituser_usermenu"
+        android:id="@+id/ms_useraccounts_edituser_usermenu_deluser"
         android:orderInCategory="100"
         android:title="@string/src_NutzerEntfernen"
         app:showAsAction="never" />

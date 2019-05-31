@@ -143,14 +143,4 @@ public class EditUserDialogFragment extends DialogFragment {
             m_fab.setAlpha(120);
         }
     }
-
-    private void deleteUser(){
-        //update database
-        SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
-        db_useraccounts.deleteUser(GlobVar.g_lstUser.get(m_iPositionUser));
-
-        Toast.makeText(m_Context, getResources().getString(R.string.src_NutzerEntfernt), Toast.LENGTH_SHORT).show();
-
-        m_frag.dismiss();
-    }
 }

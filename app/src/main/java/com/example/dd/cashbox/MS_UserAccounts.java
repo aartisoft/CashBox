@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,8 +36,11 @@ public class MS_UserAccounts extends AppCompatActivity {
     private ArrayList<ObjUser> m_UserList = null;
     private ListViewUserAccountsAdapter m_adapter;
     private FloatingActionButton m_fab;
+    private FloatingActionButton m_fabdel;
     private ListView m_listView;
     private View m_decorView;
+    private Menu m_Menu;
+    private MenuItem m_MenuItemUserDel;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -52,6 +59,7 @@ public class MS_UserAccounts extends AppCompatActivity {
         m_Context = this;
         m_UserList = new ArrayList<ObjUser>();
         m_fab = findViewById(R.id.activity_ms_useraccounts_fabadd);
+        m_fabdel = findViewById(R.id.activity_ms_useraccounts_fabdel);
         m_listView = findViewById(R.id.activity_ms_useraccounts_lv);
         m_decorView = getWindow().getDecorView();
 
@@ -80,6 +88,18 @@ public class MS_UserAccounts extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.ms_useraccounts_edituser_usermenu, menu);
+
+        //init menu variables
+        m_Menu = menu;
+        m_MenuItemUserDel = menu.findItem(R.id.ms_useraccounts_edituser_usermenu_deluser);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -88,6 +108,14 @@ public class MS_UserAccounts extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 return true;
+
+            case R.id.ms_useraccounts_edituser_usermenu_deluser:
+                for(ObjUser objUser : GlobVar.g_lstUser){
+                    objUser.setDelete(true);
+
+
+                }
+                m_adapter.notifyDataSetChanged();
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -120,5 +148,22 @@ public class MS_UserAccounts extends AppCompatActivity {
     public void initList(){
         m_adapter = new ListViewUserAccountsAdapter(this, GlobVar.g_lstUser);
         m_listView.setAdapter(m_adapter);
+    }
+
+    public void getCheckedUser(){
+        for(int i=0;i<GlobVar.g_lstUser.size();i++) {
+            //get Object from adapter
+            ObjUser objUserAdapter = m_adapter.getObjUser(i);
+            if(objUserAdapter.isChecked()) {
+                deleteUser(i);
+            }
+        }
+    }
+
+    private void deleteUser(int position){
+        //update database
+        SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
+        db_useraccounts.deleteUser(GlobVar.g_lstUser.get(position));
+        m_adapter.notifyDataSetChanged();
     }
 }
