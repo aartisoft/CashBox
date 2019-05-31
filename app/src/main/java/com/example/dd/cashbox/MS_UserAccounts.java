@@ -3,7 +3,6 @@ package com.example.dd.cashbox;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,24 +12,22 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import SQLite.SQLiteDatabaseHandler_Settings;
 import SQLite.SQLiteDatabaseHandler_UserAccounts;
 import adapter.ListViewUserAccountsAdapter;
 import fragments.AddNewUserDialogFragment;
 import fragments.EditUserDialogFragment;
-import fragments.RetoureStornoDialogFragment;
+import fragments.PopUpWindowCancelOKFragment;
 import global.GlobVar;
 import objects.ObjUser;
 
 
-public class MS_UserAccounts extends AppCompatActivity {
+public class MS_UserAccounts extends AppCompatActivity implements PopUpWindowCancelOKFragment.OnDialogCancelOkResultListener {
 
     private Context m_Context;
     private ArrayList<ObjUser> m_UserList = null;
@@ -108,22 +105,12 @@ public class MS_UserAccounts extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if(m_bDeleteModus){
-                    //set all users state normal
-                    for(ObjUser objUser : GlobVar.g_lstUser){
-                        objUser.setDelete(false);
-                        objUser.setChecked(false);
-                    }
-                    m_adapter.notifyDataSetChanged();
-
-                    m_fabdel.hide();
-                    m_fab.show();
-                    m_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-                    m_bDeleteModus = false;
+                    setNormalMode();
                 }
                 else{
                     //set all users state delete
                     for(ObjUser objUser : GlobVar.g_lstUser){
-                        objUser.setDelete(true);
+                        objUser.setDelete(false);
                     }
 
                     Intent intent = new Intent(MS_UserAccounts.this, MenuSettings.class);
@@ -135,17 +122,7 @@ public class MS_UserAccounts extends AppCompatActivity {
                 return true;
 
             case R.id.ms_useraccounts_edituser_usermenu_deluser:
-                m_bDeleteModus = true;
-
-                //set all users state delete
-                for(ObjUser objUser : GlobVar.g_lstUser){
-                    objUser.setDelete(true);
-                }
-
-                m_toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
-                m_fabdel.show();
-                m_fab.hide();
-                m_adapter.notifyDataSetChanged();
+                setDeleteMode();
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -165,20 +142,31 @@ public class MS_UserAccounts extends AppCompatActivity {
     private View.OnClickListener fabdelOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            getCheckedUser();
+            FragmentManager fm = getSupportFragmentManager();
+            PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
 
-            m_fabdel.hide();
-            m_fab.show();
-            m_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+            // pass text to fragment
+            Bundle args = new Bundle();
+            String strText = getResources().getString(R.string.src_BelegWirklichSplitten) + "\n";
+            args.putString("TEXT", strText);
+            args.putString("TASK", "delete");
 
-            //set all users state normal
-            for(ObjUser objUser : GlobVar.g_lstUser){
-                objUser.setDelete(false);
-                objUser.setChecked(false);
-            }
-            m_adapter.notifyDataSetChanged();
+            popUpWindowCancelOKFragment.setArguments(args);
+            popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
         }
     };
+
+    @Override
+    public void onOkResult(String p_strTASK) {
+        deleteUser();
+        setNormalMode();
+        Toast.makeText(MS_UserAccounts.this, getResources().getString(R.string.src_NutzerEntfernt), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancelResult() {
+        setNormalMode();
+    }
 
     ///////////////////////////////////// METHODS //////////////////////////////////////////////////////////////////
 
@@ -198,23 +186,48 @@ public class MS_UserAccounts extends AppCompatActivity {
         m_listView.setAdapter(m_adapter);
     }
 
-    public void getCheckedUser(){
+    public void deleteUser(){
+        SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
+
         for(int i=GlobVar.g_lstUser.size(); i-- > 0;) {
             //get Object from adapter
             ObjUser objUserAdapter = m_adapter.getObjUser(i);
             if(objUserAdapter.isChecked()) {
-                deleteUser(i);
+                //update database
+                db_useraccounts.deleteUser(GlobVar.g_lstUser.get(i));
+
+                GlobVar.g_lstUser.remove(i);
             }
         }
 
         m_adapter.notifyDataSetChanged();
     }
 
-    private void deleteUser(int position){
-        //update database
-        SQLiteDatabaseHandler_UserAccounts db_useraccounts = new SQLiteDatabaseHandler_UserAccounts(m_Context);
-        db_useraccounts.deleteUser(GlobVar.g_lstUser.get(position));
+    private void setNormalMode(){
+        m_bDeleteModus = false;
+        m_fabdel.hide();
+        m_fab.show();
+        m_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 
-        GlobVar.g_lstUser.remove(position);
+        //set all users state normal
+        for(ObjUser objUser : GlobVar.g_lstUser){
+            objUser.setDelete(false);
+            objUser.setChecked(false);
+        }
+        m_adapter.notifyDataSetChanged();
+    }
+
+    private void setDeleteMode(){
+        m_bDeleteModus = true;
+        //set all users state delete
+        for(ObjUser objUser : GlobVar.g_lstUser){
+            objUser.setDelete(true);
+            objUser.setChecked(false);
+        }
+
+        m_toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+        m_fabdel.show();
+        m_fab.hide();
+        m_adapter.notifyDataSetChanged();
     }
 }
