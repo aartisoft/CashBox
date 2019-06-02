@@ -219,7 +219,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 //this.deleteDatabase("PrintersDB");
                 this.deleteDatabase("TableBillsDB");
                 this.deleteDatabase("TablesDB");
-                this.deleteDatabase("SettingsDB");
+                //this.deleteDatabase("SettingsDB");
                 Toast.makeText(Main.this, getResources().getString(R.string.src_KasseWurdeVollstaendigGeloescht), Toast.LENGTH_SHORT).show();
                 break;
 

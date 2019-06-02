@@ -62,10 +62,11 @@ public class MainShowBills extends AppCompatActivity {
         setBills();
 
         //set Listener
-        m_ListView.setOnItemLongClickListener(listviewOnItemListener);
+        //m_ListView.setOnItemLongClickListener(listviewOnItemListener);
     }
 
-    private ExpandableListView.OnItemLongClickListener listviewOnItemListener = new ExpandableListView.OnItemLongClickListener(){
+    //no longer needed
+    /*private ExpandableListView.OnItemLongClickListener listviewOnItemListener = new ExpandableListView.OnItemLongClickListener(){
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_GROUP
@@ -83,7 +84,7 @@ public class MainShowBills extends AppCompatActivity {
             }
             return false;
         }
-    };
+    };*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
