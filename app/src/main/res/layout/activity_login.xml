@@ -16,16 +16,29 @@
         android:layout_height="120dp"
         android:id="@+id/ivLogo"
         android:src="@drawable/mainlogo_white"
-        android:layout_below="@+id/tbLicenceKey"
+        android:layout_below="@+id/activity_login_edt_email"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="200dp"/>
 
     <EditText
-        android:id="@+id/tbLicenceKey"
+        android:id="@+id/activity_login_edt_email"
         android:textColor="@color/colorWhite"
         android:backgroundTint="@color/colorWhite"
         android:textColorHint="@color/colorGrey"
-        android:hint="Lizenzkey"
+        android:hint="@string/src_Nutzername"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/activity_login_edt_pw"
+        android:textColor="@color/colorWhite"
+        android:backgroundTint="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
+        android:hint="@string/src_Passwort"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -33,13 +46,13 @@
         android:inputType="text" />
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/activity_login_btnlogin"
         android:textColor="@color/colorButtonText"
         android:background="@drawable/roundedbutton_silver"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/src_UseLicenceKey"
+        android:text="@string/src_Login"
         android:textStyle="bold"
         android:textAllCaps="false"/>
 

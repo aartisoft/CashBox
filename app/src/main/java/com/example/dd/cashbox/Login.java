@@ -17,7 +17,7 @@ import android.widget.EditText;
 public class Login extends AppCompatActivity implements OnClickListener {
 
     private View m_decorView;
-    private EditText m_tbLicenceKey;
+    private EditText m_tbPassword;
     private Button m_btnLogin;
     private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -33,8 +33,8 @@ public class Login extends AppCompatActivity implements OnClickListener {
         setContentView(R.layout.activity_login);
 
         //init variables
-        m_tbLicenceKey = (EditText) findViewById(R.id.tbLicenceKey);
-        m_btnLogin = findViewById(R.id.btnLogin);
+        m_tbPassword = findViewById(R.id.activity_login_edt_pw);
+        m_btnLogin = findViewById(R.id.activity_login_btnlogin);
         m_btnLogin.setEnabled(false);
 
         //set UI
@@ -44,7 +44,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
         //set Listener
         m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
         m_btnLogin.setOnClickListener(this);
-        m_tbLicenceKey.addTextChangedListener(keyTextWatcher);
+        m_tbPassword.addTextChangedListener(keyTextWatcher);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
             }
             else {
                 //keyboard is closed
-                m_tbLicenceKey.setCursorVisible(false);
+                m_tbPassword.setCursorVisible(false);
                 m_decorView.setSystemUiVisibility(m_uiOptions);
             }
         }
@@ -102,7 +102,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
 
         public void onTextChanged(CharSequence s, int start,
                                   int before, int count) {
-            if(!m_tbLicenceKey.getText().equals("")){
+            if(!m_tbPassword.getText().equals("")){
                 m_btnLogin.setEnabled(true);
             }
             else{
