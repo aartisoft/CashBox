@@ -840,7 +840,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             if(GlobVar.g_bUseMainCash){
                 if(GlobVar.g_lstTables.isEmpty()){
                     List<ObjBill> lstBill = new ArrayList<ObjBill>();
-                    GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills = lstBill;
+                    ObjTable objTable = new ObjTable();
+                    objTable.setTableName(getResources().getString(R.string.src_Hauptkasse));
+                    objTable.g_lstBills = lstBill;
+                    GlobVar.g_lstTables.add(objTable);
                 }
             }
 
