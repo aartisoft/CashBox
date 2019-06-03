@@ -27,6 +27,7 @@ import adapter.ListViewAllBillAdapter;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
+import objects.ObjTable;
 
 public class ViewPagerAllBillFragment extends Fragment{
 
@@ -142,9 +143,8 @@ public class ViewPagerAllBillFragment extends Fragment{
         }
         else{
             lstTables.add(getResources().getString(R.string.src_AlleTische));
-            for(int i = 0; i <= GlobVar.g_iTables; i++){
-                int iTable = i+1;
-                lstTables.add(getResources().getString(R.string.src_Tisch) + " " + iTable);
+            for(ObjTable objTable : GlobVar.g_lstTables){
+                lstTables.add(objTable.getTableName());
             }
         }
         
@@ -183,7 +183,7 @@ public class ViewPagerAllBillFragment extends Fragment{
     }
 
     private void setBillsAdapter(){
-        if(GlobVar.g_lstTableBills.size() != 0){
+        if(GlobVar.g_lstTables.size() != 0){
 
             //clear list
             m_List.clear();
@@ -225,19 +225,19 @@ public class ViewPagerAllBillFragment extends Fragment{
     private void setBillsAll(){
         //only one table
         if(m_iChoosenTable != -1){
-            for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(m_iChoosenTable).size(); iBillCounter++){
-                if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
-                    ObjBill objBill = GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter);
+            for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.size(); iBillCounter++){
+                if(!GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.get(iBillCounter).m_lstProducts.isEmpty()){
+                    ObjBill objBill = GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.get(iBillCounter);
                     m_List.add(objBill);
                 }
             }
         }
         //all tables
         else{
-            for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTableBills.size(); iTblCounter++){
-                for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(iTblCounter).size(); iBillCounter++){
-                    if(!GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter).m_lstProducts.isEmpty()){
-                        ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
+            for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTables.size(); iTblCounter++){
+                for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTables.get(iTblCounter).g_lstBills.size(); iBillCounter++){
+                    if(!GlobVar.g_lstTables.get(iTblCounter).g_lstBills.get(iBillCounter).m_lstProducts.isEmpty()){
+                        ObjBill objBill = GlobVar.g_lstTables.get(iTblCounter).g_lstBills.get(iBillCounter);
                         m_List.add(objBill);
                     }
                 }
@@ -248,17 +248,17 @@ public class ViewPagerAllBillFragment extends Fragment{
     private void setBillsOpen(){
         //only one table
         if(m_iChoosenTable != -1){
-            for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(m_iChoosenTable).size(); iBillCounter++){
+            for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.size(); iBillCounter++){
                 boolean bOpen = false;
-                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts){
+                for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.get(iBillCounter).m_lstProducts){
                     if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
                         bOpen = true;
                         break;
                     }
                 }
                 if(bOpen){
-                    if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
-                        ObjBill objBill = GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter);
+                    if(!GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.get(iBillCounter).m_lstProducts.isEmpty()){
+                        ObjBill objBill = GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.get(iBillCounter);
                         m_List.add(objBill);
                     }
                 }
@@ -266,18 +266,18 @@ public class ViewPagerAllBillFragment extends Fragment{
         }
         //all tables
         else{
-            for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTableBills.size(); iTblCounter++){
-                for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(iTblCounter).size(); iBillCounter++){
+            for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTables.size(); iTblCounter++){
+                for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTables.get(iTblCounter).g_lstBills.size(); iBillCounter++){
                     boolean bOpen = false;
-                    for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter).m_lstProducts){
+                    for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(iTblCounter).g_lstBills.get(iBillCounter).m_lstProducts){
                         if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
                             bOpen = true;
                             break;
                         }
                     }
                     if(bOpen){
-                        if(!GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter).m_lstProducts.isEmpty()){
-                            ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
+                        if(!GlobVar.g_lstTables.get(iTblCounter).g_lstBills.get(iBillCounter).m_lstProducts.isEmpty()){
+                            ObjBill objBill = GlobVar.g_lstTables.get(iTblCounter).g_lstBills.get(iBillCounter);
                             m_List.add(objBill);
                         }
                     }
@@ -289,17 +289,17 @@ public class ViewPagerAllBillFragment extends Fragment{
     private void setBillsPaid(){
         //only one table
         if(m_iChoosenTable != -1){
-            for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(m_iChoosenTable).size(); iBillCounter++){
+            for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.size(); iBillCounter++){
                 boolean bPaid = true;
-                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts){
+                for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.get(iBillCounter).m_lstProducts){
                     if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
                         bPaid = false;
                         break;
                     }
                 }
                 if(bPaid){
-                    if(!GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter).m_lstProducts.isEmpty()){
-                        ObjBill objBill = GlobVar.g_lstTableBills.get(m_iChoosenTable).get(iBillCounter);
+                    if(!GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.get(iBillCounter).m_lstProducts.isEmpty()){
+                        ObjBill objBill = GlobVar.g_lstTables.get(m_iChoosenTable).g_lstBills.get(iBillCounter);
                         m_List.add(objBill);
                     }
                 }
@@ -307,18 +307,18 @@ public class ViewPagerAllBillFragment extends Fragment{
         }
         //all tables
         else{
-            for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTableBills.size(); iTblCounter++){
-                for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTableBills.get(iTblCounter).size(); iBillCounter++){
+            for(int iTblCounter = 0; iTblCounter < GlobVar.g_lstTables.size(); iTblCounter++){
+                for(int iBillCounter = 0; iBillCounter < GlobVar.g_lstTables.get(iTblCounter).g_lstBills.size(); iBillCounter++){
                     boolean bPaid = true;
-                    for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter).m_lstProducts){
+                    for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(iTblCounter).g_lstBills.get(iBillCounter).m_lstProducts){
                         if(!objBillProduct.getPaid() && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
                             bPaid = false;
                             break;
                         }
                     }
                     if(bPaid){
-                        if(!GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter).m_lstProducts.isEmpty()){
-                            ObjBill objBill = GlobVar.g_lstTableBills.get(iTblCounter).get(iBillCounter);
+                        if(!GlobVar.g_lstTables.get(iTblCounter).g_lstBills.get(iBillCounter).m_lstProducts.isEmpty()){
+                            ObjBill objBill = GlobVar.g_lstTables.get(iTblCounter).g_lstBills.get(iBillCounter);
                             m_List.add(objBill);
                         }
                     }

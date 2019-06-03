@@ -121,7 +121,7 @@ public class RetoureStornoDialogFragment extends DialogFragment {
     private int getBillListPointer(){
         //get bill
         int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills){
             if(objBill.getBillNr() == m_iSessionBill){
                 return iBill;
             }
@@ -131,6 +131,6 @@ public class RetoureStornoDialogFragment extends DialogFragment {
     }
 
     private ObjBillProduct getObjBillProduct(){
-        return GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(0);
+        return GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.get(0);
     }
 }

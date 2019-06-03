@@ -158,7 +158,7 @@ public class AllBillsShowDialogFragment extends DialogFragment implements OnPage
     private int getBillListPointer() {
         //get bill
         int iBill = 0;
-        for (ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)) {
+        for (ObjBill objBill : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills) {
             if (objBill.getBillNr() == m_iSessionBill) {
                 return iBill;
             }

@@ -108,7 +108,7 @@ public class MainCashBillDialogFragment extends DialogFragment {
             }
 
             if(bChecked){
-                for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iTable).get(getBillListPointer()).m_lstProducts) {
+                for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iTable).g_lstBills.get(getBillListPointer()).m_lstProducts) {
                     if (objBillProduct.getCategory().equals(m_strCategory)) {
                         if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
                             for (ObjBillProduct objBillProductAdapter : ObjBillProductList) {
@@ -139,7 +139,7 @@ public class MainCashBillDialogFragment extends DialogFragment {
         //init adapter
         ArrayList<ObjBillProduct> lstObjBillProducts = new ArrayList<>();
 
-        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iTable).get(getBillListPointer()).m_lstProducts){
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iTable).g_lstBills.get(getBillListPointer()).m_lstProducts){
             if(objBillProduct.getCategory().equals(m_strCategory)){
                 if(objBillProduct.getProduct().getName().equals(m_strProduct)){
                     if( ( !GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && objBillProduct.getPrinted() && !objBillProduct.getReturned() )
@@ -159,7 +159,7 @@ public class MainCashBillDialogFragment extends DialogFragment {
     private int getBillListPointer(){
         //get bill
         int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(m_iTable).g_lstBills){
             if(objBill.getBillNr() == m_iBillNr){
                 return iBill;
             }

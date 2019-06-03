@@ -103,7 +103,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
 
             if(bChecked){
                 //bill closed?
-                if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
+                if(!GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).getClosed()){
                     getPrize();
 
                     //show popupwindow
@@ -141,7 +141,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
         //init adapter
         ArrayList<ObjBillProduct> lstObjBillProducts = new ArrayList<>();
 
-        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts){
             if(objBillProduct.getCategory().equals(m_strCategory)){
                 if(objBillProduct.getProduct().getName().equals(m_strProduct)){
                     //retoure
@@ -175,7 +175,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
     private void setData(){
         ArrayList<ObjBillProduct> ObjBillProductList = m_adapter.getObjBillProductList();
 
-        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts) {
             if (objBillProduct.getCategory().equals(m_strCategory)) {
                 if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
                     for (ObjBillProduct objBillProductAdapter : ObjBillProductList) {
@@ -205,7 +205,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
     private void getPrize(){
         ArrayList<ObjBillProduct> ObjBillProductList = m_adapter.getObjBillProductList();
 
-        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts) {
             if (objBillProduct.getCategory().equals(m_strCategory)) {
                 if (objBillProduct.getProduct().getName().equals(m_strProduct)) {
                     for (ObjBillProduct objBillProductAdapter : ObjBillProductList) {
@@ -229,7 +229,7 @@ public class ViewPagerRetoureStornoFragment extends Fragment{
     private int getBillListPointer(){
         //get bill
         int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills){
             if(objBill.getBillNr() == m_iSessionBill){
                 return iBill;
             }

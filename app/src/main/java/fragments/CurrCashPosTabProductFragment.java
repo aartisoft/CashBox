@@ -22,7 +22,6 @@ import objects.ObjBillProduct;
 import objects.ObjProduct;
 import objects.ObjProductCashPos;
 
-import static global.GlobVar.g_lstTableBills;
 
 public class CurrCashPosTabProductFragment extends Fragment {
     private ListViewCurrCashPositionProductAdapter m_adapterlvsumincome;
@@ -96,9 +95,9 @@ public class CurrCashPosTabProductFragment extends Fragment {
         int iCount = 0;
         DecimalFormat df = new DecimalFormat("0.00");
 
-        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++) {
-            for (int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++) {
-                for (ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts) {
+        for(int iCounterTables = 0; iCounterTables < GlobVar.g_lstTables.size(); iCounterTables++) {
+            for (int iCounterBills = 0; iCounterBills < GlobVar.g_lstTables.get(iCounterTables).g_lstBills.size(); iCounterBills++) {
+                for (ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(iCounterTables).g_lstBills.get(iCounterBills).m_lstProducts) {
                     //if regular
                     if (!p_bToGo) {
                         if (objBillProduct.getProduct().getName().equals(p_objProductCashPos.getName())
@@ -149,9 +148,9 @@ public class CurrCashPosTabProductFragment extends Fragment {
         int iCount = 0;
         DecimalFormat df = new DecimalFormat("0.00");
 
-        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++) {
-            for (int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++) {
-                for (ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts) {
+        for(int iCounterTables = 0; iCounterTables < GlobVar.g_lstTables.size(); iCounterTables++) {
+            for (int iCounterBills = 0; iCounterBills < GlobVar.g_lstTables.get(iCounterTables).g_lstBills.size(); iCounterBills++) {
+                for (ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(iCounterTables).g_lstBills.get(iCounterBills).m_lstProducts) {
                     if (objBillProduct.getProduct().getName().equals(p_objProductCashPos.getName())
                             && objBillProduct.getReturned()) {
                         dSum += objBillProduct.getVK();
@@ -186,9 +185,9 @@ public class CurrCashPosTabProductFragment extends Fragment {
         int iCount = 0;
         DecimalFormat df = new DecimalFormat("0.00");
 
-        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++) {
-            for (int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++) {
-                for (ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts) {
+        for(int iCounterTables = 0; iCounterTables < GlobVar.g_lstTables.size(); iCounterTables++) {
+            for (int iCounterBills = 0; iCounterBills < GlobVar.g_lstTables.get(iCounterTables).g_lstBills.size(); iCounterBills++) {
+                for (ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(iCounterTables).g_lstBills.get(iCounterBills).m_lstProducts) {
                     if (objBillProduct.getProduct().getName().equals(p_objProductCashPos.getName())
                             && objBillProduct.getCanceled()) {
                         dSum += objBillProduct.getVK();

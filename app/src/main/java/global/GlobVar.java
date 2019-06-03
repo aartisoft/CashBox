@@ -11,6 +11,7 @@ import objects.ObjPrintJob;
 import objects.ObjPrinter;
 import objects.ObjProduct;
 import objects.ObjSession;
+import objects.ObjTable;
 import objects.ObjUser;
 
 public abstract class GlobVar extends Application {
@@ -18,7 +19,7 @@ public abstract class GlobVar extends Application {
     public static boolean g_bReadSQL = true;
     public static List<ObjPrinter> g_lstPrinter = new ArrayList<ObjPrinter>();
     public static List<ObjCategory> g_lstCategory = new ArrayList<ObjCategory>();
-    public static List<List<ObjBill>> g_lstTableBills = new ArrayList<List<ObjBill>>();
+    public static List<ObjTable> g_lstTables = new ArrayList<ObjTable>();
     public static int g_iTables = -1;
     public static int g_iBillNr = -1;
     public static int g_iSessionTable = -1;

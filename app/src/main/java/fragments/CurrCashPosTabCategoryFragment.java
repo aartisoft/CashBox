@@ -22,7 +22,7 @@ import global.GlobVar;
 import objects.ObjBillProduct;
 import objects.ObjCategory;
 
-import static global.GlobVar.g_lstTableBills;
+import static global.GlobVar.g_lstTables;
 
 public class CurrCashPosTabCategoryFragment extends Fragment {
     private ListViewCurrCashPositionAdapter m_adapterlvsumincome;
@@ -69,9 +69,9 @@ public class CurrCashPosTabCategoryFragment extends Fragment {
 
     private double getCategorySum(String p_strCategory){
         double dSum = 0.0;
-        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
-            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
-                for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
+        for(int iCounterTables = 0; iCounterTables < g_lstTables.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTables.get(iCounterTables).g_lstBills.size(); iCounterBills++){
+                for(ObjBillProduct objBillProduct : g_lstTables.get(iCounterTables).g_lstBills.get(iCounterBills).m_lstProducts){
                     if(objBillProduct.getCategory().equals(p_strCategory) && objBillProduct.getPaid()
                         && !objBillProduct.getReturned() && !objBillProduct.getCanceled()){
                         dSum += objBillProduct.getVK();

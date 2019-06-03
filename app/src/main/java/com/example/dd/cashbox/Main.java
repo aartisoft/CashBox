@@ -61,6 +61,7 @@ import objects.ObjMainBillProduct;
 import objects.ObjPrintJob;
 import objects.ObjPrinter;
 import objects.ObjProduct;
+import objects.ObjTable;
 import printer.PrintJobQueue;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -260,7 +261,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         @Override
         public void onClick(View v) {
             if(m_iSessionTable != -1){
-                if(GlobVar.g_lstTableBills.size() > 0 && GlobVar.g_lstTableBills.get(m_iSessionTable).size() > 0 && billsToShow())
+                if(GlobVar.g_lstTables.size() > 0 && GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.size() > 0 && billsToShow())
                 {
                     Intent intent = new Intent(Main.this, MainShowBills.class);
                     GlobVar.g_iSessionTable = m_iSessionTable;
@@ -477,8 +478,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             //read tablebills
             try{
                 SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);
-                if(GlobVar.g_lstTableBills.isEmpty()) {
-                    db_tablebills.readAllTableBills();
+                if(GlobVar.g_lstTables.isEmpty()) {
+                    db_tablebills.readAllTableBills(m_Context);
                 }
             }
             catch(SQLiteException se){
@@ -487,8 +488,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
             //get highest bill nr
             int iBillNr = 0;
-            for(List<ObjBill> lstObjBill : GlobVar.g_lstTableBills){
-                for(ObjBill objBill : lstObjBill){
+            for(ObjTable objTable : GlobVar.g_lstTables){
+                for(ObjBill objBill : objTable.g_lstBills){
                     if(objBill.getBillNr() > iBillNr){
                         iBillNr = objBill.getBillNr();
                     }
@@ -617,7 +618,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private boolean addPrintJob(){
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
             //bill closed?
-            if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
+            if(!GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).getClosed()){
                 boolean bPrinted = false;
                 GlobVar.g_bPrintQueueFilling = true;
 
@@ -627,7 +628,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     if(objPrinter != null){
                         for(ObjProduct objProduct : objCategory.getListProduct()){
                             int iQuantity = 0;
-                            for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+                            for (ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts){
                                 if(objProduct == objBillProduct.getProduct()){
                                     if(!objBillProduct.getPrinted() && !objBillProduct.getReturned() && !objBillProduct.getCanceled() && !objBillProduct.getPaid()){
                                         //if billproduct has no extra info
@@ -761,8 +762,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private void addPrintJobBill(){
         //TODO
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
-            if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
-                ObjBill objBill = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer());
+            if (GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.size() > 0) {
+                ObjBill objBill = GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer());
                 boolean bPrinted = false;
                 GlobVar.g_bPrintQueueFilling = true;
 
@@ -837,15 +838,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if(m_iSessionTable != -1) {
             //init main cash register with one table
             if(GlobVar.g_bUseMainCash){
-                if(GlobVar.g_lstTableBills.isEmpty()){
+                if(GlobVar.g_lstTables.isEmpty()){
                     List<ObjBill> lstBill = new ArrayList<ObjBill>();
-                    GlobVar.g_lstTableBills.add(lstBill);
+                    GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills = lstBill;
                 }
             }
 
             //only add new bill if last one is not empty
             if (m_iSessionBill != -1) {
-                if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
+                if (GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.size() > 0) {
                     //set new bill
                     ObjBill objBill = new ObjBill();
                     objBill.setBillNr(GlobVar.g_iBillNr + 1);
@@ -859,7 +860,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     String todayAsString = df.format(date);
                     objBill.setBillingDate(todayAsString);
 
-                    GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
+                    GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.add(objBill);
 
                     //set bill number and header
                     //SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmm");
@@ -889,7 +890,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 String todayAsString = df.format(date);
                 objBill.setBillingDate(todayAsString);
 
-                GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
+                GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.add(objBill);
 
                 //set bill number and header
                 //SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmm");
@@ -910,7 +911,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private void startPayProcess(){
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
             //bill closed?
-            if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
+            if(!GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).getClosed()){
                 if(GlobVar.g_bUseMainCash && !GlobVar.g_bUseBonPrint){
                     if(m_iSessionBill != -1){
                         Intent intent = new Intent(Main.this, MainCash.class);
@@ -925,8 +926,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 else {
                     boolean bFound = false;
                     boolean bPrinted = true;
-                    if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() > 0) {
-                        for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+                    if (GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.size() > 0) {
+                        for (ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts) {
                             if (objBillProduct.getPrinted() && !objBillProduct.getPaid()
                                     && !objBillProduct.getCanceled() && !objBillProduct.getReturned()) {
                                 bFound = true;
@@ -1000,8 +1001,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             strBillHeader = getResources().getString(R.string.src_Beleg) + " " + String.valueOf(m_iSessionBill);
 
             //only set recyclerview when bill product list not empty
-            if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts == null){
-                GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts = new ArrayList<ObjBillProduct>();
+            if(GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts == null){
+                GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts = new ArrayList<ObjBillProduct>();
             }
             //set recyclerview
             updateListObjMainBillProduct();
@@ -1020,7 +1021,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         String strOpenSum;
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
             double prize = 0.00;
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts) {
                 if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                     prize += objBillProduct.getVK();
 
@@ -1057,7 +1058,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         db_tablebills.addTableBill(m_iSessionTable, m_iSessionBill);
 
         //get global list
-        List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts;
+        List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts;
 
         //set shown false
         for(ObjBillProduct objBillProduct : lstObjBillProduct) {
@@ -1178,7 +1179,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         final int iBill = getBillListPointer();
 
         //set infotext mainbill
-        if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts.size() > 0){
+        if(GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(iBill).m_lstProducts.size() > 0){
             m_ViewNoBill.setVisibility(View.INVISIBLE);
             m_ViewEmptyBill.setVisibility(View.INVISIBLE);
         }
@@ -1186,18 +1187,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             m_ViewNoBill.setVisibility(View.INVISIBLE);
             m_ViewEmptyBill.setVisibility(View.VISIBLE);
         }
-    }
-
-    private int getBillListPointer(){
-        //get bill
-        int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
-            if(objBill.getBillNr() == m_iSessionBill){
-                return iBill;
-            }
-            iBill++;
-        }
-        return 0;
     }
 
     public void showRetoureStornoDialog(String p_strCategory, String p_strProduct) {
@@ -1216,7 +1205,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private boolean billsToShow(){
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills){
             for(ObjBillProduct objBillProduct : objBill.m_lstProducts){
                 if(!objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                     return true;
@@ -1224,5 +1213,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             }
         }
         return false;
+    }
+
+    private int getBillListPointer(){
+        //get bill
+        int iBill = 0;
+        for(ObjBill objBill : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills){
+            if(objBill.getBillNr() == m_iSessionBill){
+                return iBill;
+            }
+            iBill++;
+        }
+        return 0;
     }
 }

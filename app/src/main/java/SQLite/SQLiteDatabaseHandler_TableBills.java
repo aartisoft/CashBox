@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.dd.cashbox.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import objects.ObjBillProduct;
 import objects.ObjCategory;
 import objects.ObjPrinter;
 import objects.ObjProduct;
+import objects.ObjTable;
 
 public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
@@ -68,7 +71,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    public void readAllTableBills() {
+    public void readAllTableBills(Context p_Context) {
         boolean bProductsFound = false;
         String query = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -78,7 +81,12 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
         //if used as main cash register
         for (int iTables = 0; iTables <= GlobVar.g_iTables; iTables++){
             List<ObjBill> lstBill = new ArrayList<ObjBill>();
-            GlobVar.g_lstTableBills.add(lstBill);
+
+            ObjTable objTable = new ObjTable();
+            String strTableName = p_Context.getResources().getString(R.string.src_Tisch) + iTables;
+            objTable.setTableName(strTableName);
+            objTable.g_lstBills = new ArrayList<>();
+            GlobVar.g_lstTables.add(objTable);
         }
 
         //write tables
@@ -87,11 +95,11 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 for(int iTableCounter = 0; iTableCounter <= GlobVar.g_iTables; iTableCounter++){
                     int iSqlTable = Integer.parseInt(cursor.getString(1));
                     if (iSqlTable == iTableCounter) {
-                        if (GlobVar.g_lstTableBills != null) {
+                        if (GlobVar.g_lstTables != null) {
                             //search for bill in list
                             int iBillCounter = 0;
                             boolean bBillFound = false;
-                            for (ObjBill objBillSearch : GlobVar.g_lstTableBills.get(iTableCounter)) {
+                            for (ObjBill objBillSearch : GlobVar.g_lstTables.get(iTableCounter).g_lstBills) {
                                 if (objBillSearch.getBillNr() == Integer.parseInt(cursor.getString(2))) {
                                     bBillFound = true;
                                     break;
@@ -104,7 +112,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
                             //if bill already exists in table
                             if (bBillFound) {
-                                GlobVar.g_lstTableBills.get(iTableCounter).get(iBillCounter).m_lstProducts.add(objBillProduct);
+                                GlobVar.g_lstTables.get(iTableCounter).g_lstBills.get(iBillCounter).m_lstProducts.add(objBillProduct);
                                 bProductsFound = true;
                             }
                             //if bill doesn't exists in table
@@ -125,7 +133,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
                                 objBill.m_lstProducts = new ArrayList<ObjBillProduct>();
                                 objBill.m_lstProducts.add(objBillProduct);
-                                GlobVar.g_lstTableBills.get(iTableCounter).add(objBill);
+                                GlobVar.g_lstTables.get(iTableCounter).g_lstBills.add(objBill);
                                 bProductsFound = true;
                             }
                         }
@@ -136,7 +144,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
         //delete init table bills if no products were found
         if(!bProductsFound){
-            GlobVar.g_lstTableBills = new ArrayList<>();
+            GlobVar.g_lstTables = new ArrayList<>();
         }
     }
 
@@ -213,30 +221,30 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
 
         //get bill
         int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(p_iTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(p_iTable).g_lstBills){
             if(objBill.getBillNr() == p_iBill){
                 break;
             }
             iBill++;
         }
 
-        for(ObjBillProduct objproduct : GlobVar.g_lstTableBills.get(p_iTable).get(iBill).m_lstProducts){
+        for(ObjBillProduct objproduct : GlobVar.g_lstTables.get(p_iTable).g_lstBills.get(iBill).m_lstProducts){
             ContentValues values = new ContentValues();
 
             //product not saved yet
             if(!objproduct.getSqlSaved()){
                 values.put(KEY_TABLENAME, p_iTable);
                 values.put(KEY_BILLNR, p_iBill);
-                values.put(KEY_CASHIERNAME, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getCashierName());
-                values.put(KEY_BILLINGDATE, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getBillingDate());
-                values.put(KEY_TIP, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getTip());
+                values.put(KEY_CASHIERNAME, GlobVar.g_lstTables.get(p_iTable).g_lstBills.get(iBill).getCashierName());
+                values.put(KEY_BILLINGDATE, GlobVar.g_lstTables.get(p_iTable).g_lstBills.get(iBill).getBillingDate());
+                values.put(KEY_TIP, GlobVar.g_lstTables.get(p_iTable).g_lstBills.get(iBill).getTip());
                 values.put(KEY_CATEGORY, objproduct.getCategory());
                 values.put(KEY_PRODUCT, objproduct.getProduct().getName());
                 values.put(KEY_OBJID, objproduct.getID());
                 values.put(KEY_VK, objproduct.getVK());
                 values.put(KEY_ADDINFO, objproduct.getAddInfo());
                 //values.put(KEY_PRINTERMAC, getPrinter(objproduct.getProduct()).getMacAddress());
-                int key_closed = GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getClosed() ? 1 : 0;
+                int key_closed = GlobVar.g_lstTables.get(p_iTable).g_lstBills.get(iBill).getClosed() ? 1 : 0;
                 values.put(KEY_CLOSED, key_closed);
 
                 int key_printed = objproduct.getPrinted() ? 1 : 0;
@@ -288,11 +296,11 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                 objproduct.setSqlChanged(false);
             }
 
-            if(GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getSqlChanged()){
+            if(GlobVar.g_lstTables.get(p_iTable).g_lstBills.get(iBill).getSqlChanged()){
                 values = new ContentValues();
-                values.put(KEY_TIP, GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getTip());
+                values.put(KEY_TIP, GlobVar.g_lstTables.get(p_iTable).g_lstBills.get(iBill).getTip());
 
-                int key_closed = GlobVar.g_lstTableBills.get(p_iTable).get(iBill).getClosed() ? 1 : 0;
+                int key_closed = GlobVar.g_lstTables.get(p_iTable).g_lstBills.get(iBill).getClosed() ? 1 : 0;
                 values.put(KEY_CLOSED, key_closed);
 
                 int i = db.update(TABLE_NAME, // table
@@ -300,7 +308,7 @@ public class SQLiteDatabaseHandler_TableBills extends SQLiteOpenHelper {
                         "billnr = ?" , // selections
                         new String[] { String.valueOf(p_iBill) });
 
-                GlobVar.g_lstTableBills.get(p_iTable).get(iBill).setSqlChanged(false);
+                GlobVar.g_lstTables.get(p_iTable).g_lstBills.get(iBill).setSqlChanged(false);
             }
         }
     }

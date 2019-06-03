@@ -78,7 +78,7 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
         }
 
         //set spinner bonsetting
-        if(GlobVar.g_lstTableBills.size() == 0){
+        if(GlobVar.g_lstTables.size() == 0){
             m_Spinner_BonSett.setEnabled(true);
         }
         else{
@@ -202,7 +202,7 @@ public class MS_CashRegisterSettings extends AppCompatActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             //setting is only available if cash register has not been used yet
-            if(GlobVar.g_lstTableBills.size() == 0){
+            if(GlobVar.g_lstTables.size() == 0){
                 if(isChecked){
                     GlobVar.g_bUseMainCash = true;
                     m_TextViewBonSett.setVisibility(View.VISIBLE);

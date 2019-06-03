@@ -136,8 +136,8 @@ public class MainShowBills extends AppCompatActivity {
     }
 
     private void setBills(){
-        if(GlobVar.g_lstTableBills.size() != 0){
-            m_listViewBillAdapter = new ListViewBillAdapter(this, GlobVar.g_lstTableBills.get(m_iSessionTable));
+        if(GlobVar.g_lstTables.size() != 0){
+            m_listViewBillAdapter = new ListViewBillAdapter(this, GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills);
             m_ListView.setAdapter(m_listViewBillAdapter);
         }
     }

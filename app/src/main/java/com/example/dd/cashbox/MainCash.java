@@ -392,7 +392,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     public void delTransitItems(String p_strCategory, String p_strProduct){
         if(m_iSessionTable != -1 && m_iSessionBill != -1) {
-            for (ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+            for (ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts) {
                 if(objBillProduct.getCategory().equals(p_strCategory)){
                     if(objBillProduct.getProduct().getName().equals(p_strProduct)){
                         objBillProduct.setPayTransit(false);
@@ -439,7 +439,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     private void transferAllItems(){
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts) {
                 if ((!GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted())
                         || (GlobVar.g_bUseMainCash && GlobVar.g_bUseBonPrint && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted())
                         || (GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())) {
@@ -453,7 +453,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     public void transferAllProductItems(ObjMainBillProduct p_objMainCashProduct){
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts) {
                 if ((!GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted())
                         || (GlobVar.g_bUseMainCash && GlobVar.g_bUseBonPrint && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned() && objBillProduct.getPrinted())
                         || (GlobVar.g_bUseMainCash && !objBillProduct.getPayTransit() && !objBillProduct.getPaid() && !objBillProduct.getCanceled() && !objBillProduct.getReturned())){
@@ -470,14 +470,14 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     public boolean isBillEmpty(int p_iBillNr){
         //get bill
         int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills){
             if(objBill.getBillNr() == p_iBillNr){
                 break;
             }
             iBill++;
         }
 
-        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts){
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(iBill).m_lstProducts){
             if(!objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                 if(!objBillProduct.getPaid()){
                     return false;
@@ -491,7 +491,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         String strOpenSum;
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
             double prize = 0.00;
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts) {
                 if(!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
                         && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                     prize += objBillProduct.getVK();
@@ -517,7 +517,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         String strOpenTransitSum;
         double prize = 0.00;
         if(m_iSessionTable != -1 && m_iSessionBill != -1){
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts) {
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts) {
                 if(objBillProduct.getPayTransit()){
                     prize += objBillProduct.getVK();
 
@@ -570,7 +570,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     private int getBillListPointer(){
         //get bill
         int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills){
             if(objBill.getBillNr() == m_iSessionBill){
                 return iBill;
             }
@@ -580,7 +580,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     }
 
     private void setPayTransitFalse(){
-        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts){
             objBillProduct.setPayTransit(false);
         }
     }
@@ -643,7 +643,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     }
 
     private void setPaid(){
-        for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts){
+        for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts){
             if(objBillProduct.getPayTransit()){
                 objBillProduct.setPaid(true);
                 objBillProduct.setSqlChanged(true);
@@ -651,14 +651,14 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         }
 
         //set bill tip
-        double dTip = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getTip();
+        double dTip = GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).getTip();
         dTip += m_dTip;
-        GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).setTip(dTip);
-        GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).setSqlChanged(true);
+        GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).setTip(dTip);
+        GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).setSqlChanged(true);
 
         //if bill is completely empty, then close it
         if (isBillEmpty(m_iSessionBillOLD)) {
-            GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).setClosed(true);
+            GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).setClosed(true);
         }
 
         //update database
@@ -696,7 +696,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     //left side
     private void updateListObjMainBillProduct(){
         //get global list
-        List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts;
+        List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts;
 
         //set shown false
         for(ObjBillProduct objBillProduct : lstObjBillProduct) {
@@ -798,9 +798,9 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         setOpenSum();
 
         //set infotext mainbill
-        if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts.size() > 0){
+        if(GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(iBill).m_lstProducts.size() > 0){
             boolean bFound = false;
-            for(ObjBillProduct objBillProduct : GlobVar.g_lstTableBills.get(m_iSessionTable).get(iBill).m_lstProducts){
+            for(ObjBillProduct objBillProduct : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(iBill).m_lstProducts){
                 if(!objBillProduct.getPayTransit() && !objBillProduct.getPaid()
                         && !objBillProduct.getCanceled() && !objBillProduct.getReturned()){
                     bFound = true;
@@ -828,7 +828,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     //right side
     private void updateListObjMainCashBillProduct(){
 
-        List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts;
+        List<ObjBillProduct> lstObjBillProduct = GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts;
 
         //set shown false
         for(ObjBillProduct objBillProduct : lstObjBillProduct) {
@@ -945,10 +945,10 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
         //add products to new bill and delete it from old bill
         //delete items
-        for(int i = GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size(); i-- > 0;) {
-            if(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(i).getPayTransit()){
-                objBill.m_lstProducts.add(GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.get(i));
-                GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.remove(i);
+        for(int i = GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.size(); i-- > 0;) {
+            if(GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.get(i).getPayTransit()){
+                objBill.m_lstProducts.add(GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.get(i));
+                GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.remove(i);
             }
         }
 
@@ -959,7 +959,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
         String todayAsString = df.format(date);
         objBill.setBillingDate(todayAsString);
 
-        GlobVar.g_lstTableBills.get(m_iSessionTable).add(objBill);
+        GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.add(objBill);
 
         //set bill number and header
         GlobVar.g_iBillNr++;

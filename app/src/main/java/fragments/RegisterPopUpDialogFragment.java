@@ -261,7 +261,7 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
 
         //get bill
         int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(iTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(iTable).g_lstBills){
             if(objBill.getBillNr() == iBillNr){
                 break;
             }
@@ -311,7 +311,7 @@ public class RegisterPopUpDialogFragment extends DialogFragment implements View.
             }
 
             //add globally
-            GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
+            GlobVar.g_lstTables.get(iTable).g_lstBills.get(iBill).m_lstProducts.add(objbillproduct);
 
             //write tablebills to database
             //SQLiteDatabaseHandler_TableBills db_tablebills = new SQLiteDatabaseHandler_TableBills(m_Context);

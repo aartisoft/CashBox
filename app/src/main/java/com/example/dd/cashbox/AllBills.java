@@ -158,7 +158,7 @@ public class AllBills extends AppCompatActivity {
     private void lastBillEmpty(){
         //set bill counter minus one if last bill was empty
         if (m_iSessionBill != -1) {
-            if (GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).m_lstProducts.size() == 0) {
+            if (GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.size() == 0) {
                 GlobVar.g_iBillNr--;
             }
         }
@@ -167,7 +167,7 @@ public class AllBills extends AppCompatActivity {
     private int getBillListPointer(){
         //get bill
         int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills){
             if(objBill.getBillNr() == m_iSessionBill){
                 return iBill;
             }

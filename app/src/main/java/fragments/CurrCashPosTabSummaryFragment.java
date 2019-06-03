@@ -21,7 +21,7 @@ import adapter.ListViewCurrCashPositionAdapter;
 import global.GlobVar;
 import objects.ObjBillProduct;
 
-import static global.GlobVar.g_lstTableBills;
+import static global.GlobVar.g_lstTables;
 
 public class CurrCashPosTabSummaryFragment extends Fragment {
     private ListViewCurrCashPositionAdapter m_adapterlvsumincome;
@@ -111,10 +111,10 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
 
     private String getStartingDate(){
         String strDate = "";
-        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
-            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
-                if(g_lstTableBills.get(iCounterTables).get(iCounterBills).getBillNr() == 1){
-                    strDate = GlobVar.g_lstTableBills.get(iCounterTables).get(iCounterBills).getBillingDate();
+        for(int iCounterTables = 0; iCounterTables < g_lstTables.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTables.get(iCounterTables).g_lstBills.size(); iCounterBills++){
+                if(g_lstTables.get(iCounterTables).g_lstBills.get(iCounterBills).getBillNr() == 1){
+                    strDate = GlobVar.g_lstTables.get(iCounterTables).g_lstBills.get(iCounterBills).getBillingDate();
                     return strDate;
                 }
             }
@@ -124,9 +124,9 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
 
     private double getAllIncomeSum(){
         double dSum = 0.0;
-        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
-            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
-                for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
+        for(int iCounterTables = 0; iCounterTables < g_lstTables.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTables.get(iCounterTables).g_lstBills.size(); iCounterBills++){
+                for(ObjBillProduct objBillProduct : g_lstTables.get(iCounterTables).g_lstBills.get(iCounterBills).m_lstProducts){
                     if(objBillProduct.getPaid()){
                         dSum += objBillProduct.getVK();
                     }
@@ -138,9 +138,9 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
 
     private double getRevenueSum(){
         double dSum = 0.0;
-        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
-            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
-                for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
+        for(int iCounterTables = 0; iCounterTables < g_lstTables.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTables.get(iCounterTables).g_lstBills.size(); iCounterBills++){
+                for(ObjBillProduct objBillProduct : g_lstTables.get(iCounterTables).g_lstBills.get(iCounterBills).m_lstProducts){
                     if(objBillProduct.getPaid() && !objBillProduct.getReturned()){
                         dSum += objBillProduct.getVK();
                     }
@@ -152,9 +152,9 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
 
     private double getRetoureSum(){
         double dSum = 0.0;
-        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
-            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
-                for(ObjBillProduct objBillProduct : g_lstTableBills.get(iCounterTables).get(iCounterBills).m_lstProducts){
+        for(int iCounterTables = 0; iCounterTables < g_lstTables.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTables.get(iCounterTables).g_lstBills.size(); iCounterBills++){
+                for(ObjBillProduct objBillProduct : g_lstTables.get(iCounterTables).g_lstBills.get(iCounterBills).m_lstProducts){
                     if(objBillProduct.getReturned() && objBillProduct.getPaid()){
                         dSum += objBillProduct.getVK();
                     }
@@ -166,9 +166,9 @@ public class CurrCashPosTabSummaryFragment extends Fragment {
 
     private double getAllTip(){
         double dSum = 0.0;
-        for(int iCounterTables = 0; iCounterTables < g_lstTableBills.size(); iCounterTables++){
-            for(int iCounterBills = 0; iCounterBills < g_lstTableBills.get(iCounterTables).size(); iCounterBills++){
-                dSum += g_lstTableBills.get(iCounterTables).get(iCounterBills).getTip();
+        for(int iCounterTables = 0; iCounterTables < g_lstTables.size(); iCounterTables++){
+            for(int iCounterBills = 0; iCounterBills < g_lstTables.get(iCounterTables).g_lstBills.size(); iCounterBills++){
+                dSum += g_lstTables.get(iCounterTables).g_lstBills.get(iCounterBills).getTip();
             }
         }
         return dSum;

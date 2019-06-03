@@ -26,6 +26,7 @@ import java.util.List;
 
 import global.GlobVar;
 import objects.ObjBill;
+import objects.ObjTable;
 
 public class EditTable extends AppCompatActivity {
 
@@ -221,31 +222,36 @@ public class EditTable extends AppCompatActivity {
     private void setListTableBills(){
         //init global list
         for (int iTables = 0; iTables <= GlobVar.g_iTables; iTables++){
-            List<ObjBill> lstBill = new ArrayList<ObjBill>();
-            GlobVar.g_lstTableBills.add(lstBill);
+
+            //init table
+            ObjTable objTable = new ObjTable();
+            String strTableName = getResources().getString(R.string.src_Tisch) + iTables;
+            objTable.setTableName(strTableName);
+            objTable.g_lstBills = new ArrayList<>();
+            GlobVar.g_lstTables.add(objTable);
         }
     }
 
     private boolean isTableUsed(int p_iTable){
-        if(p_iTable <= GlobVar.g_iTables){
+        /*if(p_iTable <= GlobVar.g_iTables){
             if(GlobVar.g_lstTableBills.get(p_iTable).size() > 0){
                 return true;
             }
             else{
                 return false;
             }
-        }
+        }*/
         return false;
     }
 
     private boolean areTableUsed(int p_iTable){
-        if(p_iTable <= GlobVar.g_iTables){
+        /*if(p_iTable <= GlobVar.g_iTables){
             for(int i = p_iTable; i < m_iTables; i++){
                 if(GlobVar.g_lstTableBills.get(i).size() > 0){
                     return true;
                 }
             }
-        }
+        }*/
         return false;
     }
 }

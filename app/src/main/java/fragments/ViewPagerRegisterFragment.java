@@ -94,7 +94,7 @@ public class ViewPagerRegisterFragment extends Fragment {
             // fragment only available if bill has been choosen
             if(m_iSessionBill != -1){
                 //bill closed?
-                if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
+                if(!GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).getClosed()){
                     writeTableBillsList(position, m_iSessionTable, m_iSessionBill);
                     //tel main activity there is a new product available
                     ((Main) getActivity()).raiseNewProduct();
@@ -121,7 +121,7 @@ public class ViewPagerRegisterFragment extends Fragment {
             // fragment only available if bill has been choosen
             if(m_iSessionBill != -1){
                 //bill closed?
-                if(!GlobVar.g_lstTableBills.get(m_iSessionTable).get(getBillListPointer()).getClosed()){
+                if(!GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).getClosed()){
                     FragmentManager fm = getChildFragmentManager();
                     RegisterPopUpDialogFragment registerPopUpDialogFragment = RegisterPopUpDialogFragment.newInstance("Register PopUp");
 
@@ -151,7 +151,7 @@ public class ViewPagerRegisterFragment extends Fragment {
 
         //get bill
         int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(iTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(iTable).g_lstBills){
             if(objBill.getBillNr() == iBillNr){
                 break;
             }
@@ -176,13 +176,13 @@ public class ViewPagerRegisterFragment extends Fragment {
         objbillproduct.setCategory(objproduct.getCategory());
 
         //add globally
-        GlobVar.g_lstTableBills.get(iTable).get(iBill).m_lstProducts.add(objbillproduct);
+        GlobVar.g_lstTables.get(iTable).g_lstBills.get(iBill).m_lstProducts.add(objbillproduct);
     }
 
     private int getBillListPointer(){
         //get bill
         int iBill = 0;
-        for(ObjBill objBill : GlobVar.g_lstTableBills.get(m_iSessionTable)){
+        for(ObjBill objBill : GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills){
             if(objBill.getBillNr() == m_iSessionBill){
                 return iBill;
             }
