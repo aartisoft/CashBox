@@ -498,6 +498,7 @@ public class EpsonPrintBill {
                 textData.append("Name Gewerbe" + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
 
                 //extra infos of shop
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
@@ -505,11 +506,11 @@ public class EpsonPrintBill {
                 textData.append("Extra Infos" + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
-                m_Printer.addFeedLine(2);
+                m_Printer.addFeedLine(3);
 
                 //Rechnung
                 m_Printer.addTextAlign(Printer.ALIGN_LEFT);
-                m_Printer.addTextSize(1, 2);
+                m_Printer.addTextSize(3, 3);
                 textData.append("Rechnung" + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
@@ -522,40 +523,35 @@ public class EpsonPrintBill {
                 textData.append("Datum: xx" + "\n");
                 textData.append("Tisch x" + "\n");
                 textData.append("Beleg x" + "\n");
-                textData.append("--------------------------------------" + "\n");
-                textData.append("Alle Produkte mit Umbrüchen");
-                textData.append("--------------------------------------" + "\n");
+                textData.append("------------------------------------------------" + "\n");
+                textData.append("Alle Produkte mit Umbrüchen" + "\n");
+                textData.append("------------------------------------------------" + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
-                m_Printer.addFeedLine(1);
 
                 //overall sum
                 m_Printer.addTextAlign(Printer.ALIGN_LEFT);
                 m_Printer.addTextSize(1, 2);
-                textData.append("GESAMT");
+                textData.append("GESAMT                                 EUR XX,XX");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
-                m_Printer.addTextAlign(Printer.ALIGN_RIGHT);
-                m_Printer.addTextSize(1, 2);
-                textData.append("EUR 9,40");
-                m_Printer.addText(textData.toString());
-                textData.delete(0, textData.length());
-                m_Printer.addFeedLine(2);
+                m_Printer.addFeedLine(4);
 
                 //tax
                 //extra infos of shop
                 m_Printer.addTextAlign(Printer.ALIGN_LEFT);
                 m_Printer.addTextSize(1, 1);
-                textData.append("Typ       Netto       Mwst      Brutto" + "\n");
+                textData.append("------------------------------------------------" + "\n");
+                textData.append("Typ          Netto          Mwst          Brutto" + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
                 m_Printer.addTextAlign(Printer.ALIGN_LEFT);
                 m_Printer.addTextSize(1, 1);
-                textData.append("A:19%       x,xx       x,xx      x,xx"");
-                textData.append("B:7%       x,xx       x,xx      x,xx"");
-                textData.append("--------------------------------------" + "\n");
-                textData.append("Gesamt       x,xx       x,xx      x,xx" + "\n";
-                textData.append("--------------------------------------" + "\n");
+                textData.append("A:19%        x,xx           x,xx          x,xx" + "\n");
+                textData.append("B:7%         x,xx           x,xx          x,xx" + "\n");
+                textData.append("------------------------------------------------" + "\n");
+                textData.append("Gesamt       x,xx           x,xx          x,xx" + "\n");
+                textData.append("------------------------------------------------" + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
                 m_Printer.addFeedLine(4);
@@ -567,7 +563,9 @@ public class EpsonPrintBill {
                 textData.append("Es bediente Sie: xx" + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
-                m_Printer.addFeedLine(2);   
+                m_Printer.addFeedLine(6);
+
+                m_Printer.addCut(Printer.CUT_FEED);
             }
         }
         catch (Exception e){

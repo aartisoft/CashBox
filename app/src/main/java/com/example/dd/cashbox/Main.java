@@ -769,7 +769,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
                 ObjPrintJob objPrintJob = new ObjPrintJob();
                 objPrintJob.setContext(m_Context);
-                objPrintJob.setPrinter(GlobVar.g_objPrinter);
+                objPrintJob.setPrinter(GlobVar.g_lstCategory.get(0).getPrinter());
                 objPrintJob.setbNormalBill(true);
 
                 //set bill text
@@ -826,10 +826,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         }
                     }
                 }
+
+                GlobVar.g_lstPrintJob.add(objPrintJob);
+                GlobVar.g_bPrintQueueFilling = false;
             }
             else{
             //TODO
             }
+
         }
     }                                             
 
