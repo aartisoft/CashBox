@@ -491,6 +491,84 @@ public class EpsonPrintBill {
 
                 m_Printer.addCut(Printer.CUT_FEED);
             }
+            else if (p_objPrintJob.getbNormalBill()){
+                //name of shop
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 2);
+                textData.append("Name Gewerbe" + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+
+                //extra infos of shop
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append("Extra Infos" + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(2);
+
+                //Rechnung
+                m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+                m_Printer.addTextSize(1, 2);
+                textData.append("Rechnung" + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
+
+                //date + table + billnr
+                //extra infos of shop
+                m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+                m_Printer.addTextSize(1, 1);
+                textData.append("Datum: xx" + "\n");
+                textData.append("Tisch x" + "\n");
+                textData.append("Beleg x" + "\n");
+                textData.append("--------------------------------------" + "\n");
+                textData.append("Alle Produkte mit Umbrüchen");
+                textData.append("--------------------------------------" + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
+
+                //overall sum
+                m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+                m_Printer.addTextSize(1, 2);
+                textData.append("GESAMT");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addTextAlign(Printer.ALIGN_RIGHT);
+                m_Printer.addTextSize(1, 2);
+                textData.append("EUR 9,40");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(2);
+
+                //tax
+                //extra infos of shop
+                m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+                m_Printer.addTextSize(1, 1);
+                textData.append("Typ       Netto       Mwst      Brutto" + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+                m_Printer.addTextSize(1, 1);
+                textData.append("A:19%       x,xx       x,xx      x,xx"");
+                textData.append("B:7%       x,xx       x,xx      x,xx"");
+                textData.append("--------------------------------------" + "\n");
+                textData.append("Gesamt       x,xx       x,xx      x,xx" + "\n";
+                textData.append("--------------------------------------" + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(4);
+
+
+                //extra info
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append("Es bediente Sie: xx" + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(2);   
+            }
         }
         catch (Exception e){
             Log.e("createBillJob failed", e.toString());
