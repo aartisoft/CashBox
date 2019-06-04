@@ -776,7 +776,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 List<String> lstBillText = new ArrayList<>();
                 lstBillText.add(GlobVar.g_ObjSession.getHostName());
                 lstBillText.add(GlobVar.g_ObjSession.getPartyName());
-                lstBillText.add(GlobVar.g_ObjSession.getPartyDate());
                 lstBillText.add(String.valueOf(objBill.getBillNr()));
                 
                 String str_Products = "";
@@ -819,11 +818,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         
                         //19%
                         if(!objBillProduct.getToGo() || dTax == 19.0){
-                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + " " + strOutput + "  A";
+                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + " " + strOutput + "  A\n";
                         }
                         //7%
                         else{
-                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + " " + strOutput + "  B";
+                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + " " + strOutput + "  B\n";
                         }
                     }
                 }
