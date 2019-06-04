@@ -59,6 +59,7 @@ import objects.ObjBillProduct;
 import objects.ObjCategory;
 import objects.ObjMainBillProduct;
 import objects.ObjPrintJob;
+import objects.ObjPrintJobBill;
 import objects.ObjPrinter;
 import objects.ObjProduct;
 import objects.ObjTable;
@@ -772,11 +773,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 objPrintJob.setPrinter(GlobVar.g_lstCategory.get(0).getPrinter());
                 objPrintJob.setbNormalBill(true);
 
+                ObjPrintJobBill objPrintJobBill = new ObjPrintJobBill();
+
                 //set bill text
-                List<String> lstBillText = new ArrayList<>();
-                lstBillText.add(GlobVar.g_ObjSession.getHostName());
-                lstBillText.add(GlobVar.g_ObjSession.getPartyName());
-                lstBillText.add(String.valueOf(objBill.getBillNr()));
+                objPrintJobBill.setstrShopName(GlobVar.g_ObjSession.getHostName());
+                objPrintJobBill.setstrExtraInfo(GlobVar.g_ObjSession.getPartyName());
+                objPrintJobBill.setstrDate(objBill.getBillingDate());
+                objPrintJobBill.setstrTable(GlobVar.g_lstTables.get(m_iSessionTable).getTableName());
+                objPrintJobBill.setstrBill(String.valueOf(objBill.getBillNr()));
+                objPrintJobBill.setstrWaiter(GlobVar.g_ObjSession.getCashierName());
                 
                 String str_Products = "";
                 int iCount = 0;
@@ -793,16 +798,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                 iCount++;
                                 objBillProductTmp.setPayTransit(true);
                             }
-                            //7% tax
+                            //19% tax
                             else if(objBillProductTmp.getProduct().getTax() == 19.0){
-                                dSum += objBillProductTmp.getVK();
-                                dTax = objBillProductTmp.getProduct().getTax();
-                                
-                                iCount++;
-                                objBillProductTmp.setPayTransit(true);
-                            }
-                            //togo
-                            else {
                                 dSum += objBillProductTmp.getVK();
                                 dTax = objBillProductTmp.getProduct().getTax();
                                 
@@ -824,9 +821,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         else{
                             str_Products += iCount + "x " + objBillProduct.getProduct().getName() + " " + strOutput + "  B\n";
                         }
+
+                        iCount = 0;
+                        dSum = 0.0;
+                        dTax = 0.0;
                     }
                 }
 
+                objPrintJobBill.setstrAllProducts(str_Products);
+
+                objPrintJob.setObjPrintJobBill(objPrintJobBill);
                 GlobVar.g_lstPrintJob.add(objPrintJob);
                 GlobVar.g_bPrintQueueFilling = false;
             }

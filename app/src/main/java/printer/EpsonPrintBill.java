@@ -495,7 +495,7 @@ public class EpsonPrintBill {
                 //name of shop
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
                 m_Printer.addTextSize(1, 2);
-                textData.append("Name Gewerbe" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrShopName() + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
                 m_Printer.addFeedLine(1);
@@ -503,7 +503,7 @@ public class EpsonPrintBill {
                 //extra infos of shop
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
                 m_Printer.addTextSize(1, 1);
-                textData.append("Extra Infos" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrExtraInfo() + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
                 m_Printer.addFeedLine(3);
@@ -520,11 +520,11 @@ public class EpsonPrintBill {
                 //extra infos of shop
                 m_Printer.addTextAlign(Printer.ALIGN_LEFT);
                 m_Printer.addTextSize(1, 1);
-                textData.append("Datum: xx" + "\n");
-                textData.append("Tisch x" + "\n");
-                textData.append("Beleg x" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrDate() + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrTable() + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrBill() + "\n");
                 textData.append("------------------------------------------------" + "\n");
-                textData.append("Alle Produkte mit Umbrüchen" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrAllProducts());
                 textData.append("------------------------------------------------" + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
@@ -532,7 +532,7 @@ public class EpsonPrintBill {
                 //overall sum
                 m_Printer.addTextAlign(Printer.ALIGN_LEFT);
                 m_Printer.addTextSize(1, 2);
-                textData.append("GESAMT                                 EUR XX,XX");
+                textData.append("GESAMT                                 EUR " + p_objPrintJob.getObjPrintJobBill().getstrSum());
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
                 m_Printer.addFeedLine(4);
@@ -547,10 +547,9 @@ public class EpsonPrintBill {
                 textData.delete(0, textData.length());
                 m_Printer.addTextAlign(Printer.ALIGN_LEFT);
                 m_Printer.addTextSize(1, 1);
-                textData.append("A:19%        x,xx           x,xx          x,xx" + "\n");
-                textData.append("B:7%         x,xx           x,xx          x,xx" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrTaxes());
                 textData.append("------------------------------------------------" + "\n");
-                textData.append("Gesamt       x,xx           x,xx          x,xx" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrTaxesSum());
                 textData.append("------------------------------------------------" + "\n");
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
@@ -560,7 +559,8 @@ public class EpsonPrintBill {
                 //extra info
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
                 m_Printer.addTextSize(1, 1);
-                textData.append("Es bediente Sie: xx" + "\n");
+                textData.append("Es bediente Sie:" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrWaiter());
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
                 m_Printer.addFeedLine(6);
