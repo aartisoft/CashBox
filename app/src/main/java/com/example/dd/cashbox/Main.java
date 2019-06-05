@@ -787,12 +787,22 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 int iCount = 0;
                 double dSum = 0.0;
                 double dTax = 0.0;
+
+                double dSumAll = 0.0;
+                double dSum19 = 0.0;
+                double dSum7 = 0.0;
+
                 for(ObjBillProduct objBillProduct : objBill.m_lstProducts){
-                    for(ObjBillProduct objBillProductTmp : objBill.m_lstProducts){
-                        if(objBillProduct == objBillProductTmp && !objBillProductTmp.getPayTransit()){
+                    if(!objBillProduct.getPayTransit())){
+                        for(ObjBillProduct objBillProductTmp : objBill.m_lstProducts){
+                        if(objBillProductgetProduct().getName().equals(objBillProductTmpgetProduct().getName())
+                             && !objBillProductTmp.getPayTransit()){
                             //7% tax
                             if(objBillProductTmp.getProduct().getTax() == 7.0){
                                 dSum += objBillProductTmp.getVK();
+                                dSum7 += objBillProductTmp.getVK();
+                                dSumAll += objBillProductTmp.getVK();
+
                                 dTax = objBillProductTmp.getProduct().getTax();
                                 
                                 iCount++;
@@ -801,6 +811,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                             //19% tax
                             else if(objBillProductTmp.getProduct().getTax() == 19.0){
                                 dSum += objBillProductTmp.getVK();
+                                dSum19 += objBillProductTmp.getVK();
+                                dSumAll += objBillProductTmp.getVK();
+
                                 dTax = objBillProductTmp.getProduct().getTax();
                                 
                                 iCount++;
@@ -829,6 +842,24 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 }
 
                 objPrintJobBill.setstrAllProducts(str_Products);
+                objPrintJobBill.setstrSum(String.valueOf(dSumAll));
+
+                //set taxes 7%
+                String str_Taxes = "";
+                double dSum7Netto = dSum7 * 0.07;
+                double dSumTax7 = dSum7 - dSum7Netto; 
+                str_Taxes += "A:7%         " + String.valueOf(dSum7Netto) + "          " + String.valueOf(dSumTax7) + "          " + String.valueOf(dSum7) + "\n";
+
+                //set taxes 19%
+                String str_Taxes = "";
+                double dSum19Netto = dSum19 * 0.19;
+                double dSumTax19 = dSum19 - dSum19Netto; 
+                str_Taxes += "A:19%        " + String.valueOf(dSum19Netto) + "          " + String.valueOf(dSumTax19) + "          " + String.valueOf(dSum19) + "\n";
+
+
+                objPrintJobBill.setstrTaxesBruttoSum(String.valueOf(dSum));
+                objPrintJobBill.setstrTaxesNettoSum(String.valueOf(dSum7Netto + dSum19Netto));
+                objPrintJobBill.setstrTaxesSum(String.valueOf(dSumTax7 + dSum19));
 
                 objPrintJob.setObjPrintJobBill(objPrintJobBill);
                 GlobVar.g_lstPrintJob.add(objPrintJob);
@@ -839,7 +870,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             }
 
         }
-    }                                             
+    }                      
 
     public void createNewBill(){
         if(m_iSessionTable != -1) {
