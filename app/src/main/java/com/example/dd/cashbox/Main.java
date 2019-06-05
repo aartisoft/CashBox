@@ -764,9 +764,20 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //TODO
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
             if (GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.size() > 0) {
+
+                //init variables
                 ObjBill objBill = GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer());
                 boolean bPrinted = false;
                 GlobVar.g_bPrintQueueFilling = true;
+                DecimalFormat df = new DecimalFormat("0.00");
+                String str_Products = "";
+                int iCount = 0;
+                double dSum = 0.0;
+                double dTax = 0.0;
+
+                double dSumAll = 0.0;
+                double dSum19 = 0.0;
+                double dSum7 = 0.0;
 
                 ObjPrintJob objPrintJob = new ObjPrintJob();
                 objPrintJob.setContext(m_Context);
@@ -782,57 +793,48 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 objPrintJobBill.setstrTable(GlobVar.g_lstTables.get(m_iSessionTable).getTableName());
                 objPrintJobBill.setstrBill(String.valueOf(objBill.getBillNr()));
                 objPrintJobBill.setstrWaiter(GlobVar.g_ObjSession.getCashierName());
-                
-                String str_Products = "";
-                int iCount = 0;
-                double dSum = 0.0;
-                double dTax = 0.0;
-
-                double dSumAll = 0.0;
-                double dSum19 = 0.0;
-                double dSum7 = 0.0;
 
                 for(ObjBillProduct objBillProduct : objBill.m_lstProducts){
-                    if(!objBillProduct.getPayTransit())){
-                        for(ObjBillProduct objBillProductTmp : objBill.m_lstProducts){
-                        if(objBillProductgetProduct().getName().equals(objBillProductTmpgetProduct().getName())
-                             && !objBillProductTmp.getPayTransit()){
-                            //7% tax
-                            if(objBillProductTmp.getProduct().getTax() == 7.0){
-                                dSum += objBillProductTmp.getVK();
-                                dSum7 += objBillProductTmp.getVK();
-                                dSumAll += objBillProductTmp.getVK();
+                    if(!objBillProduct.getPrintBilTransit()){
+                        for(ObjBillProduct objBillProductTmp : objBill.m_lstProducts) {
+                            if (objBillProduct.getProduct().getName().equals(objBillProductTmp.getProduct().getName())
+                                    && !objBillProductTmp.getPrintBilTransit()) {
+                                //7% tax
+                                if (objBillProductTmp.getProduct().getTax() == 7.0) {
+                                    dSum += objBillProductTmp.getVK();
+                                    dSum7 += objBillProductTmp.getVK();
+                                    dSumAll += objBillProductTmp.getVK();
 
-                                dTax = objBillProductTmp.getProduct().getTax();
-                                
-                                iCount++;
-                                objBillProductTmp.setPayTransit(true);
-                            }
-                            //19% tax
-                            else if(objBillProductTmp.getProduct().getTax() == 19.0){
-                                dSum += objBillProductTmp.getVK();
-                                dSum19 += objBillProductTmp.getVK();
-                                dSumAll += objBillProductTmp.getVK();
+                                    dTax = objBillProductTmp.getProduct().getTax();
 
-                                dTax = objBillProductTmp.getProduct().getTax();
-                                
-                                iCount++;
-                                objBillProductTmp.setPayTransit(true);
+                                    iCount++;
+                                    objBillProductTmp.setPrintBillTransit(true);
+                                }
+                                //19% tax
+                                else if (objBillProductTmp.getProduct().getTax() == 19.0) {
+                                    dSum += objBillProductTmp.getVK();
+                                    dSum19 += objBillProductTmp.getVK();
+                                    dSumAll += objBillProductTmp.getVK();
+
+                                    dTax = objBillProductTmp.getProduct().getTax();
+
+                                    iCount++;
+                                    objBillProductTmp.setPrintBillTransit(true);
+                                }
                             }
                         }
                     }
                     
                     if(iCount != 0){
-                        DecimalFormat df = new DecimalFormat("0.00");
                         String strOutput = df.format(dSum) + "€";
                         
                         //19%
                         if(!objBillProduct.getToGo() || dTax == 19.0){
-                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + " " + strOutput + "  A\n";
+                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                          " + strOutput + "  A\n";
                         }
                         //7%
                         else{
-                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + " " + strOutput + "  B\n";
+                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                          " + strOutput + "  B\n";
                         }
 
                         iCount = 0;
@@ -842,28 +844,33 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 }
 
                 objPrintJobBill.setstrAllProducts(str_Products);
-                objPrintJobBill.setstrSum(String.valueOf(dSumAll));
+                objPrintJobBill.setstrSum(df.format(dSumAll));
 
                 //set taxes 7%
                 String str_Taxes = "";
-                double dSum7Netto = dSum7 * 0.07;
-                double dSumTax7 = dSum7 - dSum7Netto; 
-                str_Taxes += "A:7%         " + String.valueOf(dSum7Netto) + "          " + String.valueOf(dSumTax7) + "          " + String.valueOf(dSum7) + "\n";
+                double dSumTax7 = dSum7 * 0.07;
+                double dSum7Netto = dSum7 - dSumTax7;
+                str_Taxes += "A:7%         " + df.format(dSum7Netto) + "           " + df.format(dSumTax7) + "          " + df.format(dSum7) + "\n";
 
                 //set taxes 19%
-                String str_Taxes = "";
-                double dSum19Netto = dSum19 * 0.19;
-                double dSumTax19 = dSum19 - dSum19Netto; 
-                str_Taxes += "A:19%        " + String.valueOf(dSum19Netto) + "          " + String.valueOf(dSumTax19) + "          " + String.valueOf(dSum19) + "\n";
+                double dSumTax19 = dSum19 * 0.19;
+                double dSum19Netto = dSum19 - dSumTax19;
+                str_Taxes += "A:19%        " + df.format(dSum19Netto) + "           " + df.format(dSumTax19) + "         " + df.format(dSum19) + "\n";
 
 
-                objPrintJobBill.setstrTaxesBruttoSum(String.valueOf(dSum));
-                objPrintJobBill.setstrTaxesNettoSum(String.valueOf(dSum7Netto + dSum19Netto));
-                objPrintJobBill.setstrTaxesSum(String.valueOf(dSumTax7 + dSum19));
+                objPrintJobBill.setstrTaxes(str_Taxes);
+                objPrintJobBill.setstrTaxesBruttoSum(df.format(dSum));
+                objPrintJobBill.setstrTaxesNettoSum(df.format(dSum7Netto + dSum19Netto));
+                objPrintJobBill.setstrTaxesSum(df.format(dSumTax7 + dSum19));
 
                 objPrintJob.setObjPrintJobBill(objPrintJobBill);
                 GlobVar.g_lstPrintJob.add(objPrintJob);
                 GlobVar.g_bPrintQueueFilling = false;
+
+                //deselect PrintTransit
+                for(ObjBillProduct objBillProductTransit : objBill.m_lstProducts){
+                    objBillProductTransit.setPrintBillTransit(false);
+                }
             }
             else{
             //TODO

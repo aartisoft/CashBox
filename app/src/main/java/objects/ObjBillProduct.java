@@ -11,6 +11,7 @@ public class ObjBillProduct {
     private boolean m_bPrinted;
     private boolean m_bCanceled;
     private boolean m_bPayTransit;
+    private boolean m_bPrintBilTransit;
     private boolean m_bPaid;
     private boolean m_bReturned;
     private boolean m_bSqlSaved;
@@ -52,6 +53,9 @@ public class ObjBillProduct {
     }
     public boolean getPayTransit(){
         return this.m_bPayTransit;
+    }
+    public boolean getPrintBilTransit(){
+        return this.m_bPrintBilTransit;
     }
     public boolean getPaid(){
         return this.m_bPaid;
@@ -102,6 +106,9 @@ public class ObjBillProduct {
     }
     public void setPayTransit(boolean p_bPayTransit){
         this.m_bPayTransit = p_bPayTransit;
+    }
+    public void setPrintBillTransit(boolean p_bPrintBillTransit){
+        this.m_bPrintBilTransit = p_bPrintBillTransit;
     }
     public void setPaid(boolean p_bPaid){
         this.m_bPaid = p_bPaid;

@@ -549,8 +549,6 @@ public class EpsonPrintBill {
                 m_Printer.addTextSize(1, 1);
                 textData.append(p_objPrintJob.getObjPrintJobBill().getstrTaxes());
                 textData.append("------------------------------------------------" + "\n");
-                textData.append(p_objPrintJob.getObjPrintJobBill().getstrTaxesSum());
-                textData.append("------------------------------------------------" + "\n");
                 textData.append("Gesamt       " + p_objPrintJob.getObjPrintJobBill().getstrTaxesNettoSum() + "          "
                                 + p_objPrintJob.getObjPrintJobBill().getstrTaxesSum() + "          "
                                 + p_objPrintJob.getObjPrintJobBill().getstrTaxesBruttoSum() + "\n");
