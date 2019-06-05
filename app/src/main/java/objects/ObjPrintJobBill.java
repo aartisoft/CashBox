@@ -13,6 +13,8 @@ public class ObjPrintJobBill {
     private String m_strSum = "";
     private String m_strTaxes = "";
     private String m_strTaxesSum = "";
+    private String m_strTaxesBruttoSum = "";
+    private String m_strTaxesNettoSum = "";
     private String m_strWaiter = "";
 
     //getter
@@ -50,6 +52,14 @@ public class ObjPrintJobBill {
 
     public String getstrTaxesSum() {
         return m_strTaxesSum;
+    }
+    
+    public String getstrTaxesBruttoSum() {
+        return m_strTaxesBruttoSum;
+    }
+    
+    public String getstrTaxesNettoSum() {
+        return m_strTaxesNettoSum;
     }
 
     public String getstrWaiter() {
@@ -93,6 +103,14 @@ public class ObjPrintJobBill {
 
     public void setstrTaxesSum(String m_strTaxesSum) {
         this.m_strTaxesSum = m_strTaxesSum;
+    }
+    
+    public void setstrTaxesBruttoSum(String m_strTaxesBruttoSum) {
+        this.m_strTaxesBruttoSum = m_strTaxesBruttoSum;
+    }
+    
+    public void setstrTaxesNettoSum(String m_strTaxesNettoSum) {
+        this.m_strTaxesNettoSum = m_strTaxesNettoSum;
     }
 
     public void setstrWaiter(String m_strWaiter) {
