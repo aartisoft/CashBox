@@ -57,6 +57,7 @@ import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
 import objects.ObjCategory;
+import objects.ObjLoginUser;
 import objects.ObjMainBillProduct;
 import objects.ObjPrintJob;
 import objects.ObjPrintJobBill;
@@ -64,10 +65,13 @@ import objects.ObjPrinter;
 import objects.ObjProduct;
 import objects.ObjTable;
 import printer.PrintJobQueue;
+import userhandling.SessionHandler;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private Context m_Context;
+    private SessionHandler m_UserSession;
+    private ObjLoginUser m_LoginUser;
     private int m_iSessionId = 0;
     private int m_iSessionTable = -1;
     private int m_iSessionBill = -1;
@@ -116,6 +120,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //init user session
+        m_UserSession = new SessionHandler(getApplicationContext());
+        m_LoginUser = m_UserSession.getUserDetails();
+
         //activity variables
         m_iSessionId = getIntent().getIntExtra("EXTRA_SESSION_ID", 0);
         m_iSessionTable = GlobVar.g_iSessionTable;
@@ -134,7 +142,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_ViewEmptyBill = findViewById(R.id.activity_main_bill_rv_noitem);
         m_ViewNoBill = findViewById(R.id.activity_main_bill_rv_nobill);
         m_recyclerview = findViewById(R.id.activity_main_bill_rv);
-        m_btnRegisterDel = findViewById(R.id.am_menu_btnCashBoxDelete);
+        m_btnRegisterDel = findViewById(R.id.am_menu_btnLogout);
 
         //init fab buttons
         m_fab_newbill  = findViewById(R.id.fab_layoutanimation_newbill);
@@ -215,7 +223,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     public void onClick(View v){
         switch (v.getId()) {
-            case R.id.am_menu_btnCashBoxDelete:
+            case R.id.am_menu_btnLogout:
+
+                //logout user
+                m_UserSession.logoutUser();
+                Intent i = new Intent(Main.this, Login.class);
+                startActivity(i);
+                finish();
+
                 //this.deleteDatabase("ProductsDB");
                 //this.deleteDatabase("CategoriesDB");
                 //this.deleteDatabase("PrintersDB");

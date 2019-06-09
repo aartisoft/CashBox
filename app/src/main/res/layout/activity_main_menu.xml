@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/am_menu_btnCashBoxDelete"
+                android:id="@+id/am_menu_btnLogout"
                 android:textColor="@color/colorWhite"
                 android:background="@color/colorGrey"
                 android:layout_width="match_parent"
