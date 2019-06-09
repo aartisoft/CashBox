@@ -194,6 +194,8 @@
     <string name="src_AktiveNutzerKoennenNichtEntferntWerden">Aktive Nutzer können nicht entfernt werden</string>
     <string name="src_Login">Login</string>
     <string name="src_Passwort">Passwort</string>
+    <string name="src_Registrieren">Registrieren</string>
+    <string name="src_NochKeinAccount">Noch kein Account?</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>

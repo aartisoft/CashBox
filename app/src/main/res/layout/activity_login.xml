@@ -51,14 +51,26 @@
         android:background="@drawable/roundedbutton_silver"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="@string/src_Login"
         android:textStyle="bold"
         android:textAllCaps="false"/>
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorWhite"
+        android:text="@string/src_NochKeinAccount"/>
+    <Button
+        android:id="@+id/activity_login_btnregister"
+        android:textColor="@color/colorButtonText"
+        android:background="@drawable/roundedbutton_silver"
         android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:text=""
-        android:layout_gravity="bottom"/>
+        android:layout_height="wrap_content"
+        android:text="@string/src_Registrieren"
+        android:textStyle="bold"
+        android:textAllCaps="false"/>
+
 </LinearLayout>
