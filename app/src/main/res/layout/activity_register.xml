@@ -11,17 +11,18 @@
     android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
     tools:context=".Login">
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="120dp"
-        android:id="@+id/ivLogo"
-        android:src="@drawable/mainlogo_white"
-        android:layout_below="@+id/activity_login_edt_email"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:textSize="30dp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:text="@string/src_Registrieren"/>
 
     <EditText
-        android:id="@+id/activity_login_edt_email"
+        android:id="@+id/activity_register_edt_fullname"
         android:textColor="@color/colorWhite"
         android:backgroundTint="@color/colorWhite"
         android:textColorHint="@color/colorGrey"
@@ -34,7 +35,20 @@
         android:inputType="text" />
 
     <EditText
-        android:id="@+id/activity_login_edt_pw"
+        android:id="@+id/activity_register_edt_email"
+        android:textColor="@color/colorWhite"
+        android:backgroundTint="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
+        android:hint="@string/src_Nutzername"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/activity_register_edt_pw"
         android:textColor="@color/colorWhite"
         android:backgroundTint="@color/colorWhite"
         android:textColorHint="@color/colorGrey"
@@ -45,14 +59,26 @@
         android:imeOptions="actionDone"
         android:inputType="text" />
 
+    <EditText
+        android:id="@+id/activity_register_edt_confirmpw"
+        android:textColor="@color/colorWhite"
+        android:backgroundTint="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
+        android:hint="@string/src_PasswortBestätigen"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="text" />
+
     <Button
-        android:id="@+id/activity_login_btnlogin"
+        android:id="@+id/activity_register_btnregister"
         android:textColor="@color/colorButtonText"
         android:background="@drawable/roundedbutton_silver"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/src_Anmelden"
+        android:text="@string/src_Registrieren"
         android:textStyle="bold"
         android:textAllCaps="false"/>
 
@@ -62,14 +88,14 @@
         android:layout_marginTop="40dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/colorWhite"
-        android:text="@string/src_NochKeinenAccount"/>
+        android:text="@string/src_BereitsRegistriert"/>
     <Button
-        android:id="@+id/activity_login_btnregister"
+        android:id="@+id/activity_register_btnlogin"
         android:textColor="@color/colorButtonText"
         android:background="@drawable/roundedbutton_silver"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="@string/src_Registrieren"
+        android:text="@string/src_Anmelden"
         android:textStyle="bold"
         android:textAllCaps="false"/>
 

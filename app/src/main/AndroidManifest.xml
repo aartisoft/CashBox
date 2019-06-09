@@ -41,6 +41,7 @@
         <activity android:name=".MS_CashRegisterSettings" />
         <activity android:name=".MS_UserAccounts" />
         <activity android:name=".MS_CashRegisterInfo" />
+        <activity android:name=".Register" />
     </application>
 
 </manifest>
