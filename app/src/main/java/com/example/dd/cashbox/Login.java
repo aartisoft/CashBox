@@ -1,113 +1,167 @@
 package com.example.dd.cashbox;
 
-import android.graphics.Rect;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 
-public class Login extends AppCompatActivity implements OnClickListener {
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 
-    private View m_decorView;
-    private EditText m_tbPassword;
-    private Button m_btnLogin;
-    private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import userhandling.MySingleton;
+import userhandling.SessionHandler;
+
+public class Login extends AppCompatActivity {
+    private static final String KEY_STATUS = "status";
+    private static final String KEY_MESSAGE = "message";
+    private static final String KEY_FULL_NAME = "full_name";
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_PASSWORD = "password";
+    private static final String KEY_EMPTY = "";
+    private EditText etUsername;
+    private EditText etPassword;
+    private String username;
+    private String password;
+    private ProgressDialog pDialog;
+    private String login_url = "https://www.cashbox-mietkassen.de/api/member/login.php";
+    private SessionHandler session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
+        session = new SessionHandler(getApplicationContext());
+
+        if(session.isLoggedIn()){
+            loadDashboard();
+        }
         setContentView(R.layout.activity_login);
 
-        //init variables
-        m_tbPassword = findViewById(R.id.activity_login_edt_pw);
-        m_btnLogin = findViewById(R.id.activity_login_btnlogin);
-        m_btnLogin.setEnabled(false);
+        etUsername = findViewById(R.id.activity_login_edt_email);
+        etPassword = findViewById(R.id.activity_login_edt_pw);
 
-        //set UI
-        m_decorView = getWindow().getDecorView();
-        m_decorView.setSystemUiVisibility(m_uiOptions);
+        Button register = findViewById(R.id.activity_login_btnregister);
+        Button login = findViewById(R.id.activity_login_btnlogin);
 
-        //set Listener
-        m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
-        m_btnLogin.setOnClickListener(this);
-        m_tbPassword.addTextChangedListener(keyTextWatcher);
+        //Launch Registration screen when Register Button is clicked
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Intent i = new Intent(Login.this, Register.class);
+                //startActivity(i);
+                finish();
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Retrieve the data entered in the edit texts
+                username = etUsername.getText().toString().toLowerCase().trim();
+                password = etPassword.getText().toString().trim();
+                if (validateInputs()) {
+                    login();
+                }
+            }
+        });
     }
 
-    @Override
-    public void onClick(View v){
-        Intent intent = new Intent(Login.this, Main.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("EXTRA_SESSION_ID", 0);
-        startActivity(intent);
+    /**
+     * Launch Dashboard Activity on Successful Login
+     */
+    private void loadDashboard() {
+        Intent i = new Intent(getApplicationContext(), Main.class);
+        startActivity(i);
         finish();
+
     }
 
-    public void hideSystemUI(Window window) {
-        m_decorView = window.getDecorView();
-        final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LOW_PROFILE;
-        m_decorView.setSystemUiVisibility(uiOptions);
+    /**
+     * Display Progress bar while Logging in
+     */
+
+    private void displayLoader() {
+        pDialog = new ProgressDialog(Login.this);
+        pDialog.setMessage("Logging In.. Please wait...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
     }
 
-    private ViewTreeObserver.OnGlobalLayoutListener softkeyboardOnGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener(){
-        @Override
-        public void onGlobalLayout() {
-            Rect r = new Rect();
-            m_decorView.getWindowVisibleDisplayFrame(r);
-            int screenHeight = m_decorView.getRootView().getHeight();
+    private void login() {
+        displayLoader();
+        JSONObject request = new JSONObject();
+        try {
+            //Populate the request parameters
+            request.put(KEY_USERNAME, username);
+            request.put(KEY_PASSWORD, password);
 
-            // r.bottom is the position above soft keypad or device button.
-            // if keypad is shown, the r.bottom is smaller than that before.
-            int keypadHeight = screenHeight - r.bottom;
-
-            //Log.d(TAG, "keypadHeight = " + keypadHeight);
-
-            if (keypadHeight > screenHeight * 0.10) {
-                // keyboard is opened
-            }
-            else {
-                //keyboard is closed
-                m_tbPassword.setCursorVisible(false);
-                m_decorView.setSystemUiVisibility(m_uiOptions);
-            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-    };
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest
+                (Request.Method.POST, login_url, request, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        pDialog.dismiss();
+                        try {
+                            //Check if user got logged in successfully
 
-    private TextWatcher keyTextWatcher = new TextWatcher(){
-        public void afterTextChanged(Editable s) {
-        }
+                            if (response.getInt(KEY_STATUS) == 0) {
+                                session.loginUser(username,response.getString(KEY_FULL_NAME));
+                                loadDashboard();
 
-        public void beforeTextChanged(CharSequence s, int start,
-                                      int count, int after) {
-        }
+                            }else{
+                                Toast.makeText(getApplicationContext(),
+                                        response.getString(KEY_MESSAGE), Toast.LENGTH_SHORT).show();
 
-        public void onTextChanged(CharSequence s, int start,
-                                  int before, int count) {
-            if(!m_tbPassword.getText().equals("")){
-                m_btnLogin.setEnabled(true);
-            }
-            else{
-                m_btnLogin.setEnabled(false);
-            }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        pDialog.dismiss();
+
+                        //Display error message whenever an error occurs
+                        Toast.makeText(getApplicationContext(),
+                                error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+        // Access the RequestQueue through your singleton class.
+        MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
+    }
+
+    /**
+     * Validates inputs and shows error if any
+     * @return
+     */
+    private boolean validateInputs() {
+        if(KEY_EMPTY.equals(username)){
+            etUsername.setError("Username cannot be empty");
+            etUsername.requestFocus();
+            return false;
         }
-    };
+        if(KEY_EMPTY.equals(password)){
+            etPassword.setError("Password cannot be empty");
+            etPassword.requestFocus();
+            return false;
+        }
+        return true;
+    }
 }

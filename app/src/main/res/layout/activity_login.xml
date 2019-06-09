@@ -18,7 +18,7 @@
         android:src="@drawable/mainlogo_white"
         android:layout_below="@+id/activity_login_edt_email"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="200dp"/>
+        android:layout_marginBottom="100dp"/>
 
     <EditText
         android:id="@+id/activity_login_edt_email"
@@ -62,7 +62,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/colorWhite"
-        android:text="@string/src_NochKeinAccount"/>
+        android:text="@string/src_NochKeinenAccount"/>
     <Button
         android:id="@+id/activity_login_btnregister"
         android:textColor="@color/colorButtonText"

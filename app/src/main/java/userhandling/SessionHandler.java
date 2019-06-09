@@ -1,15 +1,17 @@
-package objects;
+package userhandling;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.Date;
 
+import objects.ObjLoginUser;
+
 /**
  * Created by Abhi on 20 Jan 2018 020.
  */
 
-public class ObjSessionHandler {
+public class SessionHandler {
     private static final String PREF_NAME = "UserSession";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_EXPIRES = "expires";
@@ -19,7 +21,7 @@ public class ObjSessionHandler {
     private SharedPreferences.Editor mEditor;
     private SharedPreferences mPreferences;
 
-    public ObjSessionHandler(Context mContext) {
+    public SessionHandler(Context mContext) {
         this.mContext = mContext;
         mPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         this.mEditor = mPreferences.edit();
