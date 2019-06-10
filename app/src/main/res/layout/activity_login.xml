@@ -18,14 +18,16 @@
         android:src="@drawable/mainlogo_white"
         android:layout_below="@+id/activity_login_edt_email"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginBottom="150dp"/>
 
     <EditText
         android:id="@+id/activity_login_edt_email"
         android:textColor="@color/colorWhite"
-        android:backgroundTint="@color/colorWhite"
-        android:textColorHint="@color/colorGrey"
-        android:hint="@string/src_Nutzername"
+        android:drawableStart="@drawable/ic_email_white_24dp"
+        android:drawablePadding="5dp"
+        android:backgroundTint="@color/colorGreyBright"
+        android:textColorHint="@color/colorWhite"
+        android:hint="@string/src_Email"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -36,8 +38,10 @@
     <EditText
         android:id="@+id/activity_login_edt_pw"
         android:textColor="@color/colorWhite"
-        android:backgroundTint="@color/colorWhite"
-        android:textColorHint="@color/colorGrey"
+        android:drawableStart="@drawable/ic_lock_outline_white_24dp"
+        android:drawablePadding="5dp"
+        android:backgroundTint="@color/colorGreyBright"
+        android:textColorHint="@color/colorWhite"
         android:hint="@string/src_Passwort"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -48,7 +52,7 @@
     <Button
         android:id="@+id/activity_login_btnlogin"
         android:textColor="@color/colorButtonText"
-        android:background="@drawable/roundedbutton_silver"
+        android:background="@drawable/roundedbutton_grey"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -56,21 +60,30 @@
         android:textStyle="bold"
         android:textAllCaps="false"/>
 
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="10dp"
-        android:textColor="@color/colorWhite"
-        android:text="@string/src_NochKeinenAccount"/>
-    <Button
-        android:id="@+id/activity_login_btnregister"
-        android:textColor="@color/colorButtonText"
-        android:background="@drawable/roundedbutton_silver"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="@string/src_Registrieren"
-        android:textStyle="bold"
-        android:textAllCaps="false"/>
+        android:layout_marginTop="40dp">
+        <TextView
+            android:id="@+id/activity_login_tvnoaccouunt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/colorWhite"
+            android:text="@string/src_NochKeinenAccount"/>
+
+        <TextView
+            android:id="@+id/activity_login_tvnoaccouuntsignup"
+            android:layout_toRightOf="@id/activity_login_tvnoaccouunt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:text="@string/src_HierRegistrieren"/>
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>

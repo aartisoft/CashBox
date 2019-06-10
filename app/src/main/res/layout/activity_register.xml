@@ -74,7 +74,7 @@
     <Button
         android:id="@+id/activity_register_btnregister"
         android:textColor="@color/colorButtonText"
-        android:background="@drawable/roundedbutton_silver"
+        android:background="@drawable/roundedbutton_grey"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -92,7 +92,7 @@
     <Button
         android:id="@+id/activity_register_btnlogin"
         android:textColor="@color/colorButtonText"
-        android:background="@drawable/roundedbutton_silver"
+        android:background="@drawable/roundedbutton_grey"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="@string/src_Anmelden"

@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,51 +30,84 @@ public class Login extends AppCompatActivity {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_EMPTY = "";
-    private EditText etUsername;
-    private EditText etPassword;
+    private EditText m_etUsername;
+    private EditText m_etPassword;
+    private Button m_btnLogin;
+    private TextView m_tvRegister;
     private String username;
     private String password;
     private ProgressDialog pDialog;
     private String login_url = "https://www.cashbox-mietkassen.de/api/member/login.php";
-    private SessionHandler session;
+    private SessionHandler m_session;
+    private View m_decorView;
+    private int m_uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        hideSystemUI(getWindow());
         super.onCreate(savedInstanceState);
-        session = new SessionHandler(getApplicationContext());
-
-        if(session.isLoggedIn()){
-            loadDashboard();
-        }
         setContentView(R.layout.activity_login);
 
-        etUsername = findViewById(R.id.activity_login_edt_email);
-        etPassword = findViewById(R.id.activity_login_edt_pw);
+        //init variables
+        m_decorView = getWindow().getDecorView();
+        m_session = new SessionHandler(getApplicationContext());
+        m_etUsername = findViewById(R.id.activity_login_edt_email);
+        m_etPassword = findViewById(R.id.activity_login_edt_pw);
+        m_btnLogin = findViewById(R.id.activity_login_btnlogin);
+        m_tvRegister = findViewById(R.id.activity_login_tvnoaccouuntsignup);
 
-        Button register = findViewById(R.id.activity_login_btnregister);
-        Button login = findViewById(R.id.activity_login_btnlogin);
+        //set UI
+        m_decorView.setSystemUiVisibility(m_uiOptions);
 
-        //Launch Registration screen when Register Button is clicked
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Login.this, Register.class);
-                startActivity(i);
-                finish();
+        if (m_session.isLoggedIn()) {
+            loadDashboard();
+        }
+
+        //listeners
+        m_btnLogin.setOnClickListener(loginOnClickListener);
+        m_tvRegister.setOnClickListener(registerOnClickListener);
+    }
+
+    /////////////////////////// LISTENERS /////////////////////////////////////////////////////////////////////
+
+    private View.OnClickListener loginOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //Retrieve the data entered in the edit texts
+            username = m_etUsername.getText().toString().toLowerCase().trim();
+            password = m_etPassword.getText().toString().trim();
+            if (validateInputs()) {
+                login();
             }
-        });
+        }
+    };
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Retrieve the data entered in the edit texts
-                username = etUsername.getText().toString().toLowerCase().trim();
-                password = etPassword.getText().toString().trim();
-                if (validateInputs()) {
-                    login();
-                }
-            }
-        });
+    private View.OnClickListener registerOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent i = new Intent(Login.this, Register.class);
+            startActivity(i);
+            finish();
+        }
+    };
+
+    /////////////////////////// METHODS /////////////////////////////////////////////////////////////////////
+
+    public void hideSystemUI(Window window) {
+        m_decorView = window.getDecorView();
+        final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        m_decorView.setSystemUiVisibility(uiOptions);
     }
 
     /**
@@ -118,7 +153,7 @@ public class Login extends AppCompatActivity {
                             //Check if user got logged in successfully
 
                             if (response.getInt(KEY_STATUS) == 0) {
-                                session.loginUser(username,response.getString(KEY_FULL_NAME));
+                                m_session.loginUser(username,response.getString(KEY_FULL_NAME));
                                 loadDashboard();
 
                             }else{
@@ -153,13 +188,13 @@ public class Login extends AppCompatActivity {
      */
     private boolean validateInputs() {
         if(KEY_EMPTY.equals(username)){
-            etUsername.setError("Username cannot be empty");
-            etUsername.requestFocus();
+            m_etUsername.setError("Username cannot be empty");
+            m_etUsername.requestFocus();
             return false;
         }
         if(KEY_EMPTY.equals(password)){
-            etPassword.setError("Password cannot be empty");
-            etPassword.requestFocus();
+            m_etPassword.setError("Password cannot be empty");
+            m_etPassword.requestFocus();
             return false;
         }
         return true;
