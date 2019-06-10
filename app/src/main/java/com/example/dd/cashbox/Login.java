@@ -261,12 +261,12 @@ public class Login extends AppCompatActivity {
      */
     private boolean validateInputs() {
         if(KEY_EMPTY.equals(username)){
-            m_etUsername.setError(getResources().getString(R.string.src_EmailKannNichtLeerSein));
+            m_etUsername.setError(getResources().getString(R.string.src_EmailDarfNichtLeerSein));
             m_etUsername.requestFocus();
             return false;
         }
         if(KEY_EMPTY.equals(password)){
-            m_etPassword.setError(getResources().getString(R.string.src_PasswortKannNichtLeerSein));
+            m_etPassword.setError(getResources().getString(R.string.src_PasswortDarfNichtLeerSein));
             m_etPassword.requestFocus();
             return false;
         }

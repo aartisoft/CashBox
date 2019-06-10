@@ -73,8 +73,10 @@ public class Register extends AppCompatActivity {
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
+        m_etFullName.setCursorVisible(false);
         m_etUsername.setCursorVisible(false);
         m_etPassword.setCursorVisible(false);
+        m_etConfirmPassword.setCursorVisible(false);
 
 
         //listeners
@@ -312,29 +314,29 @@ public class Register extends AppCompatActivity {
      */
     private boolean validateInputs() {
         if (KEY_EMPTY.equals(fullName)) {
-            m_etFullName.setError("Full Name cannot be empty");
+            m_etFullName.setError(getResources().getString(R.string.src_NameDarfNichtLeerSein));
             m_etFullName.requestFocus();
             return false;
 
         }
         if (KEY_EMPTY.equals(username)) {
-            m_etUsername.setError("Username cannot be empty");
+            m_etUsername.setError(getResources().getString(R.string.src_EmailDarfNichtLeerSein));
             m_etUsername.requestFocus();
             return false;
         }
         if (KEY_EMPTY.equals(password)) {
-            m_etPassword.setError("Password cannot be empty");
+            m_etPassword.setError(getResources().getString(R.string.src_PasswortDarfNichtLeerSein));
             m_etPassword.requestFocus();
             return false;
         }
 
         if (KEY_EMPTY.equals(confirmPassword)) {
-            m_etConfirmPassword.setError("Confirm Password cannot be empty");
+            m_etConfirmPassword.setError(getResources().getString(R.string.src_PasswortDarfNichtLeerSein));
             m_etConfirmPassword.requestFocus();
             return false;
         }
         if (!password.equals(confirmPassword)) {
-            m_etConfirmPassword.setError("Password and Confirm Password does not match");
+            m_etConfirmPassword.setError(getResources().getString(R.string.src_PasswoerterStimmenNichtUeberein));
             m_etConfirmPassword.requestFocus();
             return false;
         }
