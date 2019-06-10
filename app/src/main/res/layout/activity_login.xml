@@ -24,7 +24,7 @@
     <EditText
         android:id="@+id/activity_login_edt_email"
         android:textColor="@color/colorWhite"
-        android:drawableStart="@drawable/ic_email_white_24dp"
+        android:drawableStart="@drawable/ic_mail_outline_white_24dp"
         android:drawablePadding="5dp"
         android:backgroundTint="@color/colorGreyBright"
         android:textColorHint="@color/colorWhite"
@@ -47,12 +47,11 @@
         android:textColorHint="@color/colorWhite"
         android:textCursorDrawable="@drawable/colorcursor_grey"
         android:hint="@string/src_Passwort"
-        android:password="true"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:imeOptions="actionDone"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:singleLine="true"/>
 
     <Button
