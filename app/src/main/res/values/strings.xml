@@ -200,6 +200,7 @@
     <string name="src_BereitsRegistriert">Bereits registriert?</string>
     <string name="src_Anmelden">Anmelden</string>
     <string name="src_Email">Email</string>
+    <string name="src_VollsteandigerNamer">Vollständiger Name</string>
     <string name="src_HierRegistrieren">Hier registrieren</string>
     <string name="src_HierAnmelden">Hier anmelden</string>
     <string name="src_NameDarfNichtLeerSein">Name darf nicht leer sein</string>

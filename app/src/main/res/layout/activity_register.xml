@@ -37,7 +37,7 @@
         android:drawablePadding="5dp"
         android:backgroundTint="@color/colorGreyBright"
         android:textColorHint="@color/colorWhite"
-        android:hint="@string/src_Name"
+        android:hint="@string/src_VollsteandigerNamer"
         android:textCursorDrawable="@drawable/colorcursor_grey"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
