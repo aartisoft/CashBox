@@ -9,7 +9,8 @@
     android:gravity="center"
     android:background="@color/colorPrimary3"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
-    tools:context=".Login">
+    tools:context=".Login"
+    android:focusableInTouchMode="true">
 
     <ImageView
         android:layout_width="300dp"
@@ -28,12 +29,14 @@
         android:backgroundTint="@color/colorGreyBright"
         android:textColorHint="@color/colorWhite"
         android:hint="@string/src_Email"
+        android:textCursorDrawable="@drawable/colorcursor_grey"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:ems="10"
         android:imeOptions="actionDone"
-        android:inputType="text" />
+        android:inputType="text"
+        android:singleLine="true"/>
 
     <EditText
         android:id="@+id/activity_login_edt_pw"
@@ -42,12 +45,15 @@
         android:drawablePadding="5dp"
         android:backgroundTint="@color/colorGreyBright"
         android:textColorHint="@color/colorWhite"
+        android:textCursorDrawable="@drawable/colorcursor_grey"
         android:hint="@string/src_Passwort"
+        android:password="true"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:imeOptions="actionDone"
-        android:inputType="text" />
+        android:inputType="text"
+        android:singleLine="true"/>
 
     <Button
         android:id="@+id/activity_login_btnlogin"

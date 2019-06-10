@@ -2,9 +2,14 @@ package com.example.dd.cashbox;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -63,17 +68,62 @@ public class Login extends AppCompatActivity {
 
         //set UI
         m_decorView.setSystemUiVisibility(m_uiOptions);
+        m_etUsername.setCursorVisible(false);
+        m_etPassword.setCursorVisible(false);
 
         if (m_session.isLoggedIn()) {
             loadDashboard();
         }
 
         //listeners
+        m_decorView.getViewTreeObserver().addOnGlobalLayoutListener(softkeyboardOnGlobalLayoutListener);
+        m_etUsername.setOnEditorActionListener(emailOnEditorActionListener);
+        m_etUsername.setOnTouchListener(emailOnTouchListener);
+        m_etPassword.setOnEditorActionListener(pwOnEditorActionListener);
+        m_etPassword.setOnTouchListener(pwOnTouchListener);
         m_btnLogin.setOnClickListener(loginOnClickListener);
         m_tvRegister.setOnClickListener(registerOnClickListener);
     }
 
     /////////////////////////// LISTENERS /////////////////////////////////////////////////////////////////////
+
+    private TextView.OnEditorActionListener emailOnEditorActionListener = new TextView.OnEditorActionListener(){
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                m_etUsername.setCursorVisible(false);
+            }
+            return false;
+        }
+    };
+
+    private TextView.OnEditorActionListener pwOnEditorActionListener = new TextView.OnEditorActionListener(){
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                m_etPassword.setCursorVisible(false);
+            }
+            return false;
+        }
+    };
+
+    private View.OnTouchListener emailOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_etUsername.setCursorVisible(true);
+            return false;
+        }
+    };
+
+    private View.OnTouchListener pwOnTouchListener = new View.OnTouchListener(){
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            m_etPassword.setCursorVisible(true);
+            return false;
+        }
+    };
 
     private View.OnClickListener loginOnClickListener = new View.OnClickListener() {
         @Override
@@ -93,6 +143,29 @@ public class Login extends AppCompatActivity {
             Intent i = new Intent(Login.this, Register.class);
             startActivity(i);
             finish();
+        }
+    };
+
+    private ViewTreeObserver.OnGlobalLayoutListener softkeyboardOnGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener(){
+        @Override
+        public void onGlobalLayout() {
+            Rect r = new Rect();
+            m_decorView.getWindowVisibleDisplayFrame(r);
+            int screenHeight = m_decorView.getRootView().getHeight();
+
+            // r.bottom is the position above soft keypad or device button.
+            // if keypad is shown, the r.bottom is smaller than that before.
+            int keypadHeight = screenHeight - r.bottom;
+
+            //Log.d(TAG, "keypadHeight = " + keypadHeight);
+
+            if (keypadHeight > screenHeight * 0.5) {
+                // keyboard is opened
+            }
+            else {
+                //keyboard is closed
+                m_decorView.setSystemUiVisibility(m_uiOptions);
+            }
         }
     };
 
