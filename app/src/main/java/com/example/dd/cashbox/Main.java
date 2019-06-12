@@ -779,7 +779,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         return true;
     }
     
-    private void addPrintJobBill(boolean p_bEcBill){
+    private void addPrintJobBill(boolean p_bEcBill, ObjPrinter p_objPrinter){
         //TODO
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
             if (GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.size() > 0) {
@@ -800,7 +800,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
                 ObjPrintJob objPrintJob = new ObjPrintJob();
                 objPrintJob.setContext(m_Context);
-                objPrintJob.setPrinter(GlobVar.g_lstCategory.get(0).getPrinter());
+                objPrintJob.setPrinter(p_objPrinter);
                 objPrintJob.setbNormalBill(p_bEcBill);
 
                 ObjPrintJobBill objPrintJobBill = new ObjPrintJobBill();
