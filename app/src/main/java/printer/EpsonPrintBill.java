@@ -561,10 +561,137 @@ public class EpsonPrintBill {
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
                 m_Printer.addTextSize(1, 1);
                 textData.append("Es bediente Sie:" + "\n");
-                textData.append(p_objPrintJob.getObjPrintJobBill().getstrWaiter());
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrWaiter() + "\n\n\n");
+                textData.append("Vielen Dank für Ihren Besuch!" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrUStID());
                 m_Printer.addText(textData.toString());
                 textData.delete(0, textData.length());
                 m_Printer.addFeedLine(6);
+
+                m_Printer.addCut(Printer.CUT_FEED);
+            }
+            else if (!p_objPrintJob.getbEcBill()){
+                //name of shop
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 2);
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrShopName() + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
+
+                //extra infos of shop
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrExtraInfo() + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(3);
+
+                //Rechnung
+                m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+                m_Printer.addTextSize(3, 3);
+                textData.append("Rechnung" + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(1);
+
+                //date + table + billnr
+                //extra infos of shop
+                m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+                m_Printer.addTextSize(1, 1);
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrDate() + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrTable() + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrBill() + "\n");
+                textData.append("------------------------------------------------" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrAllProducts());
+                textData.append("------------------------------------------------" + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+
+                //overall sum
+                m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+                m_Printer.addTextSize(1, 2);
+                textData.append("GESAMT                                 EUR " + p_objPrintJob.getObjPrintJobBill().getstrSum());
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(4);
+
+                //tax
+                //extra infos of shop
+                m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+                m_Printer.addTextSize(1, 1);
+                textData.append("------------------------------------------------" + "\n");
+                textData.append("Typ          Netto          Mwst          Brutto" + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addTextAlign(Printer.ALIGN_LEFT);
+                m_Printer.addTextSize(1, 1);
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrTaxes());
+                textData.append("------------------------------------------------" + "\n");
+                textData.append("Gesamt       " + p_objPrintJob.getObjPrintJobBill().getstrTaxesNettoSum() + "          "
+                                + p_objPrintJob.getObjPrintJobBill().getstrTaxesSum() + "          "
+                                + p_objPrintJob.getObjPrintJobBill().getstrTaxesBruttoSum() + "\n");
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(4);
+
+
+                //extra info
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append("Es bediente Sie:" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrWaiter() + "\n\n\n");
+                textData.append("Vielen Dank für Ihren Besuch!" + "\n");
+                textData.append(p_objPrintJob.getObjPrintJobBill().getstrUStID());
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(2);
+                
+                //economy bill info
+                m_Printer.addTextAlign(Printer.ALIGN_CENTER);
+                m_Printer.addTextSize(1, 1);
+                textData.append("************************************************" + "\n");
+                textData.append("Angaben zum Nachweis der Höhe und der betrieblichen Veranlassung von Bewirtungsaufwendungen");
+                textData.append("§ 4 Abs. 5 Ziff. 2 EStG" + "\n");
+                textData.append("************************************************" + "\n");
+                textData.append("Bewirtete Person(en):" + "\n");                
+                textData.append("************************************************" + "\n");
+                textData.append("************************************************" + "\n");
+                textData.append("************************************************" + "\n\n");
+                textData.append("Anlass der Bewirtung:" + "\n");                
+                textData.append("************************************************" + "\n");
+                textData.append("************************************************" + "\n");
+                textData.append("************************************************" + "\n\n");
+                textData.append("Höhe der Aufwendungen inkl. Trinkgeld:" + "\n");
+                textData.append("_____________________________________________EUR" + "\n");
+                textData.append("(Bei Bewirtung in der Gaststätte)" + "\n\n");
+                textData.append("_____________________________________________EUR" + "\n");
+                textData.append("(In anderen Fällen)" + "\n\n");
+                textData.append("___________________ ______________ _____________" + "\n");
+                textData.append("Ort                 Datum          Unterschrift" + "\n\n");
+                
+                int iSum = Integer.parseInt(p_objPrintJob.getObjPrintJobBill().getstrSum());
+                if(iSum > 150){
+                    textData.append("************************************************" + "\n");
+                    textData.append("Bei Aufwendungen über 150€ muss der Wirt bzw. eine Vertretung quittieren, wer bezahlt hat.");
+                    textData.append("§ 4 Abs. 5 Ziff. 2 EStG" + "\n");
+                    textData.append("************************************************" + "\n\n");
+                }
+                
+                textData.append("Wer hat bezahlt? (Name und Adresse):" + "\n");                
+                textData.append("************************************************" + "\n");
+                textData.append("************************************************" + "\n");
+                textData.append("************************************************" + "\n\n");
+                textData.append("Wer hat quittiert? (Name Wirt):" + "\n");                
+                textData.append("************************************************" + "\n");
+                textData.append("************************************************" + "\n");
+                textData.append("************************************************" + "\n\n\n");
+                textData.append("________________________________________" + "\n");
+                textData.append("Unterschrift Wirt und ggf. Firmenstempel" + "\n\n");
+                
+                m_Printer.addText(textData.toString());
+                textData.delete(0, textData.length());
+                m_Printer.addFeedLine(2);
 
                 m_Printer.addCut(Printer.CUT_FEED);
             }
