@@ -6,6 +6,7 @@ import java.util.List;
 public class ObjPrintJobBill {
     private String m_strShopName = "";
     private String m_strExtraInfo = "";
+    private String m_strUStID = "";
     private String m_strDate = "";
     private String m_strTable = "";
     private String m_strBill = "";
@@ -23,6 +24,10 @@ public class ObjPrintJobBill {
     }
 
     public String getstrExtraInfo() {
+        return m_strExtraInfo;
+    }
+    
+    public String getstrUStID() {
         return m_strExtraInfo;
     }
 
@@ -75,6 +80,10 @@ public class ObjPrintJobBill {
 
     public void setstrExtraInfo(String m_strExtraInfo) {
         this.m_strExtraInfo = m_strExtraInfo;
+    }
+    
+    public void setstrUStID(String m_strUStID) {
+        this.m_strUStID = m_strUStID;
     }
 
     public void setstrDate(String m_strDate) {
