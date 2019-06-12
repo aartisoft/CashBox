@@ -23,6 +23,7 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
     private Button m_btnPrint;
     private Button m_btnCancel;
     private SwitchCompat m_SwitchEcBill;
+    private Spinner m_Spinner_Printer;
     private Context m_Context;
     private static PopUpWindowPrintBillFragment m_frag;
 
@@ -51,6 +52,7 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
         m_btnPrint = view.findViewById(R.id.fragment_printbill_btnprint);
         m_btnCancel = view.findViewById(R.id.fragment_printbill_btncancel);
         m_SwitchEcBill = view.findViewById(R.id.fragment_printbill_switch);
+        m_Spinner_Printer = view.findViewById(R.id.fragment_printbill_spinnerprinter);
         m_Context = getContext();
 
         //set Listener
@@ -70,7 +72,7 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
         switch(v.getId()){
             case R.id.fragment_printbill_btnprint:
                 //print bill    
-                ((Main) getActivity()).addPrintJobBill(m_SwitchEcBill.isChecked());
+                ((Main) getActivity()).addPrintJobBill(m_SwitchEcBill.isChecked(), getPrinter());
                 
                 m_frag.dismiss();
                 break;
@@ -85,5 +87,20 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
     }
 
     //////////////////////////////// METHODS ////////////////////////////////////////////////////////////////////
-    
+    private ObjPrinter getPrinter(){
+        //get object printer
+        ObjPrinter foundPrinter = new ObjPrinter();
+        foundPrinter = null;
+        String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
+        String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") + 1);
+        
+        for (ObjPrinter printer : GlobVar.g_lstPrinter) {
+            if (printer.getMacAddress().equals(macadress)) {
+                foundPrinter = printer;
+                break;
+            }
+        }
+        
+        return foundPrinter;
+    }
 }
