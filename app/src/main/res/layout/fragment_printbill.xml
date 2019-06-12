@@ -32,7 +32,7 @@
         android:orientation="vertical"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp">
-        
+
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/fragment_printbill_switch"
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             android:layout_marginBottom="20dp"
             android:text="@string/src_BewirtungsBelegDrucken"
             android:theme="@style/Color1SwitchStyle"/>
-        
+
         <TextView
             android:id="@+id/fragment_printbill_tvprinter"
             android:layout_width="match_parent"
@@ -56,7 +56,7 @@
             android:textColor="@color/colorGrey"
             android:textSize="15dp">
         </TextView>
-        
+
         <Spinner
             android:id="@+id/fragment_printbill_spinnerprinter"
             android:layout_width="match_parent"
@@ -66,45 +66,45 @@
             android:layout_marginBottom="20dp"
             style="@android:style/Widget.Holo.Light.Spinner"
             android:spinnerMode="dialog"/>
-        
+
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
-        <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
-
-            <Button
-                android:id="@+id/fragment_printbill_btncancel"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"
-                android:text="@string/src_Abbrechen"
-                android:textAllCaps="false"/>
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
 
-        </RelativeLayout>
+                <Button
+                    android:id="@+id/fragment_printbill_btncancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:text="@string/src_Abbrechen"
+                    android:textAllCaps="false"/>
 
-        <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
+            </RelativeLayout>
 
-            <Button
-                android:id="@+id/fragment_printbill_btnprint"
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"
-                android:text="@string/src_Drucken"
-                android:textAllCaps="false" />
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
 
-        </RelativeLayout>
+                <Button
+                    android:id="@+id/fragment_printbill_btnprint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:text="@string/src_Drucken"
+                    android:textAllCaps="false" />
 
-    </LinearLayout>
-       
+            </RelativeLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

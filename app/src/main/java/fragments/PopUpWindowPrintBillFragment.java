@@ -7,15 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
 
 import java.text.DecimalFormat;
+
+import global.GlobVar;
+import objects.ObjPrinter;
 
 
 public class PopUpWindowPrintBillFragment extends DialogFragment implements View.OnClickListener {
@@ -41,7 +47,7 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_printbill.xml, container, false);
+        View view = inflater.inflate(R.layout.fragment_printbill, container, false);
 
         //activity variables
 
@@ -71,9 +77,9 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.fragment_printbill_btnprint:
-                //print bill    
+                //print bill
                 ((Main) getActivity()).addPrintJobBill(m_SwitchEcBill.isChecked(), getPrinter());
-                
+
                 m_frag.dismiss();
                 break;
 
@@ -93,14 +99,14 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
         foundPrinter = null;
         String spinnerprinter = m_Spinner_Printer.getSelectedItem().toString();
         String macadress = spinnerprinter.substring(spinnerprinter.indexOf(":") + 1);
-        
+
         for (ObjPrinter printer : GlobVar.g_lstPrinter) {
             if (printer.getMacAddress().equals(macadress)) {
                 foundPrinter = printer;
                 break;
             }
         }
-        
+
         return foundPrinter;
     }
 }

@@ -51,6 +51,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
+import fragments.PopUpWindowPrintBillFragment;
 import fragments.RetoureStornoDialogFragment;
 import fragments.ViewPagerRegisterFragment;
 import global.GlobVar;
@@ -337,8 +339,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 
             case R.id.main_usermenu_printbill:
                 FragmentManager fm = getSupportFragmentManager();
-                PopUpWindowPrintBillFragment  popUpWindowPrintBillFragment  = PopUpWindowPrintBillFragment .newInstance();
-                popUpWindowPrintBillFragment.show(fm, "popupprintbill")
+                PopUpWindowPrintBillFragment popUpWindowPrintBillFragment = PopUpWindowPrintBillFragment.newInstance();
+                popUpWindowPrintBillFragment.show(fm, "popupprintbill");
                     
                 return true;
         }
@@ -779,7 +781,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         return true;
     }
     
-    private void addPrintJobBill(boolean p_bEcBill, ObjPrinter p_objPrinter){
+    public void addPrintJobBill(boolean p_bEcBill, ObjPrinter p_objPrinter){
         //TODO
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
             if (GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.size() > 0) {

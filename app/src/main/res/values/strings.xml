@@ -207,6 +207,8 @@
     <string name="src_EmailDarfNichtLeerSein">Email darf nicht leer sein</string>
     <string name="src_PasswortDarfNichtLeerSein">Passwort darf nicht leer sein</string>
     <string name="src_PasswoerterStimmenNichtUeberein">Passwörter stimmen nicht überein</string>
+    <string name="src_BewirtungsBelegDrucken">Bewirtungsbeleg</string>
+    <string name="src_Drucken">Drucken</string>
 
     <string name="handlingmsg_warn_receipt_near_end">Roll paper is nearly end.\n</string>
     <string name="handlingmsg_warn_battery_near_end">Battery level of printer is low.\n</string>
