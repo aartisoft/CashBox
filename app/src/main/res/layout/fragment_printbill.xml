@@ -2,10 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_printbill_ll"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:minWidth="1000dp"
-    android:minHeight="1000dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical">
 
@@ -20,7 +18,7 @@
             android:id="@+id/fragment_printbill_tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/src_RetoureStorno"
+            android:text="@string/src_BelegDrucken"
             android:textColor="@color/colorWhite"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
