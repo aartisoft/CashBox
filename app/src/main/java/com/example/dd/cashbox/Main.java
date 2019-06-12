@@ -806,7 +806,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 objPrintJobBill.setstrExtraInfo(GlobVar.g_ObjSession.getPartyName());
                 objPrintJobBill.setstrDate(objBill.getBillingDate());
                 objPrintJobBill.setstrTable(GlobVar.g_lstTables.get(m_iSessionTable).getTableName());
-                objPrintJobBill.setstrBill(String.valueOf(objBill.getBillNr()));
+                objPrintJobBill.setstrBill(getResources().getString(R.string.src_Beleg) + String.valueOf(objBill.getBillNr()));
                 objPrintJobBill.setstrWaiter(GlobVar.g_ObjSession.getCashierName());
 
                 for(ObjBillProduct objBillProduct : objBill.m_lstProducts){
@@ -845,11 +845,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         
                         //19%
                         if(!objBillProduct.getToGo() || dTax == 19.0){
-                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                          " + strOutput + "  A\n";
+                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                                     " + strOutput + "  A\n";
                         }
                         //7%
                         else{
-                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                          " + strOutput + "  B\n";
+                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                                     " + strOutput + "  B\n";
                         }
 
                         iCount = 0;
@@ -870,7 +870,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 //set taxes 19%
                 double dSumTax19 = dSum19 * 0.19;
                 double dSum19Netto = dSum19 - dSumTax19;
-                str_Taxes += "A:19%        " + df.format(dSum19Netto) + "           " + df.format(dSumTax19) + "         " + df.format(dSum19) + "\n";
+                str_Taxes += "B:19%        " + df.format(dSum19Netto) + "           " + df.format(dSumTax19) + "         " + df.format(dSum19) + "\n";
 
 
                 objPrintJobBill.setstrTaxes(str_Taxes);
