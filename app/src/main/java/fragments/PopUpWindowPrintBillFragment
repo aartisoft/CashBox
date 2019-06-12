@@ -69,8 +69,8 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.fragment_printbill_btnprint:
-                //print bill
-                m_SwitchEcBill.isChecked();
+                //print bill    
+                ((Main) getActivity()).addPrintJobBill(m_SwitchEcBill.isChecked());
                 
                 m_frag.dismiss();
                 break;
@@ -85,7 +85,5 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
     }
 
     //////////////////////////////// METHODS ////////////////////////////////////////////////////////////////////
-    private void setText(){
-        m_tvText.setText(m_strText);
-    }
+    
 }
