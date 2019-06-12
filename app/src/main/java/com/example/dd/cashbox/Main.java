@@ -231,13 +231,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 startActivity(i);
                 finish();
 
-                //this.deleteDatabase("ProductsDB");
-                //this.deleteDatabase("CategoriesDB");
-                //this.deleteDatabase("PrintersDB");
+                //delete all databases
+                this.deleteDatabase("ProductsDB");
+                this.deleteDatabase("CategoriesDB");
+                this.deleteDatabase("PrintersDB");
                 this.deleteDatabase("TableBillsDB");
                 this.deleteDatabase("TablesDB");
-                //this.deleteDatabase("SettingsDB");
-                Toast.makeText(Main.this, getResources().getString(R.string.src_KasseWurdeVollstaendigGeloescht), Toast.LENGTH_SHORT).show();
+                this.deleteDatabase("SettingsDB");
+          
                 break;
 
             default:
@@ -335,7 +336,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 return true;
                 
             case R.id.main_usermenu_printbill:
-                addPrintJobBill();
+                FragmentManager fm = getSupportFragmentManager();
+                PopUpWindowPrintBillFragment  popUpWindowPrintBillFragment  = PopUpWindowPrintBillFragment .newInstance();
+                popUpWindowPrintBillFragment.show(fm, "popupprintbill")
+                    
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -775,7 +779,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         return true;
     }
     
-    private void addPrintJobBill(){
+    private void addPrintJobBill(boolean p_bEcBill){
         //TODO
         if (m_iSessionTable != -1 && m_iSessionBill != -1) {
             if (GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).m_lstProducts.size() > 0) {
@@ -797,7 +801,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 ObjPrintJob objPrintJob = new ObjPrintJob();
                 objPrintJob.setContext(m_Context);
                 objPrintJob.setPrinter(GlobVar.g_lstCategory.get(0).getPrinter());
-                objPrintJob.setbNormalBill(true);
+                objPrintJob.setbNormalBill(p_bEcBill);
 
                 ObjPrintJobBill objPrintJobBill = new ObjPrintJobBill();
 
