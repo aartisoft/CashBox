@@ -803,7 +803,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 ObjPrintJob objPrintJob = new ObjPrintJob();
                 objPrintJob.setContext(m_Context);
                 objPrintJob.setPrinter(p_objPrinter);
-                objPrintJob.setbNormalBill(p_bEcBill);
+                if(p_bEcBill){
+                    objPrintJob.setbEcBill(true);
+                }
+                else{
+                    objPrintJob.setbNormalBill(true);
+                }
+
 
                 ObjPrintJobBill objPrintJobBill = new ObjPrintJobBill();
 
@@ -812,7 +818,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 objPrintJobBill.setstrExtraInfo(GlobVar.g_ObjSession.getPartyName());
                 objPrintJobBill.setstrDate(objBill.getBillingDate());
                 objPrintJobBill.setstrTable(GlobVar.g_lstTables.get(m_iSessionTable).getTableName());
-                objPrintJobBill.setstrBill(getResources().getString(R.string.src_Beleg) + String.valueOf(objBill.getBillNr()));
+                objPrintJobBill.setstrBill(getResources().getString(R.string.src_Beleg) + " " + String.valueOf(objBill.getBillNr()));
                 objPrintJobBill.setstrWaiter(GlobVar.g_ObjSession.getCashierName());
 
                 for(ObjBillProduct objBillProduct : objBill.m_lstProducts){
@@ -851,11 +857,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         
                         //19%
                         if(!objBillProduct.getToGo() || dTax == 19.0){
-                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                                     " + strOutput + "  A\n";
+                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                             " + strOutput + "  A\n";
                         }
                         //7%
                         else{
-                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                                     " + strOutput + "  B\n";
+                            str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                             " + strOutput + "  B\n";
                         }
 
                         iCount = 0;

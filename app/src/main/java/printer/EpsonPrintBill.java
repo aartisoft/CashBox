@@ -570,7 +570,7 @@ public class EpsonPrintBill {
 
                 m_Printer.addCut(Printer.CUT_FEED);
             }
-            else if (!p_objPrintJob.getbEcBill()){
+            else if (p_objPrintJob.getbEcBill()){
                 //name of shop
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
                 m_Printer.addTextSize(1, 2);
@@ -670,8 +670,9 @@ public class EpsonPrintBill {
                 textData.append("___________________ ______________ _____________" + "\n");
                 textData.append("Ort                 Datum          Unterschrift" + "\n\n");
                 
-                int iSum = Integer.parseInt(p_objPrintJob.getObjPrintJobBill().getstrSum());
-                if(iSum > 150){
+                //double dSum = Double.parseDouble(p_objPrintJob.getObjPrintJobBill().getstrSum());
+                double dSum = 160;
+                if(dSum > 150){
                     textData.append("************************************************" + "\n");
                     textData.append("Bei Aufwendungen über 150€ muss der Wirt bzw. eine Vertretung quittieren, wer bezahlt hat.");
                     textData.append("§ 4 Abs. 5 Ziff. 2 EStG" + "\n");

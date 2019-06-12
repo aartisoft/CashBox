@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,8 +20,11 @@ import com.example.dd.cashbox.Main;
 import com.example.dd.cashbox.R;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import global.GlobVar;
+import objects.ObjCategory;
 import objects.ObjPrinter;
 
 
@@ -55,11 +59,14 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         //set variables
+        m_Context = getContext();
         m_btnPrint = view.findViewById(R.id.fragment_printbill_btnprint);
         m_btnCancel = view.findViewById(R.id.fragment_printbill_btncancel);
         m_SwitchEcBill = view.findViewById(R.id.fragment_printbill_switch);
         m_Spinner_Printer = view.findViewById(R.id.fragment_printbill_spinnerprinter);
-        m_Context = getContext();
+
+        //set spinner printer
+        setPrinter();
 
         //set Listener
         m_btnPrint.setOnClickListener(this);
@@ -108,5 +115,25 @@ public class PopUpWindowPrintBillFragment extends DialogFragment implements View
         }
 
         return foundPrinter;
+    }
+
+    private void setPrinter(){
+        m_Spinner_Printer.setPrompt(getResources().getString(R.string.src_DruckerAuswaehlen));
+
+        List<String> lstPrinter = new ArrayList<>();
+        lstPrinter.add(getResources().getString(R.string.src_KeinenDruckerAusgewählt));
+
+        if(!GlobVar.g_lstPrinter.isEmpty()){
+            for(ObjPrinter printer : GlobVar.g_lstPrinter){
+                lstPrinter.add(printer.getDeviceName() + " - MAC:" + printer.getMacAddress());
+            }
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(m_Context, android.R.layout.simple_spinner_dropdown_item, lstPrinter);
+            m_Spinner_Printer.setAdapter(dataAdapter);
+        }
+        else{
+            lstPrinter.add(getResources().getString(R.string.src_KeineDruckerVorhanden));
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(m_Context, android.R.layout.simple_spinner_item, lstPrinter);
+            m_Spinner_Printer.setAdapter(dataAdapter);
+        }
     }
 }
