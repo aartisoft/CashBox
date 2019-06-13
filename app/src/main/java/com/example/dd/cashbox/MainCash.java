@@ -45,6 +45,7 @@ import objects.ObjBill;
 import objects.ObjBillProduct;
 import objects.ObjMainBillProduct;
 import objects.ObjMainCashBillProduct;
+import objects.ObjPrinter;
 
 public class MainCash extends AppCompatActivity implements View.OnClickListener, PopUpWindowCancelOKFragment.OnDialogCancelOkResultListener
                                                             , PopUpWindowMainCashPrintBillFragment.OnDialogMainCashCancelOkResultListener{
@@ -274,29 +275,36 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     }
 
     @Override
-    public void onMainCashOkResult(String p_strTASK) {
+    public void onMainCashOkResult(String p_strTASK, boolean p_bprint, ObjPrinter p_objPrinter, boolean p_bEcBill) {
         switch(p_strTASK) {
             case "pay":
-            //set articles paid
-            setPaid();
+                //set articles paid
+                setPaid();
 
-            //set pay transit false
-            setPayTransitFalse();
+                //set pay transit false
+                setPayTransitFalse();
 
-            Intent intent = new Intent(MainCash.this, Main.class);
-            intent = new Intent(MainCash.this, Main.class);
-            GlobVar.g_iSessionTable = m_iSessionTable;
+                Intent intent = new Intent(MainCash.this, Main.class);
+                intent = new Intent(MainCash.this, Main.class);
+                GlobVar.g_iSessionTable = m_iSessionTable;
 
-            //if bill is completely empty, then close it
-            if (isBillEmpty(m_iSessionBillOLD)) {
-                GlobVar.g_iSessionBill = -2;
-            }
-            else {
-                GlobVar.g_iSessionBill = m_iSessionBillOLD;
-            }
+                //if bill is completely empty, then close it
+                if (isBillEmpty(m_iSessionBillOLD)) {
+                    GlobVar.g_iSessionBill = -2;
+                }
+                else {
+                    GlobVar.g_iSessionBill = m_iSessionBillOLD;
+                }
 
-            startActivity(intent);
-            finish();
+                //if print bill
+                if(p_bprint){
+                    //print bill
+                    //((Main) ).addPrintJobBill(p_bEcBill, p_objPrinter);
+                    //Main.
+                }
+
+                startActivity(intent);
+                finish();
             break;
 
             default:
