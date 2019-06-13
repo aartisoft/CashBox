@@ -96,6 +96,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     private RecyclerViewMainBillAdapter m_rv_adapter;
     private List<ObjMainBillProduct> m_ListObjMainBillProduct = new ArrayList<>();
     private RecyclerView m_recyclerview;
+    private boolean m_bOptionsMenuCreated = false;
 
     //fab buttons
     private FloatingActionButton m_fab_newbill;
@@ -357,7 +358,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_MenuItemAllBills = menu.findItem(R.id.main_usermenu_allbills);
         m_MenuItemPrintBill = menu.findItem(R.id.main_usermenu_printbill);
         m_MenuItemAllBills.setEnabled(true);
-        m_MenuItemPrintBill.setEnabled(true);
+
+        //set bill printable
+        setbillprintable();
 
         return true;
     }
@@ -1277,6 +1280,21 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         retoureStornoDialogFragment.setArguments(args);
         retoureStornoDialogFragment.show(fm, "fragment_retourestorno");
+    }
+
+    private void setbillprintable(){
+        //set only if menu was already created
+        if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+            if(GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).getClosed()){
+                m_MenuItemPrintBill.setEnabled(true);
+            }
+            else{
+                m_MenuItemPrintBill.setEnabled(false);
+            }
+        }
+        else{
+            m_MenuItemPrintBill.setEnabled(false);
+        }
     }
 
     private boolean billsToShow(){
