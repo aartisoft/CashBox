@@ -856,7 +856,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         String strOutput = df.format(dSum) + "€";
                         
                         //19%
-                        if(!objBillProduct.getToGo() || dTax == 19.0){
+                        if(dTax == 19.0){
                             str_Products += iCount + "x " + objBillProduct.getProduct().getName() + "                             " + strOutput + "  A\n";
                         }
                         //7%

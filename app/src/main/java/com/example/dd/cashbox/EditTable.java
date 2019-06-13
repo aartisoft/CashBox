@@ -221,11 +221,11 @@ public class EditTable extends AppCompatActivity {
 
     private void setListTableBills(){
         //init global list
-        for (int iTables = 1; iTables <= GlobVar.g_iTables; iTables++){
+        for (int iTables = 0; iTables <= GlobVar.g_iTables; iTables++){
 
             //init table
             ObjTable objTable = new ObjTable();
-            String strTableName = getResources().getString(R.string.src_Tisch) + " " + iTables;
+            String strTableName = getResources().getString(R.string.src_Tisch) + " " + iTables+1;
             objTable.setTableName(strTableName);
             objTable.g_lstBills = new ArrayList<>();
             GlobVar.g_lstTables.add(objTable);

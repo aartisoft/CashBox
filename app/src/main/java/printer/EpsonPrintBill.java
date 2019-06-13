@@ -651,42 +651,44 @@ public class EpsonPrintBill {
                 m_Printer.addTextAlign(Printer.ALIGN_CENTER);
                 m_Printer.addTextSize(1, 1);
                 textData.append("************************************************" + "\n");
-                textData.append("Angaben zum Nachweis der Höhe und der betrieblichen Veranlassung von Bewirtungsaufwendungen");
+                textData.append("Angaben zum Nachweis der Höhe und der betrieblichen Veranlassung von Bewirtungsaufwendungen" + "\n");
                 textData.append("§ 4 Abs. 5 Ziff. 2 EStG" + "\n");
                 textData.append("************************************************" + "\n");
-                textData.append("Bewirtete Person(en):" + "\n");                
-                textData.append("************************************************" + "\n");
-                textData.append("************************************************" + "\n");
-                textData.append("************************************************" + "\n\n");
-                textData.append("Anlass der Bewirtung:" + "\n");                
-                textData.append("************************************************" + "\n");
-                textData.append("************************************************" + "\n");
-                textData.append("************************************************" + "\n\n");
-                textData.append("Höhe der Aufwendungen inkl. Trinkgeld:" + "\n");
+                textData.append("Bewirtete Person(en):" + "\n\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("Anlass der Bewirtung:" + "\n\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("Höhe der Aufwendungen inkl. Trinkgeld:" + "\n\n");
                 textData.append("_____________________________________________EUR" + "\n");
                 textData.append("(Bei Bewirtung in der Gaststätte)" + "\n\n");
                 textData.append("_____________________________________________EUR" + "\n");
-                textData.append("(In anderen Fällen)" + "\n\n");
+                textData.append("(In anderen Fällen)" + "\n\n\n");
                 textData.append("___________________ ______________ _____________" + "\n");
                 textData.append("Ort                 Datum          Unterschrift" + "\n\n");
-                
-                //double dSum = Double.parseDouble(p_objPrintJob.getObjPrintJobBill().getstrSum());
-                double dSum = 160;
+
+                String strSum = p_objPrintJob.getObjPrintJobBill().getstrSum();
+                strSum = strSum.replace(",", ".");
+                double dSum = Double.parseDouble(strSum);
+                //double dSum = 160;
                 if(dSum > 150){
                     textData.append("************************************************" + "\n");
-                    textData.append("Bei Aufwendungen über 150€ muss der Wirt bzw. eine Vertretung quittieren, wer bezahlt hat.");
+                    textData.append("Bei Aufwendungen über 150€ muss der Wirt bzw. eine Vertretung quittieren, wer bezahlt hat." + "\n");
                     textData.append("§ 4 Abs. 5 Ziff. 2 EStG" + "\n");
                     textData.append("************************************************" + "\n\n");
                 }
                 
-                textData.append("Wer hat bezahlt? (Name und Adresse):" + "\n");                
-                textData.append("************************************************" + "\n");
-                textData.append("************************************************" + "\n");
-                textData.append("************************************************" + "\n\n");
-                textData.append("Wer hat quittiert? (Name Wirt):" + "\n");                
-                textData.append("************************************************" + "\n");
-                textData.append("************************************************" + "\n");
-                textData.append("************************************************" + "\n\n\n");
+                textData.append("Wer hat bezahlt? (Name und Adresse):" + "\n\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("Wer hat quittiert? (Name Wirt):" + "\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("................................................" + "\n\n");
+                textData.append("................................................" + "\n\n\n");
                 textData.append("________________________________________" + "\n");
                 textData.append("Unterschrift Wirt und ggf. Firmenstempel" + "\n\n");
                 
