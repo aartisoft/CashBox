@@ -146,6 +146,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_ViewNoBill = findViewById(R.id.activity_main_bill_rv_nobill);
         m_recyclerview = findViewById(R.id.activity_main_bill_rv);
         m_btnRegisterDel = findViewById(R.id.am_menu_btnLogout);
+        m_bOptionsMenuCreated = false;
 
         //init fab buttons
         m_fab_newbill  = findViewById(R.id.fab_layoutanimation_newbill);
@@ -360,6 +361,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         m_MenuItemAllBills.setEnabled(true);
 
         //set bill printable
+        m_bOptionsMenuCreated = true;
         setbillprintable();
 
         return true;
@@ -919,6 +921,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     objTable.setTableName(getResources().getString(R.string.src_Hauptkasse));
                     objTable.g_lstBills = lstBill;
                     GlobVar.g_lstTables.add(objTable);
+
+                    //set bill printable
+                    setbillprintable();
                 }
             }
 
@@ -947,6 +952,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     m_iSessionBill = GlobVar.g_iBillNr;
                     setHeaderBill();
                     setOpenSum();
+
+                    //set bill printable
+                    setbillprintable();
 
                     Toast.makeText(Main.this, getResources().getString(R.string.src_NeuerBelegHinzugefuegt), Toast.LENGTH_SHORT).show();
                 }
@@ -1284,16 +1292,18 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void setbillprintable(){
         //set only if menu was already created
-        if (m_iSessionTable != -1 && m_iSessionBill != -1) {
-            if(GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).getClosed()){
-                m_MenuItemPrintBill.setEnabled(true);
+        if(m_bOptionsMenuCreated){
+            if (m_iSessionTable != -1 && m_iSessionBill != -1) {
+                if(GlobVar.g_lstTables.get(m_iSessionTable).g_lstBills.get(getBillListPointer()).getClosed()){
+                    m_MenuItemPrintBill.setEnabled(true);
+                }
+                else{
+                    m_MenuItemPrintBill.setEnabled(false);
+                }
             }
             else{
                 m_MenuItemPrintBill.setEnabled(false);
             }
-        }
-        else{
-            m_MenuItemPrintBill.setEnabled(false);
         }
     }
 

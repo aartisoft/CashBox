@@ -39,13 +39,15 @@ import adapter.ListViewMainCashBillPayAdapter;
 import adapter.RecyclerViewMainCashBillAdapter;
 import fragments.MainCashBillDialogFragment;
 import fragments.PopUpWindowCancelOKFragment;
+import fragments.PopUpWindowMainCashPrintBillFragment;
 import global.GlobVar;
 import objects.ObjBill;
 import objects.ObjBillProduct;
 import objects.ObjMainBillProduct;
 import objects.ObjMainCashBillProduct;
 
-public class MainCash extends AppCompatActivity implements View.OnClickListener, PopUpWindowCancelOKFragment.OnDialogCancelOkResultListener {
+public class MainCash extends AppCompatActivity implements View.OnClickListener, PopUpWindowCancelOKFragment.OnDialogCancelOkResultListener
+                                                            , PopUpWindowMainCashPrintBillFragment.OnDialogMainCashCancelOkResultListener{
 
     private Context m_Context;
     private View m_decorView;
@@ -257,29 +259,6 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
     @Override
     public void onOkResult(String p_strTASK) {
         switch(p_strTASK) {
-            case "pay":
-                //set articles paid
-                setPaid();
-
-                //set pay transit false
-                setPayTransitFalse();
-
-                Intent intent = new Intent(MainCash.this, Main.class);
-                intent = new Intent(MainCash.this, Main.class);
-                GlobVar.g_iSessionTable = m_iSessionTable;
-
-                //if bill is completely empty, then close it
-                if (isBillEmpty(m_iSessionBillOLD)) {
-                    GlobVar.g_iSessionBill = -2;
-                }
-                else {
-                    GlobVar.g_iSessionBill = m_iSessionBillOLD;
-                }
-
-                startActivity(intent);
-                finish();
-                break;
-
             case "split":
                splitBill();
                 break;
@@ -291,6 +270,42 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
 
     @Override
     public void onCancelResult() {
+        //do nothing
+    }
+
+    @Override
+    public void onMainCashOkResult(String p_strTASK) {
+        switch(p_strTASK) {
+            case "pay":
+            //set articles paid
+            setPaid();
+
+            //set pay transit false
+            setPayTransitFalse();
+
+            Intent intent = new Intent(MainCash.this, Main.class);
+            intent = new Intent(MainCash.this, Main.class);
+            GlobVar.g_iSessionTable = m_iSessionTable;
+
+            //if bill is completely empty, then close it
+            if (isBillEmpty(m_iSessionBillOLD)) {
+                GlobVar.g_iSessionBill = -2;
+            }
+            else {
+                GlobVar.g_iSessionBill = m_iSessionBillOLD;
+            }
+
+            startActivity(intent);
+            finish();
+            break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onMainCashCancelResult() {
         //do nothing
     }
 
@@ -590,7 +605,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             if(m_dWantsToPay >= m_dToPay){
                 if(m_dPays >= m_dWantsToPay){
                     FragmentManager fm = getSupportFragmentManager();
-                    PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
+                    PopUpWindowMainCashPrintBillFragment popUpWindowMainCashPrintBillFragment = PopUpWindowMainCashPrintBillFragment.newInstance();
 
                     // pass text to fragment
                     Bundle args = new Bundle();
@@ -604,8 +619,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
                     args.putString("TEXT", strText);
                     args.putString("TASK", "pay");
 
-                    popUpWindowCancelOKFragment.setArguments(args);
-                    popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
+                    popUpWindowMainCashPrintBillFragment.setArguments(args);
+                    popUpWindowMainCashPrintBillFragment.show(fm, "fragment_popupprintbill");
                 }
                 else{
                     Toast.makeText(MainCash.this, getResources().getString(R.string.src_BitteSummeUeberpruefen), Toast.LENGTH_SHORT).show();
@@ -614,7 +629,7 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
             else{
                 if(m_dPays >= m_dToPay){
                     FragmentManager fm = getSupportFragmentManager();
-                    PopUpWindowCancelOKFragment popUpWindowCancelOKFragment = PopUpWindowCancelOKFragment.newInstance();
+                    PopUpWindowMainCashPrintBillFragment popUpWindowMainCashPrintBillFragment = PopUpWindowMainCashPrintBillFragment.newInstance();
 
                     // pass text to fragment
                     Bundle args = new Bundle();
@@ -628,8 +643,8 @@ public class MainCash extends AppCompatActivity implements View.OnClickListener,
                     args.putString("TEXT", strText);
                     args.putString("TASK", "pay");
 
-                    popUpWindowCancelOKFragment.setArguments(args);
-                    popUpWindowCancelOKFragment.show(fm, "fragment_popupcancelok");
+                    popUpWindowMainCashPrintBillFragment.setArguments(args);
+                    popUpWindowMainCashPrintBillFragment.show(fm, "fragment_popupprintbill");
                 }
                 else{
                     Toast.makeText(MainCash.this, getResources().getString(R.string.src_BitteSummeUeberpruefen), Toast.LENGTH_SHORT).show();
